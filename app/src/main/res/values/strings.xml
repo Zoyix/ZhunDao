@@ -1,0 +1,167 @@
+<resources>
+    <string name="app_name">准到</string>
+    <string name="tab_test">ZhunDao</string>
+    //Tab标签
+    <string name="tab_act">活动</string>
+    <string name="tab_sig">签到</string>
+    <string name="tab_grp">发现</string>
+    <string name="tab_min">我</string>
+
+    <!--fragment_min标签  -->
+    <string name="tv_status_defalut">未认证</string>
+    <string name="tv_create_act">我发布的活动</string>
+    <string name="tv_join_act">我参与的活动</string>
+    <string name="tv_create_sign">我发起的签到</string>
+    <string name="tv_myaddressbook">我的通讯录</string>
+    <string name="tv_my_wallet">我的钱包</string>
+    <string name="tv_sign_device">签到设备</string>
+    <string name="tv_about_us">关于我们</string>
+    <string name="tv_feedback">意见反馈</string>
+    <string name="tv_setting">设置</string>
+
+    <!--设置菜单  -->
+    <string name="tv_setting_password">准到密码</string>
+    <string name="tv_setting_feedback">意见反馈</string>
+    <string name="tv_setting_about_us">关于准到</string>
+    <string name="tv_setting_exit">退出登录</string>
+    <!--toolbar菜单  -->
+    <string name="menu_search">查找</string>
+    <string name="menu_notifications">通知</string>
+    <string name="menu_settings">设置</string>
+    <string name="menu_about_us">关于</string>
+    <string name="menu_add_action">发起活动</string>
+    <string name="menu_add_signup">发起签到</string>
+    <string name="menu_act_share_friend">分享给朋友</string>
+    <string name="menu_add_share_friendcircle">分享到朋友圈</string>
+    <!--没有网络  -->
+    <string name="app_serviceError">服务器异常，请稍后再试！</string>
+    <string name="app_serviceReturnrRigth">服务器正常</string>
+    <!-- 登录窗口  -->
+    <string name="app_dialog_Login_success">登录成功</string>
+
+    <!-- 弹出窗口  -->
+    <string name="app_dialog_title">系统提示</string>
+    <string name="app_dialog_ok">确定</string>
+    <string name="app_dialog_cancel">取消</string>
+    <string name="app_updateApp_title">版本升级</string>
+    <string name="app_updateApp_message">发现最新版本，请及时升级！</string>
+    <string name="app_updateApp_success">下载成功，点击安装！</string>
+    <string name="app_updateApp_error">下载失败！请稍后重试。</string>
+    <string name="dialog_feedback">您有任何问题欢迎添加微信公众号“izhundao”进行反馈，我们会及时给您回复。</string>
+
+
+    <!-- 进度条 -->
+    <string name="progress_login_title">正在登录中...</string>
+    <string name="progress_title">正在处理中...</string>
+    <string name="progress_message">请稍后...</string>
+    <!-- 登录界面 -->
+    <string name="et_phone">手机：</string>
+    <string name="et_password">密码：</string>
+    <string name="tv_login_wechat">微信登录</string>
+
+    <!-- 活动列表 -->
+    <string name="btn_act_edit">编辑</string>
+    <string name="btn_act_list">名单</string>
+    <string name="btn_act_share">分享</string>
+    <string name="btn_act_more">更多</string>
+    <string name="tv_act_title">嘻游记晚宴-“追忆古惑仔那些年”</string>
+    <string name="tv_act_status">活动状态</string>
+    <string name="tv_act_sign_num">报名人数:0</string>
+    <string name="tv_act_sign_income">收入:11110</string>
+    <string name="tv_act_endtime">2016-12-1 15:00</string>
+    <string name="tv_act_resttime">(剩余X天)</string>
+    <string name="tv_acton">进行中的活动</string>
+    <string name="tv_actoff">已结束的活动</string>
+
+    <!--列表无数据时的建议-->
+    <string name="tv_actoff_suggest">暂无活动数据,请点击右上角发起新的活动~</string>
+    <string name="tv_acton_suggest">暂无活动数据,请点击右上角发起新的活动~</string>
+    <string name="tv_signon_suggest">暂无活动数据,请点击右上角发起新的签到~</string>
+    <string name="tv_signoff_suggest">暂无活动数据,请点击右上角发起新的签到~</string>
+
+<!--toolbar title-->
+    <string name="tv_start_act">发起活动</string>
+    <string name="tv_details">发起活动</string>
+
+
+    <!-- 活动编辑/添加 -->
+    <string name="tv_edit_title">活动名称</string>
+    <string name="tv_edit_time">活动名称</string>
+    <string name="tv_edit_stoptime">活动名称</string>
+
+    <string name="et_edit_title">请输入活动名称</string>
+    <string name="tv_starttime_title">活动时间</string>
+    <string name="tv_stoptime_title">报名截止</string>
+    <string name="tv_edit_add">活动地点</string>
+    <string name="tv_edit_details">活动详情</string>
+    <string name="et_edit_add">请输入活动地点</string>
+    <string name="tv_edit_moere">更多选项</string>
+
+    <string name="btn_edit_submit">发布</string>
+    <string name="app_dialog_sumbit_success">发布成功</string>
+    <string name="app_dialog_sumbit_failed">发布失败，请检查网络，稍后再试</string>
+    <!-- 用户信息 -->
+    <string name="name">姓名</string>
+    <string name="phone">手机</string>
+    <string name="sex">性别</string>
+    <string name="unit">单位</string>
+    <string name="dep">部门</string>
+    <string name="duty">职务</string>
+    <string name="industry">行业</string>
+    <string name="email">邮箱</string>
+    <string name="join_num">参与人数</string>
+    <string name="id_card">身份证</string>
+    <string name="add">地址</string>
+    <string name="remark">备注</string>
+    <string name="none">暂无</string>
+    <string name="pay_inf">付款信息:</string>
+
+
+
+    <!-- 签到 -->
+    <string name="tv_sign_type">[到场签到]</string>
+    <string name="tv_sign_stoptime">2016/12/19 17:55</string>
+    <string name="tv_sign_user">报名用户：</string>
+    <string name="tv_sign_signup">签到/报名</string>
+    <string name="tv_sign">50</string>
+    <string name="tv_sign_">/</string>
+    <string name="tv_signup">50</string>>
+    <string name="tv_signon">进行中的签到</string>>
+    <string name="tv_signoff">已结束的签到</string>>
+    <string name="tv_signup_all">全部</string>>
+    <string name="tv_signup_on">已签</string>>
+    <string name="tv_signup_off">未签</string>>
+
+
+    <!-- 拍照弹出框  -->
+    <string name="camera_take_photo">拍照</string>
+    <string name="camera_pick_photo">从相册选择</string>
+    <string name="camera_cancel">取消</string>
+    <string name="camera_photo_compression_image">图片压缩失败！</string>
+    <string name="camera_photo_delete_image">确定删除该图片吗？</string>
+
+    <string name="folder_all">所有照片</string>
+    <string name="preview">预览</string>
+    <string name="msg_no_camera">没有系统相机</string>
+    <string name="msg_amount_limit">已经达到最高选择数量</string>
+    <!-- sd卡 -->
+
+    <string name="app_sdcardnotexist">SD卡不存在或者写保护！</string>
+
+
+    <!-- 二维码 -->
+    <string name="zxing_qrcode_name">扫描二维码</string>
+    <string name="zxing_qrcode_return">返回</string>
+    <string name="zxing_scan_text">将二维码放入框内, 即可自动扫描</string>
+    <string name="zxing_qrcode_failed">二维码扫描失败！</string>
+
+    <!-- 微信绑定手机号 -->
+    <string name="et_phone_bond">手机号:</string>
+    <string name="et_code">验证码:</string>
+    <string name="btn_sent_code">发送验证码</string>
+    <string name="btn_bond_phone">绑定手机并登录</string>
+    <!--toolbar title-->
+    <string name="tv_acttitle_details">活动详情</string>
+
+
+</resources>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+   >
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_ly3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+<ListView
+    android:id="@+id/lv_signon"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+</ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
+    <TextView
+        android:id="@+id/tv_signon_suggest"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:visibility="gone"
+        android:text="@string/tv_signon_suggest"/>
+</RelativeLayout>

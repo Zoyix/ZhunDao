@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_login"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#e6e6e6"
+    tools:context="com.zhaohe.zhundao.ui.login.LoginActivity">
+    <ImageView
+        android:id="@+id/img_ico"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"/>
+
+  <EditText
+      android:layout_below="@id/img_ico"
+      android:layout_centerHorizontal="true"
+      android:id="@+id/et_phone"
+      android:hint="@string/et_phone"
+      android:layout_width="300dp"
+      android:layout_height="wrap_content"
+      />
+    <EditText
+        android:id="@+id/et_password"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/et_phone"
+        android:hint="@string/et_password"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:inputType="textPassword"
+
+        />
+
+    <Button
+        android:layout_marginTop="20dp"
+        android:id="@+id/btn_login"
+        android:layout_centerHorizontal="true"
+android:background="@color/status_color_green"
+        android:layout_width="300dp"
+        android:layout_below="@id/et_password"
+        android:layout_height="wrap_content"
+        android:text="登录"
+        android:textColor="@color/white"
+        />
+
+    <ImageView
+        android:layout_marginTop="80dp"
+        android:scaleType="matrix"
+        android:id="@+id/btn_login_wechat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/wechat"
+        android:background="#e6e6e6"
+        android:layout_below="@+id/btn_login"
+        android:layout_centerHorizontal="true" />
+    <TextView
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/btn_login_wechat"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_login_wechat"/>
+</RelativeLayout>

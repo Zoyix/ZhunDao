@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_wxentry"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:background="#e6e6e6"
+    tools:context="com.zhaohe.zhundao.wxapi.WXEntryActivity">
+
+    <ImageView
+
+        android:id="@+id/img_ico1"
+        android:src="@mipmap/ic_launcher"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"/>
+
+
+  <EditText
+      android:layout_marginLeft="15dp"
+     android:id="@+id/et_phone_bond"
+     android:layout_width="220dp"
+    android:layout_height="wrap_content"
+      android:layout_below="@id/img_ico1"
+      android:hint="@string/et_phone_bond"/>
+    <Button
+        android:id="@+id/btn_send_code"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_toRightOf="@id/et_phone_bond"
+        android:layout_alignBaseline="@+id/et_phone_bond"
+        android:text="@string/btn_sent_code"
+        android:background="@drawable/bg_identify_code_press"
+
+        />
+
+    <EditText
+        android:layout_marginLeft="15dp"
+
+        android:id="@+id/et_code"
+        android:layout_below="@id/et_phone_bond"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/et_code"/>
+
+<Button
+    android:layout_marginTop="20dp"
+
+    android:id="@+id/btn_bond_phone"
+    android:layout_width="300dp"
+    android:layout_centerHorizontal="true"
+
+    android:layout_height="wrap_content"
+    android:layout_below="@id/et_code"
+    android:text="@string/btn_bond_phone"
+    android:textColor="@color/white"
+    android:background="@color/status_color_green"
+    />
+
+    <Button
+        android:id="@+id/btn_get_access_token"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/btn_bond_phone"
+        android:text="获取access_token"
+        android:visibility="gone"/>
+
+
+</RelativeLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#454545</color>
+    <color name="colorPrimaryDark">#454545</color>
+    <!--<color name="colorPrimary">#3F51B5</color>-->
+    <!--<color name="colorPrimaryDark">#303F9F</color>-->
+    <!--#383838-->
+    <color name="colorAccent">#FF4081</color>
+
+    <color name="line_gray">#F1F1F3</color>
+
+    <!-- home选项卡 文字选中色 -->
+    <color name="home_tab_select_text">#50C231</color>
+    <!-- home选项卡 文字未选中色 -->
+    <color name="home_tab_unselect_text">#6e6e6e</color>
+    <!-- home选项卡 背景色 -->
+    <color name="home_tab_bg">#eff3f6</color>
+    <!-- 活动状态-->
+    <color name="status_color_green">#48c10d</color>
+    <!-- 黑色 -->
+    <color name="text_black">#222222</color>
+    <!-- 灰色 -->
+    <color name="black">#000000</color>
+    <color name="text_gray">#666666</color>
+    <!-- 编辑框hint -->
+    <color name="text_hint">#888888</color>
+    <!-- 白色 -->
+    <color name="text_white">#ffffff</color>
+    <!-- 橙色 -->
+    <color name="text_orange">#fa9900</color>
+    <!-- wechat-->
+    <color name="black3">#ffeeeeee</color>
+    <color name="white">#ffffff</color>
+
+
+    <!-- 登录界面字体 -->
+    <color name="font_gray">#999999</color>
+    <color name="toolbar_blue">#0176da</color>
+
+    <!-- ========== 二维码颜色 ========== -->
+    <color name="result_view">#b0000000</color>
+    <color name="viewfinder_mask">#60000000</color>
+    <color name="possible_result_points">#c0ffff00</color>
+
+    <!--默认灰色-->
+    <color name="default_color">#FAFAFA</color>
+
+</resources>

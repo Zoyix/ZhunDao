@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_signup_list"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+
+    tools:context="com.zhaohe.zhundao.ui.home.Sign.SignupListActivity">
+    <LinearLayout
+        android:id="@+id/ll_signuplist_title"
+        android:layout_width="fill_parent"
+        android:layout_height="50.0dip"
+        android:background="@color/line_gray" >
+
+        <TextView
+            android:id="@+id/tv_signup_all"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="@string/tv_signup_all"
+            android:textColor="#579908"
+            android:textSize="15.0dip" />
+
+        <TextView
+            android:id="@+id/tv_signup_on"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="@string/tv_signup_on"
+            android:textColor="#000000"
+            android:textSize="15.0dip" />
+        <TextView
+            android:id="@+id/tv_signup_off"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:layout_weight="1.0"
+            android:gravity="center"
+            android:text="@string/tv_signup_off"
+            android:textColor="#000000"
+            android:textSize="15.0dip" />
+
+
+    </LinearLayout>
+    <ListView
+        android:id="@+id/lv_signuplist_all"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/ll_signuplist_title">
+    </ListView>
+</RelativeLayout>

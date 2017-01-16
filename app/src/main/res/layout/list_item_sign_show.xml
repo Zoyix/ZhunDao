@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    >
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+        android:id="@+id/tv_sign_type"
+        android:text="@string/tv_sign_type"
+        android:layout_alignParentLeft="true"
+        android:textSize="14sp"
+        android:textColor="@color/text_black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <!--活动标题-->
+    <TextView
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:id="@+id/tv_sign_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_sign_type"
+        android:gravity="center_vertical"
+        android:text="@string/tv_act_title"
+        android:maxLines="1"
+        android:textColor="@color/text_black"
+        android:textSize="14sp"
+        />
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/black3"
+        android:layout_below="@id/tv_sign_type"/>
+
+    <TextView
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:textSize="14sp"
+        android:id="@+id/tv_sign_user"
+        android:text="@string/tv_sign_user"
+        android:layout_below="@+id/tv_sign_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+
+        android:id="@+id/tv_sign_num"
+        android:text="@string/tv_sign"
+        android:layout_below="@+id/tv_sign_type"
+        android:layout_toRightOf="@id/tv_sign_user"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+        />
+    <ImageView
+        android:layout_marginTop="14dp"
+
+        android:layout_marginRight="10dp"
+        android:id="@+id/iv_sign_right"
+        android:layout_width="wrap_content"
+        android:layout_height="10dp"
+        android:src="@drawable/right"
+        android:layout_below="@id/tv_sign_type"
+        android:layout_alignParentRight="true"/>
+    <TextView
+        android:layout_marginTop="10dp"
+
+        android:layout_marginRight="20dp"
+        android:id="@+id/tv_sign_find"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="查看"
+        android:layout_toLeftOf="@id/iv_sign_right"
+        android:layout_below="@id/tv_sign_type"
+        android:textSize="14sp"
+
+
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+
+        android:layout_marginRight="10dp"
+        android:id="@+id/tv_signup_num"
+        android:text="@string/tv_signup"
+        android:layout_below="@+id/tv_sign_type"
+        android:layout_toLeftOf="@id/tv_sign_find"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="14sp"
+
+        />
+    <TextView
+        android:layout_marginTop="10dp"
+
+        android:layout_marginRight="10dp"
+
+        android:id="@+id/tv_signed"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tv_sign_type"
+        android:layout_toLeftOf="@id/tv_signup_num"
+        android:textSize="14sp"
+
+        android:text="已签到:"/>
+
+
+    <View
+        android:id="@+id/line6"
+        android:layout_marginTop="10dp"
+        android:layout_width="fill_parent"
+        android:layout_height="1dp"
+        android:background="@color/black3"
+        android:layout_below="@id/tv_signed"/>
+
+
+    <TextView
+        android:layout_marginTop="10dp"
+android:layout_marginBottom="10dp"
+        android:layout_marginLeft="10dp"
+        android:id="@+id/tv_sign_swich_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="开关状态"
+        android:textSize="14sp"
+        android:layout_below="@id/line6"
+        />
+    <Switch
+        android:id="@+id/sw_sign_status"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/line6"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="10dp"
+
+        android:layout_marginTop="5dp"
+        android:focusable="false"
+        android:checked="true"
+        android:layout_toRightOf="@id/tv_sign_swich_status"/>
+<!--截止时间-->
+    <TextView
+
+        android:id="@+id/tv_sign_stoptime"
+        android:text="@string/tv_sign_stoptime"
+        android:layout_below="@+id/line6"
+        android:layout_toRightOf="@id/tv_sign_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
+    <ImageView
+
+        android:layout_marginTop="8dp"
+        android:layout_marginRight="10dp"
+        android:id="@+id/img_sign_scan"
+        android:clickable="true"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:src="@drawable/scan"
+        android:focusable="false"
+        android:layout_below="@id/line6"
+        android:layout_alignParentRight="true"
+
+        />
+    <TextView
+        android:id="@+id/tv_sign_scan"
+        android:paddingTop="10dp"
+        android:layout_below="@id/line6"
+        android:paddingRight="5dp"
+        android:layout_toLeftOf="@id/img_sign_scan"
+        android:layout_width="wrap_content"
+        android:layout_height="35dp"
+        android:textSize="14sp"
+        android:text="扫码签到" />
+
+    <View
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/img_sign_scan"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:background="@color/line_gray"
+        android:layout_alignParentBottom="true"/>
+
+
+
+
+
+</RelativeLayout>

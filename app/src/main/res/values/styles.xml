@@ -1,0 +1,126 @@
+<resources>
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar"
+        >
+    <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <item name="colorControlActivated">@color/status_color_green</item>
+        <!-- Inactive thumb color switch关闭时的拇指按钮的颜色 -->
+        <!--<item name="colorSwitchThumbNormal">@color/status_color_green</item>-->
+        <!-- Inactive track color(30% transparency) switch关闭时的轨迹的颜色  30%这个颜色 -->
+        <!--<item name="android:colorForeground">@color/status_color_green</item>-->
+        <!-- Customize your theme here. -->
+        <item name="colorControlNormal">#aaaaaa</item>
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
+    <style name="Login" parent="Theme.AppCompat.Light.NoActionBar"
+        >
+        <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
+        <item name="colorControlActivated">@color/status_color_green</item>
+        <!-- Inactive thumb color switch关闭时的拇指按钮的颜色 -->
+        <item name="colorSwitchThumbNormal">@color/status_color_green</item>
+        <!-- Inactive track color(30% transparency) switch关闭时的轨迹的颜色  30%这个颜色 -->
+        <item name="android:colorForeground">@color/status_color_green</item>
+        <item name="android:windowBackground">@mipmap/login</item>
+
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+        <!-- wechat style. -->
+        <style name="list_txt_Style">
+            <item name="android:layout_width">match_parent</item>
+            <item name="android:layout_height">45dp</item>
+            <item name="android:textSize">16sp</item>
+            <item name="android:textColor">#000000</item>
+            <item name="android:paddingLeft">16.0dip</item>
+            <item name="android:paddingRight">16.0dip</item>
+            <item name="android:focusable">false</item>
+            <item name="android:gravity">center_vertical</item>
+            <item name="android:background">@drawable/setting_item_selector</item>
+            <item name="android:drawablePadding">10dp</item>
+            <item name="android:drawableRight">@drawable/right</item>
+        </style>
+
+    <style name="list_txt_exit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:paddingLeft">16.0dip</item>
+        <item name="android:paddingRight">16.0dip</item>
+        <item name="android:focusable">false</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/setting_item_selector</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+    <!-- 活动编辑列表textview风格. -->
+    <style name="act_edit_tv_Style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:paddingLeft">16.0dip</item>
+        <item name="android:paddingRight">16.0dip</item>
+        <item name="android:focusable">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+    <!-- 活动编辑列表editview风格. -->
+    <style name="act_edit_et_Style">
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">45dp</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">#000000</item>
+        <item name="android:paddingLeft">0dp</item>
+        <item name="android:paddingRight">16.0dip</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:background">@color/white</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+    <!-- 活动编辑列表textview风格. -->
+    <style name="act_edit_tv_gray_Style">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">30dp</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:paddingLeft">16.0dip</item>
+        <item name="android:paddingRight">16.0dip</item>
+        <item name="android:focusable">false</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:drawablePadding">10dp</item>
+    </style>
+    <!-- 活动报名人员详情列表textview风格. -->
+    <style name="act_user_tv">
+    <item name="android:layout_width">wrap_content</item>
+    <item name="android:layout_height">wrap_content</item>
+    <item name="android:layout_marginTop">10dp</item>
+    <item name="android:layout_marginBottom">10dp</item>
+    
+</style>
+    <style name="act_user_rl">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">10dp</item>
+        <item name="android:layout_marginRight">10dp</item>
+    </style>
+    
+
+
+    <!-- Camera 拍照 的 窗口动画 -->
+    <style name="AnimBottom" parent="@android:style/Animation">
+        <item name="android:windowEnterAnimation">@anim/push_bottom_in</item>
+        <item name="android:windowExitAnimation">@anim/push_bottom_out</item>
+    </style>
+
+    <style name="Theme.ToolBar.ZhiHu" parent="Theme.AppCompat.Light.NoActionBar">
+        <item name="actionOverflowButtonStyle">@style/ActionButton.Overflow.ZhiHu</item>
+    </style>
+    <style name="ActionButton.Overflow.ZhiHu" parent="android:style/Widget.Holo.Light.ActionButton.Overflow">
+        <item name="android:src">@mipmap/ic_menu_more_overflow</item>
+    </style>
+
+</resources>

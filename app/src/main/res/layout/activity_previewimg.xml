@@ -1,0 +1,7 @@
+<com.polites.android.GestureImageView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:gesture-image="http://schemas.polites.com/android"
+    android:id="@+id/large_image"
+    gesture-image:min-scale="0.75"
+    gesture-image:max-scale="10.0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" />

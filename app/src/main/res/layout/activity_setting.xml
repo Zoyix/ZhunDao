@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/activity_setting"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.zhaohe.zhundao.ui.home.Mine.setting.SettingActivity">
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
+        android:id="@+id/tv_setting_password"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_setting_password" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+    <TextView
+        android:id="@+id/tv_setting_feedback"
+        style="@style/list_txt_Style"
+        android:clickable="true"
+        android:drawableLeft="@drawable/icon_me_smail"
+        android:drawablePadding="10dp"
+        android:text="@string/tv_setting_feedback"
+        android:visibility="gone"/>
+
+
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+    <TextView
+        android:id="@+id/tv_setting_about_us"
+        style="@style/list_txt_Style"
+        android:clickable="true"
+        android:text="@string/tv_setting_about_us" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+    <TextView
+        android:layout_marginTop="20dp"
+        android:id="@+id/tv_setting_exit"
+        style="@style/list_txt_exit"
+        android:clickable="true"
+        android:text="@string/tv_setting_exit" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+
+</LinearLayout>
