@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Sign;
+package com.zhaohe.zhundao.ui.home.sign;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Mine;
+package com.zhaohe.zhundao.ui.home.mine;
 
 import android.annotation.TargetApi;
 import android.app.Activity;

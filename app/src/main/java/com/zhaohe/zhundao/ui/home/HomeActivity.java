@@ -12,11 +12,12 @@ import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.ui.TabHostActivity;
-import com.zhaohe.zhundao.ui.home.Action.ActionAddActivity;
-import com.zhaohe.zhundao.ui.home.Action.ActionFragment;
-import com.zhaohe.zhundao.ui.home.Mine.MineFragment;
-import com.zhaohe.zhundao.ui.home.Sign.SignFragment;
-import com.zhaohe.zhundao.ui.home.Sign.SignupAddActivity;
+import com.zhaohe.zhundao.ui.home.action.ActionAddActivity;
+import com.zhaohe.zhundao.ui.home.action.ActionFragment;
+import com.zhaohe.zhundao.ui.home.find.FindFragment;
+import com.zhaohe.zhundao.ui.home.mine.MineFragment;
+import com.zhaohe.zhundao.ui.home.sign.SignFragment;
+import com.zhaohe.zhundao.ui.home.sign.SignupAddActivity;
 
 /**
  * @Description:
@@ -26,11 +27,11 @@ import com.zhaohe.zhundao.ui.home.Sign.SignupAddActivity;
 
 public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemClickListener{
 
-    protected Class<?>[] tabFragments  = { ActionFragment.class, SignFragment.class, MineFragment.class};
+    protected Class<?>[] tabFragments  = { ActionFragment.class, SignFragment.class,FindFragment.class, MineFragment.class};
     // Tab选项卡的文字
-    private int[]        tabwidgetTags = { R.string.tab_act, R.string.tab_sig, R.string.tab_min };
+    private int[]        tabwidgetTags = { R.string.tab_act, R.string.tab_sig, R.string.tab_find,R.string.tab_min };
     // Tab选项卡的按钮图片
-    private int[]        tabItemViews  = { R.drawable.selector_home_tab_action, R.drawable.selector_home_tab_sign,R.drawable.selector_home_tab_min};
+    private int[]        tabItemViews  = { R.drawable.selector_home_tab_action, R.drawable.selector_home_tab_sign,R.drawable.selector_home_tab_find,R.drawable.selector_home_tab_min};
 
     private IWXAPI api;
     @Override

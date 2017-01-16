@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.zhaohe.zhundao.ui.home.Action.ActionAddActivity">
+    tools:context="com.zhaohe.zhundao.ui.home.action.ActionAddActivity">
     <WebView
         android:id="@+id/wv_act_add"
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Sign;
+package com.zhaohe.zhundao.ui.home.sign;
 
 import android.app.Dialog;
 import android.content.Intent;
@@ -42,7 +42,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
-import static com.zhaohe.zhundao.ui.home.Action.ActionOnFragment.REFRESH_COMPLETE;
+import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.REFRESH_COMPLETE;
 
 /**
  * @Description:

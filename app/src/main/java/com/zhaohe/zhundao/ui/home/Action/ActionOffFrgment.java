@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Action;
+package com.zhaohe.zhundao.ui.home.action;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -43,9 +43,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
-import static com.zhaohe.zhundao.ui.home.Action.ActionOnFragment.MESSAGE_ACT_ALL;
-import static com.zhaohe.zhundao.ui.home.Action.ActionOnFragment.MESSAGE_GET_SIGNLIST;
-import static com.zhaohe.zhundao.ui.home.Action.ActionOnFragment.REFRESH_COMPLETE;
+import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_ACT_ALL;
+import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_GET_SIGNLIST;
+import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.REFRESH_COMPLETE;
 
 /**
  * @Description:

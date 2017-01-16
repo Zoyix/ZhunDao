@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Mine;
+package com.zhaohe.zhundao.ui.home.mine;
 
 import android.os.Bundle;
 import android.webkit.WebView;

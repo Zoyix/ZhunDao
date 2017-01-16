@@ -3,8 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
   <Button
-      android:id="@+id/test_time"
+      android:id="@+id/btn_find_custom"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:text="测试"/>
+      android:text="@string/btn_find_custon"/>
 </LinearLayout>

@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Mine.setting;
+package com.zhaohe.zhundao.ui.home.mine.setting;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -19,7 +19,7 @@ import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncChangePassword;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
-import com.zhaohe.zhundao.ui.home.Mine.FeedbackActivity;
+import com.zhaohe.zhundao.ui.home.mine.FeedbackActivity;
 import com.zhaohe.zhundao.ui.login.LoginActivity;
 
 public class SettingActivity extends ToolBarActivity implements View.OnClickListener {

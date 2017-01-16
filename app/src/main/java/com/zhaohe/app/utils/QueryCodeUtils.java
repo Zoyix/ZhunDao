@@ -11,7 +11,7 @@ import com.zhaohe.zhundao.asynctask.AsyncScanCode;
 import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
 
 import static android.app.Activity.RESULT_OK;
-import static com.zhaohe.zhundao.ui.home.Sign.SignOnFragment.MESSAGE_SCAN_CODE;
+import static com.zhaohe.zhundao.ui.home.sign.SignOnFragment.MESSAGE_SCAN_CODE;
 
 /**
  * @Description:二维码扫描工具类

@@ -39,7 +39,7 @@ import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
 import com.zhaohe.zhundao.ui.home.HomeActivity;
 
-import static com.zhaohe.zhundao.ui.home.Action.ActionOnFragment.MESSAGE_ACT_ALL;
+import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_ACT_ALL;
 
 
 public class WXEntryActivity extends ToolBarActivity implements IWXAPIEventHandler, View.OnClickListener {

@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Mine;
+package com.zhaohe.zhundao.ui.home.mine;
 
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -16,7 +16,7 @@ import com.squareup.picasso.Picasso;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
-import com.zhaohe.zhundao.ui.home.Mine.setting.SettingActivity;
+import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 
 /**
  * @Description:

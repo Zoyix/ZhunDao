@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context="com.zhaohe.zhundao.ui.home.Mine.FeedbackActivity">
+    tools:context="com.zhaohe.zhundao.ui.home.mine.FeedbackActivity">
     <WebView
         android:id="@+id/wv_feedback"
         android:layout_width="match_parent"

@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Action;
+package com.zhaohe.zhundao.ui.home.action;
 
 import android.app.Dialog;
 import android.content.Intent;

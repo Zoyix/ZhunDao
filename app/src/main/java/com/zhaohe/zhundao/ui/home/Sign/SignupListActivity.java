@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.Sign;
+package com.zhaohe.zhundao.ui.home.sign;
 
 import android.content.Intent;
 import android.graphics.Color;

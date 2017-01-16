@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
     android:orientation="vertical"
-    tools:context="com.zhaohe.zhundao.ui.home.Mine.setting.SettingActivity">
+    tools:context="com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity">
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
