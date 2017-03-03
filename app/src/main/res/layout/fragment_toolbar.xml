@@ -2,13 +2,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
     <android.support.v7.widget.Toolbar
         android:theme="@style/Theme.ToolBar.ZhiHu"
         android:id="@+id/toolbar_base"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/toolbar_blue"
-        >
-    </android.support.v7.widget.Toolbar>
+        android:background="@color/toolbar_blue"></android.support.v7.widget.Toolbar>
 
 </LinearLayout>

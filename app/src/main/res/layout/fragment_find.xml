@@ -1,10 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-  <Button
-      android:id="@+id/btn_find_custom"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/btn_find_custon"/>
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
+        android:drawableLeft="@mipmap/find_custom"
+        android:id="@+id/tv_find_custom"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/btn_find_custon" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
+        android:drawableLeft="@mipmap/shake"
+        android:id="@+id/tv_find_shake"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_find_shake" />
 </LinearLayout>

@@ -81,8 +81,8 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initView() {
-        gl_camara = (GridLayout) findViewById (R.id.camera_gridview);
-        camera = new Camera (EditActActivity.this,gl_camara,false);
+        gl_camara = (GridLayout) findViewById(R.id.camera_gridview);
+        camera = new Camera(EditActActivity.this, gl_camara, false);
         et_edit_title = (EditText) findViewById(R.id.et_edit_title);
         btn_edit_submit = (Button) findViewById(R.id.btn_edit_submit);
         btn_edit_submit.setOnClickListener(this);
@@ -197,8 +197,9 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
 
 
     @Override
-    protected void onActivityResult(int requestCode,int resultCode,Intent data){
-        camera.onActivityResult (requestCode, resultCode, data);}
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        camera.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public void onClick(View view) {

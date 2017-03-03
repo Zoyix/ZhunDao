@@ -64,8 +64,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void isLogin() {
-        if ((boolean) SPUtils.get(this, "islogin", false) == true)
-        {
+        if ((boolean) SPUtils.get(this, "islogin", false) == true) {
             IntentUtils.startActivity(this, HomeActivity.class);
         }
     }
@@ -79,18 +78,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void sentToWechat() {
         SendAuth.Req req = new SendAuth.Req();
-   //授权读取用户信息
+        //授权读取用户信息
         req.scope = "snsapi_userinfo";
-   //自定义信息
+        //自定义信息
         req.state = "wechat_sdk_demo_test";
-   //向微信发送请求
+        //向微信发送请求
         api.sendReq(req);
     }
+
     //执行异步耗时信息
     private void init() {
         if (NetworkUtils.checkNetState(this)) {
-            mmobile=et_phone.getText().toString();
-            mpassWord=et_password.getText().toString();
+            mmobile = et_phone.getText().toString();
+            mpassWord = et_password.getText().toString();
             Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
             AsyncLogin asyncLogin = new AsyncLogin(this, mHandler, dialog, MESSAGE_WX_ENTY, mmobile, mpassWord);
             asyncLogin.execute();
@@ -100,19 +100,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             ToastUtil.makeText(this, R.string.app_serviceError);
         }
     }
+
     private void initView() {
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
         btn_login_wechat = (ImageView) findViewById(R.id.btn_login_wechat);
         btn_login_wechat.setOnClickListener(this);
-        et_phone= (EditText) findViewById(R.id.et_phone);
+        et_phone = (EditText) findViewById(R.id.et_phone);
         et_phone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        et_password= (EditText) findViewById(R.id.et_password);
-        img_ico= (ImageView) findViewById(R.id.img_ico);
+        et_password = (EditText) findViewById(R.id.et_password);
+//        et_password.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+
+        img_ico = (ImageView) findViewById(R.id.img_ico);
         Resources res = getResources();
-        Bitmap    bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_login);
+        Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_login);
 //        img_ico.setImageBitmap(toRoundBitmap(bmp));
-       img_ico.setImageBitmap(makeRoundCorner(bmp));
+        img_ico.setImageBitmap(makeRoundCorner(bmp));
     }
 
     private void initHandler() {
@@ -125,21 +128,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                         String result = (String) msg.obj;
 //                        DialogUtils.showDialog(LoginActivity.this, R.string.app_serviceReturnrRigth);
 //                        Toast.makeText(LoginActivity.this, result, Toast.LENGTH_LONG).show();
-                        System.out.println("code"+result);
-                        AccessKeyBean accessKeyBean= JSONUtils.parseObject(result,AccessKeyBean.class);
-                        System.out.println("parseBeanObject()方法：accessKeyBean=="+"accessKeyBean"+accessKeyBean.getAccessKey()+"getMsg"+accessKeyBean.getMsg()+"getRes"+accessKeyBean.getRes());
-                        Log.i("result",""+accessKeyBean.toString());
-                        if(accessKeyBean.getRes()==0)
-                        {
-                            ToastUtil.makeText(LoginActivity.this,"登录成功");
+                        System.out.println("code" + result);
+                        AccessKeyBean accessKeyBean = JSONUtils.parseObject(result, AccessKeyBean.class);
+                        System.out.println("parseBeanObject()方法：accessKeyBean==" + "accessKeyBean" + accessKeyBean.getAccessKey() + "getMsg" + accessKeyBean.getMsg() + "getRes" + accessKeyBean.getRes());
+                        Log.i("result", "" + accessKeyBean.toString());
+                        if (accessKeyBean.getRes() == 0) {
+                            ToastUtil.makeText(LoginActivity.this, "登录成功");
 //                            Constant.ACCESSKEY=accessKeyBean.getAccessKey();
-                            SPUtils.put(getApplicationContext(),"accessKey",accessKeyBean.getAccessKey());
-                            SPUtils.put(getApplicationContext(),"islogin",true);
+                            SPUtils.put(getApplicationContext(), "accessKey", accessKeyBean.getAccessKey());
+                            SPUtils.put(getApplicationContext(), "islogin", true);
                             IntentUtils.startActivity(LoginActivity.this, HomeActivity.class);
-                        }
-                        else
-                        {
-                            ToastUtil.makeText(LoginActivity.this,"账号密码有误，请重新输入。");
+                        } else {
+                            ToastUtil.makeText(LoginActivity.this, "账号密码有误，请重新输入。");
 
                         }
 
@@ -160,6 +160,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
         };
     }
+
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
 
@@ -174,23 +175,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return super.onKeyDown(keyCode, event);
     }
 
-    public  Bitmap makeRoundCorner(Bitmap bitmap)
-    {
+    public Bitmap makeRoundCorner(Bitmap bitmap) {
         int width = bitmap.getWidth();
         int height = bitmap.getHeight();
         int left = 0, top = 0, right = width, bottom = height;
-        float roundPx = height/2;
+        float roundPx = height / 2;
         if (width > height) {
-            left = (width - height)/2;
+            left = (width - height) / 2;
             top = 0;
             right = left + height;
             bottom = height;
         } else if (height > width) {
             left = 0;
-            top = (height - width)/2;
+            top = (height - width) / 2;
             right = width;
             bottom = top + width;
-            roundPx = width/2;
+            roundPx = width / 2;
         }
 
         Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
@@ -221,6 +221,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.btn_login_wechat:
                 if (!api.isWXAppInstalled()) {
                     Toast.makeText(LoginActivity.this, "未安装微信客户端，请先下载。", Toast.LENGTH_LONG).show();
+
                     return;
                 } else {
                     sentToWechat();

@@ -1,9 +1,15 @@
 package com.zhaohe.zhundao.ui.home.action;
 
+import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -14,6 +20,7 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.squareup.picasso.Picasso;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -21,8 +28,9 @@ import com.zhaohe.zhundao.ui.ToolBarHelper;
 import java.util.Map;
 
 import static com.zhaohe.app.utils.DensityUtil.dip2px;
+import static com.zhaohe.zhundao.R.id.tv_sign_user_phone;
 
-public class SignListUserActivity extends ToolBarActivity {
+public class SignListUserActivity extends ToolBarActivity implements View.OnClickListener {
     private TextView tv_name, tv_phone, tv_unit, tv_sex, tv_dep, tv_industry, tv_duty,
             tv_id_card, tv_email, tv_join_num, tv_add, tv_remark, tv_amount, tv_title;
     private RelativeLayout rl_name, rl_phone, rl_sex, rl_unit, rl_dep, rl_industry, rl_duty, rl_id_card, rl_email, rl_join_num, rl_add, rl_remark, rl_amount;
@@ -32,6 +40,7 @@ public class SignListUserActivity extends ToolBarActivity {
     private String act_id;
     private JSONObject jsonObj;
     private JSONArray jsonArray;
+    private String phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +49,6 @@ public class SignListUserActivity extends ToolBarActivity {
         initToolBar("用户个人信息", R.layout.activity_sign_list_user);
         initView();
         init();
-
     }
 
     private void initToolBar(String text, int layoutResID) {
@@ -61,7 +69,7 @@ public class SignListUserActivity extends ToolBarActivity {
 //        tv.setText("ok");
 //        ll_sign_list_user.addView(tv);
         tv_name = (TextView) findViewById(R.id.tv_sign_user_name);
-        tv_phone = (TextView) findViewById(R.id.tv_sign_user_phone);
+        tv_phone = (TextView) findViewById(tv_sign_user_phone);
         tv_unit = (TextView) findViewById(R.id.tv_sign_user_unit);
         tv_industry = (TextView) findViewById(R.id.tv_sign_user_industry);
         tv_dep = (TextView) findViewById(R.id.tv_sign_user_dep);
@@ -76,6 +84,7 @@ public class SignListUserActivity extends ToolBarActivity {
         tv_title = (TextView) findViewById(R.id.tv_sign_user_title);
         rl_name = (RelativeLayout) findViewById(R.id.rl_name);
         rl_phone = (RelativeLayout) findViewById(R.id.rl_phone);
+        rl_phone.setOnClickListener(this);
         rl_unit = (RelativeLayout) findViewById(R.id.rl_unit);
         rl_industry = (RelativeLayout) findViewById(R.id.rl_industry);
         rl_dep = (RelativeLayout) findViewById(R.id.rl_dep);
@@ -91,6 +100,8 @@ public class SignListUserActivity extends ToolBarActivity {
     }
 
     private void init() {
+
+
         Intent intent = getIntent();
         //从Intent当中根据key取得value
         if (intent != null) {
@@ -134,6 +145,7 @@ public class SignListUserActivity extends ToolBarActivity {
         }
         tv_name.setText(intent.getStringExtra("name"));
         tv_phone.setText(intent.getStringExtra("phone"));
+        phone = intent.getStringExtra("phone");
         tv_unit.setText(intent.getStringExtra("unit"));
         tv_dep.setText(intent.getStringExtra("dep"));
         tv_industry.setText(intent.getStringExtra("industry"));
@@ -150,7 +162,7 @@ public class SignListUserActivity extends ToolBarActivity {
         tv_add.setText(intent.getStringExtra("add"));
         tv_remark.setText(intent.getStringExtra("remark"));
         tv_title.setText(intent.getStringExtra("title"));
-        tv_amount.setText("￥"+intent.getStringExtra("amount"));
+        tv_amount.setText("￥" + intent.getStringExtra("amount"));
         JSONArray jsonArray3 = jsonObj.getJSONArray("Option");
         String[] type = null;
         type = new String[100];
@@ -170,18 +182,21 @@ public class SignListUserActivity extends ToolBarActivity {
                 String value = entry.getValue().toString();
 //                截取第一个key值字母
 //                截取非空
-                if (value==null){
+                if (value == null) {
                     insertTextView(entry.getKey(), (String) entry.getValue());
                 }
-                String s = value.substring(0, 1);
+//                String s = value.substring(0,1);
+                int isphoto = value.indexOf("http");
 //                判断是否是图片
-                if (s.equals("h")) {
-                    insertImageView(entry.getKey(), (String) entry.getValue());
-                }
-               else if (value.length()>=20){
+                if (isphoto != -1) {
+//                    insertImageView(entry.getKey(), (String) entry.getValue());
+                    String url = (String) entry.getValue();
+                    String[] imgurl = url.split("\\|");
+                    insertRL(entry.getKey(), imgurl);
+
+                } else if (value.length() >= 20) {
                     insertLongTextView(entry.getKey(), (String) entry.getValue());
-                }
-                else {
+                } else {
                     insertTextView(entry.getKey(), (String) entry.getValue());
                 }
                 i++;
@@ -228,7 +243,8 @@ public class SignListUserActivity extends ToolBarActivity {
                         h);
         ll_sign_list_user.addView(view, vParams);
     }
-    public void insertImageView(String text1,String url){
+
+    public void insertImageView(String text1, String url) {
         int margin = dip2px(this, 10);
         int h = dip2px(this, 1);
         int h1 = dip2px(this, 100);
@@ -247,8 +263,8 @@ public class SignListUserActivity extends ToolBarActivity {
                         RelativeLayout.LayoutParams.WRAP_CONTENT,
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
         tvParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, tv1.getId());
-        rl.addView(tv1,tvParams1);
-        ImageView img=new ImageView(this);
+        rl.addView(tv1, tvParams1);
+        ImageView img = new ImageView(this);
         img.setId(R.id.tv_code_img);
         Picasso.with(this).load(url).error(R.mipmap.ic_launcher).into(img);
         RelativeLayout.LayoutParams imgParams1 =
@@ -256,10 +272,10 @@ public class SignListUserActivity extends ToolBarActivity {
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         h1);
         img.setScaleType(ImageView.ScaleType.FIT_START);
-        imgParams1.addRule(RelativeLayout.BELOW,tv1.getId());
+        imgParams1.addRule(RelativeLayout.BELOW, tv1.getId());
         imgParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, img.getId());
-        rl.addView(img,imgParams1);
-        ll_sign_list_user.addView(rl,rlParams);
+        rl.addView(img, imgParams1);
+        ll_sign_list_user.addView(rl, rlParams);
         View view = new View(this);
         view.setBackgroundColor(getResources().getColor(R.color.line_gray));
         RelativeLayout.LayoutParams vParams =
@@ -268,7 +284,8 @@ public class SignListUserActivity extends ToolBarActivity {
                         h);
         ll_sign_list_user.addView(view, vParams);
     }
-    public void insertLongTextView(String text1,String text2){
+
+    public void insertLongTextView(String text1, String text2) {
         int margin = dip2px(this, 10);
         int h = dip2px(this, 1);
         RelativeLayout rl = new RelativeLayout(this);
@@ -305,5 +322,102 @@ public class SignListUserActivity extends ToolBarActivity {
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         h);
         ll_sign_list_user.addView(view, vParams);
+    }
+
+
+    //    插入多图片数组
+    public void insertRL(String text1, String[] imgurl) {
+//        10dp的默认margin
+        int margin = dip2px(this, 10);
+        int h = dip2px(this, 1);
+        int h1 = dip2px(this, 100);
+        int h2 = dip2px(this, 30);
+        WindowManager wm = (WindowManager) this
+                .getSystemService(Context.WINDOW_SERVICE);
+//        获取当前屏幕的宽度
+        int width = wm.getDefaultDisplay().getWidth();
+        int height = wm.getDefaultDisplay().getHeight();
+//        计算一个图片所占的宽度
+        int left = (width - 4 * margin) / 3;
+
+//图片的父控件相对布rl
+        RelativeLayout rl = new RelativeLayout(this);
+        rl.setPadding(margin, margin, margin, margin);
+//        图片的标题
+        TextView tv1 = new TextView(this);
+        tv1.setText(text1);
+        tv1.setId(R.id.tv_code_title);
+        RelativeLayout.LayoutParams rlParams =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams tvParams1 =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tvParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, tv1.getId());
+        rl.addView(tv1, tvParams1);
+//for循环插入不同位置的图片
+        for (int j = 0; j < imgurl.length; j++) {
+            String newimgurl = imgurl[j].replace("800", "100");
+//            计算图片在第几层
+            int x = (int) Math.floor(j / 3);
+//            计算图片在第几个位置
+            int y = j % 3;
+            ImageView img = new ImageView(this);
+            img.setId(R.id.tv_code_img);
+            Picasso.with(this).load(newimgurl).error(R.mipmap.ic_launcher).into(img);
+            RelativeLayout.LayoutParams imgParams1 =
+                    new RelativeLayout.LayoutParams(
+                            RelativeLayout.LayoutParams.MATCH_PARENT,
+                            h1);
+            img.setScaleType(ImageView.ScaleType.FIT_START);
+            imgParams1.addRule(RelativeLayout.BELOW, tv1.getId());
+//            设置图片相对父控件的位置
+            imgParams1.leftMargin = (y + 1) * margin + y * left;
+            imgParams1.topMargin = (x + 2) * margin + x * left;
+//            将图片设置到RL父控件中去
+            rl.addView(img, imgParams1);
+
+        }
+//        把RL父控件加到总控件ll中去
+        ll_sign_list_user.addView(rl, rlParams);
+        View view = new View(this);
+        view.setBackgroundColor(getResources().getColor(R.color.line_gray));
+        RelativeLayout.LayoutParams vParams =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        h);
+        ll_sign_list_user.addView(view, vParams);
+    }
+
+    public void insertImageViewMuti(String text1) {
+
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch (view.getId()) {
+            case R.id.rl_phone:
+                if (phone.equals("") && phone.equals(null)) {
+                    ToastUtil.makeText(this, "号码不得为空");
+                } else {
+                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
+                        // TODO: Consider calling
+                        //    ActivityCompat#requestPermissions
+                        // here to request the missing permissions, and then overriding
+                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+                        //                                          int[] grantResults)
+                        // to handle the case where the user grants the permission. See the documentation
+                        // for ActivityCompat#requestPermissions for more details.
+                        return;
+                    }
+                    startActivity(intent);
+                }
+                break;
+            default:
+                break;
+        }
     }
 }

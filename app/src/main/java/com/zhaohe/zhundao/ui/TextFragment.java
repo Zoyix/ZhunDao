@@ -15,11 +15,12 @@ import com.zhaohe.zhundao.R;
 public class TextFragment extends Fragment {
 
     private View rootView;
+
     @Override
-    public void onCreate(Bundle savedInstanceState){
-        super.onCreate (savedInstanceState);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
         // 创建碎片布局
-        rootView = getLayoutInflater (null).inflate (R.layout.textlayout, null);
+        rootView = getLayoutInflater(null).inflate(R.layout.textlayout, null);
 
     }
 }

@@ -20,13 +20,17 @@ import java.util.List;
  * @Author:邹苏隆
  * @Since:2016/12/5 15:41
  */
-public class ActionAdapter extends AdapterBase<ActionBean,ActionHolder>implements View.OnClickListener{
+public class ActionAdapter extends AdapterBase<ActionBean, ActionHolder> implements View.OnClickListener {
 
-    public interface ActionClickListener{
+    public interface ActionClickListener {
         public void onEditClick(ActionBean bean);
+
         public void onListClick(ActionBean bean);
+
         public void onShareClick(ActionBean bean);
+
         public void onMoreClick(ActionBean bean);
+
         public void onDetailsClick(ActionBean bean);
     }
 
@@ -34,12 +38,13 @@ public class ActionAdapter extends AdapterBase<ActionBean,ActionHolder>implement
     private LayoutInflater inflater;
     private Context mContext;
     private ActionClickListener actionClickListener;
+
     public ActionAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         mContext = context;
     }
 
-    public void setActionClickListener(ActionClickListener l){
+    public void setActionClickListener(ActionClickListener l) {
         actionClickListener = l;
     }
 
@@ -98,21 +103,21 @@ public class ActionAdapter extends AdapterBase<ActionBean,ActionHolder>implement
                 .findViewById(R.id.btn_act_share);
         v.btn_act_more = (ImageButton) convertView
                 .findViewById(R.id.btn_act_more);
-        v.img_act= (ImageView) convertView.findViewById(R.id.img_act);
-        v.tv_act_title= (TextView) convertView.findViewById(R.id.tv_act_title);
+        v.img_act = (ImageView) convertView.findViewById(R.id.img_act);
+        v.tv_act_title = (TextView) convertView.findViewById(R.id.tv_act_title);
         TextPaint tp = v.tv_act_title.getPaint();
         tp.setFakeBoldText(true);
-        v.tv_act_sign_num= (TextView) convertView.findViewById(R.id.tv_act_sign_num);
-        v.tv_act_sign_income= (TextView) convertView.findViewById(R.id.tv_act_sign_income);
-        v.tv_act_status= (TextView) convertView.findViewById(R.id.tv_act_status);
-        v.tv_act_endtime= (TextView) convertView.findViewById(R.id.tv_act_endtime);
-        v.tv_act_resttime= (TextView) convertView.findViewById(R.id.tv_act_resttime);
-        v.tv_act_starttime= (TextView) convertView.findViewById(R.id.tv_act_starttime);
-        v.tv_act_resttime2= (TextView) convertView.findViewById(R.id.tv_act_resttime2);
-        v.tv_act_edit= (TextView) convertView.findViewById(R.id.tv_act_edit);
-        v.tv_act_list= (TextView) convertView.findViewById(R.id.tv_act_list);
-        v.tv_act_share= (TextView) convertView.findViewById(R.id.tv_act_share);
-        v.tv_act_more= (TextView) convertView.findViewById(R.id.tv_act_more);
+        v.tv_act_sign_num = (TextView) convertView.findViewById(R.id.tv_act_sign_num);
+        v.tv_act_sign_income = (TextView) convertView.findViewById(R.id.tv_act_sign_income);
+        v.tv_act_status = (TextView) convertView.findViewById(R.id.tv_act_status);
+        v.tv_act_endtime = (TextView) convertView.findViewById(R.id.tv_act_endtime);
+        v.tv_act_resttime = (TextView) convertView.findViewById(R.id.tv_act_resttime);
+        v.tv_act_starttime = (TextView) convertView.findViewById(R.id.tv_act_starttime);
+        v.tv_act_resttime2 = (TextView) convertView.findViewById(R.id.tv_act_resttime2);
+        v.tv_act_edit = (TextView) convertView.findViewById(R.id.tv_act_edit);
+        v.tv_act_list = (TextView) convertView.findViewById(R.id.tv_act_list);
+        v.tv_act_share = (TextView) convertView.findViewById(R.id.tv_act_share);
+        v.tv_act_more = (TextView) convertView.findViewById(R.id.tv_act_more);
 
 
         return convertView;
@@ -127,57 +132,57 @@ public class ActionAdapter extends AdapterBase<ActionBean,ActionHolder>implement
 
     @Override
     public void onClick(View view) {
-        int position = (Integer) view.getTag ();
-        ActionBean bean=getItem(position);
-        switch (view.getId()){
+        int position = (Integer) view.getTag();
+        ActionBean bean = getItem(position);
+        switch (view.getId()) {
             case R.id.btn_act_edit:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onEditClick(bean);
                 }
                 break;
             case R.id.btn_act_share:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onShareClick(bean);
                 }
                 break;
             case R.id.btn_act_list:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onListClick(bean);
                 }
                 break;
             case R.id.btn_act_more:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onMoreClick(bean);
                 }
                 break;
             case R.id.tv_act_title:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onDetailsClick(bean);
                 }
                 break;
             case R.id.img_act:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onDetailsClick(bean);
                 }
                 break;
 
             case R.id.tv_act_edit:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onEditClick(bean);
                 }
                 break;
             case R.id.tv_act_share:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onShareClick(bean);
                 }
                 break;
             case R.id.tv_act_list:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onListClick(bean);
                 }
                 break;
             case R.id.tv_act_more:
-                if(actionClickListener!=null){
+                if (actionClickListener != null) {
                     actionClickListener.onMoreClick(bean);
                 }
                 break;

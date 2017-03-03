@@ -22,38 +22,41 @@ import java.util.Map;
 public class AsyncWXEntry extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private Dialog mDialog;
     private String mcode;
-    public AsyncWXEntry(Context context, Handler handler, Dialog dialog, int request, String code){
+
+    public AsyncWXEntry(Context context, Handler handler, Dialog dialog, int request, String code) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
-        this.mcode=code;
+        this.mcode = code;
 
 
     }
+
     @Override
-    protected String doInBackground(String... params){
+    protected String doInBackground(String... params) {
         String path = Constant.HOST_MOBLIE + Constant.Url.GetAccessToken;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("code",mcode);
-        map.put("type","android");
-        String result = HttpUtil.sendPostNewrequest(path,map,"utf-8");
+        map.put("code", mcode);
+        map.put("type", "android");
+        String result = HttpUtil.sendPostNewrequest(path, map, "utf-8");
         return result;
     }
+
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
         if (mDialog != null) {
-            mDialog.dismiss ();
+            mDialog.dismiss();
         }
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            mHandler.sendMessage (msg);
+            mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog (mContext, R.string.app_serviceError);
+            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

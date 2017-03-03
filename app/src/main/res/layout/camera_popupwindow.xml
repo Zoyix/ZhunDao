@@ -2,8 +2,8 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     android:gravity="center_horizontal"
-    android:orientation="vertical" >
- 
+    android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/pop_layout"
         android:layout_width="fill_parent"
@@ -11,7 +11,7 @@
         android:layout_alignParentBottom="true"
         android:background="@drawable/btn_style_alert_dialog_background"
         android:gravity="center_horizontal"
-        android:orientation="vertical"  >
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/btn_take_photo"

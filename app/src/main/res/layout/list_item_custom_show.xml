@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:paddingLeft="20dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/tv_custom_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_custom_type"
+        android:gravity="center"
+
+        />
+
+    <TextView
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/tv_custom_title"
+        android:paddingLeft="80dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:maxLength="20"
+        android:text="@string/tv_custom_title"
+        android:gravity="center"
+
+        />
+
+    <ImageView
+        android:id="@+id/iv_custom_right"
+        android:paddingTop="13dp"
+        android:paddingBottom="10dp"
+        android:paddingRight="10dp"
+        android:paddingLeft="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="33dp"
+        android:src="@drawable/right"
+        android:clickable="true"
+        android:focusable="false"
+        android:layout_alignParentRight="true" />
+
+    <TextView
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:id="@+id/tv_custom_required"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_custom_required"
+        android:gravity="center"
+        android:layout_toLeftOf="@id/iv_custom_right" />
+
+
+</RelativeLayout>

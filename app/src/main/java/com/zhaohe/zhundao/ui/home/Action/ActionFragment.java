@@ -30,12 +30,12 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
     private FragmentPagerAdapter mAdapter;
     private List<Fragment> mFragments = new ArrayList<Fragment>();
 
-    private TextView tv_acton,tv_actoff;
+    private TextView tv_acton, tv_actoff;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_act, container,false);
+        view = inflater.inflate(R.layout.fragment_act, container, false);
 
         initView();
 
@@ -61,14 +61,14 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
                 resetColor();
                 switch (position) {
                     case 0:
-                        tv_acton.setTextColor(Color.rgb(87,153,8));
+                        tv_acton.setTextColor(Color.rgb(87, 153, 8));
                         break;
                     case 1:
-                        tv_actoff.setTextColor(Color.rgb(87,153,8));
+                        tv_actoff.setTextColor(Color.rgb(87, 153, 8));
                         break;
 
                     default:
-                        tv_acton.setTextColor(Color.rgb(87,153,8));
+                        tv_acton.setTextColor(Color.rgb(87, 153, 8));
                         break;
                 }
                 currentIndex = position;
@@ -90,16 +90,15 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
     /**
      * 初始化控件
      */
-    public void initView(){
-        tv_acton = (TextView)view.findViewById(R.id.tv_acton);
-        tv_actoff = (TextView)view.findViewById(R.id.tv_actoff);
-        mPaper = (ViewPager)view.findViewById(R.id.view_pager);
+    public void initView() {
+        tv_acton = (TextView) view.findViewById(R.id.tv_acton);
+        tv_actoff = (TextView) view.findViewById(R.id.tv_actoff);
+        mPaper = (ViewPager) view.findViewById(R.id.view_pager);
         tv_acton.setOnClickListener(this);
         tv_actoff.setOnClickListener(this);
 
-       ActionOnFragment f1 = new ActionOnFragment();
+        ActionOnFragment f1 = new ActionOnFragment();
         ActionOffFrgment f2 = new ActionOffFrgment();
-
 
 
         mFragments.add(f1);
@@ -107,27 +106,29 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
 
     }
 
-    public void resetColor(){
-        tv_acton.setTextColor(Color.rgb(56,56,56));
-        tv_actoff.setTextColor(Color.rgb(56,56,56));
+    public void resetColor() {
+        tv_acton.setTextColor(Color.rgb(56, 56, 56));
+        tv_actoff.setTextColor(Color.rgb(56, 56, 56));
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_acton:
                 resetColor();
-                tv_acton.setTextColor(Color.rgb(87,153,8));
+                tv_acton.setTextColor(Color.rgb(87, 153, 8));
                 mPaper.setCurrentItem(0);
                 break;
             case R.id.tv_actoff:
                 resetColor();
-                tv_actoff.setTextColor(Color.rgb(87,153,8));
+                tv_actoff.setTextColor(Color.rgb(87, 153, 8));
                 mPaper.setCurrentItem(1);
                 break;
             default:
                 break;
         }
     }
+
     /**
      * ViewPager适配器
      */
@@ -147,7 +148,6 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
         public int getCount() {
             return mListViews.size();
         }
-
 
 
         @Override

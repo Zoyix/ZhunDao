@@ -13,6 +13,52 @@ public class MySignListupBean implements Serializable {
     private String CheckInID;
     private String Status;
     private String UpdateStatus;
+    private String Name;
+    private String Phone;
+    private String AdminRemark;
+    private String FeeName;
+    private String Fee;
+
+    public String getName() {
+        return Name;
+    }
+
+    public void setName(String name) {
+        Name = name;
+    }
+
+    public String getPhone() {
+        return Phone;
+    }
+
+    public void setPhone(String phone) {
+        Phone = phone;
+    }
+
+    public String getAdminRemark() {
+        return AdminRemark;
+    }
+
+    public void setAdminRemark(String adminRemark) {
+        AdminRemark = adminRemark;
+    }
+
+    public String getFeeName() {
+        return FeeName;
+    }
+
+    public void setFeeName(String feeName) {
+        FeeName = feeName;
+    }
+
+    public String getFee() {
+        return Fee;
+    }
+
+    public void setFee(String fee) {
+        Fee = fee;
+    }
+
 
     public String getVCode() {
         return VCode;

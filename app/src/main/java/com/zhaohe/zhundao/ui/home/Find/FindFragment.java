@@ -6,9 +6,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
+import android.widget.TextView;
 
+import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.zhundao.R;
+
 
 /**
  * @Description:
@@ -17,7 +19,8 @@ import com.zhaohe.zhundao.R;
  */
 public class FindFragment extends Fragment implements View.OnClickListener {
     protected View rootView;
-    private Button btn_find_custom;
+    private TextView tv_find_custom;
+    private TextView tv_find_shake;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -28,11 +31,12 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         initView(rootView);
 //        test();
     }
-    protected void initView(View rootView){
-        btn_find_custom= (Button) rootView.findViewById(R.id.btn_find_custom);
-        btn_find_custom.setOnClickListener(this);
 
-
+    protected void initView(View rootView) {
+        tv_find_custom = (TextView) rootView.findViewById(R.id.tv_find_custom);
+        tv_find_custom.setOnClickListener(this);
+        tv_find_shake = (TextView) rootView.findViewById(R.id.tv_find_shake);
+        tv_find_shake.setOnClickListener(this);
 
     }
 
@@ -52,10 +56,12 @@ public class FindFragment extends Fragment implements View.OnClickListener {
 
     @Override
     public void onClick(View view) {
-        switch (view.getId())
-        {
-            case R.id.btn_find_custom:
-
+        switch (view.getId()) {
+            case R.id.tv_find_custom:
+                IntentUtils.startActivity(getActivity(), CustomActivity.class);
+                break;
+            case R.id.tv_find_shake:
+                IntentUtils.startActivity(getActivity(), BeaconListActivity.class);
                 break;
         }
 

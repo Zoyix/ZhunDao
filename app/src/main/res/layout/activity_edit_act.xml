@@ -6,27 +6,31 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context="com.zhaohe.zhundao.ui.home.action.EditActActivity">>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/ll_edit_title">
+
         <TextView
             android:id="@+id/tv_edit_title"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_edit_title"/>
+            android:text="@string/tv_edit_title" />
+
         <EditText
             android:id="@+id/et_edit_title"
             style="@style/act_edit_et_Style"
-            android:hint="@string/et_edit_title"
-            />
+            android:hint="@string/et_edit_title" />
 
 
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <LinearLayout
         android:id="@+id/ll_edit_starttime"
         android:layout_marginTop="20dp"
@@ -38,23 +42,27 @@
         <TextView
             android:id="@+id/tv_starttime_title"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_starttime_title"/>
+            android:text="@string/tv_starttime_title" />
+
         <TextView
             android:id="@+id/tv_starttime_year"
             android:clickable="true"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_starttime_title"/>
+            android:text="@string/tv_starttime_title" />
+
         <TextView
             android:id="@+id/tv_starttime_clock"
             android:clickable="true"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_starttime_title"/>
-             />
+            android:text="@string/tv_starttime_title" />
+        />
     </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <LinearLayout
         android:id="@+id/ll_edit_stopttime"
         android:layout_width="match_parent"
@@ -65,18 +73,21 @@
         <TextView
             android:id="@+id/tv_stoptime_title"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_stoptime_title"/>
+            android:text="@string/tv_stoptime_title" />
+
         <TextView
             android:id="@+id/tv_stoptime_year"
             android:clickable="true"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_stoptime_title"/>
+            android:text="@string/tv_stoptime_title" />
+
         <TextView
             android:id="@+id/tv_stoptime_clock"
             android:clickable="true"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_stoptime_title"/>
+            android:text="@string/tv_stoptime_title" />
         />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.3dp"
@@ -89,39 +100,44 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:id="@+id/ll_edit_add">
+
         <TextView
             android:id="@+id/tv_edit_add"
             style="@style/act_edit_tv_Style"
-            android:text="@string/tv_edit_title"/>
+            android:text="@string/tv_edit_title" />
+
         <EditText
             android:id="@+id/et_edit_add"
             style="@style/act_edit_et_Style"
-            android:hint="@string/et_edit_add"
-            />
+            android:hint="@string/et_edit_add" />
 
 
-</LinearLayout>
+    </LinearLayout>
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <TextView
         android:id="@+id/tv_edit_details_name"
         style="@style/act_edit_tv_gray_Style"
-        android:text="@string/tv_edit_details"
-        />
+        android:text="@string/tv_edit_details" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
-<EditText
-    android:id="@+id/tv_edit_details"
-    android:layout_width="match_parent"
-    android:layout_height="100dp"
-    android:textColor="@color/black"
-    android:background="@color/white"
 
-    />
+    <EditText
+        android:id="@+id/tv_edit_details"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:textColor="@color/black"
+        android:background="@color/white"
+
+        />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
@@ -132,22 +148,24 @@
         android:id="@+id/tv_edit_more"
         style="@style/list_txt_Style"
         android:text="@string/tv_edit_moere"
-android:clickable="true"
-        />
+        android:clickable="true" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <include layout="@layout/camera_photo" />
+
     <Button
         android:id="@+id/btn_edit_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/btn_edit_submit"
-        />
-        <View
-            android:layout_width="fill_parent"
-            android:layout_height="0.3dp"
-            android:background="@color/black3" />
+        android:text="@string/btn_edit_submit" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
 
 </LinearLayout>

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2016/12/13 13:48
  */
-public class SignBean implements Serializable{
+public class SignBean implements Serializable {
     public String getSign_id() {
         return sign_id;
     }
@@ -16,7 +16,8 @@ public class SignBean implements Serializable{
         this.sign_id = sign_id;
     }
 
-    private  String sign_id;
+    private String sign_id;
+
     public String getAct_id() {
         return act_id;
     }
@@ -39,10 +40,21 @@ public class SignBean implements Serializable{
 
     //报名标题
     private String sign_title;
+    //    活动标题
+    private String act_title;
+
+    public String getAct_title() {
+        return act_title;
+    }
+
+    public void setAct_title(String act_title) {
+        this.act_title = act_title;
+    }
+
     //报名方式
-    private String  sign_type;
+    private String sign_type;
     //    截止时间
-    private String   stoptime;
+    private String stoptime;
     //    签到人数
     private String sign_num;
     //    报名人数
@@ -89,5 +101,4 @@ public class SignBean implements Serializable{
     }
 
 
-
-        }
+}

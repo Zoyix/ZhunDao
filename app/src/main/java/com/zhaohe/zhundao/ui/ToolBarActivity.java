@@ -1,5 +1,6 @@
 package com.zhaohe.zhundao.ui;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -14,9 +15,10 @@ import com.zhaohe.zhundao.R;
  * @Since:2016/12/16 10:54
  */
 public abstract class ToolBarActivity extends AppCompatActivity {
-    private ToolBarHelper mToolBarHelper ;
-    public Toolbar toolbar ;
+    private ToolBarHelper mToolBarHelper;
+    public Toolbar toolbar;
     private TextView tvTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -25,33 +27,44 @@ public abstract class ToolBarActivity extends AppCompatActivity {
     @Override
     public void setContentView(int layoutResID) {
 
-        mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
 //                mToolBarHelper.setToolbarTitle("a");
-        toolbar = mToolBarHelper.getToolBar() ;
+        toolbar = mToolBarHelper.getToolBar();
 
         setContentView(mToolBarHelper.getContentView());
         /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
         /*自定义的一些操作*/
-        onCreateCustomToolBar(toolbar) ;
+        onCreateCustomToolBar(toolbar);
 
 //setTitle("高兴");
 //        mToolBarHelper.setToolbarTitle("a");
 
     }
 
-    public void onCreateCustomToolBar(Toolbar toolbar){
-        tvTitle= (TextView)findViewById(R.id.tv_toolbar_title);
-        toolbar.setContentInsetsRelative(0,0);
+    public void onCreateCustomToolBar(Toolbar toolbar) {
+        tvTitle = (TextView) findViewById(R.id.tv_toolbar_title);
+        toolbar.setContentInsetsRelative(0, 0);
+        toolbar.inflateMenu(R.menu.toolbar_act_details);
 
     }
 
+    @Override
+    protected void onResume() {
+        /**
+         * 设置为横屏
+         */
+        if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
+            setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        }
+        super.onResume();
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             finish();
-            return true ;
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

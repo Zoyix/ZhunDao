@@ -1,248 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    >
-<!--活动头像-->
+    android:layout_height="match_parent">
+    <!--活动头像-->
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white">
+
         <View
-android:id="@+id/line5"
+            android:id="@+id/line5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/black3" />
+
+        <ImageView
+            android:scaleType="centerCrop"
+            android:layout_margin="15dp"
+            android:id="@+id/img_act"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:layout_below="@id/line5"
+            android:src="@mipmap/ic_launcher" />
+
+        <!--活动标题-->
+        <TextView
+            android:layout_marginTop="5dp"
+            android:id="@+id/tv_act_title"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:layout_alignParentTop="true"
+            android:layout_toEndOf="@+id/img_act"
+            android:layout_toRightOf="@+id/img_act"
+            android:gravity="center_vertical"
+            android:text="@string/tv_act_title"
+            android:maxLines="1"
+            android:textColor="@color/text_black"
+            android:textSize="14sp" />
+
+        <!--活动信息-->
+        <LinearLayout
+            android:id="@+id/ll_act_tv"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_act_title"
+            android:layout_toRightOf="@id/img_act"
+            android:orientation="horizontal"
+
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_act_sign_num"
+                />
+            <TextView
+                android:id="@+id/tv_act_sign_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/num0"
+                android:layout_marginRight="20dp"
+                 />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/tv_act_sign_income" />
+
+            <TextView
+
+                android:id="@+id/tv_act_sign_income"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/money0"
+
+                />
+
+            <TextView
+                android:id="@+id/tv_act_status"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_act_status"
+                android:visibility="gone"
+                android:textColor="@color/status_color_green" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_act_endtime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_act_tv"
+            android:layout_toRightOf="@id/img_act"
+            android:layout_marginTop="5dp"
+            android:text="@string/tv_act_endtime"
+            android:textSize="12sp" />
+
+        <TextView
+            android:id="@+id/tv_act_resttime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/ll_act_tv"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+
+            android:layout_toRightOf="@id/tv_act_endtime"
+            android:text="@string/tv_act_resttime" />
+
+        <TextView
+            android:id="@+id/tv_act_starttime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_act_resttime"
+            android:layout_toRightOf="@id/img_act"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"
+
+            android:text="@string/tv_act_endtime"
+
+            />
+
+        <TextView
+            android:id="@+id/tv_act_resttime2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/tv_act_resttime"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@id/tv_act_endtime"
+            android:text="@string/tv_act_resttime"
+            android:textSize="12sp"
+
+            />
+
+        <View
+            android:id="@+id/line4"
+            android:layout_below="@id/img_act"
             android:layout_width="match_parent"
             android:layout_height="1dp"
             android:background="@color/black3"
-            />
-    <ImageView
-        android:scaleType="centerCrop"
-        android:layout_margin="15dp"
-        android:id="@+id/img_act"
-        android:layout_width="90dp"
-        android:layout_height="90dp"
-        android:layout_below="@id/line5"
-        android:src="@mipmap/ic_launcher" />
+            android:layout_margin="2dp" />
 
-<!--活动标题-->
-    <TextView
-        android:layout_marginTop="5dp"
-        android:id="@+id/tv_act_title"
-        android:layout_width="match_parent"
-        android:layout_height="35dp"
-        android:layout_alignParentTop="true"
-        android:layout_toEndOf="@+id/img_act"
-        android:layout_toRightOf="@+id/img_act"
-        android:gravity="center_vertical"
-        android:text="@string/tv_act_title"
-        android:maxLines="1"
-        android:textColor="@color/text_black"
-        android:textSize="14sp" />
+        <LinearLayout
+            android:layout_marginTop="10dp"
+            android:id="@+id/img_act_group"
+            android:layout_below="@id/line4"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:orientation="horizontal">
 
-<!--活动信息-->
-    <LinearLayout
-        android:id="@+id/ll_act_tv"
-        android:layout_width="fill_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_act_title"
-        android:layout_toRightOf="@id/img_act"
-        android:orientation="horizontal"
+            <ImageButton
+                android:id="@+id/btn_act_edit"
+                android:paddingBottom="5dp"
+                android:src="@drawable/edit"
+                android:scaleType="fitCenter"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
 
-        >
+            <ImageButton
+                android:paddingBottom="5dp"
 
-        <TextView
-            android:id="@+id/tv_act_sign_num"
+                android:id="@+id/btn_act_list"
+                android:src="@drawable/list"
+                android:scaleType="fitCenter"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/btn_act_share"
+                android:paddingBottom="5dp"
+
+                android:src="@drawable/share"
+                android:scaleType="fitCenter"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/btn_act_more"
+                android:paddingBottom="5dp"
+
+                android:src="@drawable/more"
+                android:scaleType="fitCenter"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+        <!--活动编辑按钮-->
+        <LinearLayout
+            android:id="@+id/ll_act_tv_group"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tv_act_sign_num" />
+            android:layout_below="@id/img_act_group"
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/tv_act_sign_income"
+            <TextView
+                android:id="@+id/tv_act_edit"
+
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_act_edit"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_act_list"
+
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_act_list"
+                android:textSize="12sp" />
+
+            <TextView
+                android:id="@+id/tv_act_share"
+
+                android:gravity="center"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_act_share"
+                android:textSize="12sp"
+
+
+                />
+
+            <TextView
+                android:id="@+id/tv_act_more"
+                android:gravity="center"
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_act_more"
+                android:textSize="12sp"
+                android:paddingBottom="10dp"
+
+                />
+        </LinearLayout>
+
+        <View
+            android:layout_below="@id/ll_act_tv_group"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tv_act_sign_income" />
-
-        <TextView
-            android:id="@+id/tv_act_status"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/tv_act_status"
-            android:visibility="gone"
-            android:textColor="@color/status_color_green"/>
-
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/tv_act_endtime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_act_tv"
-        android:layout_toRightOf="@id/img_act"
-        android:layout_marginTop="5dp"
-        android:text="@string/tv_act_endtime"
-android:textSize="12sp"
-        />
-
-    <TextView
-        android:id="@+id/tv_act_resttime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/ll_act_tv"
-        android:layout_marginTop="5dp"
-        android:textSize="12sp"
-
-        android:layout_toRightOf="@id/tv_act_endtime"
-        android:text="@string/tv_act_resttime"
-        />
-    <TextView
-        android:id="@+id/tv_act_starttime"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_act_resttime"
-        android:layout_toRightOf="@id/img_act"
-        android:layout_marginTop="5dp"
-        android:textSize="12sp"
-
-        android:text="@string/tv_act_endtime"
-
-        />
-
-    <TextView
-        android:id="@+id/tv_act_resttime2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/tv_act_resttime"
-        android:layout_marginTop="5dp"
-        android:layout_toRightOf="@id/tv_act_endtime"
-        android:text="@string/tv_act_resttime"
-        android:textSize="12sp"
-
-        />
-    <View
-        android:id="@+id/line4"
-        android:layout_below="@id/img_act"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/black3"
-        android:layout_margin="2dp"/>
-    <LinearLayout
-        android:layout_marginTop="10dp"
-       android:id="@+id/img_act_group"
-       android:layout_below="@id/line4"
-       android:layout_width="match_parent"
-       android:layout_height="30dp"
-       android:orientation="horizontal">
-       <ImageButton
-           android:id="@+id/btn_act_edit"
-android:paddingBottom="5dp"
-           android:src="@drawable/edit"
-           android:scaleType="fitCenter"
-           android:background="@color/white"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:layout_weight="1"
-           />
-       <ImageButton
-           android:paddingBottom="5dp"
-
-           android:id="@+id/btn_act_list"
-           android:src="@drawable/list"
-           android:scaleType="fitCenter"
-           android:background="@color/white"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:layout_weight="1"
-           />
-       <ImageButton
-           android:id="@+id/btn_act_share"
-           android:paddingBottom="5dp"
-
-           android:src="@drawable/share"
-           android:scaleType="fitCenter"
-           android:background="@color/white"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent"
-           android:layout_weight="1"
-           />
-       <ImageButton
-           android:id="@+id/btn_act_more"
-           android:paddingBottom="5dp"
-
-           android:src="@drawable/more"
-       android:scaleType="fitCenter"
-       android:background="@color/white"
-       android:layout_width="match_parent"
-       android:layout_height="match_parent"
-       android:layout_weight="1"
-       />
-
-   </LinearLayout>
-    <!--活动编辑按钮-->
-    <LinearLayout
-        android:id="@+id/ll_act_tv_group"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/img_act_group"
-        android:orientation="horizontal"
-        >
-
-        <TextView
-            android:id="@+id/tv_act_edit"
-
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/btn_act_edit"
-            android:textSize="12sp"
-            />
-
-        <TextView
-            android:id="@+id/tv_act_list"
-
-            android:gravity="center"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/btn_act_list"
-            android:textSize="12sp"
-            />
-
-        <TextView
-            android:id="@+id/tv_act_share"
-
-            android:gravity="center"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/btn_act_share"
-            android:textSize="12sp"
-
-
-            />
-
-        <TextView
-            android:id="@+id/tv_act_more"
-            android:gravity="center"
-
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="@string/btn_act_more"
-            android:textSize="12sp"
-android:paddingBottom="10dp"
-
-            />
-    </LinearLayout>
-    <View
-        android:layout_below="@id/ll_act_tv_group"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:background="@color/line_gray"
-        android:layout_alignParentBottom="true"/>
+            android:layout_height="10dp"
+            android:background="@color/line_gray"
+            android:layout_alignParentBottom="true" />
     </RelativeLayout>
 
 

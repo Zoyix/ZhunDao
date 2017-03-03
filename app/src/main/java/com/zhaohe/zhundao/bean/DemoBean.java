@@ -13,6 +13,7 @@ public class DemoBean implements Serializable {
     private String list;
     private String share;
     private String more;
+
     public String getList() {
         return list;
     }

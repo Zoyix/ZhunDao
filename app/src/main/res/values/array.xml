@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="type">
+        <item>输入框</item>
+        <item>多文本</item>
+        <item>下拉</item>
+        <item>多选</item>
+        <item>图片</item>
+        <item>单选</item>
+    </string-array>
+
+</resources>

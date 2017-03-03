@@ -45,23 +45,23 @@ public class EditActWebActivity extends ToolBarActivity {
     private Uri imageUri;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_edit_act_web);
-        initToolBar("编辑活动",R.layout.activity_edit_act_web);
+        initToolBar("编辑活动", R.layout.activity_edit_act_web);
 
         initView();
 
     }
-    private void initToolBar(String text,int layoutResID){
-        ToolBarHelper mToolBarHelper ;
-        mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
+
+    private void initToolBar(String text, int layoutResID) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
         mToolBarHelper.setTvTitle(text);
         super.setTitle("");
         setContentView(mToolBarHelper.getContentView());
-        toolbar = mToolBarHelper.getToolBar() ;
+        toolbar = mToolBarHelper.getToolBar();
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
@@ -75,15 +75,14 @@ public class EditActWebActivity extends ToolBarActivity {
         webView.getSettings().setBlockNetworkImage(false);
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        String accesskey= (String) SPUtils.get(this,"accessKey","");
-        webView.loadUrl(url + act_id+"?accesskey="+accesskey);
+        String accesskey = (String) SPUtils.get(this, "accessKey", "");
+        webView.loadUrl(url + act_id + "?accesskey=" + accesskey);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
             }
-
 
 
         });
@@ -100,11 +99,13 @@ public class EditActWebActivity extends ToolBarActivity {
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>3.0+
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>4.1.1
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
                 mUploadMessage = uploadMsg;
@@ -136,7 +137,7 @@ public class EditActWebActivity extends ToolBarActivity {
     }
 
 
-//    SuppressWarnings("null")
+    //    SuppressWarnings("null")
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void onActivityResultAboveL(int requestCode, int resultCode, Intent data) {
         if (requestCode != FILECHOOSER_RESULTCODE || mUploadCallbackAboveL == null) {
@@ -198,7 +199,6 @@ public class EditActWebActivity extends ToolBarActivity {
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
-
 
 
 }

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2016/12/21 10:01
  */
-public class SignupListBean implements Serializable{
+public class SignupListBean implements Serializable {
     private static final long serialVersionUID = -1104796504482971389L;
 
     public String getSignup_list_status() {

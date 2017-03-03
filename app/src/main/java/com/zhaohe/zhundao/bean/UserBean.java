@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2016/12/1 23:47
  */
-public class UserBean  implements Serializable{
+public class UserBean implements Serializable {
 
     private static final long serialVersionUID = 637298174007187013L;
 
@@ -21,7 +21,7 @@ public class UserBean  implements Serializable{
     private String City;
     private String Address;
     private int GradeId;
-    private String  Company;
+    private String Company;
     private String Industry;
     private String Duty;
     private String Mobile;
@@ -53,6 +53,7 @@ public class UserBean  implements Serializable{
     }
 
     private boolean IsDeleted;
+
     public int getID() {
         return ID;
     }
@@ -347,8 +348,6 @@ public class UserBean  implements Serializable{
     public void setAddTime(String addTime) {
         AddTime = addTime;
     }
-
-
 
 
 }

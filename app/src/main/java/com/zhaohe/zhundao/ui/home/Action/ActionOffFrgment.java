@@ -1,8 +1,6 @@
 package com.zhaohe.zhundao.ui.home.action;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -18,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -27,6 +26,11 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.socialize.ShareAction;
+import com.umeng.socialize.UMShareListener;
+import com.umeng.socialize.bean.SHARE_MEDIA;
+import com.umeng.socialize.media.UMImage;
+import com.umeng.socialize.media.UMWeb;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
@@ -42,7 +46,10 @@ import com.zhaohe.zhundao.constant.Constant;
 import java.util.ArrayList;
 import java.util.List;
 
+import me.shaohui.bottomdialog.BottomDialog;
+
 import static android.view.View.GONE;
+import static com.zhaohe.zhundao.constant.Constant.Url.ShareUrl;
 import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_ACT_ALL;
 import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_GET_SIGNLIST;
 import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.REFRESH_COMPLETE;
@@ -52,9 +59,9 @@ import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.REFRESH_COMPLET
  * @Author:邹苏隆
  * @Since:2016/12/12 14:42
  */
-public class ActionOffFrgment extends Fragment implements View.OnClickListener , SwipeRefreshLayout.OnRefreshListener,ActionAdapter.ActionClickListener {
+public class ActionOffFrgment extends Fragment implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, ActionAdapter.ActionClickListener {
     //            单页显示的数据数目
-    public static final int PAGE_SIZE = 1000;
+    public static final int PAGE_SIZE = 100000;
     protected View rootView;
     private IWXAPI api;
     private ActionAdapter adapter;
@@ -65,6 +72,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
     private String url;
     private SwipeRefreshLayout mSwipeLayout;
     private TextView tv_actoff_suggest;
+    private UMShareListener mShareListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,15 +103,23 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
     }
 
     private void init() {
-        if (NetworkUtils.checkNetState(getActivity())) {
+        if (SPUtils.contains(getActivity(),"act_result")) {
+            jsonconver((String) SPUtils.get(getActivity(), "act_result", ""));
+            getActionListNoneDialog();
 
         } else {
-//            ToastUtil.makeText(getActivity(), R.string.app_serviceError);
-            jsonconver((String) SPUtils.get(getActivity(), "act_result", ""));
-        }
+            getActionList();
 
+        }
+    }
+
+    private void getActionList() {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
         AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, dialog, MESSAGE_ACT_ALL);
+        asyncActivity.execute();
+    }
+    private void getActionListNoneDialog() {
+        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, MESSAGE_ACT_ALL);
         asyncActivity.execute();
     }
 
@@ -119,22 +135,35 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
         for (int i = 0; i < jsonArray.size(); i++) {
             ActionBean bean = new ActionBean();
             bean.setAct_title(jsonArray.getJSONObject(i).getString("Title"));
-            String time=jsonArray.getJSONObject(i).getString("TimeStop");
+            bean.setClick_num(jsonArray.getJSONObject(i).getString("ClickNo"));
+
+            String time = jsonArray.getJSONObject(i).getString("TimeStop");
 //            去除json传回来的时间中的T字符
-            String newtime=time.replace("T"," ");
+            String newtime = time.replace("T", " ");
+            bean.setAddress(jsonArray.getJSONObject(i).getString("Address"));
+
 //             去除秒
-            String newtime1= newtime.substring(2,newtime.length() - 3);
-            bean.setAct_endtime("报名截止："+newtime1);
-            String comparetime= TimeUtil.getTimeDifference(newtime,TimeUtil.getNowTime());
-            bean.setAct_resttime("(结束"+comparetime+")");
-            time=jsonArray.getJSONObject(i).getString("TimeStart");
-            newtime=time.replace("T"," ");
-            newtime1= newtime.substring(2,newtime.length() - 3);
-            bean.setAct_starttime("活动结束："+newtime1);
-            comparetime= TimeUtil.getTimeDifference(newtime,TimeUtil.getNowTime());
-            bean.setAct_resttime2("(结束"+comparetime+")");
-            bean.setAct_sign_num("已报名  " + jsonArray.getJSONObject(i).getString("HasJoinNum"));
-            bean.setAct_sign_income("收入：" + jsonArray.getJSONObject(i).getString("Amount"));
+            String newtime1 = newtime.substring(2, newtime.length() - 3);
+            bean.setAct_endtime("报名截止：" + newtime1);
+            String comparetime = TimeUtil.getTimeDifference(newtime, TimeUtil.getNowTime());
+            if(comparetime.indexOf("-")!=-1){
+                String newtime3=comparetime.replace("-","");
+                bean.setAct_resttime("(还剩" + newtime3 + ")");
+
+            }
+            else{bean.setAct_resttime("(结束" + comparetime + ")");}
+            time = jsonArray.getJSONObject(i).getString("TimeStart");
+            newtime = time.replace("T", " ");
+            newtime1 = newtime.substring(2, newtime.length() - 3);
+            bean.setAct_starttime("活动结束：" + newtime1);
+            comparetime = TimeUtil.getTimeDifference(newtime, TimeUtil.getNowTime());
+            if(comparetime.indexOf("-")!=-1){
+                String newtime3=comparetime.replace("-","");
+                bean.setAct_resttime2("(还剩" + newtime3 + ")");
+            }
+            else{bean.setAct_resttime2("(结束" + comparetime + ")");}
+            bean.setAct_sign_num(jsonArray.getJSONObject(i).getString("HasJoinNum"));
+            bean.setAct_sign_income(jsonArray.getJSONObject(i).getString("Amount"));
             bean.setAct_status("  报名截止");
             bean.setAct_content(jsonArray.getJSONObject(i).getString("Content"));
             bean.setUrl(jsonArray.getJSONObject(i).getString("ShareImgurl"));
@@ -154,13 +183,12 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
         showSuggest(list);
         adapter.refreshData(list);
     }
-    private void showSuggest( List<ActionBean> list){
-        if(list.size()==0)
-        {
+
+    private void showSuggest(List<ActionBean> list) {
+        if (list.size() == 0) {
             lv_act.setVisibility(GONE);
             tv_actoff_suggest.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             lv_act.setVisibility(View.VISIBLE);
             tv_actoff_suggest.setVisibility(GONE);
         }
@@ -179,7 +207,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
         webpage.webpageUrl = Constant.Url.ShareUrl + actid;
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = bean.getAct_title();
-        msg.description = "欢迎参加 " + bean.getAct_title();
+        msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
         //这里替换一张自己工程里的图片资源
         Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
         msg.setThumbImage(thumb);
@@ -270,9 +298,37 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
         mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_ly2);
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
-        tv_actoff_suggest= (TextView) rootView.findViewById(R.id.tv_actoff_suggest);
+        tv_actoff_suggest = (TextView) rootView.findViewById(R.id.tv_actoff_suggest);
+        mShareListener = new UMShareListener() {
+            @Override
+            public void onStart(SHARE_MEDIA platform) {
+                //分享开始的回调
+            }
+            @Override
+            public void onResult(SHARE_MEDIA platform) {
+                Log.d("plat","platform"+platform);
+
+                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA platform, Throwable t) {
+                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                if(t!=null){
+                    Log.d("throw","throw:"+t.getMessage());
+                }
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA platform) {
+                Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            }
+        };
 
     }
+
+
 
     @Override
     public void onClick(View view) {
@@ -293,7 +349,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
             init();
             System.out.print("成功刷新");
             mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
-        } else {ToastUtil.makeText(getActivity(), "请联网后再试");
+        } else {
+            ToastUtil.makeText(getActivity(), "请联网后再试");
             mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
         }
     }
@@ -313,7 +370,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
     public void onListClick(ActionBean bean) {
 //       这里开始写 判断网络状况
         if (NetworkUtils.checkNetState(getActivity())) {
-            String mParam = "ActivityID=" + bean.getAct_id()+"&pageSize="+PAGE_SIZE;
+            String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE;
             getSignList(mParam);
         } else if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
             Intent intent = new
@@ -331,47 +388,81 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
 
     @Override
     public void onShareClick(final ActionBean bean) {
-        new AlertDialog.Builder(getActivity())
-                .setCancelable(true)
-                .setIcon(R.mipmap.ic_launcher)
-                .setTitle("活动分享")
-                .setMessage("分享到")
-                .setPositiveButton("朋友圈", new DialogInterface.OnClickListener() {
+        showDialog(bean);
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new AlertDialog.Builder(getActivity())
-                                .show();
-                        wxShare(1, bean);
-
-                    }
-                })
-                .setNegativeButton("微信好友", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        new AlertDialog.Builder(getActivity())
-                                .show();
-                        wxShare(0, bean);
-                    }
-                })
-                .setNeutralButton("退出", new DialogInterface.OnClickListener() {
-
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                })
-                .show();
-//        0分享到好友，1分享到朋友圈
-//        wxShare(1, bean);
-//        wxShare(0);
     }
 
+    //    微信分享底部对话框
+    private void showDialog(final ActionBean bean) {
+        BottomDialog.create(getFragmentManager())
+                .setViewListener(new BottomDialog.ViewListener() {
+                    @Override
+//                    自定义事件
+                    public void bindView(View v) {
+                        View.OnClickListener onclick = (new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                switch (v.getId()) {
+                                    case R.id.iv_share_wechat_solid:
+                                        wxShare(0, bean);
+                                        break;
+                                    case R.id.iv_share_weixin_friends_solid:
+                                        wxShare(1, bean);
+                                        break;
+                                    case R.id.iv_share_weibo_solid:
+                                        UmengShare(bean, SHARE_MEDIA.SINA);
+                                        break;
+                                    case R.id.iv_share_qq_solid:
+                                        UmengShare(bean,SHARE_MEDIA.QQ);
+                                        break;
+                                    case R.id.iv_share_qqzone_solid:
+                                        UmengShare(bean,SHARE_MEDIA.QZONE);
+
+                                        break;
+                                }
+                            }
+                        });
+                        ImageView iv_share_wechat_solid = (ImageView) v.findViewById(R.id.iv_share_wechat_solid);
+                        ImageView iv_share_weixin_friends_solid = (ImageView) v.findViewById(R.id.iv_share_weixin_friends_solid);
+                        ImageView iv_share_weibo_solid= (ImageView) v.findViewById(R.id.iv_share_weibo_solid);
+                        ImageView iv_share_qq_solid = (ImageView) v.findViewById(R.id.iv_share_qq_solid);
+                        ImageView iv_share_qqzone_solid = (ImageView) v.findViewById(R.id.iv_share_qqzone_solid);
+
+                        iv_share_weixin_friends_solid.setOnClickListener(onclick);
+                        iv_share_wechat_solid.setOnClickListener(onclick);
+                        iv_share_weibo_solid.setOnClickListener(onclick);
+                        iv_share_qq_solid.setOnClickListener(onclick);
+                        iv_share_qqzone_solid.setOnClickListener(onclick);
+                    }
+                })
+                .setLayoutRes(R.layout.dialog_layout)
+                .setDimAmount(0.9f)
+                .setTag("BottomDialog")
+                .show();
+    }
+    private void UmengShare(ActionBean bean,SHARE_MEDIA type ) {
+        UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
+        UMImage image = new UMImage(getActivity(), bean.getUrl());
+        web.setTitle( bean.getAct_title());//标题
+        web.setDescription(bean.getAct_starttime()+"\n活动地点： "+bean.getAddress());//描述
+        web.setThumb(image);
+//        new ShareAction(getActivity())
+//                .withMedia(web)
+//                .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.QZONE)
+//                .setCallback(mShareListener).open();
+        new ShareAction(getActivity()).setPlatform(type)
+                .withMedia(web)
+                .setCallback(mShareListener)
+                .share();
+    }
     @Override
     public void onMoreClick(ActionBean bean) {
-        ToastUtil.makeText(getActivity(),"开发中，敬请期待！");
-
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), ActionMoreActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("bean", bean);
+        intent.putExtras(bundle);
+        this.startActivity(intent);
     }
 
     @Override
@@ -381,10 +472,10 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener ,
 //        Intent intent = new Intent(getActivity(), EditActActivity.class);
         Bundle bundle = new Bundle();
         bundle.putString("act_id", bean.getAct_id());
-        bundle.putString("act_title",bean.getAct_title());
+        bundle.putString("act_title", bean.getAct_title());
         intent.putExtras(bundle);
         getActivity().startActivity(intent);
     }
-    }
+}
 
 

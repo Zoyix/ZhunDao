@@ -7,9 +7,10 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2016/12/2 0:55
  */
-public class AccessKeyBean extends BaseBean implements Serializable{
+public class AccessKeyBean extends BaseBean implements Serializable {
     private static final long serialVersionUID = 2734959547231039170L;
     private String AccessKey;
+
     public String getAccessKey() {
         return AccessKey;
     }

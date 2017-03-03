@@ -7,13 +7,45 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2016/12/14 10:35
  */
-public class SignListBean implements Serializable{
+public class SignListBean implements Serializable {
     private static final long serialVersionUID = -215544916760608473L;
     private String sign_list_id;
     private String sign_list_name;
     private String sign_list_time;
     private String sign_list_phone;
     private String sign_list_status;
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    private String nickname;
+//    活动ID
+    private String act_id;
+    //    和用户详细信息对应的jasonBean
+    private int mIndex;
+
+    public int getmIndex() {
+        return mIndex;
+    }
+
+    public void setmIndex(int mIndex) {
+        this.mIndex = mIndex;
+    }
+
+    public String getAct_id() {
+        return act_id;
+    }
+
+    public void setAct_id(String act_id) {
+        this.act_id = act_id;
+    }
+
+
 
     public String getSign_list_id() {
         return sign_list_id;

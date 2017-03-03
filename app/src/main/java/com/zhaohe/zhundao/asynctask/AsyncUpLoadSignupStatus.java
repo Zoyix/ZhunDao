@@ -23,37 +23,40 @@ public class AsyncUpLoadSignupStatus extends AsyncTask<String, Integer, String> 
 
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private String mAccesskey;
     private String mParam;
-    public AsyncUpLoadSignupStatus(Context context, Handler handler, int request, String param){
+
+    public AsyncUpLoadSignupStatus(Context context, Handler handler, int request, String param) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
-        this.mParam=param;
-        this.mAccesskey= (String) SPUtils.get(mContext,"accessKey","");
-}
+        this.mParam = param;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
 
     @Override
     protected String doInBackground(String... strings) {
         String path = Constant.HOST + Constant.Url.BatchCheckIn;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("accessKey",mAccesskey);
-        map.put("checkJson",mParam);
-        String result = HttpUtil.sendPostNewrequest(path,map,"utf-8");
+        map.put("accessKey", mAccesskey);
+        map.put("checkJson", mParam);
+        map.put("checkInWay","7");
+        String result = HttpUtil.sendPostNewrequest(path, map, "utf-8");
         return result;
 
     }
+
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
 
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("wtf"+result);
-            mHandler.sendMessage (msg);
+            System.out.println("wtf" + result);
+            mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog (mContext, R.string.app_serviceError);
+            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

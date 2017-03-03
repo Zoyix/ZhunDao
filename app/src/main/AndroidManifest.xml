@@ -4,12 +4,21 @@
     android:versionCode="170103"
     android:versionName="1.0.0">
 
+    <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
+
+
+    <!--友盟需要的额外权限-->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
+
     <!-- 二维码需要使用的权限 -->
     <uses-permission android:name="android.permission.VIBRATE" />
     <!-- <uses-permission android:name="android.permission.CAMERA" /> -->
@@ -19,6 +28,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name=".ui.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -36,20 +46,29 @@
         </activity>
         <activity
             android:name=".ui.home.HomeActivity"
-            android:screenOrientation="portrait" />
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".ui.login.LoginActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan" />
         <activity
             android:name=".wxapi.WXEntryActivity"
             android:exported="true"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+
+            />
+
         <activity
             android:name=".ui.ZxingQrActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".zxing.controller.MipcaActivityCapture"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:launchMode="singleTop"
+
+            />
         <activity
             android:name=".zxing.controller.ZxingQrActivity"
             android:screenOrientation="portrait" />
@@ -68,6 +87,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.home.action.SignListActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            android:launchMode="singleTop"
+
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.home.action.EditActWebActivity"
@@ -79,9 +101,13 @@
 
         <activity
             android:name=".ui.home.action.SignListUserActivity"
+            android:launchMode="singleTop"
+
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.home.sign.SignupListActivity"
+            android:launchMode="singleTop"
+
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.home.mine.setting.SettingActivity"
@@ -113,8 +139,57 @@
 
         <activity
             android:name=".ui.home.action.ActionDetailsActivity"
+            android:launchMode="singleTop"
+
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.home.find.CustomActivity"></activity>
+        <activity android:name=".ui.home.find.CustomActivity"
+            android:launchMode="singleTask"
+
+            />
+        <activity android:name=".ui.BaseActivity" />
+        <activity
+            android:name=".ui.home.find.CustomItemActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ui.home.sign.SignUpdateTitleActivity" />
+        <activity
+            android:name=".ui.home.find.CustomItemEditActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".ui.home.find.BeaconListActivity"
+            android:label="@string/title_activity_beancon_list"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.home.find.BeaconInfActivity" />
+        <activity android:name=".ui.home.action.ActionMoreActivity"
+            android:launchMode="singleTop"
+            />
+        <activity android:name=".ui.home.action.ActionConsultActivity"></activity>
+        <activity
+            android:name="com.umeng.qq.tencent.AuthActivity"
+            android:launchMode="singleTask"
+            android:noHistory="true" >
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="tencent1105950214" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name="com.umeng.qq.tencent.AssistActivity"
+            android:screenOrientation="portrait"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:configChanges="orientation|keyboardHidden|screenSize"/>
+        <activity
+            android:name="com.umeng.socialize.editorpage.ShareActivity"
+            android:excludeFromRecents="true"
+            />
+
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="58b6631dc62dca52ef0013dd" >
+        </meta-data>
     </application>
 
 </manifest>

@@ -32,8 +32,8 @@ import java.util.List;
 public class ActionAddActivity extends ToolBarActivity {
 
     private WebView webView;
-        private String url="https://m.zhundao.net/Activity/PubActivity?accesskey=";
-//    private String url = "https://m.zhundao.net/Activity/PubActivity";
+    private String url = "https://m.zhundao.net/Activity/PubActivity?accesskey=";
+    //    private String url = "https://m.zhundao.net/Activity/PubActivity";
     private String act_id;
     private ValueCallback<Uri> mUploadMessage;// 表单的数据信息
     private ValueCallback<Uri[]> mUploadCallbackAboveL;
@@ -41,42 +41,41 @@ public class ActionAddActivity extends ToolBarActivity {
     private Uri imageUri;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_add);
         initToolBar(getString(R.string.tv_start_act)
-                ,R.layout.activity_action_add);
+                , R.layout.activity_action_add);
         initView();
 
     }
-    private void initToolBar(String text,int layoutResID){
-        ToolBarHelper mToolBarHelper ;
-        mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
+
+    private void initToolBar(String text, int layoutResID) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
         mToolBarHelper.setTvTitle(text);
         super.setTitle("");
         setContentView(mToolBarHelper.getContentView());
-        toolbar = mToolBarHelper.getToolBar() ;
+        toolbar = mToolBarHelper.getToolBar();
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
 
     private void initView() {
         webView = (WebView) findViewById(R.id.wv_act_add);
-        String accesskey= (String) SPUtils.get(this,"accessKey","");
+        String accesskey = (String) SPUtils.get(this, "accessKey", "");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBlockNetworkImage(false);
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        webView.loadUrl(url+accesskey);
+        webView.loadUrl(url + accesskey);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
             }
-
 
 
         });
@@ -93,11 +92,13 @@ public class ActionAddActivity extends ToolBarActivity {
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>3.0+
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>4.1.1
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
                 mUploadMessage = uploadMsg;

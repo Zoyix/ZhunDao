@@ -13,7 +13,17 @@ public class ActionBean implements Serializable {
     private static final long serialVersionUID = -8764809360546296586L;
     private String act_id;
     private String url;
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     private String act_content;
+    private String address;
 
     public String getAct_content() {
         return act_content;
@@ -57,6 +67,15 @@ public class ActionBean implements Serializable {
     private String act_starttime;
     //    活动开始剩余时间
     private String act_resttime2;
+    private String click_num;
+
+    public String getClick_num() {
+        return click_num;
+    }
+
+    public void setClick_num(String click_num) {
+        this.click_num = click_num;
+    }
 
     public String getAct_resttime2() {
         return act_resttime2;

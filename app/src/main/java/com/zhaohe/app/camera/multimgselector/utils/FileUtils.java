@@ -9,37 +9,34 @@ import java.util.Date;
 import java.util.Locale;
 
 
-
-
-
 /**
- *@Description: 文件操作类
- *@Author:杨攀
- *@Since:2015年11月4日下午5:05:55  
+ * @Description: 文件操作类
+ * @Author:杨攀
+ * @Since:2015年11月4日下午5:05:55
  */
 public class FileUtils {
 
-    private static final String  storageDirectory = "/topinfo/camera/";
-    
-    public static File createTmpFile(Context context){
+    private static final String storageDirectory = "/topinfo/camera/";
 
-        String state = Environment.getExternalStorageState ();
-        if (state.equals (Environment.MEDIA_MOUNTED)) {
+    public static File createTmpFile(Context context) {
+
+        String state = Environment.getExternalStorageState();
+        if (state.equals(Environment.MEDIA_MOUNTED)) {
             // 已挂载  
-            File pic = Environment.getExternalStoragePublicDirectory (Environment.DIRECTORY_PICTURES);
+            File pic = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
             //File pic = new File(Environment.getExternalStorageDirectory ().getAbsolutePath () + storageDirectory);
-            if (!pic.exists ()) {
-                pic.mkdirs ();
+            if (!pic.exists()) {
+                pic.mkdirs();
             }
-            String timeStamp = new SimpleDateFormat ("yyyyMMdd_HHmmss",Locale.CHINA).format (new Date ());
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
             String fileName = "image_" + timeStamp + "";
-            File tmpFile = new File (pic,fileName + ".jpg");
+            File tmpFile = new File(pic, fileName + ".jpg");
             return tmpFile;
         } else {
-            File cacheDir = context.getCacheDir ();
-            String timeStamp = new SimpleDateFormat ("yyyyMMdd_HHmmss",Locale.CHINA).format (new Date ());
+            File cacheDir = context.getCacheDir();
+            String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.CHINA).format(new Date());
             String fileName = "image_" + timeStamp + "";
-            File tmpFile = new File (cacheDir,fileName + ".jpg");
+            File tmpFile = new File(cacheDir, fileName + ".jpg");
             return tmpFile;
         }
 

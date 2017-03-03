@@ -14,62 +14,61 @@ px: pixels(像素). 不同设备显示效果相同，一般我们HVGA代表320x4
 pt: point，是一个标准的长度单位，1pt＝1/72英寸，用于印刷业，非常简单易用；
 sp: scaled pixels(放大像素). 主要用于字体显示best for textsize。
  */
+
 /**
- *@Description: 分辨率转换工具
- *@Author:杨攀
- *@Since:2014年9月17日下午1:57:58
+ * @Description: 分辨率转换工具
+ * @Author:杨攀
+ * @Since:2014年9月17日下午1:57:58
  */
 public class DensityUtil {
 
     /**
-     *@Description: 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     *@Author:杨攀
-     *@Since: 2014年9月17日下午1:58:28
-     *@param context
-     *@param dpValue
-     *@return
+     * @param context
+     * @param dpValue
+     * @return
+     * @Description: 根据手机的分辨率从 dp 的单位 转成为 px(像素)
+     * @Author:杨攀
+     * @Since: 2014年9月17日下午1:58:28
      */
-    public static int dip2px(Context context,float dpValue){
-        final float scale = context.getResources ().getDisplayMetrics ().density;
+    public static int dip2px(Context context, float dpValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (dpValue * scale + 0.5f);
     }
 
     /**
-     *@Description: 根据手机的分辨率从 px(像素) 的单位 转成为 dp
-     *@Author:杨攀
-     *@Since: 2014年9月17日下午1:58:40
-     *@param context
-     *@param pxValue
-     *@return
+     * @param context
+     * @param pxValue
+     * @return
+     * @Description: 根据手机的分辨率从 px(像素) 的单位 转成为 dp
+     * @Author:杨攀
+     * @Since: 2014年9月17日下午1:58:40
      */
-    public static int px2dip(Context context,float pxValue){
-        final float scale = context.getResources ().getDisplayMetrics ().density;
+    public static int px2dip(Context context, float pxValue) {
+        final float scale = context.getResources().getDisplayMetrics().density;
         return (int) (pxValue / scale + 0.5f);
     }
 
     /**
      * 将px值转换为sp值，保证文字大小不变
-     * 
+     *
      * @param pxValue
-     * @param fontScale
-     *            （DisplayMetrics类中属性scaledDensity）
+     * @param fontScale （DisplayMetrics类中属性scaledDensity）
      * @return
-     */ 
-    public static int px2sp(Context context, float pxValue) { 
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity; 
-        return (int) (pxValue / fontScale + 0.5f); 
-    } 
-   
+     */
+    public static int px2sp(Context context, float pxValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (pxValue / fontScale + 0.5f);
+    }
+
     /**
      * 将sp值转换为px值，保证文字大小不变
-     * 
+     *
      * @param spValue
-     * @param fontScale
-     *            （DisplayMetrics类中属性scaledDensity）
+     * @param fontScale （DisplayMetrics类中属性scaledDensity）
      * @return
-     */ 
-    public static int sp2px(Context context, float spValue) { 
-        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity; 
-        return (int) (spValue * fontScale + 0.5f); 
-    }  
+     */
+    public static int sp2px(Context context, float spValue) {
+        final float fontScale = context.getResources().getDisplayMetrics().scaledDensity;
+        return (int) (spValue * fontScale + 0.5f);
+    }
 }

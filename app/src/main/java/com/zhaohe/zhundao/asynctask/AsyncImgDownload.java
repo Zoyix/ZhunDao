@@ -16,14 +16,16 @@ import java.net.URL;
  * @Since:2016/12/7 14:35
  */
 public class AsyncImgDownload extends AsyncTask {
-  private Context context;
+    private Context context;
     private ImageView imageView;
     private String url;
-    public AsyncImgDownload(Context context, ImageView imgview,String url){
-  this.url=url;
-        this.context=context;
-        this.imageView=imgview;
+
+    public AsyncImgDownload(Context context, ImageView imgview, String url) {
+        this.url = url;
+        this.context = context;
+        this.imageView = imgview;
     }
+
     /**
      * 主要是完成耗时的操作
      */
@@ -48,9 +50,10 @@ public class AsyncImgDownload extends AsyncTask {
 
         return null;
     }
+
     @Override
-    protected void onPostExecute(Object o){
-    imageView.setImageBitmap((Bitmap)o);
+    protected void onPostExecute(Object o) {
+        imageView.setImageBitmap((Bitmap) o);
 
     }
 

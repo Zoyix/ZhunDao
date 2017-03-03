@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/ll_sign_list_user"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        tools:context="com.zhaohe.zhundao.ui.home.find.BeaconInfActivity">
+
+        <RelativeLayout
+            android:id="@+id/rl_beacon_imgurl"
+            style="@style/act_user_rl">
+
+            <TextView
+                android:text="@string/IconUrl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
+                android:layout_alignParentLeft="true" />
+
+            <ImageView
+                android:id="@+id/iv_beacon_icon"
+                android:src="@mipmap/ic_launcher"
+                android:layout_alignParentRight="true"
+android:layout_width="60dp"
+                android:layout_height="60dp"
+android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                />
+
+            <include layout="@layout/line_user_act"></include>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_beacon_name"
+            style="@style/act_user_rl">
+
+            <TextView
+                android:layout_alignParentLeft="true"
+                style="@style/act_user_tv"
+                android:text="@string/beacon_name" />
+
+            <TextView
+                android:id="@+id/tv_beacon_name"
+                android:layout_alignParentRight="true"
+                style="@style/act_user_tv"
+                android:clickable="true"
+                android:text="@string/none"
+                />
+
+            <include layout="@layout/line_user_act"></include>
+        </RelativeLayout>
+
+        <RelativeLayout
+            style="@style/act_user_rl">
+
+            <TextView
+                android:layout_alignParentLeft="true"
+                style="@style/act_user_tv"
+
+                android:text="@string/beacon_id" />
+
+            <TextView
+                android:id="@+id/tv_beacon_id"
+                android:layout_alignParentRight="true"
+                style="@style/act_user_tv"
+
+                android:text="@string/none" />
+
+            <include layout="@layout/line"></include>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_unit"
+            style="@style/act_user_rl">
+
+            <TextView
+                android:layout_alignParentLeft="true"
+                style="@style/act_user_tv"
+
+                android:text="@string/device_id" />
+
+            <TextView
+                android:id="@+id/tv_beacon_device_id"
+                android:layout_alignParentRight="true"
+                style="@style/act_user_tv"
+
+                android:text="@string/none" />
+
+            <include layout="@layout/line"></include>
+
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/rl_beacon_bind"
+            style="@style/act_user_rl">
+
+            <TextView
+                android:layout_alignParentLeft="true"
+                style="@style/act_user_tv"
+
+                android:text="@string/nickname" />
+
+            <TextView
+                android:id="@+id/tv_beacon_nickname"
+                android:layout_alignParentRight="true"
+                style="@style/act_user_tv"
+
+                android:text="@string/none" />
+
+            <include layout="@layout/line"></include>
+
+        </RelativeLayout>
+
+
+
+
+
+    </LinearLayout>
+</ScrollView>

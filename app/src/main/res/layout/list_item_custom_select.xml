@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/et_custom_select"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:hint="选项1"
+        android:paddingLeft="40dp" />
+
+    <ImageView
+        android:id="@+id/iv_custom_select"
+        android:paddingLeft="10dp"
+        android:layout_width="30dp"
+        android:layout_height="50dp"
+        android:src="@mipmap/select_delete_off" />
+</RelativeLayout>

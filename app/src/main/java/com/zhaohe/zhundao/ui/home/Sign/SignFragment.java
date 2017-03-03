@@ -29,7 +29,7 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     private FragmentPagerAdapter mAdapter;
     private List<Fragment> mFragments = new ArrayList<Fragment>();
 
-    private TextView tv_signon,tv_signoff;
+    private TextView tv_signon, tv_signoff;
 
     /**
      * @param inflater
@@ -40,7 +40,7 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_sighome, container,false);
+        view = inflater.inflate(R.layout.fragment_sighome, container, false);
 
         initView();
 
@@ -66,14 +66,14 @@ public class SignFragment extends Fragment implements View.OnClickListener {
                 resetColor();
                 switch (position) {
                     case 0:
-                        tv_signon.setTextColor(Color.rgb(87,153,8));
+                        tv_signon.setTextColor(Color.rgb(87, 153, 8));
                         break;
                     case 1:
-                        tv_signoff.setTextColor(Color.rgb(87,153,8));
+                        tv_signoff.setTextColor(Color.rgb(87, 153, 8));
                         break;
 
                     default:
-                        tv_signon.setTextColor(Color.rgb(87,153,8));
+                        tv_signon.setTextColor(Color.rgb(87, 153, 8));
                         break;
                 }
                 currentIndex = position;
@@ -95,10 +95,10 @@ public class SignFragment extends Fragment implements View.OnClickListener {
     /**
      * 初始化控件
      */
-    public void initView(){
-        tv_signon = (TextView)view.findViewById(R.id.tv_signon);
-        tv_signoff = (TextView)view.findViewById(R.id.tv_signoff);
-        mPaper = (ViewPager)view.findViewById(R.id.view_pager);
+    public void initView() {
+        tv_signon = (TextView) view.findViewById(R.id.tv_signon);
+        tv_signoff = (TextView) view.findViewById(R.id.tv_signoff);
+        mPaper = (ViewPager) view.findViewById(R.id.view_pager);
         tv_signon.setOnClickListener(this);
         tv_signoff.setOnClickListener(this);
 
@@ -106,33 +106,34 @@ public class SignFragment extends Fragment implements View.OnClickListener {
         SignOffFragment f2 = new SignOffFragment();
 
 
-
         mFragments.add(f1);
         mFragments.add(f2);
 
     }
 
-    public void resetColor(){
-        tv_signon.setTextColor(Color.rgb(56,56,56));
-        tv_signoff.setTextColor(Color.rgb(56,56,56));
+    public void resetColor() {
+        tv_signon.setTextColor(Color.rgb(56, 56, 56));
+        tv_signoff.setTextColor(Color.rgb(56, 56, 56));
     }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tv_signon:
                 resetColor();
-                tv_signon.setTextColor(Color.rgb(87,153,8));
+                tv_signon.setTextColor(Color.rgb(87, 153, 8));
                 mPaper.setCurrentItem(0);
                 break;
             case R.id.tv_signoff:
                 resetColor();
-                tv_signoff.setTextColor(Color.rgb(87,153,8));
+                tv_signoff.setTextColor(Color.rgb(87, 153, 8));
                 mPaper.setCurrentItem(1);
                 break;
             default:
                 break;
         }
     }
+
     /**
      * ViewPager适配器
      */
@@ -152,7 +153,6 @@ public class SignFragment extends Fragment implements View.OnClickListener {
         public int getCount() {
             return mListViews.size();
         }
-
 
 
         @Override

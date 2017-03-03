@@ -20,44 +20,45 @@ import java.util.Map;
  * @Author:邹苏隆
  * @Since:2016/12/13 9:51
  */
-public class AsyncGetCode  extends AsyncTask<String, Integer, String> {
+public class AsyncGetCode extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
     private String mParam;
 
-    public AsyncGetCode(Context context, Handler handler, Dialog dialog, int request,String param){
+    public AsyncGetCode(Context context, Handler handler, Dialog dialog, int request, String param) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
-        this.mParam=param;
-        this.mAccesskey= (String) SPUtils.get(mContext,"accessKey","");
+        this.mParam = param;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
 
     @Override
     protected String doInBackground(String... strings) {
         String path = Constant.HOST + Constant.Url.GetCode;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("phone",mParam);
-        map.put("accessKey",mAccesskey);
-        String result = HttpUtil.sendGETRequest(path,map,"utf-8");
+        map.put("phone", mParam);
+        map.put("accessKey", mAccesskey);
+        String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;
     }
+
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
         if (mDialog != null) {
-            mDialog.dismiss ();
+            mDialog.dismiss();
         }
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("wtf"+result);
-            mHandler.sendMessage (msg);
+            System.out.println("wtf" + result);
+            mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog (mContext, R.string.app_serviceError);
+            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

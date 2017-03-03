@@ -23,13 +23,13 @@ import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
  * @Author:邹苏隆
  * @Since:2016/11/29 10:23
  */
-public class MineFragment extends Fragment implements View.OnClickListener{
+public class MineFragment extends Fragment implements View.OnClickListener {
     public static final int MESSAGE_IMG_DOWNLOAD = 98;
     protected View rootView;
-    private ImageView img_head,img_sex;
+    private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
-    private TextView tv_min_setting,tv_min_name,tv_min_wallet,tv_min_feedback;
+    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback;
 
 
     @Override
@@ -44,25 +44,28 @@ public class MineFragment extends Fragment implements View.OnClickListener{
 
 
     private void initView(View rootView) {
-    img_head= (ImageView) rootView.findViewById(R.id.img_head);
-        img_sex=(ImageView) rootView.findViewById(R.id.iv_sex);
-        tv_min_name=(TextView) rootView.findViewById(R.id.tv_min_name);
-tv_min_setting= (TextView) rootView.findViewById(R.id.tv_min_setting);
+        img_head = (ImageView) rootView.findViewById(R.id.img_head);
+        img_sex = (ImageView) rootView.findViewById(R.id.iv_sex);
+        tv_min_name = (TextView) rootView.findViewById(R.id.tv_min_name);
+        tv_min_setting = (TextView) rootView.findViewById(R.id.tv_min_setting);
         tv_min_setting.setOnClickListener(this);
-        tv_min_wallet=(TextView) rootView.findViewById(R.id.tv_my_wallet);
+        tv_min_wallet = (TextView) rootView.findViewById(R.id.tv_my_wallet);
         tv_min_wallet.setOnClickListener(this);
-        tv_min_feedback=(TextView) rootView.findViewById(R.id.tv_feedback);
+        tv_min_feedback = (TextView) rootView.findViewById(R.id.tv_feedback);
         tv_min_feedback.setOnClickListener(this);
-}
+    }
+
     private void initUserInfo() {
         //        帕斯卡 加载头像
-        String url= (String) SPUtils.get(getActivity(),"HeadImgurl","");
-        String name=(String) SPUtils.get(getActivity(),"NickName","");
-        int sex=(int) SPUtils.get(getActivity(),"Sex",2);
-        if(sex==1)
-        { Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);}
-        if(sex==2)
-        {Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);}
+        String url = (String) SPUtils.get(getActivity(), "HeadImgurl", "");
+        String name = (String) SPUtils.get(getActivity(), "NickName", "");
+        int sex = (int) SPUtils.get(getActivity(), "Sex", 2);
+        if (sex == 1) {
+            Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
+        }
+        if (sex == 2) {
+            Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
+        }
 
 //        String url="http://wx.qlogo.cn/mmopen/cdJxMia7edLt0ZywjiaFNQkOH4WXSCiaOkAAfNwaNVCp25IYX3otiaqibNGn8ib4SadtYUfMFoibYT1l5gXG1Kiamv5CVMhibQJpXjt0y/0";
         tv_min_name.setText(name);
@@ -108,25 +111,23 @@ tv_min_setting= (TextView) rootView.findViewById(R.id.tv_min_setting);
                 .setCancelable(false)
                 //对话框的创建、显示
                 .create().show();
+
     }
-
-
 
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_min_setting:
                 IntentUtils.startActivity(getActivity(), SettingActivity.class);
                 break;
             case R.id.tv_my_wallet:
                 IntentUtils.startActivity(getActivity(), WalletActivity.class);
-                  break;
+                break;
             case R.id.tv_feedback:
 //                IntentUtils.startActivity(getActivity(), FeedbackActivity.class);
                 showWaiterAuthorizationDialog();
                 break;
-
 
 
         }

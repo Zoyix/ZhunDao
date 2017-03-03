@@ -34,6 +34,7 @@
                 android:background="@drawable/setting_item_selector"
                 android:paddingBottom="10dp"
                 android:paddingTop="10dp">
+
                 <ImageView
                     android:id="@+id/img_head"
                     android:layout_width="60dp"
@@ -53,14 +54,14 @@
                     android:textSize="18sp" />
 
                 <!--<TextView-->
-                    <!--android:id="@+id/tvmsg"-->
-                    <!--android:layout_width="wrap_content"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:layout_below="@id/tv_min_name"-->
-                    <!--android:layout_marginTop="5dp"-->
-                    <!--android:layout_toRightOf="@id/img_head"-->
-                    <!--android:text="@string/tab_act"-->
-                    <!--android:textSize="12sp" />-->
+                <!--android:id="@+id/tvmsg"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_below="@id/tv_min_name"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:layout_toRightOf="@id/img_head"-->
+                <!--android:text="@string/tab_act"-->
+                <!--android:textSize="12sp" />-->
 
                 <ImageView
                     android:layout_width="wrap_content"
@@ -69,22 +70,18 @@
                     android:layout_centerVertical="true"
                     android:layout_marginRight="15dp"
                     android:src="@drawable/right"
-                    android:visibility="gone"
-                    />
+                    android:visibility="gone" />
 
                 <ImageView
                     android:id="@+id/iv_sex"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
                     android:layout_marginTop="5dp"
-                android:layout_below="@id/tv_min_name"
+                    android:layout_below="@id/tv_min_name"
                     android:src="@drawable/ic_sex_male"
                     android:layout_toEndOf="@+id/img_head"
                     android:layout_toRightOf="@+id/img_head" />
             </RelativeLayout>
-
-
-
 
 
             <View
@@ -99,10 +96,12 @@
                 style="@style/list_txt_Style"
                 android:drawableLeft="@mipmap/wallet72"
                 android:text="@string/tv_my_wallet" />
+
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/black3" />
+
             <TextView
                 android:id="@+id/tv_myaddressbook"
                 style="@style/list_txt_Style"
@@ -110,15 +109,14 @@
                 android:drawableLeft="@drawable/icon_me_smail"
                 android:drawablePadding="10dp"
                 android:text="@string/tv_myaddressbook"
-                android:visibility="gone"
-                />
-
+                android:visibility="gone" />
 
 
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/black3" />
+
             <TextView
                 android:id="@+id/tv_feedback"
                 style="@style/list_txt_Style"
@@ -130,6 +128,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/black3" />
+
             <TextView
                 android:layout_marginTop="20dp"
                 android:id="@+id/tv_min_setting"

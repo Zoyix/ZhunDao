@@ -7,6 +7,7 @@
     android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity">
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
@@ -18,10 +19,12 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_setting_password" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <TextView
         android:id="@+id/tv_setting_feedback"
         style="@style/list_txt_Style"
@@ -29,14 +32,14 @@
         android:drawableLeft="@drawable/icon_me_smail"
         android:drawablePadding="10dp"
         android:text="@string/tv_setting_feedback"
-        android:visibility="gone"/>
-
+        android:visibility="gone" />
 
 
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <TextView
         android:id="@+id/tv_setting_about_us"
         style="@style/list_txt_Style"
@@ -47,6 +50,17 @@
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+    <TextView
+        android:id="@+id/tv_setting_version"
+        style="@style/list_txt_Style"
+        android:clickable="true"
+        android:text="@string/tv_setting_version" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
     <TextView
         android:layout_marginTop="20dp"
         android:id="@+id/tv_setting_exit"

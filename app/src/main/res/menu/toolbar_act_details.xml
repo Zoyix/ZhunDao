@@ -3,16 +3,16 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <!--<item-->
-        <!--android:id="@+id/action_search"-->
-        <!--android:icon="@mipmap/ic_search"-->
-        <!--android:title="@string/menu_search"-->
-        <!--app:showAsAction="always" />-->
+    <!--android:id="@+id/action_search"-->
+    <!--android:icon="@mipmap/ic_search"-->
+    <!--android:title="@string/menu_search"-->
+    <!--app:showAsAction="always" />-->
 
     <!--<item-->
-        <!--android:id="@+id/action_notification"-->
-        <!--android:icon="@mipmap/ic_notifications"-->
-        <!--android:title="@string/menu_notifications"-->
-        <!--app:showAsAction="ifRoom" />-->
+    <!--android:id="@+id/action_notification"-->
+    <!--android:icon="@mipmap/ic_notifications"-->
+    <!--android:title="@string/menu_notifications"-->
+    <!--app:showAsAction="ifRoom" />-->
 
     <item
         android:id="@+id/menu_act_share_friend"
@@ -24,5 +24,6 @@
         android:id="@+id/menu_act_share_friendcirle"
         android:orderInCategory="101"
         android:title="@string/menu_add_share_friendcircle"
+        android:visible="false"
         app:showAsAction="never" />
 </menu>

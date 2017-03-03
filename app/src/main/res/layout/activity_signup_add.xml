@@ -5,6 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.zhaohe.zhundao.ui.home.sign.SignupAddActivity">
+
     <WebView
         android:id="@+id/wv_signup_add"
         android:layout_width="match_parent"

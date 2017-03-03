@@ -2,17 +2,17 @@ package com.zhaohe.zhundao.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
 import com.zhaohe.zhundao.R;
 
 /**
- * @Description:
+ * @Description:toolbar帮助工具类
  * @Author:邹苏隆
  * @Since:2016/12/16 10:55
  */
@@ -68,12 +68,14 @@ public class ToolBarHelper {
         /*通过inflater获取toolbar的布局文件*/
         View toolbar = mInflater.inflate(R.layout.toolbar, mContentView);
         mToolBar = (Toolbar) toolbar.findViewById(R.id.id_tool_bar);
-        tv_toolbar_title= (TextView) toolbar.findViewById(R.id.tv_toolbar_title);
+        tv_toolbar_title = (TextView) toolbar.findViewById(R.id.tv_toolbar_title);
+        mToolBar.inflateMenu(R.menu.toolbar_act_details);
     }
 
-    public void setToolbarTitle(String text){
+    public void setToolbarTitle(String text) {
         tv_toolbar_title.setText(text);
     }
+
     @SuppressWarnings("ResourceType")
     private void initUserView(int id) {
         mUserView = mInflater.inflate(id, null);
@@ -83,14 +85,15 @@ public class ToolBarHelper {
         boolean overly = typedArray.getBoolean(0, false);
         mContext.getResources().getDimension(R.dimen.abc_action_bar_default_height_material);
         /*获取主题中定义的toolbar的高度*/
-        int toolBarSize = (int) typedArray.getDimension(1,(int)48);
+        int toolBarSize = (int) typedArray.getDimension(1, (int) 48);
         typedArray.recycle();
         /*如果是悬浮状态，则不需要设置间距*/
         params.topMargin = overly ? 0 : toolBarSize;
         mContentView.addView(mUserView, params);
 
     }
-    public void setTvTitle(String text){
+
+    public void setTvTitle(String text) {
         tv_toolbar_title.setText(text);
     }
 

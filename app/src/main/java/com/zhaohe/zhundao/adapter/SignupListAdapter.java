@@ -17,10 +17,11 @@ import java.util.List;
  * @Author:邹苏隆
  * @Since:2016/12/21 10:18
  */
-public class SignupListAdapter extends AdapterBase<SignupListBean,SignupListHolder> {
+public class SignupListAdapter extends AdapterBase<SignupListBean, SignupListHolder> {
 
     private LayoutInflater inflater;
     private Context mContext;
+
     public SignupListAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         mContext = context;
@@ -33,14 +34,14 @@ public class SignupListAdapter extends AdapterBase<SignupListBean,SignupListHold
         itemView.tv_signuplist_name.setText(bean.getSignup_list_name());
         itemView.tv_signuplist_time.setText(bean.getSignup_list_time());
 
-        if(bean.getSignup_list_status()=="true"){
+        if (bean.getSignup_list_status() == "true") {
             itemView.img_signuplist_status.setImageResource(R.drawable.check_on);
-        }
-        else {
+        } else {
             itemView.img_signuplist_status.setImageResource(R.drawable.check_off);
 
         }
     }
+
     @Override
     protected SignupListHolder getItemViewHolder() {
         return new SignupListHolder();
@@ -49,11 +50,11 @@ public class SignupListAdapter extends AdapterBase<SignupListBean,SignupListHold
     @Override
     protected View initConvertView(View convertView, SignupListHolder v) {
         convertView = inflater.inflate(R.layout.list_item_signup_list, null);
-        v.tv_signuplist_name= (TextView) convertView.findViewById(R.id.tv_signuplist_name);
-        v.tv_signuplist_phone= (TextView) convertView.findViewById(R.id.tv_signuplist_phone);
-        v.tv_signuplist_time= (TextView) convertView.findViewById(R.id.tv_signuplist_time);
+        v.tv_signuplist_name = (TextView) convertView.findViewById(R.id.tv_signuplist_name);
+        v.tv_signuplist_phone = (TextView) convertView.findViewById(R.id.tv_signuplist_phone);
+        v.tv_signuplist_time = (TextView) convertView.findViewById(R.id.tv_signuplist_time);
 
-        v.img_signuplist_status= (ImageView) convertView.findViewById(R.id.img_signuplist_status);
+        v.img_signuplist_status = (ImageView) convertView.findViewById(R.id.img_signuplist_status);
 
         return convertView;
     }

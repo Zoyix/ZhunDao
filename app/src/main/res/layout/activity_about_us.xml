@@ -5,8 +5,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.zhaohe.zhundao.ui.home.mine.setting.AboutUsActivity">
-<WebView
-    android:id="@+id/wv_about_us"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"></WebView>
+    <WebView
+        android:id="@+id/wv_about_us"
+        android:layout_width="match_parent"
+        android:layout_height="fill_parent"></WebView>
+
 </RelativeLayout>

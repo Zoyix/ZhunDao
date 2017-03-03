@@ -8,6 +8,7 @@ import android.view.MenuItem;
 
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.socialize.UMShareAPI;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
@@ -25,32 +26,34 @@ import com.zhaohe.zhundao.ui.home.sign.SignupAddActivity;
  * @Since: 2016/11/28 下午10:38
  */
 
-public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemClickListener{
+public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemClickListener {
 
-    protected Class<?>[] tabFragments  = { ActionFragment.class, SignFragment.class,FindFragment.class, MineFragment.class};
+    protected Class<?>[] tabFragments = {ActionFragment.class, SignFragment.class, FindFragment.class, MineFragment.class};
     // Tab选项卡的文字
-    private int[]        tabwidgetTags = { R.string.tab_act, R.string.tab_sig, R.string.tab_find,R.string.tab_min };
+    private int[] tabwidgetTags = {R.string.tab_act, R.string.tab_sig, R.string.tab_find, R.string.tab_min};
     // Tab选项卡的按钮图片
-    private int[]        tabItemViews  = { R.drawable.selector_home_tab_action, R.drawable.selector_home_tab_sign,R.drawable.selector_home_tab_find,R.drawable.selector_home_tab_min};
+    private int[] tabItemViews = {R.drawable.selector_home_tab_action, R.drawable.selector_home_tab_sign, R.drawable.selector_home_tab_find, R.drawable.selector_home_tab_min};
 
     private IWXAPI api;
-    @Override
-    protected void onCreate(Bundle savedInstanceState){
+    private String mTencent;
 
-        super.onCreate (savedInstanceState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
         initToolbar();
         regToWechat();
+
     }
-
-
 
 
     private void regToWechat() {
         api = WXAPIFactory.createWXAPI(this, Constant.APP_ID, true);
         api.registerApp(Constant.APP_ID);
     }
+
     //自定义toolbar 可以设置图标和功能
-    protected void initToolbar(){
+    protected void initToolbar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.inflateMenu(R.menu.toolbar_menu);
         toolbar.setOnMenuItemClickListener(this);
@@ -65,6 +68,7 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
 //        });
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
     }
+
     /**
      * 设置返回键不关闭应用,回到桌面
      *
@@ -86,7 +90,14 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
         return super.onKeyDown(keyCode, event);
     }
     @Override
-    protected Class<?>[] getTabFragment(){
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
+    }
+
+    @Override
+    protected Class<?>[] getTabFragment() {
         return tabFragments;
     }
 
@@ -96,7 +107,7 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
     }
 
     @Override
-    protected int[] getTabwidgetTag(){
+    protected int[] getTabwidgetTag() {
         return tabwidgetTags;
     }
 

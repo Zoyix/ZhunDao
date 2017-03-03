@@ -19,7 +19,7 @@ import android.widget.Toast;
  * 支持手势的ImageView
  * Created by Nereo on 2015/4/10.
  */
-public class GestureImageView extends ImageView{
+public class GestureImageView extends ImageView {
 
     private static final String TAG = "GestureImageView";
 
@@ -58,9 +58,10 @@ public class GestureImageView extends ImageView{
 
     /**
      * 初始化
+     *
      * @param context
      */
-    private void init(final Context context){
+    private void init(final Context context) {
 
         mTouchSlop = ViewConfiguration.get(context).getScaledTouchSlop();
 
@@ -68,7 +69,7 @@ public class GestureImageView extends ImageView{
 
         mImageMatrix = new Matrix();
 
-        mScaleGesture = new ScaleGestureDetector(context, new ScaleGestureDetector.SimpleOnScaleGestureListener(){
+        mScaleGesture = new ScaleGestureDetector(context, new ScaleGestureDetector.SimpleOnScaleGestureListener() {
             @Override
             public boolean onScale(ScaleGestureDetector detector) {
                 float factor = detector.getScaleFactor();
@@ -78,7 +79,7 @@ public class GestureImageView extends ImageView{
             }
         });
 
-        mGestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener(){
+        mGestureDetector = new GestureDetectorCompat(context, new GestureDetector.SimpleOnGestureListener() {
             @Override
             public boolean onDoubleTap(MotionEvent e) {
                 mImageMatrix.postScale(1.f, 1.f, mCenterX, mCenterY);
@@ -104,8 +105,8 @@ public class GestureImageView extends ImageView{
     @Override
     protected void onSizeChanged(int w, int h, int oldw, int oldh) {
         super.onSizeChanged(w, h, oldw, oldh);
-        if( w != oldw || h != oldh){
-            int cx = (w - getDrawable().getIntrinsicWidth()) / 2 ;
+        if (w != oldw || h != oldh) {
+            int cx = (w - getDrawable().getIntrinsicWidth()) / 2;
             int cy = (h - getDrawable().getIntrinsicHeight()) / 2;
             mImageMatrix.setTranslate(cx, cy);
             setImageMatrix(mImageMatrix);

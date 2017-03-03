@@ -19,15 +19,14 @@ public class ActionHolder {
     public TextView tv_act_sign_num;
     public TextView tv_act_sign_income;
     public TextView tv_act_status;
-    public TextView  tv_act_endtime;
-    public TextView  tv_act_resttime;
-    public TextView  tv_act_starttime;
-    public TextView  tv_act_resttime2;
-    public TextView  tv_act_edit;
-    public TextView  tv_act_list;
-    public TextView  tv_act_more;
-    public TextView  tv_act_share;
-
+    public TextView tv_act_endtime;
+    public TextView tv_act_resttime;
+    public TextView tv_act_starttime;
+    public TextView tv_act_resttime2;
+    public TextView tv_act_edit;
+    public TextView tv_act_list;
+    public TextView tv_act_more;
+    public TextView tv_act_share;
 
 
 }

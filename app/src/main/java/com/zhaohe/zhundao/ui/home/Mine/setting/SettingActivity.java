@@ -1,6 +1,9 @@
 package com.zhaohe.zhundao.ui.home.mine.setting;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -23,9 +26,10 @@ import com.zhaohe.zhundao.ui.home.mine.FeedbackActivity;
 import com.zhaohe.zhundao.ui.login.LoginActivity;
 
 public class SettingActivity extends ToolBarActivity implements View.OnClickListener {
-private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_setting_password;
+    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password,tv_setting_version;
     public static final int MESSAGE_CHANGE_PASSWORD = 86;
     private Handler mHandler;
+
 
 
     @Override
@@ -44,24 +48,25 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
     }
 
     private void initView() {
-        tv_setting_exit= (TextView) findViewById(R.id.tv_setting_exit);
+        tv_setting_exit = (TextView) findViewById(R.id.tv_setting_exit);
         tv_setting_exit.setOnClickListener(this);
-        tv_setting_about_us= (TextView) findViewById(R.id.tv_setting_about_us);
+        tv_setting_about_us = (TextView) findViewById(R.id.tv_setting_about_us);
         tv_setting_about_us.setOnClickListener(this);
-        tv_setting_feedback= (TextView) findViewById(R.id.tv_setting_feedback);
+        tv_setting_feedback = (TextView) findViewById(R.id.tv_setting_feedback);
         tv_setting_feedback.setOnClickListener(this);
-        tv_setting_password= (TextView) findViewById(R.id.tv_setting_password);
+        tv_setting_password = (TextView) findViewById(R.id.tv_setting_password);
         tv_setting_password.setOnClickListener(this);
-
+        tv_setting_version = (TextView) findViewById(R.id.tv_setting_version);
+        tv_setting_version.setOnClickListener(this);
     }
 
-    private void initToolBar(String text){
-         ToolBarHelper mToolBarHelper ;
-        mToolBarHelper = new ToolBarHelper(this,R.layout.activity_setting) ;
+    private void initToolBar(String text) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, R.layout.activity_setting);
         mToolBarHelper.setTvTitle(text);
         super.setTitle("");
         setContentView(mToolBarHelper.getContentView());
-        toolbar = mToolBarHelper.getToolBar() ;
+        toolbar = mToolBarHelper.getToolBar();
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
@@ -75,9 +80,9 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
                     case MESSAGE_CHANGE_PASSWORD:
                         String result = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result);
-                        if(jsonObj.getString("Res")=="0"){
+                        if (jsonObj.getString("Res") == "0") {
 
-                            ToastUtil.makeText(getApplicationContext(),"密码修改成功！");
+                            ToastUtil.makeText(getApplicationContext(), "密码修改成功！");
                         }
                     default:
                         break;
@@ -85,9 +90,21 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
             }
         };
     }
-    private void changePassword(String password){
+
+    private void changePassword(String password) {
         AsyncChangePassword async = new AsyncChangePassword(this, mHandler, MESSAGE_CHANGE_PASSWORD, password);
         async.execute();
+    }
+    public static String getVersion(Context context)//获取版本号
+    {
+        try {
+            PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            return pi.versionName;
+        } catch (PackageManager.NameNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            return null;
+        }
     }
 
     public void showWaiterAuthorizationDialog() {
@@ -109,8 +126,8 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
 
                         //获取用户输入的“用户名”，“密码”
                         //注意：textEntryView.findViewById很重要，因为上面factory.inflate(R.layout.activity_login, null)将页面布局赋值给了textEntryView了
-                        final EditText etPassword = (EditText)textEntryView.findViewById(R.id.et_dialog_password);
-                        final EditText etPassword2 = (EditText)textEntryView.findViewById(R.id.et_dialog_password2);
+                        final EditText etPassword = (EditText) textEntryView.findViewById(R.id.et_dialog_password);
+                        final EditText etPassword2 = (EditText) textEntryView.findViewById(R.id.et_dialog_password2);
 
                         //将页面输入框中获得的“用户名”，“密码”转为字符串
                         String password = etPassword.getText().toString();
@@ -118,12 +135,8 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
 
                         //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
                         //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）
-                        if((password.length()<6)){
-                            ToastUtil.makeText(getApplicationContext(),"密码应大于等于6位，请确认后重试");
-
-
-
-
+                        if ((password.length() < 6)) {
+                            ToastUtil.makeText(getApplicationContext(), "密码应大于等于6位，请确认后重试");
                         }
 //                        else if(password.equals(password2)==false){
 //                            ToastUtil.makeText(getApplicationContext(),"二次密码输入不一致，请确认后重试");
@@ -147,7 +160,7 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
 //                            ToastUtil.makeText(getApplicationContext(),"输入有误，请确认后重试");
 //
 //                        }
-                        else{
+                        else {
                             changePassword(password);
                         }
                     }
@@ -155,7 +168,6 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
                 //对话框的“退出”单击事件
                 .setNegativeButton("退出", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-
                     }
                 })
                 // 设置dialog是否为模态，false表示模态，true表示非模态
@@ -166,7 +178,7 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.tv_setting_exit:
                 SPUtils.clear(this);
                 IntentUtils.startActivity(this, LoginActivity.class);
@@ -176,10 +188,15 @@ private TextView tv_setting_exit,tv_setting_about_us,tv_setting_feedback,tv_sett
                 break;
             case R.id.tv_setting_feedback:
                 IntentUtils.startActivity(this, FeedbackActivity.class);
-break;
-            case  R.id.tv_setting_password:
+                break;
+            case R.id.tv_setting_password:
                 showWaiterAuthorizationDialog();
                 break;
+                case R.id.tv_setting_version:
+                    ToastUtil.makeText(this,"APP版本号："+getVersion(this));
+                    break;
+                default:break;
+
         }
     }
 }

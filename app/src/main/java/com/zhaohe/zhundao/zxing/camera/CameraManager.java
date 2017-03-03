@@ -29,24 +29,24 @@ import java.io.IOException;
  * This object wraps the Camera service object and expects to be the only one talking to it. The
  * implementation encapsulates the steps needed to take preview-sized images, which are used for
  * both preview and decoding.
- *
  */
 public final class CameraManager {
 
-    private static final String              TAG              = CameraManager.class.getSimpleName ();
+    private static final String TAG = CameraManager.class.getSimpleName();
 
-    private static final int                 MIN_FRAME_WIDTH  = 480;
-    private static final int                 MIN_FRAME_HEIGHT = 360;
-    private static final int                 MAX_FRAME_WIDTH  = 720;
-    private static final int                 MAX_FRAME_HEIGHT = 600;
+    private static final int MIN_FRAME_WIDTH = 480;
+    private static final int MIN_FRAME_HEIGHT = 360;
+    private static final int MAX_FRAME_WIDTH = 720;
+    private static final int MAX_FRAME_HEIGHT = 600;
 
-    private static CameraManager             cameraManager;
+    private static CameraManager cameraManager;
 
-    static final int                         SDK_INT;                                                // Later we can use Build.VERSION.SDK_INT
+    static final int SDK_INT;                                                // Later we can use Build.VERSION.SDK_INT
+
     static {
         int sdkInt;
         try {
-            sdkInt = Integer.parseInt (Build.VERSION.SDK);
+            sdkInt = Integer.parseInt(Build.VERSION.SDK);
         } catch (NumberFormatException nfe) {
             // Just to be safe
             sdkInt = 10000;
@@ -54,30 +54,32 @@ public final class CameraManager {
         SDK_INT = sdkInt;
     }
 
-    private final Context                    context;
+    private final Context context;
     private final CameraConfigurationManager configManager;
-    private Camera                           camera;
-    private Rect                             framingRect;
-    private Rect                             framingRectInPreview;
-    private boolean                          initialized;
-    private boolean                          previewing;
-    private final boolean                    useOneShotPreviewCallback;
+    private Camera camera;
+    private Rect framingRect;
+    private Rect framingRectInPreview;
+    private boolean initialized;
+    private boolean previewing;
+    private final boolean useOneShotPreviewCallback;
     /**
      * Preview frames are delivered here, which we pass on to the registered handler. Make sure to
      * clear the handler so it will only receive one message.
      */
-    private final PreviewCallback            previewCallback;
-    /** Autofocus callbacks arrive here, and are dispatched to the Handler which requested them. */
-    private final AutoFocusCallback          autoFocusCallback;
+    private final PreviewCallback previewCallback;
+    /**
+     * Autofocus callbacks arrive here, and are dispatched to the Handler which requested them.
+     */
+    private final AutoFocusCallback autoFocusCallback;
 
     /**
      * Initializes this static object with the Context of the calling Activity.
      *
      * @param context The Activity which wants to use the camera.
      */
-    public static void init(Context context){
+    public static void init(Context context) {
         if (cameraManager == null) {
-            cameraManager = new CameraManager (context);
+            cameraManager = new CameraManager(context);
         }
     }
 
@@ -86,24 +88,24 @@ public final class CameraManager {
      *
      * @return A reference to the CameraManager singleton.
      */
-    public static CameraManager get(){
+    public static CameraManager get() {
         return cameraManager;
     }
 
     private CameraManager(Context context) {
 
         this.context = context;
-        this.configManager = new CameraConfigurationManager (context);
+        this.configManager = new CameraConfigurationManager(context);
 
         // Camera.setOneShotPreviewCallback() has a race condition in Cupcake, so we use the older
         // Camera.setPreviewCallback() on 1.5 and earlier. For Donut and later, we need to use
         // the more efficient one shot callback, as the older one can swamp the system and cause it
         // to run out of memory. We can't use SDK_INT because it was introduced in the Donut SDK.
         // useOneShotPreviewCallback = Integer.parseInt(Build.VERSION.SDK) > Build.VERSION_CODES.CUPCAKE;
-        useOneShotPreviewCallback = Integer.parseInt (Build.VERSION.SDK) > 3; // 3 = Cupcake
+        useOneShotPreviewCallback = Integer.parseInt(Build.VERSION.SDK) > 3; // 3 = Cupcake
 
-        previewCallback = new PreviewCallback (configManager,useOneShotPreviewCallback);
-        autoFocusCallback = new AutoFocusCallback ();
+        previewCallback = new PreviewCallback(configManager, useOneShotPreviewCallback);
+        autoFocusCallback = new AutoFocusCallback();
     }
 
     /**
@@ -112,17 +114,19 @@ public final class CameraManager {
      * @param holder The surface object which the camera will draw preview frames into.
      * @throws IOException Indicates the camera driver failed to open.
      */
-    public void openDriver(SurfaceHolder holder) throws IOException{
+    public void openDriver(SurfaceHolder holder) throws IOException {
         if (camera == null) {
-            camera = Camera.open ();
-            if (camera == null) { throw new IOException (); }
-            camera.setPreviewDisplay (holder);
+            camera = Camera.open();
+            if (camera == null) {
+                throw new IOException();
+            }
+            camera.setPreviewDisplay(holder);
 
             if (!initialized) {
                 initialized = true;
-                configManager.initFromCameraParameters (camera);
+                configManager.initFromCameraParameters(camera);
             }
-            configManager.setDesiredCameraParameters (camera);
+            configManager.setDesiredCameraParameters(camera);
 
             // FIXME
             // SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -130,18 +134,18 @@ public final class CameraManager {
             // if (prefs.getBoolean(PreferencesActivity.KEY_FRONT_LIGHT, false)) {
             // FlashlightManager.enableFlashlight();
             // }
-            FlashlightManager.enableFlashlight ();
+            FlashlightManager.enableFlashlight();
         }
     }
 
     /**
      * Closes the camera driver if still in use.
      */
-    public void closeDriver(){
+    public void closeDriver() {
         if (camera != null) {
-            FlashlightManager.disableFlashlight ();
+            FlashlightManager.disableFlashlight();
             //camera.stopPreview ();// 停止预览 --下面的方法调用了
-            camera.release ();// 释放摄像头
+            camera.release();// 释放摄像头
             camera = null;
         }
     }
@@ -149,9 +153,9 @@ public final class CameraManager {
     /**
      * Asks the camera hardware to begin drawing preview frames to the screen.
      */
-    public void startPreview(){
+    public void startPreview() {
         if (camera != null && !previewing) {
-            camera.startPreview ();
+            camera.startPreview();
             previewing = true;
         }
     }
@@ -159,14 +163,14 @@ public final class CameraManager {
     /**
      * Tells the camera to stop drawing preview frames.
      */
-    public void stopPreview(){
+    public void stopPreview() {
         if (camera != null && previewing) {
             if (!useOneShotPreviewCallback) {
-                camera.setPreviewCallback (null);
+                camera.setPreviewCallback(null);
             }
-            camera.stopPreview ();
-            previewCallback.setHandler (null, 0);
-            autoFocusCallback.setHandler (null, 0);
+            camera.stopPreview();
+            previewCallback.setHandler(null, 0);
+            autoFocusCallback.setHandler(null, 0);
             previewing = false;
         }
     }
@@ -179,13 +183,13 @@ public final class CameraManager {
      * @param handler The handler to send the message to.
      * @param message The what field of the message to be sent.
      */
-    public void requestPreviewFrame(Handler handler,int message){
+    public void requestPreviewFrame(Handler handler, int message) {
         if (camera != null && previewing) {
-            previewCallback.setHandler (handler, message);
+            previewCallback.setHandler(handler, message);
             if (useOneShotPreviewCallback) {
-                camera.setOneShotPreviewCallback (previewCallback);
+                camera.setOneShotPreviewCallback(previewCallback);
             } else {
-                camera.setPreviewCallback (previewCallback);
+                camera.setPreviewCallback(previewCallback);
             }
         }
     }
@@ -196,11 +200,11 @@ public final class CameraManager {
      * @param handler The Handler to notify when the autofocus completes.
      * @param message The message to deliver.
      */
-    public void requestAutoFocus(Handler handler,int message){
+    public void requestAutoFocus(Handler handler, int message) {
         if (camera != null && previewing) {
-            autoFocusCallback.setHandler (handler, message);
+            autoFocusCallback.setHandler(handler, message);
             // Log.d(TAG, "Requesting auto-focus callback");
-            camera.autoFocus (autoFocusCallback);
+            camera.autoFocus(autoFocusCallback);
         }
     }
 
@@ -211,10 +215,12 @@ public final class CameraManager {
      *
      * @return The rectangle to draw on screen in window coordinates.
      */
-    public Rect getFramingRect(){
-        Point screenResolution = configManager.getScreenResolution ();
+    public Rect getFramingRect() {
+        Point screenResolution = configManager.getScreenResolution();
         if (framingRect == null) {
-            if (camera == null) { return null; }
+            if (camera == null) {
+                return null;
+            }
             int width = screenResolution.x * 3 / 4;
 //            3/4
             if (width < MIN_FRAME_WIDTH) {
@@ -230,8 +236,8 @@ public final class CameraManager {
             }
             int leftOffset = (screenResolution.x - width) / 2;
             int topOffset = (screenResolution.y - height) / 2;
-            framingRect = new Rect (leftOffset,topOffset,leftOffset + width,topOffset + height);
-            Log.d (TAG, "Calculated framing rect: " + framingRect);
+            framingRect = new Rect(leftOffset, topOffset, leftOffset + width, topOffset + height);
+            Log.d(TAG, "Calculated framing rect: " + framingRect);
         }
         return framingRect;
     }
@@ -240,11 +246,11 @@ public final class CameraManager {
      * Like {@link #getFramingRect} but coordinates are in terms of the preview frame,
      * not UI / screen.
      */
-    public Rect getFramingRectInPreview(){
+    public Rect getFramingRectInPreview() {
         if (framingRectInPreview == null) {
-            Rect rect = new Rect (getFramingRect ());
-            Point cameraResolution = configManager.getCameraResolution ();
-            Point screenResolution = configManager.getScreenResolution ();
+            Rect rect = new Rect(getFramingRect());
+            Point cameraResolution = configManager.getCameraResolution();
+            Point screenResolution = configManager.getScreenResolution();
             // modify here
             // rect.left = rect.left * cameraResolution.x / screenResolution.x;
             // rect.right = rect.right * cameraResolution.x / screenResolution.x;
@@ -284,33 +290,35 @@ public final class CameraManager {
      * A factory method to build the appropriate LuminanceSource object based on the format
      * of the preview buffers, as described by Camera.Parameters.
      *
-     * @param data A preview frame.
-     * @param width The width of the image.
+     * @param data   A preview frame.
+     * @param width  The width of the image.
      * @param height The height of the image.
      * @return A PlanarYUVLuminanceSource instance.
      */
-    public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data,int width,int height){
-        Rect rect = getFramingRectInPreview ();
-        int previewFormat = configManager.getPreviewFormat ();
-        String previewFormatString = configManager.getPreviewFormatString ();
+    public PlanarYUVLuminanceSource buildLuminanceSource(byte[] data, int width, int height) {
+        Rect rect = getFramingRectInPreview();
+        int previewFormat = configManager.getPreviewFormat();
+        String previewFormatString = configManager.getPreviewFormatString();
         switch (previewFormat) {
-        // This is the standard Android format which all devices are REQUIRED to support.
-        // In theory, it's the only one we should ever care about.
+            // This is the standard Android format which all devices are REQUIRED to support.
+            // In theory, it's the only one we should ever care about.
             case PixelFormat.YCbCr_420_SP:
                 // This format has never been seen in the wild, but is compatible as we only care
                 // about the Y channel, so allow it.
             case PixelFormat.YCbCr_422_SP:
-                return new PlanarYUVLuminanceSource (data,width,height,rect.left,rect.top,rect.width (),rect.height ());
+                return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(), rect.height());
             default:
                 // The Samsung Moment incorrectly uses this variant instead of the 'sp' version.
                 // Fortunately, it too has all the Y data up front, so we can read it.
-                if ("yuv420p".equals (previewFormatString)) { return new PlanarYUVLuminanceSource (data,width,height,rect.left,rect.top,rect.width (),
-                        rect.height ()); }
+                if ("yuv420p".equals(previewFormatString)) {
+                    return new PlanarYUVLuminanceSource(data, width, height, rect.left, rect.top, rect.width(),
+                            rect.height());
+                }
         }
-        throw new IllegalArgumentException ("Unsupported picture format: " + previewFormat + '/' + previewFormatString);
+        throw new IllegalArgumentException("Unsupported picture format: " + previewFormat + '/' + previewFormatString);
     }
 
-    public Context getContext(){
+    public Context getContext() {
         return context;
     }
 

@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/tv_beacon_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/white"
+        android:text="@string/select"
+        />
+
+<Button
+
+    android:id="@+id/btn_beacon_action"
+   style="@style/btn_login"
+    android:text="@string/action"
+    android:layout_below="@id/tv_beacon_select"
+    />
+    <Button
+        android:id="@+id/btn_beacon_sign"
+        style="@style/btn_login"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/btn_beacon_action"
+        android:text="@string/sign"
+        />
+    <Button
+        android:id="@+id/btn_beacon_cancel"
+        android:visibility="gone"
+        style="@style/btn_login"
+        android:layout_marginTop="10dp"
+        android:layout_below="@id/btn_beacon_sign"
+        android:background="@color/font_gray"
+        android:text="@string/app_dialog_cancel"
+        />
+</RelativeLayout>

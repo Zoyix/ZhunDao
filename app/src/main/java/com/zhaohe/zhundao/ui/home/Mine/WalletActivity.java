@@ -41,16 +41,17 @@ public class WalletActivity extends ToolBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wallet);
-        initToolBar("我的钱包",R.layout.activity_wallet);
+        initToolBar("我的钱包", R.layout.activity_wallet);
         initView();
     }
-    private void initToolBar(String text,int layoutResID){
-        ToolBarHelper mToolBarHelper ;
-        mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
+
+    private void initToolBar(String text, int layoutResID) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
         mToolBarHelper.setTvTitle(text);
         super.setTitle("");
         setContentView(mToolBarHelper.getContentView());
-        toolbar = mToolBarHelper.getToolBar() ;
+        toolbar = mToolBarHelper.getToolBar();
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
@@ -59,19 +60,18 @@ public class WalletActivity extends ToolBarActivity {
     private void initView() {
 
         webView = (WebView) findViewById(R.id.wv_min_wallet);
-        String accesskey= (String) SPUtils.get(this,"accessKey","");
+        String accesskey = (String) SPUtils.get(this, "accessKey", "");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBlockNetworkImage(false);
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        webView.loadUrl(url+accesskey);
+        webView.loadUrl(url + accesskey);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
             }
-
 
 
         });
@@ -81,7 +81,6 @@ public class WalletActivity extends ToolBarActivity {
                 view.loadUrl(url);
                 return true;
             }
-
 
 
         });
@@ -98,11 +97,13 @@ public class WalletActivity extends ToolBarActivity {
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>3.0+
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>4.1.1
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
                 mUploadMessage = uploadMsg;

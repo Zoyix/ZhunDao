@@ -15,61 +15,61 @@ import android.widget.PopupWindow;
 import com.zhaohe.zhundao.R;
 
 /**
- *@Description: 相机的 弹出窗口--拍照、从相册中选择、取消
- *@Author:杨攀
- *@Since:2014年8月7日下午1:16:16
+ * @Description: 相机的 弹出窗口--拍照、从相册中选择、取消
+ * @Author:杨攀
+ * @Since:2014年8月7日下午1:16:16
  */
 public class CameraPopupWindow extends PopupWindow {
 
     private Button btn_take_photo, btn_pick_photo, btn_cancel;
-    private View   mMenuView;
+    private View mMenuView;
 
     public CameraPopupWindow(Activity context, OnClickListener itemsOnClick) {
-        super (context);
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService (Context.LAYOUT_INFLATER_SERVICE);
-        mMenuView = inflater.inflate (R.layout.camera_popupwindow, null);
+        super(context);
+        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        mMenuView = inflater.inflate(R.layout.camera_popupwindow, null);
 
-        btn_take_photo = (Button) mMenuView.findViewById (R.id.btn_take_photo);
-        btn_pick_photo = (Button) mMenuView.findViewById (R.id.btn_pick_photo);
-        btn_cancel = (Button) mMenuView.findViewById (R.id.btn_cancel);
+        btn_take_photo = (Button) mMenuView.findViewById(R.id.btn_take_photo);
+        btn_pick_photo = (Button) mMenuView.findViewById(R.id.btn_pick_photo);
+        btn_cancel = (Button) mMenuView.findViewById(R.id.btn_cancel);
 
         // 取消按钮
-        btn_cancel.setOnClickListener (new OnClickListener () {
+        btn_cancel.setOnClickListener(new OnClickListener() {
 
-            public void onClick(View v){
+            public void onClick(View v) {
                 // 销毁弹出框
-                dismiss ();
+                dismiss();
             }
         });
 
         // 设置按钮监听
-        btn_pick_photo.setOnClickListener (itemsOnClick);
-        btn_take_photo.setOnClickListener (itemsOnClick);
+        btn_pick_photo.setOnClickListener(itemsOnClick);
+        btn_take_photo.setOnClickListener(itemsOnClick);
 
         // 设置CameraPopupWindow的View
-        this.setContentView (mMenuView);
+        this.setContentView(mMenuView);
         // 设置CameraPopupWindow弹出窗体的宽
-        this.setWidth (LayoutParams.MATCH_PARENT);
+        this.setWidth(LayoutParams.MATCH_PARENT);
         // 设置CameraPopupWindow弹出窗体的高
-        this.setHeight (LayoutParams.WRAP_CONTENT);
+        this.setHeight(LayoutParams.WRAP_CONTENT);
         // 设置CameraPopupWindow弹出窗体可点击
-        this.setFocusable (true);
+        this.setFocusable(true);
         // 设置CameraPopupWindow弹出窗体动画效果
-        this.setAnimationStyle (R.style.AnimBottom);
+        this.setAnimationStyle(R.style.AnimBottom);
         // 实例化一个ColorDrawable颜色为半透明
-        ColorDrawable dw = new ColorDrawable (0xb0000000);
+        ColorDrawable dw = new ColorDrawable(0xb0000000);
         // 设置CameraPopupWindow弹出窗体的背景
-        this.setBackgroundDrawable (dw);
+        this.setBackgroundDrawable(dw);
         // mMenuView添加OnTouchListener监听判断获取触屏位置如果在选择框外面则销毁弹出框
-        mMenuView.setOnTouchListener (new OnTouchListener () {
+        mMenuView.setOnTouchListener(new OnTouchListener() {
 
-            public boolean onTouch(View v,MotionEvent event){
+            public boolean onTouch(View v, MotionEvent event) {
 
-                int height = mMenuView.findViewById (R.id.pop_layout).getTop ();
-                int y = (int) event.getY ();
-                if (event.getAction () == MotionEvent.ACTION_UP) {
+                int height = mMenuView.findViewById(R.id.pop_layout).getTop();
+                int y = (int) event.getY();
+                if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (y < height) {
-                        dismiss ();
+                        dismiss();
                     }
                 }
                 return true;

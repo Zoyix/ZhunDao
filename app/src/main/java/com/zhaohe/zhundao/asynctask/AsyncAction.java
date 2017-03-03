@@ -22,45 +22,56 @@ public class AsyncAction extends AsyncTask<String, Integer, String> {
 
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
-    private String mType="0";
-    private int mID=0;
-    private int mCurpage=1;
-    private int mPagesize=6;
-    private String mTitle="";
-    private String mStarttime="";
-    private String mEndtime="";
+    private String mType = "0";
+    private int mID = 0;
+    private int mCurpage = 1;
+    private int mPagesize = 6;
+    private String mTitle = "";
+    private String mStarttime = "";
+    private String mEndtime = "";
+    private String mSize = "100000";
 
 
-    public AsyncAction(Context context, Handler handler, Dialog dialog, int request){
+    public AsyncAction(Context context, Handler handler, Dialog dialog, int request) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
-        this.mAccesskey= (String) SPUtils.get(mContext,"accessKey","");
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
+    public AsyncAction(Context context, Handler handler, int request) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+//        this.mDialog = dialog;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
+
+
     @Override
     protected String doInBackground(String... strings) {
         String path = Constant.HOST + Constant.Url.GetActivityList;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("accessKey",mAccesskey);
-        String param=new String();
-        param = "Type=" +mType;
-        String result = HttpUtil.sendPostNew2request(path,map,"utf-8",param);
+        map.put("accessKey", mAccesskey);
+        String param = new String();
+        param = "pageSize=" + mSize;
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", param);
         return result;
     }
+
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
         if (mDialog != null) {
-            mDialog.dismiss ();
+            mDialog.dismiss();
         }
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("wtf"+result);
-            mHandler.sendMessage (msg);
+            System.out.println("wtf" + result);
+            mHandler.sendMessage(msg);
         } else {
 //            DialogUtils.showDialog (mContext, R.string.app_serviceError);
         }

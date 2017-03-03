@@ -34,8 +34,6 @@ public class NetHelper {
     }
 
     /**
-     *
-     *
      * @param url
      * @return
      */

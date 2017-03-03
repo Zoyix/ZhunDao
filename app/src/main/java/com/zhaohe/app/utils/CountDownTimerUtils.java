@@ -16,12 +16,10 @@ import com.zhaohe.zhundao.R;
  */
 public class CountDownTimerUtils extends CountDownTimer {
 
- private TextView mTextView;
+    private TextView mTextView;
 
     /**
      * @param textView          The TextView
-     *
-     *
      * @param millisInFuture    The number of millis in the future from the call
      *                          to {@link #start()} until the countdown is done and {@link #onFinish()}
      *                          is called.

@@ -20,43 +20,44 @@ import java.util.Map;
  * @Author:邹苏隆
  * @Since:2016/12/9 14:20
  */
-public class AsyncEditAction  extends AsyncTask<String, Integer, String> {
+public class AsyncEditAction extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
     private String mParam;
 
-    public AsyncEditAction(Context context, Handler handler, Dialog dialog, int request,String param){
+    public AsyncEditAction(Context context, Handler handler, Dialog dialog, int request, String param) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
-        this.mParam=param;
-        this.mAccesskey= (String) SPUtils.get(mContext,"accessKey","");
+        this.mParam = param;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
+
     @Override
     protected String doInBackground(String... strings) {
         String path = Constant.HOST + Constant.Url.UpdateOrAddActivity;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("accessKey",mAccesskey);
-        String result = HttpUtil.sendPostNew2request(path,map,"utf-8",mParam);
+        map.put("accessKey", mAccesskey);
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }
 
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
         if (mDialog != null) {
-            mDialog.dismiss ();
+            mDialog.dismiss();
         }
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("wtf"+result);
-            mHandler.sendMessage (msg);
+            System.out.println("wtf" + result);
+            mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog (mContext, R.string.app_serviceError);
+            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

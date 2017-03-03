@@ -21,54 +21,54 @@ import com.zhaohe.zhundao.ui.MainActivity;
 import java.io.File;
 
 /**
- *@Description: 版本更新
- *@Author:杨攀
- *@Since:2014年8月6日上午9:43:22
+ * @Description: 版本更新
+ * @Author:杨攀
+ * @Since:2014年8月6日上午9:43:22
  */
 public class UpdateAppService extends Service {
 
     // app 名称
-    private String              app_name;
+    private String app_name;
     // app 更新路径
-    private String              app_path;
+    private String app_path;
     // App 保存路径
-    private String              saveDir;
+    private String saveDir;
 
     private NotificationManager notificationManager;
-    private Notification        notification;
+    private Notification notification;
 
-    private Intent              updateIntent;
-    private PendingIntent       pendingIntent;
+    private Intent updateIntent;
+    private PendingIntent pendingIntent;
 
-    private int                 notification_id = R.layout.notification_item;
+    private int notification_id = R.layout.notification_item;
 
     @Override
-    public IBinder onBind(Intent intent){
+    public IBinder onBind(Intent intent) {
 
         return null;
     }
 
     @Override
-    public int onStartCommand(Intent intent,int flags,int startId){
+    public int onStartCommand(Intent intent, int flags, int startId) {
 
-        app_name = intent.getStringExtra ("app_name");
-        app_path = intent.getStringExtra ("app_path");
+        app_name = intent.getStringExtra("app_name");
+        app_path = intent.getStringExtra("app_path");
 
-        String fileformat = FileUtils.getFileFormat (app_name);
+        String fileformat = FileUtils.getFileFormat(app_name);
         // 判断文件是否有扩展名
-        if (fileformat.equals ("")) {
+        if (fileformat.equals("")) {
             app_name += ".apk";
         }
-        
-        boolean sdCardExist = Environment.getExternalStorageState ().equals (Environment.MEDIA_MOUNTED);
-        if (sdCardExist) {
-            saveDir = Environment.getExternalStorageDirectory () + File.separator;
 
-            createNotification ();
+        boolean sdCardExist = Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED);
+        if (sdCardExist) {
+            saveDir = Environment.getExternalStorageDirectory() + File.separator;
+
+            createNotification();
 
             // 开始去下载更新
-            AsyncTaskUpdate update = new AsyncTaskUpdate ();
-            update.execute ();
+            AsyncTaskUpdate update = new AsyncTaskUpdate();
+            update.execute();
         } else {
             //如果没有 sdk 
             /*Intent it =new Intent(this, DialogActivity.class);
@@ -76,68 +76,68 @@ public class UpdateAppService extends Service {
             startActivity(it);*/
         }
 
-        return super.onStartCommand (intent, flags, startId);
+        return super.onStartCommand(intent, flags, startId);
     }
 
     private class AsyncTaskUpdate extends AsyncTask<String, Integer, String> {
 
         private int fileSize;
- 
-        @Override
-        protected String doInBackground(String... params){
-            try {
-                FileDownloader loader = new FileDownloader (getApplicationContext (), app_path, new File (saveDir), 3);
-                fileSize = loader.getFileSize ();// 得到文件总大小
-                contentView.setProgressBar (R.id.notificationProgress, fileSize, 0, true);
-                notificationManager.notify (notification_id, notification);
 
-                loader.download (new DownloadProgressListener() {
-                    public void onDownloadSize(int size){
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+                FileDownloader loader = new FileDownloader(getApplicationContext(), app_path, new File(saveDir), 3);
+                fileSize = loader.getFileSize();// 得到文件总大小
+                contentView.setProgressBar(R.id.notificationProgress, fileSize, 0, true);
+                notificationManager.notify(notification_id, notification);
+
+                loader.download(new DownloadProgressListener() {
+                    public void onDownloadSize(int size) {
                         //System.out.println("已经下载："+ size);
                         // 执行publishProgress()调用onProgressUpdate()方法
-                        publishProgress (size);
+                        publishProgress(size);
                     }
                 });
                 return saveDir + app_name;
             } catch (Exception e) {
-                e.printStackTrace ();
+                e.printStackTrace();
             }
             return null;
         }
 
         @Override
-        protected void onPostExecute(String result){
+        protected void onPostExecute(String result) {
             if (result != null) {
                 // 下载完成，点击安装
-                Uri uri = Uri.fromFile (new File (result));
-                Intent intent = new Intent (Intent.ACTION_VIEW);
-                intent.setDataAndType (uri, "application/vnd.android.package-archive");
-                intent.setFlags (Intent.FLAG_ACTIVITY_NEW_TASK);
+                Uri uri = Uri.fromFile(new File(result));
+                Intent intent = new Intent(Intent.ACTION_VIEW);
+                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
-                
+
                 //设定Notification出现时的声音，一般不建议自定义  
                 notification.defaults |= Notification.DEFAULT_SOUND;
-                pendingIntent = PendingIntent.getActivity (UpdateAppService.this, 0, intent, 0);
+                pendingIntent = PendingIntent.getActivity(UpdateAppService.this, 0, intent, 0);
 //                notification.setLatestEventInfo (UpdateAppService.this, app_name, getString (R.string.app_updateApp_success), pendingIntent);
-                
-            }else{
+
+            } else {
 //                notification.setLatestEventInfo (UpdateAppService.this, app_name, getString (R.string.app_updateApp_error), pendingIntent);
             }
-            notificationManager.notify (notification_id, notification);
-            stopService (updateIntent);
+            notificationManager.notify(notification_id, notification);
+            stopService(updateIntent);
         }
 
         @Override
-        protected void onProgressUpdate(Integer... values){
+        protected void onProgressUpdate(Integer... values) {
             //notification.setLatestEventInfo(getApplicationContext (), app_name, "下载："+values[0], pendingIntent);
             //notificationManager.notify(notification_id, notification);
-            
+
             int downCount = values[0] * 100 / fileSize;
-            
-            contentView.setTextViewText (R.id.notificationPercent, downCount+"%");
-            contentView.setProgressBar (R.id.notificationProgress, fileSize, values[0], true);
+
+            contentView.setTextViewText(R.id.notificationPercent, downCount + "%");
+            contentView.setProgressBar(R.id.notificationProgress, fileSize, values[0], true);
             notification.contentView = contentView;
-            notificationManager.notify (notification_id, notification);
+            notificationManager.notify(notification_id, notification);
         }
     }
 
@@ -146,7 +146,7 @@ public class UpdateAppService extends Service {
      */
     RemoteViews contentView;
 
-    public void createNotification(){
+    public void createNotification() {
 
         /*-
         notificationManager = (NotificationManager) getSystemService (Context.NOTIFICATION_SERVICE);
@@ -166,30 +166,30 @@ public class UpdateAppService extends Service {
         notification.setLatestEventInfo(this, app_name, "下载：0", pendingIntent);
         //显示这个notification  
         notificationManager.notify(notification_id, notification);*/
-        
-        notificationManager = (NotificationManager) getSystemService (Context.NOTIFICATION_SERVICE);
-        notification = new Notification (R.mipmap.ic_launcher, app_name, System.currentTimeMillis());
-        
-        
+
+        notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        notification = new Notification(R.mipmap.ic_launcher, app_name, System.currentTimeMillis());
+
+
         //指定Flag，Notification.FLAG_AUTO_CANCEL意指点击这个Notification后，立刻取消自身  
         //这符合一般的Notification的运作规范  
         //notification.flags|=Notification.FLAG_ONGOING_EVENT;
-        
+
         /***
          * 在这里我们用自定的view来显示Notification
          */
-        contentView = new RemoteViews (getPackageName (),R.layout.notification_item);
-        contentView.setTextViewText (R.id.notificationTitle, "正在下载");
-        contentView.setTextViewText (R.id.notificationPercent, "0");
-        contentView.setProgressBar (R.id.notificationProgress, 100, 0, false);
+        contentView = new RemoteViews(getPackageName(), R.layout.notification_item);
+        contentView.setTextViewText(R.id.notificationTitle, "正在下载");
+        contentView.setTextViewText(R.id.notificationPercent, "0");
+        contentView.setProgressBar(R.id.notificationProgress, 100, 0, false);
         notification.contentView = contentView;
 
-        updateIntent = new Intent (this, MainActivity.class);
-        updateIntent.addFlags (Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        pendingIntent = PendingIntent.getActivity (this, 0, updateIntent, 0);
+        updateIntent = new Intent(this, MainActivity.class);
+        updateIntent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        pendingIntent = PendingIntent.getActivity(this, 0, updateIntent, 0);
         notification.contentIntent = pendingIntent;
-        
-        notificationManager.notify (notification_id, notification);
+
+        notificationManager.notify(notification_id, notification);
     }
 
 }

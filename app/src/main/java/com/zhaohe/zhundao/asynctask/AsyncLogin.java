@@ -22,40 +22,42 @@ import java.util.Map;
 public class AsyncLogin extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private Dialog mDialog;
-    private String  mmobile;
-    private String  mpassWord;
+    private String mmobile;
+    private String mpassWord;
 
-    public AsyncLogin(Context context, Handler handler, Dialog dialog, int request, String mobile,String passWord) {
+    public AsyncLogin(Context context, Handler handler, Dialog dialog, int request, String mobile, String passWord) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
-        this.mmobile=mobile;
-        this.mpassWord=passWord;
+        this.mmobile = mobile;
+        this.mpassWord = passWord;
     }
+
     @Override
-    protected String doInBackground(String... params){
+    protected String doInBackground(String... params) {
         String path = Constant.HOST + Constant.Url.Login;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("passWord",mpassWord);
-        map.put ("mobile", mmobile);
+        map.put("passWord", mpassWord);
+        map.put("mobile", mmobile);
 
-        String result = HttpUtil.sendGETRequest(path,map,"utf-8");
+        String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;
     }
+
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
         if (mDialog != null) {
-            mDialog.dismiss ();
+            mDialog.dismiss();
         }
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            mHandler.sendMessage (msg);
+            mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog (mContext, R.string.app_serviceError);
+            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2016/12/2 0:21
  */
-public class ToolUserBean extends BaseBean implements Serializable{
+public class ToolUserBean extends BaseBean implements Serializable {
 
     private static final long serialVersionUID = 6545923951088426477L;
 
@@ -38,8 +38,6 @@ public class ToolUserBean extends BaseBean implements Serializable{
     public void setUrl(String url) {
         Url = url;
     }
-
-
 
 
 }

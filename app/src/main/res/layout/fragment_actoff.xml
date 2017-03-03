@@ -6,7 +6,8 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_ly2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent">
+
         <ListView
             android:id="@+id/lv_act2"
             android:layout_width="match_parent"
@@ -19,6 +20,6 @@
         android:layout_height="match_parent"
         android:gravity="center"
         android:visibility="gone"
-        android:text="@string/tv_actoff_suggest"/>
+        android:text="@string/tv_actoff_suggest" />
 
 </RelativeLayout>

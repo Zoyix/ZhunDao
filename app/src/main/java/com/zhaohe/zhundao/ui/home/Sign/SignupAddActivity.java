@@ -29,7 +29,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SignupAddActivity extends ToolBarActivity{
+public class SignupAddActivity extends ToolBarActivity {
     private WebView webView;
     //    private String url="http://m.zhundao.net/Activity/PubActivity?accesskey=";
     private String url = "https://m.zhundao.net/CheckIn/PubCheckIn?accesskey=";
@@ -40,41 +40,40 @@ public class SignupAddActivity extends ToolBarActivity{
     private Uri imageUri;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_add);
-        initToolBar("发起签到",R.layout.activity_signup_add);
+        initToolBar("发起签到", R.layout.activity_signup_add);
         initView();
 
     }
-    private void initToolBar(String text,int layoutResID){
-        ToolBarHelper mToolBarHelper ;
-        mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
+
+    private void initToolBar(String text, int layoutResID) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
         mToolBarHelper.setTvTitle(text);
         super.setTitle("");
         setContentView(mToolBarHelper.getContentView());
-        toolbar = mToolBarHelper.getToolBar() ;
+        toolbar = mToolBarHelper.getToolBar();
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
 
     private void initView() {
         webView = (WebView) findViewById(R.id.wv_signup_add);
-        String accesskey= (String) SPUtils.get(this,"accessKey","");
+        String accesskey = (String) SPUtils.get(this, "accessKey", "");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBlockNetworkImage(false);
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        webView.loadUrl(url+accesskey);
+        webView.loadUrl(url + accesskey);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 view.loadUrl(url);
                 return true;
             }
-
 
 
         });
@@ -91,11 +90,13 @@ public class SignupAddActivity extends ToolBarActivity{
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>3.0+
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType) {
                 mUploadMessage = uploadMsg;
                 take();
             }
+
             //>4.1.1
             public void openFileChooser(ValueCallback<Uri> uploadMsg, String acceptType, String capture) {
                 mUploadMessage = uploadMsg;

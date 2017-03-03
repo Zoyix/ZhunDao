@@ -24,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
 
         goAsyncUpdate();
 //        isLogin();
-;
+        ;
     }
 
     private void isLogin() {
@@ -39,24 +39,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *@Description: 判断是否需要更新
-     *@Author:杨攀
-     *@Since: 2015年4月13日下午12:26:33
+     * @Description: 判断是否需要更新
+     * @Author:杨攀
+     * @Since: 2015年4月13日下午12:26:33
      */
-    private void goAsyncUpdate(){
-        AsyncUpdateVersion task = new AsyncUpdateVersion ();
-        task.execute ();
+    private void goAsyncUpdate() {
+        AsyncUpdateVersion task = new AsyncUpdateVersion();
+        task.execute();
     }
 
     /**
-     *@Description: 检查App 是否需要更新
-     *@Author:杨攀
-     *@Since:2014年11月17日下午4:31:31
+     * @Description: 检查App 是否需要更新
+     * @Author:杨攀
+     * @Since:2014年11月17日下午4:31:31
      */
     private final class AsyncUpdateVersion extends AsyncTask<String, Integer, String> {
 
         @Override
-        protected String doInBackground(String... params){
+        protected String doInBackground(String... params) {
             // 发送请求去判断是否需要更新
             String path = "http://www.zhundao.net/Android/version.xml";
 //            http://agent.joinhead.com/Android/version.xml
@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
 //            http://www.zhundao.net/Android/version.xml
 //            return HttpUtil.sendGET2Request (path, null,"UTF-8");
             try {
-                return NetHelper.httpStringGet(path,"UTF-8");
+                return NetHelper.httpStringGet(path, "UTF-8");
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -73,28 +73,27 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String result){
+        protected void onPostExecute(String result) {
             VersionBean bean = null;
 
-            if ( result!=null) {
+            if (result != null) {
                 try {
 
-                    bean = VersionXmlUtils.parserVersionXml (result);
+                    bean = VersionXmlUtils.parserVersionXml(result);
 
 //              Synccode=0 忽略更新 1 用户选择 2 强制更新
-                    if(bean.getSynccode().equals("0"))
-                    {
+                    if (bean.getSynccode().equals("0")) {
                         isLogin();
 
                     }
 //                    VersionXmlUtils.isUpdateApp (MainActivity.this, bean)
-                     if (VersionXmlUtils.isUpdateApp (MainActivity.this, bean)) {// 更新App
-                        DialogUtils.showDialog (MainActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener (bean),
-                                new UpdateAppNegativeButtonListener ());
+                    if (VersionXmlUtils.isUpdateApp(MainActivity.this, bean)) {// 更新App
+                        DialogUtils.showDialog(MainActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
+                                new UpdateAppNegativeButtonListener());
                         return;
                     }
                 } catch (Exception e) {
-                    e.printStackTrace ();
+                    e.printStackTrace();
                 }
             }
             //其他情况，这进行登录
@@ -103,9 +102,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *@Description: 确定更新
-     *@Author:杨攀
-     *@Since:2014年11月20日下午3:48:17
+     * @Description: 确定更新
+     * @Author:杨攀
+     * @Since:2014年11月20日下午3:48:17
      */
     private final class UpdateAppPositiveButtonListener implements DialogInterface.OnClickListener {
 
@@ -116,10 +115,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onClick(DialogInterface dialog,int which){
-            dialog.dismiss ();
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
             // 开始 更新App
-            VersionXmlUtils.startUpdateApp (MainActivity.this, bean);
+            VersionXmlUtils.startUpdateApp(MainActivity.this, bean);
             isLogin();
 //            MainActivity.this.finish ();
         }
@@ -127,15 +126,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     *@Description: 取消更新
-     *@Author:杨攀
-     *@Since:2014年11月20日下午3:50:43
+     * @Description: 取消更新
+     * @Author:杨攀
+     * @Since:2014年11月20日下午3:50:43
      */
     private final class UpdateAppNegativeButtonListener implements DialogInterface.OnClickListener {
 
         @Override
-        public void onClick(DialogInterface dialog,int which){
-            dialog.dismiss ();
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
             isLogin();
 //            MainActivity.this.finish ();
 //            System.exit (0);

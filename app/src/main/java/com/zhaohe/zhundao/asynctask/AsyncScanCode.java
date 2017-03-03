@@ -20,43 +20,46 @@ import java.util.Map;
  * @Author:邹苏隆
  * @Since:2016/12/23 9:35
  */
-public class AsyncScanCode  extends AsyncTask<String, Integer, String> {
+public class AsyncScanCode extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
     private String mParam;
-private String mCheckinId;
-    public AsyncScanCode(Context context, Handler handler,int request,String vCode,String checkinid){
+    private String mCheckinId;
+
+    public AsyncScanCode(Context context, Handler handler, int request, String vCode, String checkinid) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
-        this.mParam=vCode;
-        this.mCheckinId=checkinid;
-        this.mAccesskey= (String) SPUtils.get(mContext,"accessKey","");
+        this.mParam = vCode;
+        this.mCheckinId = checkinid;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
 
     @Override
     protected String doInBackground(String... strings) {
         String path = Constant.HOST + Constant.Url.AddCheckInListByQrcode;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("vCode",mParam);
-        map.put("checkInId",mCheckinId);
-        map.put("accessKey",mAccesskey);
-        String result = HttpUtil.sendGETRequest(path,map,"utf-8");
+        map.put("vCode", mParam);
+        map.put("checkInId", mCheckinId);
+        map.put("accessKey", mAccesskey);
+        map.put("checkInWay","7");
+        String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;
     }
+
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
 
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("wtf"+result);
-            mHandler.sendMessage (msg);
+            System.out.println("wtf" + result);
+            mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog (mContext, R.string.app_serviceError);
+            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

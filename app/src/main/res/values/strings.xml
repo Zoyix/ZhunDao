@@ -23,6 +23,7 @@
     <string name="tv_setting_password">准到密码</string>
     <string name="tv_setting_feedback">意见反馈</string>
     <string name="tv_setting_about_us">关于准到</string>
+    <string name="tv_setting_version">系统版本</string>
     <string name="tv_setting_exit">退出登录</string>
     <!--toolbar菜单  -->
     <string name="menu_search">查找</string>
@@ -31,11 +32,16 @@
     <string name="menu_about_us">关于</string>
     <string name="menu_add_action">发起活动</string>
     <string name="menu_add_signup">发起签到</string>
-    <string name="menu_act_share_friend">分享给朋友</string>
+
+    <string name="menu_act_share_friend">分享</string>
     <string name="menu_add_share_friendcircle">分享到朋友圈</string>
+    <string name="menu_find_add_custom">添加自定义选项</string>
+
     <!--没有网络  -->
     <string name="app_serviceError">服务器异常，请稍后再试！</string>
     <string name="app_serviceReturnrRigth">服务器正常</string>
+    <string name="net_error">请联网后再试</string>
+
     <!-- 登录窗口  -->
     <string name="app_dialog_Login_success">登录成功</string>
 
@@ -58,9 +64,27 @@
     <string name="et_phone">手机：</string>
     <string name="et_password">密码：</string>
     <string name="tv_login_wechat">微信登录</string>
+    <string name="btn_login">登录</string>
+
 
     <!--发现界面-->
-    <string name="btn_find_custon">活动自定义选项</string>
+    <string name="btn_find_custon">自定义报名项</string>
+    <string name="tv_find_shake">微信摇一摇</string>
+
+    <string name="tv_custom_title">111111111111111111111111111111111111111111111111</string>
+    <string name="tv_custom_type">[类型]</string>
+    <string name="tv_custom_required">是否必填</string>
+    <string name="et_find_custom_name">请输入自定义项目名称</string>
+    <string name="tv_find_custom_name">名称</string>
+    <string name="tv_find_custom_type">类型</string>
+    <string name="tv_find_custom_required">必填</string>
+    <string name="tv_find_custom_add">添加</string>
+    <string name="tv_find_custom_add_edit">修改后可能对已经发布的活动产生影响!</string>
+
+
+    <string name="tv_find_custom_option">选项</string>
+    <string name="et_find_custom_option">请输入选项,每个选项中间以英文|符号隔开，如北京|上海|广州</string>
+    <string name="btn_find_custom_submit">提交</string>
 
 
     <!-- 活动列表 -->
@@ -70,22 +94,33 @@
     <string name="btn_act_more">更多</string>
     <string name="tv_act_title">嘻游记晚宴-“追忆古惑仔那些年”</string>
     <string name="tv_act_status">活动状态</string>
-    <string name="tv_act_sign_num">报名人数:0</string>
-    <string name="tv_act_sign_income">收入:11110</string>
+    <string name="tv_act_sign_num">已报名：</string>
+    <string name="num0">0</string>
+    <string name="money0">0.00</string>
+
+
+    <string name="tv_act_sign_income">收入：</string>
     <string name="tv_act_endtime">2016-12-1 15:00</string>
     <string name="tv_act_resttime">(剩余X天)</string>
-    <string name="tv_acton">进行中的活动</string>
-    <string name="tv_actoff">已结束的活动</string>
+    <string name="tv_acton">报名中的活动</string>
+    <string name="tv_actoff">已截止的活动</string>
+    <string name="et_signlist_search">姓名/昵称/手机号</string>
+
 
     <!--列表无数据时的建议-->
     <string name="tv_actoff_suggest">暂无活动数据,请点击右上角发起新的活动~</string>
     <string name="tv_acton_suggest">暂无活动数据,请点击右上角发起新的活动~</string>
     <string name="tv_signon_suggest">暂无活动数据,请点击右上角发起新的签到~</string>
     <string name="tv_signoff_suggest">暂无活动数据,请点击右上角发起新的签到~</string>
+    <string name="tv_shake_suggest">暂未绑定摇一摇设备~</string>
+    <string name="tv_custom_suggest">暂无自定义选项,请点击右上角创建新的自定义选项~</string>
+
+
 
     <!--toolbar title-->
     <string name="tv_start_act">发起活动</string>
-    <string name="tv_details">发起活动</string>
+    <string name="tv_details">活动详情</string>
+    <string name="tv_custom">自定义选项</string>
 
 
     <!-- 活动编辑/添加 -->
@@ -119,10 +154,24 @@
     <string name="remark">备注</string>
     <string name="none">暂无</string>
     <string name="pay_inf">付款信息:</string>
+    <!--beacon 信息-->
+    <string name="IconUrl">图标</string>
+    <string name="beacon_name">设备名称</string>
+    <string name="beacon_id">ZDID</string>
+    <string name="device_id">WXID</string>
+    <string name="nickname">当前绑定</string>
+    <string name="action">活动</string>
+    <string name="sign">签到</string>
+    <string name="select">选择类别</string>
+    <string name="signup">报名</string>
+    <string name="submit">提交</string>
+    <string name="see">浏览</string>
+    <string name="income">收入</string>
 
 
     <!-- 签到 -->
-    <string name="tv_sign_type">[到场签到]</string>
+    <string name="tv_sign_type">到场签到</string>
+    <string name="tv_act_name">所属活动</string>
     <string name="tv_sign_stoptime">2016/12/19 17:55</string>
     <string name="tv_sign_user">报名用户：</string>
     <string name="tv_sign_signup">签到/报名</string>
@@ -134,6 +183,11 @@
     <string name="tv_signup_all">全部</string>>
     <string name="tv_signup_on">已签</string>>
     <string name="tv_signup_off">未签</string>>
+    <string name="tv_sign_scan">扫码签到</string>>
+    <string name="tv_sign_phone">手机号签到</string>>
+
+    <!--扫码界面-->
+    <string name="et_sign_scan">请输入代签的手机号</string>>
 
 
     <!-- 拍照弹出框  -->
@@ -165,6 +219,34 @@
     <string name="btn_bond_phone">绑定手机并登录</string>
     <!--toolbar title-->
     <string name="tv_acttitle_details">活动详情</string>
+    <!-- 对话框 -->
+    <string name="iv_copy_url">活动链接</string>
+    <string name="iv_download_zxing">活动二维码</string>
+    <string name="share">分享到</string>
+    <string name="wechat">微信好友</string>
+    <string name="wehcat_friends">微信朋友圈</string>
+    <string name="qq_friends">QQ空间</string>
+    <string name="qq_zone">QQ好友</string>
+    <string name="weibo">微博</string>
 
 
+    <string name="title_activity_beancon_list">BeanconListActivity</string>
+    <!--活动更多gird_view-->
+    <string name="act_more_edit">编辑活动</string>
+    <string name="act_more_list">报名名单</string>
+    <string name="act_more_consult">活动咨询</string>
+    <string name="act_more_url">活动链接</string>
+    <string name="act_more_stop">报名截止</string>
+    <string name="act_more_delete">删除活动</string>
+    <string name="act_more_share">分享活动</string>
+    <string name="act_more_invitation">邀请函</string>
+    <string name="act_more_qrcode">下载二维码</string>
+<!--友盟-->
+    <string name="umeng_socialize_sharetosina">分享到新浪微博</string>
+    <string name="umeng_socialize_sharetodouban">分享到豆瓣</string>
+    <string name="umeng_socialize_sharetorenren">分享到人人网</string>
+
+    <string name="umeng_socialize_sharetotencent">分享到腾讯微博</string>
+    <string name="umeng_socialize_sharetotwitter">分享到twitter</string>
+    <string name="umeng_socialize_sharetolinkin">分享到领英</string>
 </resources>

@@ -17,16 +17,17 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_gravity="center"
-        android:layout_marginTop="80dp"/>
+        android:layout_marginTop="80dp" />
 
 
-  <EditText
-      android:layout_marginLeft="15dp"
-     android:id="@+id/et_phone_bond"
-     android:layout_width="220dp"
-    android:layout_height="wrap_content"
-      android:layout_below="@id/img_ico1"
-      android:hint="@string/et_phone_bond"/>
+    <EditText
+        android:layout_marginLeft="15dp"
+        android:id="@+id/et_phone_bond"
+        android:layout_width="220dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/img_ico1"
+        android:hint="@string/et_phone_bond" />
+
     <Button
         android:id="@+id/btn_send_code"
         android:layout_width="wrap_content"
@@ -45,21 +46,20 @@
         android:layout_below="@id/et_phone_bond"
         android:layout_width="220dp"
         android:layout_height="wrap_content"
-        android:hint="@string/et_code"/>
+        android:hint="@string/et_code" />
 
-<Button
-    android:layout_marginTop="20dp"
+    <Button
+        android:layout_marginTop="20dp"
 
-    android:id="@+id/btn_bond_phone"
-    android:layout_width="300dp"
-    android:layout_centerHorizontal="true"
+        android:id="@+id/btn_bond_phone"
+        android:layout_width="300dp"
+        android:layout_centerHorizontal="true"
 
-    android:layout_height="wrap_content"
-    android:layout_below="@id/et_code"
-    android:text="@string/btn_bond_phone"
-    android:textColor="@color/white"
-    android:background="@color/status_color_green"
-    />
+        android:layout_height="wrap_content"
+        android:layout_below="@id/et_code"
+        android:text="@string/btn_bond_phone"
+        android:textColor="@color/white"
+        android:background="@color/status_color_green" />
 
     <Button
         android:id="@+id/btn_get_access_token"
@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/btn_bond_phone"
         android:text="获取access_token"
-        android:visibility="gone"/>
+        android:visibility="gone" />
 
 
 </RelativeLayout>

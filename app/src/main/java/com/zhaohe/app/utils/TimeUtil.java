@@ -5,6 +5,7 @@ package com.zhaohe.app.utils;
  * @Author:邹苏隆
  * @Since:2016/12/28 14:16
  */
+
 import android.text.format.Time;
 
 import java.text.ParseException;
@@ -84,11 +85,9 @@ public class TimeUtil {
     /**
      * 计算时间差
      *
-     * @param starTime
-     *            开始时间
-     * @param endTime
-     *            结束时间
-     *            返回类型 ==1----天，时，分。 ==2----时
+     * @param starTime 开始时间
+     * @param endTime  结束时间
+     *                 返回类型 ==1----天，时，分。 ==2----时
      * @return 返回时间差
      */
     public static String getTimeDifference(String starTime, String endTime) {
@@ -109,7 +108,7 @@ public class TimeUtil {
                     - min * 60 * 1000 - s * 1000);
             // System.out.println(day + "天" + hour + "小时" + min + "分" + s +
             // "秒");
-            long day1=diff / (24 * 60 * 60 * 1000);
+            long day1 = diff / (24 * 60 * 60 * 1000);
             long hour1 = (diff / (60 * 60 * 1000) - day * 24);
             timeString = day1 + "天";
 //            long hour1 = diff / (60 * 60 * 1000);
@@ -209,8 +208,7 @@ public class TimeUtil {
     /**
      * 与当前时间比较早晚
      *
-     * @param time
-     *            需要比较的时间
+     * @param time 需要比较的时间
      * @return 输入的时间比现在时间晚则返回true
      */
     public static boolean compareNowTime(String time) {
@@ -271,10 +269,8 @@ public class TimeUtil {
     /**
      * 比较两个时间
      *
-     * @param starTime
-     *            开始时间
-     * @param endString
-     *            结束时间
+     * @param starTime  开始时间
+     * @param endString 结束时间
      * @return 结束时间大于开始时间返回true，否则反之֮
      */
     public static boolean compareTwoTime(String starTime, String endString) {

@@ -64,20 +64,20 @@ public class WXEntryActivity extends ToolBarActivity implements IWXAPIEventHandl
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxentry);
         initHandler();
-        initToolBar("绑定手机",R.layout.activity_wxentry);
+        initToolBar("绑定手机", R.layout.activity_wxentry);
         initView();
         initWx();
         init();
         isLogin();
     }
 
-    private void initToolBar(String text,int layoutResID){
-        ToolBarHelper mToolBarHelper ;
-        mToolBarHelper = new ToolBarHelper(this,layoutResID) ;
+    private void initToolBar(String text, int layoutResID) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
         mToolBarHelper.setTvTitle(text);
         super.setTitle("");
         setContentView(mToolBarHelper.getContentView());
-        toolbar = mToolBarHelper.getToolBar() ;
+        toolbar = mToolBarHelper.getToolBar();
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
@@ -122,7 +122,7 @@ public class WXEntryActivity extends ToolBarActivity implements IWXAPIEventHandl
         et_phone_bond = (EditText) findViewById(R.id.et_phone_bond);
         et_phone_bond.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         mCountDownTimerUtils = new CountDownTimerUtils(btn_send_code, 60000, 1000);
-        img_ico1= (ImageView) findViewById(R.id.img_ico1);
+        img_ico1 = (ImageView) findViewById(R.id.img_ico1);
         Resources res = getResources();
         Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_login);
 //        img_ico.setImageBitmap(toRoundBitmap(bmp));
@@ -173,7 +173,7 @@ public class WXEntryActivity extends ToolBarActivity implements IWXAPIEventHandl
         }
         if (((mPhone == null)) || (mPhone.length() != 11)) {
             Toast.makeText(WXEntryActivity.this, "您输入的手机号码有误，请确认后重新输入~", Toast.LENGTH_SHORT).show();
-return;
+            return;
         }
         if (NetworkUtils.checkNetState(this)) {
             Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
@@ -233,7 +233,6 @@ return;
                         }
 
 
-
                     default:
                         break;
                 }
@@ -252,7 +251,7 @@ return;
             SendAuth.Resp newResp = (SendAuth.Resp) resp;
             //获取微信传回的code
             code = newResp.code.toString();
-//            System.out.println(code);
+            System.out.println("WXcode："+code);
         }
 
         switch (resp.errCode) {
