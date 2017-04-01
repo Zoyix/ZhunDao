@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.zhundao.R;
 
@@ -21,15 +22,24 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     protected View rootView;
     private TextView tv_find_custom;
     private TextView tv_find_shake;
+    private TextView tv_find_multipoint;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView = getLayoutInflater(null).inflate(R.layout.fragment_find,
+        rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_find,
                 null);
 
         initView(rootView);
 //        test();
+    }
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(getActivity());
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getActivity());
     }
 
     protected void initView(View rootView) {
@@ -37,6 +47,8 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         tv_find_custom.setOnClickListener(this);
         tv_find_shake = (TextView) rootView.findViewById(R.id.tv_find_shake);
         tv_find_shake.setOnClickListener(this);
+        tv_find_multipoint= (TextView) rootView.findViewById(R.id.tv_find_multipoint);
+        tv_find_multipoint.setOnClickListener(this);
 
     }
 
@@ -62,6 +74,9 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.tv_find_shake:
                 IntentUtils.startActivity(getActivity(), BeaconListActivity.class);
+                break;
+            case R.id.tv_find_multipoint:
+                IntentUtils.startActivity(getActivity(),MultiLoginActivity.class);
                 break;
         }
 

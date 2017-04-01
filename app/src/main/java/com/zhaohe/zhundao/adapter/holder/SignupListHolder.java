@@ -1,5 +1,6 @@
 package com.zhaohe.zhundao.adapter.holder;
 
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -13,6 +14,7 @@ public class SignupListHolder {
     public TextView tv_signuplist_phone;
     public TextView tv_signuplist_name;
     public TextView tv_signuplist_time;
+    public Button btn_signuplist_signup;
 
 
 }

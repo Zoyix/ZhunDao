@@ -22,8 +22,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 //        SPUtils.clear(this);
 
-        goAsyncUpdate();
-//        isLogin();
+//        goAsyncUpdate();
+        isLogin();
         ;
     }
 

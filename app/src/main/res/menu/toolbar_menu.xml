@@ -24,5 +24,6 @@
         android:id="@+id/menu_add_signup"
         android:orderInCategory="101"
         android:title="@string/menu_add_signup"
+        android:visible="false"
         app:showAsAction="never" />
 </menu>

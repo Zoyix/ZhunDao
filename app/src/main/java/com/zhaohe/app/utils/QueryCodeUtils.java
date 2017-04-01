@@ -56,4 +56,5 @@ public class QueryCodeUtils {
         AsyncScanCode asyncScanCode = new AsyncScanCode(mContext, mHandler, MESSAGE_SCAN_CODE, result, mSignID);
         asyncScanCode.execute();
     }
+
 }

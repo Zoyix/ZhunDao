@@ -148,17 +148,6 @@
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:orientation="horizontal">
-
-            <ImageButton
-                android:id="@+id/btn_act_edit"
-                android:paddingBottom="5dp"
-                android:src="@drawable/edit"
-                android:scaleType="fitCenter"
-                android:background="@color/white"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_weight="1" />
-
             <ImageButton
                 android:paddingBottom="5dp"
 
@@ -169,6 +158,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1" />
+
+            <ImageButton
+                android:id="@+id/btn_act_edit"
+                android:paddingBottom="5dp"
+                android:src="@drawable/action_sign"
+                android:scaleType="fitCenter"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+
 
             <ImageButton
                 android:id="@+id/btn_act_share"
@@ -201,15 +202,7 @@
             android:layout_below="@id/img_act_group"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_act_edit"
 
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="@string/btn_act_edit"
-                android:textSize="12sp" />
 
             <TextView
                 android:id="@+id/tv_act_list"
@@ -219,6 +212,15 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="@string/btn_act_list"
+                android:textSize="12sp" />
+            <TextView
+                android:id="@+id/tv_act_edit"
+
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/btn_act_edit"
                 android:textSize="12sp" />
 
             <TextView

@@ -4,6 +4,8 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -15,20 +17,27 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.zhaohe.app.commons.dialog.DialogUtils;
 import com.zhaohe.app.utils.IntentUtils;
+import com.zhaohe.app.utils.NetHelper;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
+import com.zhaohe.app.version.VersionBean;
+import com.zhaohe.app.version.VersionXmlUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncChangePassword;
+import com.zhaohe.zhundao.dao.MySignupListMultiDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
 import com.zhaohe.zhundao.ui.home.mine.FeedbackActivity;
 import com.zhaohe.zhundao.ui.login.LoginActivity;
 
 public class SettingActivity extends ToolBarActivity implements View.OnClickListener {
-    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password,tv_setting_version;
+    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password,tv_setting_version,tv_setting_version_show;
     public static final int MESSAGE_CHANGE_PASSWORD = 86;
     private Handler mHandler;
+    private VersionBean bean;
+    private MySignupListMultiDao dao;
 
 
 
@@ -40,6 +49,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         initHandler();
         initToolBar("设置");
         initView();
+        goAsyncUpdate();
 
         /*自定义的一些操作*/
 //        onCreateCustomToolBar(toolbar) ;
@@ -58,6 +68,10 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         tv_setting_password.setOnClickListener(this);
         tv_setting_version = (TextView) findViewById(R.id.tv_setting_version);
         tv_setting_version.setOnClickListener(this);
+        tv_setting_version_show= (TextView) findViewById(R.id.tv_setting_version_show);
+        tv_setting_version_show.setText("APP版本号："+getVersion(this));
+        dao=new MySignupListMultiDao(this);
+
     }
 
     private void initToolBar(String text) {
@@ -94,6 +108,15 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
     private void changePassword(String password) {
         AsyncChangePassword async = new AsyncChangePassword(this, mHandler, MESSAGE_CHANGE_PASSWORD, password);
         async.execute();
+    }
+    /**
+     * @Description: 判断是否需要更新
+     * @Author:杨攀
+     * @Since: 2015年4月13日下午12:26:33
+     */
+    private void goAsyncUpdate() {
+        AsyncUpdateVersion task = new AsyncUpdateVersion();
+        task.execute();
     }
     public static String getVersion(Context context)//获取版本号
     {
@@ -180,6 +203,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_setting_exit:
+                dao.deleteTable();
                 SPUtils.clear(this);
                 IntentUtils.startActivity(this, LoginActivity.class);
                 break;
@@ -193,10 +217,111 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                 showWaiterAuthorizationDialog();
                 break;
                 case R.id.tv_setting_version:
-                    ToastUtil.makeText(this,"APP版本号："+getVersion(this));
+//                    ToastUtil.makeText(this,"APP版本号："+getVersion(this));
+                    if (bean.getSynccode().equals("0")) {
+return;
+                    }
+                    if (VersionXmlUtils.isUpdateApp(SettingActivity.this, bean)) {// 更新App
+                        DialogUtils.showDialog(SettingActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
+                                new UpdateAppNegativeButtonListener());
+                        return;
+                    }
+                    else
+                {
+                    ToastUtil.makeText(this,"已是最新版本");
+                }
                     break;
                 default:break;
 
         }
+    }
+    private final class AsyncUpdateVersion extends AsyncTask<String, Integer, String> {
+
+        @Override
+        protected String doInBackground(String... params) {
+            // 发送请求去判断是否需要更新
+            String path = "http://www.zhundao.net/Android/version.xml";
+//            http://agent.joinhead.com/Android/version.xml
+//            http://122.225.101.94/dqaj/app/version.xml
+//            http://www.zhundao.net/Android/2.txt
+//            http://www.zhundao.net/Android/version.xml
+//            return HttpUtil.sendGET2Request (path, null,"UTF-8");
+            try {
+                return NetHelper.httpStringGet(path, "UTF-8");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+            bean = null;
+
+            if (result != null) {
+                try {
+
+                    bean = VersionXmlUtils.parserVersionXml(result);
+
+//              Synccode=0 忽略更新 1 用户选择 2 强制更新
+                    if (bean.getSynccode().equals("0")) {
+
+                    }
+//                    VersionXmlUtils.isUpdateApp (MainActivity.this, bean)
+                    if (VersionXmlUtils.isUpdateApp(SettingActivity.this, bean)) {// 更新App
+//                        DialogUtils.showDialog(SettingActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
+//                                new UpdateAppNegativeButtonListener());
+                        Drawable drawable= getResources().getDrawable(R.mipmap.unread);
+                        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+                        tv_setting_version .setCompoundDrawables(null,null,drawable,null);
+
+                        return;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+            //其他情况，这进行登录
+        }
+    }
+
+    /**
+     * @Description: 确定更新
+     * @Author:杨攀
+     * @Since:2014年11月20日下午3:48:17
+     */
+    private final class UpdateAppPositiveButtonListener implements DialogInterface.OnClickListener {
+
+        private VersionBean bean;
+
+        public UpdateAppPositiveButtonListener(VersionBean bean) {
+            this.bean = bean;
+        }
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+            // 开始 更新App
+            VersionXmlUtils.startUpdateApp(SettingActivity.this, bean);
+
+//            MainActivity.this.finish ();
+        }
+
+    }
+
+    /**
+     * @Description: 取消更新
+     * @Author:杨攀
+     * @Since:2014年11月20日下午3:50:43
+     */
+    private final class UpdateAppNegativeButtonListener implements DialogInterface.OnClickListener {
+
+        @Override
+        public void onClick(DialogInterface dialog, int which) {
+            dialog.dismiss();
+//            MainActivity.this.finish ();
+//            System.exit (0);
+        }
+
     }
 }

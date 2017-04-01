@@ -27,6 +27,18 @@ public class BeaconBean implements Serializable{
     private String NickName;
     private String ID;
 
+
+
+    private String AddTime;
+
+    public String getAddTime() {
+        return AddTime;
+    }
+
+    public void setAddTime(String addTime) {
+        AddTime = addTime;
+    }
+
     public String getNickName() {
         return NickName;
     }

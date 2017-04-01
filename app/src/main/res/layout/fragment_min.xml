@@ -39,9 +39,9 @@
                     android:id="@+id/img_head"
                     android:layout_width="60dp"
                     android:layout_height="60dp"
-                    android:src="@drawable/unkown_head"
                     android:layout_marginLeft="10dp"
-                    android:layout_marginRight="10dp" />
+                    android:layout_marginRight="10dp"
+                    android:src="@drawable/unkown_head" />
 
 
                 <TextView
@@ -76,11 +76,40 @@
                     android:id="@+id/iv_sex"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginTop="5dp"
                     android:layout_below="@id/tv_min_name"
-                    android:src="@drawable/ic_sex_male"
+                    android:layout_marginTop="5dp"
                     android:layout_toEndOf="@+id/img_head"
-                    android:layout_toRightOf="@+id/img_head" />
+                    android:layout_toRightOf="@+id/img_head"
+                    android:src="@drawable/ic_sex_male"
+                    android:visibility="gone" />
+
+                <TextView
+                    android:id="@+id/tv_min_vip"
+                    android:layout_width="30dp"
+                    android:layout_height="0dp"
+                    android:layout_above="@+id/tv_min_phone"
+                    android:layout_alignTop="@+id/tv_min_name"
+                    android:layout_marginLeft="10dp"
+                    android:layout_toRightOf="@+id/tv_min_name"
+                    android:background="@drawable/shape_oval_vip"
+                    android:clickable="true"
+                    android:gravity="center_vertical|center_horizontal"
+                    android:text="V3"
+                    android:textColor="@color/white"
+                    android:textSize="12sp"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_min_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_min_name"
+                    android:layout_marginTop="3dp"
+                    android:layout_toRightOf="@id/img_head"
+                    android:text="@string/phone"
+
+
+                    />
             </RelativeLayout>
 
 
@@ -94,7 +123,7 @@
                 android:layout_marginTop="20dp"
                 android:clickable="true"
                 style="@style/list_txt_Style"
-                android:drawableLeft="@mipmap/wallet72"
+                android:drawableLeft="@mipmap/wallet108"
                 android:text="@string/tv_my_wallet" />
 
             <View
@@ -121,7 +150,7 @@
                 android:id="@+id/tv_feedback"
                 style="@style/list_txt_Style"
                 android:clickable="true"
-                android:drawableLeft="@mipmap/feedback72"
+                android:drawableLeft="@mipmap/feedback108"
                 android:text="@string/tv_feedback" />
 
             <View
@@ -134,7 +163,7 @@
                 android:id="@+id/tv_min_setting"
                 style="@style/list_txt_Style"
                 android:clickable="true"
-                android:drawableLeft="@mipmap/setting72"
+                android:drawableLeft="@mipmap/setting108"
                 android:text="@string/tv_setting" />
 
             <View

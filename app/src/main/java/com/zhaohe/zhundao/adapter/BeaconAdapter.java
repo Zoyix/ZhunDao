@@ -13,6 +13,8 @@ import com.zhaohe.zhundao.bean.BeaconBean;
 
 import java.util.List;
 
+import static com.zhaohe.zhundao.R.id.iv_find_beacon_icon;
+
 /**
  * @Description:
  * @Author:邹苏隆
@@ -32,8 +34,12 @@ public class BeaconAdapter extends AdapterBase<BeaconBean, BeaconHolder>{
         BeaconBean bean = mList2.get(position);
         itemView.tv_find_beacon_title.setText(bean.getTitle());
         itemView.tv_find_beacon_name.setText(bean.getBeaconName()+"("+bean.getDeviceID()+")");
-        Picasso.with(mContext).load(bean.getUrl()).error(R.mipmap.ic_launcher).into(itemView.iv_find_beacon_icon);
-
+        if (bean.getUrl().equals("")){
+            itemView.iv_find_beacon_icon.setImageResource(R.mipmap.ic_launcher);
+        }
+       else {
+            Picasso.with(mContext).load(bean.getUrl()).error(R.mipmap.ic_launcher).into(itemView.iv_find_beacon_icon);
+        }
 
 
 
@@ -49,7 +55,7 @@ public class BeaconAdapter extends AdapterBase<BeaconBean, BeaconHolder>{
         convertView = inflater.inflate(R.layout.list_item_find_beaconlist, null);
         v.tv_find_beacon_title = (TextView) convertView.findViewById(R.id.tv_find_beacon_title);
         v.tv_find_beacon_name = (TextView) convertView.findViewById(R.id.tv_find_beacon_name);
-        v.iv_find_beacon_icon = (ImageView) convertView.findViewById(R.id.iv_find_beacon_icon);
+        v.iv_find_beacon_icon = (ImageView) convertView.findViewById(iv_find_beacon_icon);
         return convertView;
     }
 

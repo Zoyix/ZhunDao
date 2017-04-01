@@ -26,6 +26,7 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -42,6 +43,8 @@ import com.zhaohe.zhundao.asynctask.AsyncAction;
 import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.constant.Constant;
+import com.zhaohe.zhundao.ui.home.action.more.ActionMoreActivity;
+import com.zhaohe.zhundao.ui.home.action.more.ActionSignActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +80,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView = getLayoutInflater(null).inflate(R.layout.fragment_actoff,
+        rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_actoff,
                 null);
         initHandler();
         initWx();
@@ -87,19 +90,13 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
 //        test();
     }
 
-    private void test() {
-        List<ActionBean> list = new ArrayList<ActionBean>();
-        for (int i = 1; i <= 20; i++) {
-            ActionBean bean = new ActionBean();
-            bean.setAct_title("今天天气真不错之网球小王子争夺战" + i);
-            bean.setAct_endtime("截止时间" + i);
-            bean.setAct_resttime("剩余" + i + "天");
-            bean.setAct_sign_income("收入：" + i + "000");
-            bean.setAct_status("进行中");
-            bean.setAct_sign_num("已报名" + i + "人");
-            list.add(bean);
-        }
-        adapter.refreshData(list);
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(getActivity());
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getActivity());
     }
 
     private void init() {
@@ -108,7 +105,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             getActionListNoneDialog();
 
         } else {
-            getActionList();
+//            getActionList();
+            getActionListNoneDialog();
 
         }
     }
@@ -174,7 +172,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
 //                String mParam = "ActivityID=" + bean.getAct_id();
 //                getSignupList(mParam);
 //            }
-            if (jsonArray.getJSONObject(i).getString("Status") == "2") {
+            if (jsonArray.getJSONObject(i).getString("Status") .equals("2")) {
                 list.add(bean);
             } else {
 
@@ -209,7 +207,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         msg.title = bean.getAct_title();
         msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
         //这里替换一张自己工程里的图片资源
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_multi);
         msg.setThumbImage(thumb);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis());
@@ -356,14 +354,19 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
-    public void onEditClick(ActionBean bean) {
-        Intent intent = new Intent(getActivity(), EditActWebActivity.class);
-
-//        Intent intent = new Intent(getActivity(), EditActActivity.class);
-        Bundle bundle = new Bundle();
+    public void onSignClick(ActionBean bean) {
+        Intent intent = new Intent(getActivity(), ActionSignActivity.class);
+        Bundle  bundle = new Bundle();
         bundle.putString("act_id", bean.getAct_id());
+        bundle.putString("act_title", bean.getAct_title());
         intent.putExtras(bundle);
-        getActivity().startActivity(intent);
+        if (SPUtils.contains(getActivity(),"sign_result")==false) {
+            if (NetworkUtils.checkNetState(getActivity())==false) {
+                ToastUtil.makeText(getActivity(), R.string.net_error);
+                return;
+            }
+        }
+        this.startActivity(intent);
     }
 
     @Override
@@ -404,10 +407,10 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                             public void onClick(View v) {
                                 switch (v.getId()) {
                                     case R.id.iv_share_wechat_solid:
-                                        wxShare(0, bean);
+                                        UmengShare(bean,SHARE_MEDIA.WEIXIN);
                                         break;
                                     case R.id.iv_share_weixin_friends_solid:
-                                        wxShare(1, bean);
+                                        UmengShare(bean,SHARE_MEDIA.WEIXIN_CIRCLE);
                                         break;
                                     case R.id.iv_share_weibo_solid:
                                         UmengShare(bean, SHARE_MEDIA.SINA);
@@ -436,7 +439,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                     }
                 })
                 .setLayoutRes(R.layout.dialog_layout)
-                .setDimAmount(0.9f)
+                .setDimAmount(0.2f)
                 .setTag("BottomDialog")
                 .show();
     }

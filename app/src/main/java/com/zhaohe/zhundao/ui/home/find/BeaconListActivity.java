@@ -1,9 +1,12 @@
 package com.zhaohe.zhundao.ui.home.find;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -14,22 +17,26 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.BeaconAdapter;
+import com.zhaohe.zhundao.asynctask.AsyncBeaconBond;
 import com.zhaohe.zhundao.asynctask.AsyncGetBeaconList;
 import com.zhaohe.zhundao.asynctask.AsyncSign;
 import com.zhaohe.zhundao.bean.BeaconBean;
-import com.zhaohe.zhundao.ui.ToolBarActivity;
-import com.zhaohe.zhundao.ui.ToolBarHelper;
+import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
 
-public class BeaconListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener {
+public class BeaconListActivity extends Activity implements AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener {
 
     public static final int MESSAGE_GET_BEACONLIST = 99;
+    public static final int SCANNIN_GREQUEST_CODE = 89;
+    public static final int MESSAGE_ADD_BEACON = 88;
+
 
     private BeaconAdapter adapter;
     private ListView lv_beacon;
@@ -45,26 +52,40 @@ public class BeaconListActivity extends ToolBarActivity implements AdapterView.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_beancon_list);
-        initToolBar("摇一摇的周边信息", R.layout.activity_beancon_list);
+        initToolBar();
         initView();
         initHandler();
-        getBenconList();
+
         init();
 //        test();
     }
+    @Override
+    public void onResume() {
+        super.onResume();
+        getBenconList();
+    }
+    protected void initToolBar() {
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_act_beacon_list);
+        toolbar.inflateMenu(R.menu.toolbar_beacon_list);
+        toolbar.setOnMenuItemClickListener(this);
+//        toolbar.setNavigationIcon(R.mipmap.ic_launcher);
+        toolbar.setTitle("");
 
-    private void initToolBar(String text, int layoutResID) {
-        ToolBarHelper mToolBarHelper;
-        mToolBarHelper = new ToolBarHelper(this, layoutResID);
-        mToolBarHelper.setTvTitle(text);
-        super.setTitle("");
-        setContentView(mToolBarHelper.getContentView());
-        toolbar = mToolBarHelper.getToolBar();
-  /*把 toolbar 设置到Activity 中*/
-        setSupportActionBar(toolbar);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });//        返回
+        toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
     }
 private void getBenconList(){
     if (NetworkUtils.checkNetState(this)) {
+        if (SPUtils.contains(this, "beacon_result")) {
+            jsonconver((String) SPUtils.get(getApplicationContext(), "beacon_result", ""));
+
+        }
         AsyncGetBeaconList asyncActivity = new AsyncGetBeaconList(this, mHandler, MESSAGE_GET_BEACONLIST);
         asyncActivity.execute();
     } else {
@@ -76,6 +97,26 @@ private void getBenconList(){
     }
 
 }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        switch (requestCode) {
+            case SCANNIN_GREQUEST_CODE:
+                if (resultCode == RESULT_OK) {
+                    Bundle bundle = data.getExtras();
+                    // 显示扫描到的内容
+                    String result = bundle.getString("result");
+                    beaconBond(result,"0");
+
+                }
+                if (requestCode == RESULT_CANCELED) {
+                    ToastUtil.makeText(this, "未授权相机权限，请授权后重试");
+                }
+
+                break;
+        }
+    }
     private void jsonconver(String result) {
         jsonObj = JSON.parseObject(result);
          jsonArray = jsonObj.getJSONArray("Data");
@@ -85,10 +126,11 @@ private void getBenconList(){
             bean.setTitle(jsonArray.getJSONObject(i).getString("Title"));
             bean.setBeaconName(jsonArray.getJSONObject(i).getString("BeaconName"));
             bean.setBeaconID(jsonArray.getJSONObject(i).getString("BeaconID"));
-            bean.setDeviceID(jsonArray.getJSONObject(i).getString("DeviceID"));
+            bean.setDeviceID(jsonArray.getJSONObject(i).getString("DeviceId"));
             bean.setUrl(jsonArray.getJSONObject(i).getString("IconUrl"));
             bean.setNickName(jsonArray.getJSONObject(i).getString("NickName"));
             bean.setID(jsonArray.getJSONObject(i).getString("ID"));
+            bean.setAddTime(jsonArray.getJSONObject(i).getString("AddTime"));
             list.add(bean);
         }
         showSuggest(list);
@@ -143,6 +185,7 @@ private void getBenconList(){
                             SPUtils.put(getApplicationContext(), "beacon_result", result);
                             jsonconver((String) SPUtils.get(getApplicationContext(), "beacon_result", ""));
                         }
+                        System.out.println(result);
 
 
                         break;
@@ -152,6 +195,17 @@ private void getBenconList(){
                         if (NetworkUtils.checkNetState(getApplicationContext())) {
                             SPUtils.put(getApplicationContext(), "sign_result", result2);
                         }
+                        break;
+                    case MESSAGE_ADD_BEACON:
+                        String result3 = (String) msg.obj;
+                        JSONObject jsonObj = JSON.parseObject(result3);
+                        String message = jsonObj.getString("Msg");
+                        if (jsonObj.getString("Res").equals("0")){
+                            getBenconList();
+                        }
+                        ToastUtil.makeText(getApplicationContext(),message);
+
+                        break;
 
                     default:
                         break;
@@ -171,9 +225,35 @@ private void getBenconList(){
         intent.putExtra("DeviceId", bean.getDeviceID());
         intent.putExtra("NickName", bean.getNickName());
         intent.putExtra("ID", bean.getID());
+        intent.putExtra("AddTime", bean.getAddTime());
+
 
         startActivity(intent);
 
 
+    }
+    private void beaconBond(String result,String type)
+    {
+//     type   0绑定摇一摇设备 1解除绑定摇一摇  result deviceID
+        AsyncBeaconBond Async = new AsyncBeaconBond(this, mHandler, MESSAGE_ADD_BEACON, result, type);
+        Async.execute();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.menu_beacon_add:
+                Intent intent = new Intent();
+                intent.setClass(this, MipcaActivityCapture.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                intent.putExtra("view_show","false" );
+                startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+                startActivity(intent);
+                break;
+
+
+
+        }
+        return false;
     }
 }

@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zhaohe.zhundao"
-    android:versionCode="170103"
-    android:versionName="1.0.0">
+    package="com.zhaohe.zhundao">
 
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.INTERNET" />
@@ -12,9 +10,8 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
-
-    <!--友盟需要的额外权限-->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!-- 友盟需要的额外权限 -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_LOCATION_EXTRA_COMMANDS" />
@@ -54,21 +51,12 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustPan" />
         <activity
-            android:name=".wxapi.WXEntryActivity"
-            android:exported="true"
-            android:screenOrientation="portrait"
-
-            />
-
-        <activity
             android:name=".ui.ZxingQrActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".zxing.controller.MipcaActivityCapture"
-            android:screenOrientation="portrait"
             android:launchMode="singleTop"
-
-            />
+            android:screenOrientation="portrait" />
         <activity
             android:name=".zxing.controller.ZxingQrActivity"
             android:screenOrientation="portrait" />
@@ -87,10 +75,9 @@
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.home.action.SignListActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
             android:launchMode="singleTop"
-
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".ui.home.action.EditActWebActivity"
             android:screenOrientation="portrait" />
@@ -102,13 +89,12 @@
         <activity
             android:name=".ui.home.action.SignListUserActivity"
             android:launchMode="singleTop"
-
             android:screenOrientation="portrait" />
         <activity
             android:name=".ui.home.sign.SignupListActivity"
             android:launchMode="singleTop"
-
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
         <activity
             android:name=".ui.home.mine.setting.SettingActivity"
             android:screenOrientation="portrait" />
@@ -140,13 +126,11 @@
         <activity
             android:name=".ui.home.action.ActionDetailsActivity"
             android:launchMode="singleTop"
-
             android:screenOrientation="portrait" />
-        <activity android:name=".ui.home.find.CustomActivity"
-            android:launchMode="singleTask"
-
-            />
-        <activity android:name=".ui.BaseActivity" />
+        <activity
+            android:name=".ui.home.find.CustomActivity"
+            android:launchMode="singleTask" />
+        <!-- <activity android:name=".ui.BaseActivity" /> -->
         <activity
             android:name=".ui.home.find.CustomItemActivity"
             android:windowSoftInputMode="adjustPan" />
@@ -159,37 +143,61 @@
             android:label="@string/title_activity_beancon_list"
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.home.find.BeaconInfActivity" />
-        <activity android:name=".ui.home.action.ActionMoreActivity"
-            android:launchMode="singleTop"
-            />
-        <activity android:name=".ui.home.action.ActionConsultActivity"></activity>
+        <activity
+            android:name=".ui.home.action.more.ActionMoreActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".ui.home.action.more.ActionConsultActivity" />
         <activity
             android:name="com.umeng.qq.tencent.AuthActivity"
             android:launchMode="singleTask"
-            android:noHistory="true" >
-
+            android:noHistory="true">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
+
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
+
                 <data android:scheme="tencent1105950214" />
             </intent-filter>
         </activity>
-
         <activity
             android:name="com.umeng.qq.tencent.AssistActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar"
-            android:configChanges="orientation|keyboardHidden|screenSize"/>
+            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
         <activity
             android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:excludeFromRecents="true"
-            />
+            android:excludeFromRecents="true" />
 
         <meta-data
             android:name="UMENG_APPKEY"
-            android:value="58b6631dc62dca52ef0013dd" >
-        </meta-data>
+            android:value="58b6631dc62dca52ef0013dd" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="${UMENG_CHANNEL_VALUE}" />
+
+        <activity
+            android:name=".ui.home.action.more.ActionSignActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.home.find.MultipointActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.home.find.MultiLoginActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.home.action.more.ActionSignAddActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.home.sign.SignEditActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.home.mine.UpgradedActivity" />
+        <activity
+            android:name=".wxapi.WXEntryActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:exported="true"
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.login.BondPhoneActivity"></activity>
     </application>
 
 </manifest>

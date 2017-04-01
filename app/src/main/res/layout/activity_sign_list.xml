@@ -11,7 +11,6 @@
     android:drawableLeft="@mipmap/search"
     android:drawablePadding="5dp"
     android:hint="@string/et_signlist_search"
-
     />
     <ListView
         android:id="@+id/lv_signlist"

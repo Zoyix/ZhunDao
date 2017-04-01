@@ -26,11 +26,11 @@ public class AsyncWXEntry extends AsyncTask<String, Integer, String> {
     private Dialog mDialog;
     private String mcode;
 
-    public AsyncWXEntry(Context context, Handler handler, Dialog dialog, int request, String code) {
+    public AsyncWXEntry(Context context, Handler handler,int request, String code) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
-        this.mDialog = dialog;
+//        this.mDialog = dialog;
         this.mcode = code;
 
 

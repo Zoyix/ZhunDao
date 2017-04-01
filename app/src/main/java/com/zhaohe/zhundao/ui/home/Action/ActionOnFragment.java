@@ -26,6 +26,7 @@ import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
 import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.analytics.MobclickAgent;
 import com.umeng.socialize.ShareAction;
 import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
@@ -48,6 +49,8 @@ import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.dao.MySignupListDao;
+import com.zhaohe.zhundao.ui.home.action.more.ActionMoreActivity;
+import com.zhaohe.zhundao.ui.home.action.more.ActionSignActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +96,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView = getLayoutInflater(null).inflate(R.layout.fragment_acton,
+        rootView =LayoutInflater.from(getActivity()).inflate(R.layout.fragment_acton,
                 null);
         initHandler();
         initWx();
@@ -109,8 +112,16 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onResume() {
         super.onResume();
+        MobclickAgent.onResume(getActivity());
+
         //        上传本地扫码
         upload();
+
+    }
+
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getActivity());
     }
 
 
@@ -136,6 +147,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
         } else {
             getActionList();
+//            getActionListNoneDialog();
 
         }
     }
@@ -156,12 +168,10 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void getUserInf() {
-        if ((SPUtils.contains(getActivity(), "NickName")) == true) {
-            return;
-        } else {
+
             AsyncGetUserInf userInf = new AsyncGetUserInf(getActivity(), mHandler, MESSAGE_GET_USERINF);
             userInf.execute();
-        }
+
 
     }
 
@@ -207,7 +217,9 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
             bean.setUrl(jsonArray.getJSONObject(i).getString("ShareImgurl"));
             bean.setAct_id(jsonArray.getJSONObject(i).getString("ID"));
 ////            获取活动报名人数不为0的活动名单
-            if (jsonArray.getJSONObject(i).getString("Status") == "0") {
+//            System.out.println("json hashcode"+jsonArray.getJSONObject(i).getString("Status").hashCode()+"0的hashcode"+"0".hashCode());
+
+            if (jsonArray.getJSONObject(i).getString("Status").equals("0")) {
                 list.add(bean);
             } else {
 
@@ -243,7 +255,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
         msg.title = bean.getAct_title();
         msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
         //这里替换一张自己工程里的图片资源
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_multi);
         msg.setThumbImage(thumb);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis());
@@ -328,6 +340,13 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
         SPUtils.put(getActivity(), "NickName", bean.getData().getNickName());
         SPUtils.put(getActivity(), "HeadImgurl", bean.getData().getHeadImgurl());
         SPUtils.put(getActivity(), "Sex", bean.getData().getSex());
+        SPUtils.put(getActivity(), "vip", bean.getData().getGradeId());
+        int vip = (int) SPUtils.get(getActivity(), "vip", 0);
+        if( null==bean.getData().getMobile()){}
+        else{
+        SPUtils.put(getActivity(), "Mobile", bean.getData().getMobile());}
+        System.out.println("VIP等级"+vip);
+
 
     }
 
@@ -442,14 +461,26 @@ mShareListener = new UMShareListener() {
     }
 
     @Override
-    public void onEditClick(ActionBean bean) {
-        Intent intent = new Intent(getActivity(), EditActWebActivity.class);
-
-//        Intent intent = new Intent(getActivity(), EditActActivity.class);
-        Bundle bundle = new Bundle();
+    public void onSignClick(ActionBean bean) {
+//        Intent intent = new Intent(getActivity(), EditActWebActivity.class);
+//
+////        Intent intent = new Intent(getActivity(), EditActActivity.class);
+//        Bundle bundle = new Bundle();
+//        bundle.putString("act_id", bean.getAct_id());
+//        intent.putExtras(bundle);
+//        getActivity().startActivity(intent);
+       Intent intent = new Intent(getActivity(), ActionSignActivity.class);
+        Bundle  bundle = new Bundle();
         bundle.putString("act_id", bean.getAct_id());
+        bundle.putString("act_title", bean.getAct_title());
         intent.putExtras(bundle);
-        getActivity().startActivity(intent);
+        if (SPUtils.contains(getActivity(),"sign_result")==false) {
+            if (NetworkUtils.checkNetState(getActivity())==false) {
+                ToastUtil.makeText(getActivity(), R.string.net_error);
+                return;
+            }
+        }
+        this.startActivity(intent);
     }
 
     @Override
@@ -502,6 +533,9 @@ mShareListener = new UMShareListener() {
         intent.putExtras(bundle);
         this.startActivity(intent);
     }
+    private void showDialogNew(){
+
+    }
 
     //    微信分享底部对话框
     private void showDialog(final ActionBean bean) {
@@ -515,10 +549,14 @@ mShareListener = new UMShareListener() {
                             public void onClick(View v) {
                                 switch (v.getId()) {
                                     case R.id.iv_share_wechat_solid:
-                                        wxShare(0, bean);
+//                                        wxShare(0, bean);
+                                        UmengShare(bean,SHARE_MEDIA.WEIXIN);
+
                                         break;
                                     case R.id.iv_share_weixin_friends_solid:
-                                        wxShare(1, bean);
+                                        UmengShare(bean,SHARE_MEDIA.WEIXIN_CIRCLE);
+
+//                                        UmengShare(bean,SHARE_MEDIA.WEIXIN_CIRCLE);
                                         break;
                                     case R.id.iv_share_weibo_solid:
                                         UmengShare(bean,SHARE_MEDIA.SINA);
@@ -547,7 +585,7 @@ mShareListener = new UMShareListener() {
                     }
                 })
                 .setLayoutRes(R.layout.dialog_layout)
-                .setDimAmount(0.9f)
+                .setDimAmount(0.2f)//修改颜色
                 .setTag("BottomDialog")
                 .show();
     }

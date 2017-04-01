@@ -4,7 +4,7 @@
     android:id="@+id/activity_action_more"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.zhaohe.zhundao.ui.home.action.ActionMoreActivity">
+    tools:context="com.zhaohe.zhundao.ui.home.action.more.ActionMoreActivity">
     <RelativeLayout
         android:id="@+id/rl_act_more_details"
         android:layout_width="wrap_content"

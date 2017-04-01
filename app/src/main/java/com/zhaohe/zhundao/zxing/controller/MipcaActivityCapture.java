@@ -70,9 +70,10 @@ public class MipcaActivityCapture extends Activity implements Callback,OnClickLi
     private LinearLayout ll_sign_scan;
     private EditText et_sign_scan;
     private Button btn_sign_scan_scan;
-private Handler mHandler;
+    private Handler mHandler;
     public static final int MESSAGE_SIGN_SCAN_PHONE=100;
     private MySignupListDao dao;
+    private LinearLayout ll_camera_text_group,ll_camera_button_group;
 
     /**
      * Called when the activity is first created.
@@ -94,8 +95,8 @@ private Handler mHandler;
         });
         hasSurface = false;
         inactivityTimer = new InactivityTimer(this);
-        initIntent();
         initView();
+        initIntent();
         initHandler();
 
     }
@@ -103,6 +104,15 @@ private Handler mHandler;
     private void initIntent() {
         Intent intent = getIntent();
         CheckInID = intent.getStringExtra("CheckInID");
+        String view_show=intent.getStringExtra("view_show");
+        if (view_show.equals("false")){
+            ll_camera_button_group.setVisibility(View.GONE);
+            ll_camera_text_group.setVisibility(View.GONE);
+        }
+        else{
+            ll_camera_button_group.setVisibility(View.VISIBLE);
+            ll_camera_text_group.setVisibility(View.VISIBLE);
+        }
     }
 
     private void initView() {
@@ -121,11 +131,12 @@ private Handler mHandler;
         btn_sign_scan_scan= (Button) findViewById(R.id.btn_sign_scan_scan);
         btn_sign_scan_scan.setOnClickListener(this);
         dao=new MySignupListDao(this);
+        ll_camera_button_group= (LinearLayout) findViewById(R.id.ll_camera_button_group);
+        ll_camera_text_group= (LinearLayout) findViewById(R.id.ll_camera_text_group);
     }
     private  void SignScanPhone(String phone){
         AsyncSignScanPhone async = new AsyncSignScanPhone(this, mHandler, MESSAGE_SIGN_SCAN_PHONE, phone,CheckInID);
         async.execute();
-
     }
 
     @Override
@@ -473,7 +484,7 @@ SignScanPhoneOffLine(mPhone);
                             resultDialog("签到失败！",message);
 //                            ToastUtil.makeText(getActivity(), message);
                         }
-                            ;
+
 
 
                 break;

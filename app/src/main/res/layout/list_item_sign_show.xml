@@ -25,7 +25,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:id="@+id/tv_act_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_toRightOf="@id/tv_sign_type"
             android:gravity="center_vertical"
@@ -38,8 +38,9 @@
             android:id="@+id/iv_sign_right2"
             android:src="@drawable/right"
             style="@style/sign_right"
-            android:paddingLeft="300dp"
-            />
+            android:paddingLeft="280dp"
+             />
+
 
 
         <View
@@ -54,7 +55,7 @@
             android:layout_marginBottom="10dp"
             android:layout_below="@id/tv_sign_type"
             android:id="@+id/tv_act_name"
-            android:text="@string/tv_act_name"
+            android:text="所属活动："
             android:layout_alignParentLeft="true"
             android:textSize="14sp"
             android:textColor="@color/text_black"
@@ -62,20 +63,19 @@
             android:layout_height="wrap_content" />
         <!--活动标题sign-->
         <TextView
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-
+android:layout_marginLeft="10dp"
             android:id="@+id/tv_sign_title"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_act_title"
-            android:layout_toRightOf="@id/tv_sign_type"
             android:gravity="center_vertical"
             android:text="@string/tv_act_title"
             android:maxLines="1"
             android:textColor="@color/text_black"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_alignBaseline="@+id/tv_act_name"
+            android:layout_alignBottom="@+id/tv_act_name"
+            android:layout_toRightOf="@+id/tv_act_name"
+            android:layout_toEndOf="@+id/tv_act_name" />
 
 
         <View
@@ -98,7 +98,7 @@
 
         <TextView
             android:layout_marginTop="10dp"
-
+android:layout_marginLeft="10dp"
             android:id="@+id/tv_sign_num"
             android:text="@string/tv_sign"
             android:layout_below="@+id/tv_act_name"

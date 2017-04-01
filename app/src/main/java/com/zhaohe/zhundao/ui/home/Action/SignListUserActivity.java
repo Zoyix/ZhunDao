@@ -4,10 +4,14 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.widget.Toolbar;
+import android.view.ContextMenu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -19,8 +23,10 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
+import com.zhaohe.app.utils.ZXingUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -41,6 +47,8 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
     private JSONObject jsonObj;
     private JSONArray jsonArray;
     private String phone;
+    private static int id=R.id.tv_code_img;
+    private String url,text;//当前要保存的图片的url和标题
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -326,7 +334,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
 
 
     //    插入多图片数组
-    public void insertRL(String text1, String[] imgurl) {
+    public void insertRL(final String text1, final String[] imgurl) {
 //        10dp的默认margin
         int margin = dip2px(this, 10);
         int h = dip2px(this, 1);
@@ -359,25 +367,38 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         rl.addView(tv1, tvParams1);
 //for循环插入不同位置的图片
         for (int j = 0; j < imgurl.length; j++) {
-            String newimgurl = imgurl[j].replace("800", "100");
+            String newimgurl = imgurl[j].replace("800", "200");
+            final int num=j;
 //            计算图片在第几层
             int x = (int) Math.floor(j / 3);
 //            计算图片在第几个位置
             int y = j % 3;
             ImageView img = new ImageView(this);
-            img.setId(R.id.tv_code_img);
+            img.setId(R.id.tv_code_img+j);
+
             Picasso.with(this).load(newimgurl).error(R.mipmap.ic_launcher).into(img);
             RelativeLayout.LayoutParams imgParams1 =
                     new RelativeLayout.LayoutParams(
-                            RelativeLayout.LayoutParams.MATCH_PARENT,
-                            h1);
+                            h1, h1);
             img.setScaleType(ImageView.ScaleType.FIT_START);
             imgParams1.addRule(RelativeLayout.BELOW, tv1.getId());
 //            设置图片相对父控件的位置
             imgParams1.leftMargin = (y + 1) * margin + y * left;
             imgParams1.topMargin = (x + 2) * margin + x * left;
+            //注册上下文菜单
+            registerForContextMenu(img);
 //            将图片设置到RL父控件中去
             rl.addView(img, imgParams1);
+            img.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+//                    savePhoto(imgurl[num], text1);
+
+url=imgurl[num];
+                    text=text1;
+                    return false;
+                }
+            });
 
         }
 //        把RL父控件加到总控件ll中去
@@ -389,6 +410,28 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
                         RelativeLayout.LayoutParams.MATCH_PARENT,
                         h);
         ll_sign_list_user.addView(view, vParams);
+    }
+
+    private void savePhoto(String path, final String text1) {
+        //                     由于用了帕斯卡的xml加载图片，imageview转换bitmap会失效，所以使用帕斯卡自带的方法
+        Picasso.with(getApplicationContext())
+                .load(path)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap,text1);
+                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
+                    }
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
     }
 
     public void insertImageViewMuti(String text1) {
@@ -420,4 +463,23 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
                 break;
         }
     }
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v,
+                                    ContextMenu.ContextMenuInfo menuInfo) {
+        menu.add(0, 1, 0, "保存图片");
+
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 1:
+                savePhoto(url, text);
+                break;
+
+        }
+        return true;
+    }
+
+
 }

@@ -18,7 +18,7 @@ import com.zhaohe.zhundao.R;
  */
 public abstract class TabHostActivity extends FragmentActivity {
 
-    private FragmentTabHost mTabHost;
+    protected FragmentTabHost mTabHost;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {

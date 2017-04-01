@@ -23,8 +23,13 @@ public class Constant {
     public static final class Url {
         //        登录获取Accesskey
         public static final String Login = "/api/PerBase/GetAccessKey";
+        //        登录获取多点签到Accesskey
+        public static final String LoginMulti = "/api/PerBase/VerifyCheckInAdmin";
         //        获取微信登录权限
         public static final String GetAccessToken = "/oauth/appcallback";
+//发送微信信息给服务器
+public static final String SentWxUserInf = "/oauth/CreateUserFromAndroid";
+
         //        获取活动列表
         public static final String GetActivityList = "/api/PerActivity/PostActivityList";
         //        更新或者添加活动
@@ -64,8 +69,23 @@ public class Constant {
 //        管理员手机代签
 
         public static final String AddCheckInListByPhone= "/api/CheckIn/AddCheckInListByPhone";
-
+//分享活动
         public static final String ShareUrl = "m.zhundao.net/event/";
+//        绑定摇一摇设备
+        public static final String AddBeacon = "/api/Game/UpdateBeacon";
+//        添加签到
+        public static final String AddCheckIn = "/api/CheckIn/AddCheckIn";
+//        修改签到
+public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTypeName";
+        public static final String DeleteCheckIn = "/api/CheckIn/DeleteCheckIn";
+
+        public static final String Device = "Android";
+
+
+
+
+
+
         public static final String IMG_DOWNLOAD = "";
         public static final String IMG_DELETED = "";
 

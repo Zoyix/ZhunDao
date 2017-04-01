@@ -3,8 +3,10 @@ package com.zhaohe.zhundao.ui.home.mine;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.text.TextPaint;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,9 +15,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
+import com.umeng.analytics.MobclickAgent;
+import com.zhaohe.app.utils.CircleTransform;
 import com.zhaohe.app.utils.IntentUtils;
+import com.zhaohe.app.utils.JSONUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
+import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
+import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 
 /**
@@ -25,21 +32,41 @@ import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
  */
 public class MineFragment extends Fragment implements View.OnClickListener {
     public static final int MESSAGE_IMG_DOWNLOAD = 98;
+    public static final int MESSAGE_GET_USERINF = 91;
+
     protected View rootView;
     private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
-    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback;
+    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback,tv_min_phone,tv_min_vip;
 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView = getLayoutInflater(null).inflate(R.layout.fragment_min,
+        rootView =LayoutInflater.from(getActivity()).inflate(R.layout.fragment_min,
                 null);
-
+initHandler();
         initView(rootView);
+
+    }
+    public void onResume() {
+        super.onResume();
+        getUserInf();
         initUserInfo();
+        MobclickAgent.onResume(getActivity());
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getActivity());
+    }
+
+    private void getUserInf() {
+
+        AsyncGetUserInf userInf = new AsyncGetUserInf(getActivity(), mHandler, MESSAGE_GET_USERINF);
+        userInf.execute();
+
+
     }
 
 
@@ -53,12 +80,25 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         tv_min_wallet.setOnClickListener(this);
         tv_min_feedback = (TextView) rootView.findViewById(R.id.tv_feedback);
         tv_min_feedback.setOnClickListener(this);
+        tv_min_phone= (TextView) rootView.findViewById(R.id.tv_min_phone);
+        tv_min_vip= (TextView) rootView.findViewById(R.id.tv_min_vip);
+        tv_min_vip.setOnClickListener(this);
+
     }
 
     private void initUserInfo() {
         //        帕斯卡 加载头像
         String url = (String) SPUtils.get(getActivity(), "HeadImgurl", "");
         String name = (String) SPUtils.get(getActivity(), "NickName", "");
+        String phone=(String) SPUtils.get(getActivity(), "Mobile", "");
+        String newPhone;
+        if(phone.equals("")||phone.equals(null)){
+             newPhone="绑定手机";
+        }
+        else
+        { newPhone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");}
+        int vip = (int) SPUtils.get(getActivity(), "vip", 0);
+
         int sex = (int) SPUtils.get(getActivity(), "Sex", 2);
         if (sex == 1) {
             Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
@@ -69,7 +109,13 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
 //        String url="http://wx.qlogo.cn/mmopen/cdJxMia7edLt0ZywjiaFNQkOH4WXSCiaOkAAfNwaNVCp25IYX3otiaqibNGn8ib4SadtYUfMFoibYT1l5gXG1Kiamv5CVMhibQJpXjt0y/0";
         tv_min_name.setText(name);
-        Picasso.with(getActivity()).load(url.toString()).error(R.drawable.unkown_head).into(img_head);
+        tv_min_phone.setText(newPhone);
+        tv_min_vip.setText("V"+vip);
+        TextPaint tp = tv_min_vip.getPaint();
+        tp.setFakeBoldText(true);
+        Picasso.with(getActivity()).load(url.toString()).error(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
+
+
     }
 
 
@@ -113,6 +159,43 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 .create().show();
 
     }
+    private void initHandler() {
+        mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+
+                    case MESSAGE_GET_USERINF:
+                        String result3 = (String) msg.obj;
+                        SPUtils.put(getActivity(), "UserInfo", result3);
+                        System.out.println("use" + result3);
+                        savaUserInf(result3);
+                        break;
+
+
+
+                    default:
+                        break;
+                }
+            }
+        };
+    }
+    private void savaUserInf(String result) {
+
+        ToolUserBean bean = JSONUtils.parseObject(result, ToolUserBean.class);
+        SPUtils.put(getActivity(), "NickName", bean.getData().getNickName());
+        SPUtils.put(getActivity(), "HeadImgurl", bean.getData().getHeadImgurl());
+        SPUtils.put(getActivity(), "Sex", bean.getData().getSex());
+        SPUtils.put(getActivity(), "vip", bean.getData().getGradeId());
+        int vip = (int) SPUtils.get(getActivity(), "vip", 2);
+        if( null==bean.getData().getMobile()){}
+        else{
+            SPUtils.put(getActivity(), "Mobile", bean.getData().getMobile());}        System.out.println("VIP等级"+vip);
+        initUserInfo();
+
+    }
+
 
 
     @Override
@@ -128,8 +211,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 //                IntentUtils.startActivity(getActivity(), FeedbackActivity.class);
                 showWaiterAuthorizationDialog();
                 break;
+            case R.id.tv_min_vip:
+                IntentUtils.startActivity(getActivity(),UpgradedActivity.class);
+                break;
 
 
         }
     }
+
 }

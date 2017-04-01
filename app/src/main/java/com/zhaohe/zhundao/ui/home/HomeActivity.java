@@ -43,6 +43,11 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
         super.onCreate(savedInstanceState);
         initToolbar();
         regToWechat();
+        initIntent();
+
+    }
+
+    private void initIntent() {
 
     }
 
@@ -125,4 +130,5 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
         }
         return false;
     }
+
 }

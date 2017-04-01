@@ -20,6 +20,16 @@
     <!--代码布局-->
     <item name="tv_code_title" type="id" />
     <item name="tv_code_content" type="id" />
+    <item name="tv_code_img0" type="id" />
+    <item name="tv_code_img1" type="id" />
+    <item name="tv_code_img2" type="id" />
+    <item name="tv_code_img3" type="id" />
+    <item name="tv_code_img4" type="id" />
+    <item name="tv_code_img5" type="id" />
+    <item name="tv_code_img6" type="id" />
+    <item name="tv_code_img7" type="id" />
+    <item name="tv_code_img8" type="id" />
+    <item name="tv_code_img9" type="id" />
     <item name="tv_code_img" type="id" />
 
 

@@ -10,7 +10,7 @@
         android:background="@color/black3" />
 
     <TextView
-        android:drawableLeft="@mipmap/find_custom"
+        android:drawableLeft="@mipmap/find_custom108"
         android:id="@+id/tv_find_custom"
         android:layout_marginTop="20dp"
         android:clickable="true"
@@ -22,9 +22,20 @@
         android:background="@color/black3" />
 
     <TextView
-        android:drawableLeft="@mipmap/shake"
+        android:drawableLeft="@mipmap/find_shake108"
         android:id="@+id/tv_find_shake"
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_find_shake" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
+        android:drawableLeft="@mipmap/find_multi108"
+        android:id="@+id/tv_find_multipoint"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_find_multipoint" />
 </LinearLayout>

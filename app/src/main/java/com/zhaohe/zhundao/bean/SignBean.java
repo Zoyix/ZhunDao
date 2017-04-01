@@ -17,6 +17,15 @@ public class SignBean implements Serializable {
     }
 
     private String sign_id;
+    private String  signObject;
+
+    public String getSignObject() {
+        return signObject;
+    }
+
+    public void setSignObject(String signObject) {
+        this.signObject = signObject;
+    }
 
     public String getAct_id() {
         return act_id;

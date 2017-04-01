@@ -42,6 +42,7 @@ public class AsyncLogin extends AsyncTask<String, Integer, String> {
         Map<String, String> map = new HashMap<String, String>();
         map.put("passWord", mpassWord);
         map.put("mobile", mmobile);
+        map.put("from","Android");
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

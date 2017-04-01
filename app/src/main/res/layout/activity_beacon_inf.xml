@@ -98,6 +98,26 @@ android:layout_marginBottom="10dp"
             <include layout="@layout/line"></include>
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_beacon_time"
+            style="@style/act_user_rl">
+
+            <TextView
+                android:layout_alignParentLeft="true"
+                style="@style/act_user_tv"
+
+                android:text="@string/add_time" />
+
+            <TextView
+                android:id="@+id/tv_beacon_time"
+                android:layout_alignParentRight="true"
+                style="@style/act_user_tv"
+android:maxLength="10"
+                android:text="@string/none" />
+
+            <include layout="@layout/line"></include>
+
+        </RelativeLayout>
 
         <RelativeLayout
             android:id="@+id/rl_beacon_bind"
@@ -111,17 +131,26 @@ android:layout_marginBottom="10dp"
 
             <TextView
                 android:id="@+id/tv_beacon_nickname"
-                android:layout_alignParentRight="true"
                 style="@style/act_user_tv"
-
-                android:text="@string/none" />
+android:maxLength="15"
+                android:drawablePadding="5dp"
+                android:drawableRight="@drawable/right"
+                android:text="@string/none"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
             <include layout="@layout/line"></include>
 
         </RelativeLayout>
 
 
-
+        <Button
+            android:visibility="gone"
+            android:layout_marginTop="30dp"
+            android:layout_width="match_parent"
+            android:id="@+id/btn_find_beacon_delete"
+            android:text="@string/btn_find_beacon_delete"
+            style="@style/btn_login" />
 
 
     </LinearLayout>

@@ -1,5 +1,6 @@
 package com.zhaohe.zhundao.ui.home.sign;
 
+import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +22,8 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.umeng.analytics.MobclickAgent;
+import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.QueryCodeUtils;
@@ -35,6 +38,7 @@ import com.zhaohe.zhundao.asynctask.AsyncUpdateSignStatus;
 import com.zhaohe.zhundao.bean.SignBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
 import com.zhaohe.zhundao.dao.MySignupListDao;
+import com.zhaohe.zhundao.ui.home.mine.UpgradedActivity;
 import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
 
 import java.util.ArrayList;
@@ -74,15 +78,26 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView = getLayoutInflater(null).inflate(R.layout.fragment_sigoff,
+        rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_sigoff,
                 null);
         initView();
         initHandler();
         initData();
-//        test();
         init();
+//        test();
+
 
     }
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(getActivity());
+
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(getActivity());
+    }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,7 +119,10 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         }
         else if(NetworkUtils.checkNetState(getActivity()))
         {
-            getSignAll();}
+//            getSignAll();
+            getSignAllNoneDialog();
+
+        }
         else{
             ToastUtil.makeText(getActivity(),R.string.net_error);
         }
@@ -139,19 +157,21 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
             bean.setSign_id(jsonArray.getJSONObject(i).getString("ID"));
             bean.setSign_status(jsonArray.getJSONObject(i).getString("Status"));
+            bean.setSignObject(jsonArray.getJSONObject(i).getString("SignObject"));
+
             //签到类型  默认0 到场签到   1离场签退  2 集合签到"
-            if (jsonArray.getJSONObject(i).getString("CheckInType") == "0") {
-                bean.setSign_type("到场签到");
+            if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("0")) {
+                bean.setSign_type("到场签到：");
             }
-            if (jsonArray.getJSONObject(i).getString("CheckInType") == "1") {
-                bean.setSign_type("离场签退");
+            if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("1")) {
+                bean.setSign_type("离场签退：");
             }
-            if (jsonArray.getJSONObject(i).getString("CheckInType") == "2") {
-                bean.setSign_type("集合签到");
+            if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("2")) {
+                bean.setSign_type("集合签到：");
             }
             bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
 
-            if (jsonArray.getJSONObject(i).getString("Status") == "false") {
+            if (jsonArray.getJSONObject(i).getString("Status") .equals("false")) {
                 list.add(bean);
             } else {
 
@@ -192,10 +212,13 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             bean.setFeeName(jsonArray.getJSONObject(i).getString("FeeName"));
             bean.setFee(jsonArray.getJSONObject(i).getString("Fee"));
             bean.setUpdateStatus("false");
+            bean.setSignTime(jsonArray.getJSONObject(i).getString("SignTime"));
             list.add(bean);
             System.out.println(bean.toString());
-            dao.save(bean);
+
         }
+        dao.save(list);
+
 
     }
 
@@ -277,8 +300,12 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                         break;
                     case MESSAGE_GET_SIGNUPLIST:
                         String result2 = (String) msg.obj;
+                        JSONObject jsonObj2 = JSON.parseObject(result2);
+                        if ("201".equals(jsonObj2.getString("Url"))){
+                            UpgradedDialog(getActivity());
+                            return;
+                        }
                         insertSignupList(result2);
-                        System.out.println("SignupList result:  " + result2);
                         gotoSignupList(result2);
                         break;
                     case MESSAGE_SCAN_CODE:
@@ -367,6 +394,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 intent.setClass(getActivity(), MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("CheckInID", bean.getSign_id());
+                intent.putExtra("view_show","true" );
                 startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
             } else if (NetworkUtils.checkNetState(getActivity())) {
                 String mParam = "ID=" + bean.getSign_id();
@@ -386,16 +414,20 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onSignSwitch(SignBean bean) {
         updateSignStatus(bean.getSign_id());
-        init();
+        new Handler().postDelayed(new Runnable(){
+            public void run() {
+                init();            }
+        }, 2000);
     }
 
     @Override
     public void onEditTitle(SignBean bean) {
-        mSignID = bean.getSign_id();
-        Intent intent = new
-                Intent(getActivity(), SignUpdateTitleActivity.class);
-        intent.putExtra("mSignID", mSignID);
-        startActivity(intent);
+        Intent intent = new Intent();
+        intent.setClass(getActivity(), SignEditActivity.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("bean", bean);
+        intent.putExtras(bundle);
+        this.startActivity(intent);
     }
 
     @Override
@@ -544,5 +576,32 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 .show();
     }
 
+    public void UpgradedDialog(final Activity activity) {
 
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+
+        new AlertDialog.Builder(getActivity())
+                //对话框的标题
+                .setTitle("对不起,您的权限不够！")
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("升级", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        IntentUtils.startActivity(activity, UpgradedActivity.class);
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
 }

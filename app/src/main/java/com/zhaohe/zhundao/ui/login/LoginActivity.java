@@ -5,12 +5,6 @@ import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Canvas;
-import android.graphics.Paint;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffXfermode;
-import android.graphics.Rect;
-import android.graphics.RectF;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,9 +18,13 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
 import com.tencent.mm.sdk.modelmsg.SendAuth;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
+import com.umeng.socialize.UMAuthListener;
+import com.umeng.socialize.UMShareAPI;
+import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.app.utils.JSONUtils;
 import com.zhaohe.app.utils.NetworkUtils;
@@ -35,13 +33,21 @@ import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncLogin;
+import com.zhaohe.zhundao.asynctask.AsyncSentUserInfGetPhoneBond;
 import com.zhaohe.zhundao.bean.AccessKeyBean;
+import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.ui.home.HomeActivity;
 
+import java.util.Map;
+
+import static com.zhaohe.app.utils.MakeRoundUntils.makeRoundCorner;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     //登录动作（暂时）
-    public static final int MESSAGE_WX_ENTY = 100;
+    public static final int MESSAGE_PHONE_ENTY = 100;
+    public static final int MESSAGE_WX_ENTY = 99;
+
     public static String uuid = null;
     private IWXAPI api;
     private Button btn_login;
@@ -52,6 +58,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText et_phone;
     private EditText et_password;
     private ImageView img_ico;
+    private UMShareAPI mShareAPI=null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,14 +93,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //向微信发送请求
         api.sendReq(req);
     }
+private void checkUser(String access_token,String openid){
+    AsyncSentUserInfGetPhoneBond asyncLogin = new AsyncSentUserInfGetPhoneBond(this, mHandler, MESSAGE_WX_ENTY, access_token, openid);
+    asyncLogin.execute();
 
+}
     //执行异步耗时信息
     private void init() {
+
         if (NetworkUtils.checkNetState(this)) {
             mmobile = et_phone.getText().toString();
             mpassWord = et_password.getText().toString();
             Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
-            AsyncLogin asyncLogin = new AsyncLogin(this, mHandler, dialog, MESSAGE_WX_ENTY, mmobile, mpassWord);
+            AsyncLogin asyncLogin = new AsyncLogin(this, mHandler, dialog, MESSAGE_PHONE_ENTY, mmobile, mpassWord);
             asyncLogin.execute();
 
 
@@ -102,6 +115,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void initView() {
+        mShareAPI = UMShareAPI.get(this);
         btn_login = (Button) findViewById(R.id.btn_login);
         btn_login.setOnClickListener(this);
         btn_login_wechat = (ImageView) findViewById(R.id.btn_login_wechat);
@@ -124,7 +138,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             @Override
             public void handleMessage(Message msg) {
                 switch (msg.what) {
-                    case MESSAGE_WX_ENTY:
+                    case MESSAGE_PHONE_ENTY:
                         String result = (String) msg.obj;
 //                        DialogUtils.showDialog(LoginActivity.this, R.string.app_serviceReturnrRigth);
 //                        Toast.makeText(LoginActivity.this, result, Toast.LENGTH_LONG).show();
@@ -143,17 +157,18 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                         }
 
-
-//                        AccessKeyBean bean = JSONUtils.parseObject(result,AccessKeyBean.class);
-//                        Log.i("test",""+bean.toString());
-//                        NoticeBean bean = JSONUtils.parseObject (result, NoticeBean.class);
-//                        if (bean != null) {
-//                            showData (bean);
-//                        } else {
-//                            DialogUtils.showDialog (NoticeViewActivity.this, R.string.app_serviceReturnError);
-//                        }
                         break;
-
+                    case MESSAGE_WX_ENTY:
+                         result = (String) msg.obj;
+//                        Toast.makeText(WXEntryActivity.this, result, Toast.LENGTH_LONG).show();
+                        System.out.println("user message" + result);
+                        ToolUserBean bean = (ToolUserBean) JSON.parseObject(result, ToolUserBean.class);
+                        SPUtils.put(getApplicationContext(), "accessKey", bean.getData().getUnionid());
+                        Log.i("result", "" + bean.toString());
+                        isBondPhone(bean);
+//                        SPUtils.put(getApplicationContext(),"wx_result",result);
+//                        isBondPhone((String) SPUtils.get(getApplicationContext(),"wx_result",""));
+                        break;
                     default:
                         break;
                 }
@@ -175,38 +190,73 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         return super.onKeyDown(keyCode, event);
     }
 
-    public Bitmap makeRoundCorner(Bitmap bitmap) {
-        int width = bitmap.getWidth();
-        int height = bitmap.getHeight();
-        int left = 0, top = 0, right = width, bottom = height;
-        float roundPx = height / 2;
-        if (width > height) {
-            left = (width - height) / 2;
-            top = 0;
-            right = left + height;
-            bottom = height;
-        } else if (height > width) {
-            left = 0;
-            top = (height - width) / 2;
-            right = width;
-            bottom = top + width;
-            roundPx = width / 2;
+    private UMAuthListener umAuthListener = new UMAuthListener() {
+        @Override
+        public void onStart(SHARE_MEDIA platform) {
+            //授权开始的回调
+        }
+        @Override
+        public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
+            Toast.makeText(getApplicationContext(), "微信登录成功！", Toast.LENGTH_SHORT).show();
+//           String nickname =data.get("screen_name");
+//            int sex;
+//            String province =data.get("province");
+//String city=data.get("city");
+//            String country =data.get("country ");
+//
+//            if (data.get("gender").equals("男")){
+//   sex=1;
+//}
+//            if (data.get("gender").equals("女")){
+//                sex=2;
+//            }
+//            else{
+//                sex=0;
+//            }
+            checkUser(data.get("accessToken"),data.get("openid"));
+//            ToastUtil.makeText(getApplicationContext(),name);
+//            Set set = data.entrySet();
+//
+//            for(Iterator iter = set.iterator(); iter.hasNext();)
+//            {
+//                Map.Entry entry = (Map.Entry)iter.next();
+//
+//                String key = (String)entry.getKey();
+//                String value = (String)entry.getValue();
+//                System.out.println(key +" :" + value);
+//            }
+//            map.get accessToken
         }
 
-        Bitmap output = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
-        Canvas canvas = new Canvas(output);
-        int color = 0xff424242;
-        Paint paint = new Paint();
-        Rect rect = new Rect(left, top, right, bottom);
-        RectF rectF = new RectF(rect);
+        @Override
+        public void onError(SHARE_MEDIA platform, int action, Throwable t) {
+            Toast.makeText( getApplicationContext(), "微信授权失败！", Toast.LENGTH_SHORT).show();
+        }
 
-        paint.setAntiAlias(true);
-        canvas.drawARGB(0, 0, 0, 0);
-        paint.setColor(color);
-        canvas.drawRoundRect(rectF, roundPx, roundPx, paint);
-        paint.setXfermode(new PorterDuffXfermode(PorterDuff.Mode.SRC_IN));
-        canvas.drawBitmap(bitmap, rect, rect, paint);
-        return output;
+        @Override
+        public void onCancel(SHARE_MEDIA platform, int action) {
+            Toast.makeText( getApplicationContext(), "取消微信授权！", Toast.LENGTH_SHORT).show();
+        }
+    };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
+
+    }
+    //判断是否绑定过手机
+    private void isBondPhone(ToolUserBean bean) {
+//    JSONObject jsonObj = JSON.parseObject(result);
+//    JSONArray jsonArray = jsonObj.getJSONArray("Data");
+System.out.println("手机号码"+bean.getData().getMobile());
+        if ((bean.getData().getMobile()) == null) {
+            IntentUtils.startActivity(this, BondPhoneActivity.class);
+
+        } else
+            SPUtils.put(this, "accessKey", bean.getData().getUnionid());
+        SPUtils.put(getApplicationContext(), "islogin", true);
+        IntentUtils.startActivity(this, HomeActivity.class);
+
     }
 
     @Override
@@ -224,7 +274,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                     return;
                 } else {
-                    sentToWechat();
+//                    sentToWechat();
+                    mShareAPI.getPlatformInfo(this, SHARE_MEDIA.WEIXIN, umAuthListener);
+//                    mShareAPI.doOauthVerify(this, SHARE_MEDIA.WEIXIN, umAuthListener);
+
                     Toast.makeText(LoginActivity.this, "发送登录微信请求，请稍等。", Toast.LENGTH_LONG).show();
 
                 }
@@ -234,4 +287,5 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 break;
         }
     }
+
 }

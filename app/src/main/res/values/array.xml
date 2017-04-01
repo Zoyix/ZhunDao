@@ -8,5 +8,13 @@
         <item>图片</item>
         <item>单选</item>
     </string-array>
-
+    <string-array name="sign_add_type">
+        <item>到场签到</item>
+        <item>离场签退</item>
+        <item>集合签到</item>
+    </string-array>
+    <string-array name="sign_add_object">
+        <item>限报名人员</item>
+        <item>不限报名人员</item>
+    </string-array>
 </resources>

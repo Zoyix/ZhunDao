@@ -21,6 +21,7 @@
 
 
     <EditText
+        android:layout_marginTop="50dp"
         android:layout_marginLeft="15dp"
         android:id="@+id/et_phone_bond"
         android:layout_width="220dp"
@@ -32,12 +33,12 @@
         android:id="@+id/btn_send_code"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
-        android:layout_toRightOf="@id/et_phone_bond"
-        android:layout_alignBaseline="@+id/et_phone_bond"
         android:text="@string/btn_sent_code"
         android:background="@drawable/bg_identify_code_press"
 
-        />
+        android:layout_alignTop="@+id/et_phone_bond"
+        android:layout_alignRight="@+id/btn_bond_phone"
+        android:layout_alignEnd="@+id/btn_bond_phone" />
 
     <EditText
         android:layout_marginLeft="15dp"

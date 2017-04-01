@@ -13,6 +13,8 @@ import com.zhaohe.zhundao.constant.Constant;
 import java.util.HashMap;
 import java.util.Map;
 
+import static com.zhaohe.zhundao.constant.Constant.Url.Device;
+
 /**
  * @Description:删除活动
  * @Author:邹苏隆
@@ -41,6 +43,9 @@ public class AsyncActionDelete extends AsyncTask<String, Integer, String> {
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         map.put("activityId",act_id);
+        map.put("from",Device);
+
+
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

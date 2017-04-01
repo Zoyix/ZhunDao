@@ -7,6 +7,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.umeng.analytics.MobclickAgent;
 import com.zhaohe.zhundao.R;
 
 /**
@@ -54,10 +55,13 @@ public abstract class ToolBarActivity extends AppCompatActivity {
         /**
          * 设置为横屏
          */
+
         if (getRequestedOrientation() != ActivityInfo.SCREEN_ORIENTATION_PORTRAIT) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
         super.onResume();
+        MobclickAgent.onResume(this);
+
     }
 
     @Override
@@ -67,5 +71,19 @@ public abstract class ToolBarActivity extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPause(this);
+    }
+    public void initToolBarNew(String text, int layoutResID) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
+        mToolBarHelper.setTvTitle(text);
+        super.setTitle("");
+        setContentView(mToolBarHelper.getContentView());
+        toolbar = mToolBarHelper.getToolBar();
+  /*把 toolbar 设置到Activity 中*/
+        setSupportActionBar(toolbar);
     }
 }

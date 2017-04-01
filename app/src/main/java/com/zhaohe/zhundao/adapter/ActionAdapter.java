@@ -23,7 +23,7 @@ import java.util.List;
 public class ActionAdapter extends AdapterBase<ActionBean, ActionHolder> implements View.OnClickListener {
 
     public interface ActionClickListener {
-        public void onEditClick(ActionBean bean);
+        public void onSignClick(ActionBean bean);
 
         public void onListClick(ActionBean bean);
 
@@ -137,7 +137,7 @@ public class ActionAdapter extends AdapterBase<ActionBean, ActionHolder> impleme
         switch (view.getId()) {
             case R.id.btn_act_edit:
                 if (actionClickListener != null) {
-                    actionClickListener.onEditClick(bean);
+                    actionClickListener.onSignClick(bean);
                 }
                 break;
             case R.id.btn_act_share:
@@ -168,7 +168,7 @@ public class ActionAdapter extends AdapterBase<ActionBean, ActionHolder> impleme
 
             case R.id.tv_act_edit:
                 if (actionClickListener != null) {
-                    actionClickListener.onEditClick(bean);
+                    actionClickListener.onSignClick(bean);
                 }
                 break;
             case R.id.tv_act_share:

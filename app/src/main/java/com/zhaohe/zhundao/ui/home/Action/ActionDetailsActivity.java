@@ -70,9 +70,10 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_action_details);
-        initToolBar();
         initWx();
         initView();
+
+        initToolBar();
 
     }
 
@@ -182,7 +183,7 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
         msg.title = bean.getAct_title();
         msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
         //这里替换一张自己工程里的图片资源
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo);
+        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_multi);
         msg.setThumbImage(thumb);
         SendMessageToWX.Req req = new SendMessageToWX.Req();
         req.transaction = String.valueOf(System.currentTimeMillis());
@@ -290,10 +291,11 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
                             public void onClick(View v) {
                                 switch (v.getId()) {
                                     case R.id.iv_share_wechat_solid:
-                                        wxShare(0);
+                                        UmengShare(bean,SHARE_MEDIA.WEIXIN);
                                         break;
                                     case R.id.iv_share_weixin_friends_solid:
-                                        wxShare(1);
+                                        UmengShare(bean,SHARE_MEDIA.WEIXIN_CIRCLE);
+
                                         break;
                                     case R.id.iv_share_weibo_solid:
                                         UmengShare(bean, SHARE_MEDIA.SINA);
@@ -322,7 +324,7 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
                     }
                 })
                 .setLayoutRes(R.layout.dialog_layout)
-                .setDimAmount(0.9f)
+                .setDimAmount(0.2f)
                 .setTag("BottomDialog")
                 .show();
     }
