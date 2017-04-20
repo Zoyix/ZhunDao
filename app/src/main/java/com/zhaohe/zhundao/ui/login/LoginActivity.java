@@ -2,9 +2,6 @@ package com.zhaohe.zhundao.ui.login;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.content.res.Resources;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -40,8 +37,6 @@ import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.ui.home.HomeActivity;
 
 import java.util.Map;
-
-import static com.zhaohe.app.utils.MakeRoundUntils.makeRoundCorner;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     //登录动作（暂时）
@@ -126,10 +121,10 @@ private void checkUser(String access_token,String openid){
 //        et_password.setInputType(EditorInfo.TYPE_CLASS_PHONE);
 
         img_ico = (ImageView) findViewById(R.id.img_ico);
-        Resources res = getResources();
-        Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_login);
-//        img_ico.setImageBitmap(toRoundBitmap(bmp));
-        img_ico.setImageBitmap(makeRoundCorner(bmp));
+//        Resources res = getResources();
+//        Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_login);
+////        img_ico.setImageBitmap(toRoundBitmap(bmp));
+//        img_ico.setImageBitmap(makeRoundCorner(bmp));
     }
 
     private void initHandler() {
@@ -249,10 +244,10 @@ private void checkUser(String access_token,String openid){
 //    JSONObject jsonObj = JSON.parseObject(result);
 //    JSONArray jsonArray = jsonObj.getJSONArray("Data");
 System.out.println("手机号码"+bean.getData().getMobile());
-        if ((bean.getData().getMobile()) == null) {
-            IntentUtils.startActivity(this, BondPhoneActivity.class);
-
-        } else
+//        if (null==(bean.getData().getMobile()) ) {
+//            IntentUtils.startActivity(this, BondPhoneActivity.class);
+//
+//        } else
             SPUtils.put(this, "accessKey", bean.getData().getUnionid());
         SPUtils.put(getApplicationContext(), "islogin", true);
         IntentUtils.startActivity(this, HomeActivity.class);

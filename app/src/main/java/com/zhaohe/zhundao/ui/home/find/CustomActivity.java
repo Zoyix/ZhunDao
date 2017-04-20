@@ -90,10 +90,7 @@ public class CustomActivity extends Activity implements Toolbar.OnMenuItemClickL
 
     private void getCustomAll() {
        {
-            if (SPUtils.contains(this, "custom_result")) {
-                jsonconver((String) SPUtils.get(getApplicationContext(), "custom_result", ""));
-
-            } else  if (NetworkUtils.checkNetState(this)) {
+      if (NetworkUtils.checkNetState(this)) {
                 AsyncCustomAll async = new AsyncCustomAll(this, mHandler, MESSAGE_GET_CUSTOM_ALL);
                 async.execute();
             }

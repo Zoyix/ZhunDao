@@ -24,6 +24,7 @@ import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
+import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
 
 /**
  * @Description:
@@ -94,18 +95,19 @@ initHandler();
         String newPhone;
         if(phone.equals("")||phone.equals(null)){
              newPhone="绑定手机";
+            tv_min_phone.setOnClickListener(this);
         }
         else
         { newPhone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");}
         int vip = (int) SPUtils.get(getActivity(), "vip", 0);
 
         int sex = (int) SPUtils.get(getActivity(), "Sex", 2);
-        if (sex == 1) {
-            Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
-        }
-        if (sex == 2) {
-            Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
-        }
+//        if (sex == 1) {
+//            Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
+//        }
+//        if (sex == 2) {
+//            Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
+//        }
 
 //        String url="http://wx.qlogo.cn/mmopen/cdJxMia7edLt0ZywjiaFNQkOH4WXSCiaOkAAfNwaNVCp25IYX3otiaqibNGn8ib4SadtYUfMFoibYT1l5gXG1Kiamv5CVMhibQJpXjt0y/0";
         tv_min_name.setText(name);
@@ -113,8 +115,13 @@ initHandler();
         tv_min_vip.setText("V"+vip);
         TextPaint tp = tv_min_vip.getPaint();
         tp.setFakeBoldText(true);
-        Picasso.with(getActivity()).load(url.toString()).error(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
+        if (url.toString()==null){
+            Picasso.with(getActivity()).load(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
 
+        }
+       else {
+            Picasso.with(getActivity()).load(url.toString()).error(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
+        }
 
     }
 
@@ -213,6 +220,9 @@ initHandler();
                 break;
             case R.id.tv_min_vip:
                 IntentUtils.startActivity(getActivity(),UpgradedActivity.class);
+                break;
+            case R.id.tv_min_phone:
+                IntentUtils.startActivity(getActivity(), BondPhoneActivity.class);
                 break;
 
 

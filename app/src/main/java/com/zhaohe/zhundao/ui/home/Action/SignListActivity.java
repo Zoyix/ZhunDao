@@ -162,18 +162,18 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
       int m=  bean.getmIndex();
         String name = jsonArray.getJSONObject(m).getString("UserName");
         String phone = jsonArray.getJSONObject(m).getString("Mobile");
-        String unit = jsonArray.getJSONObject(i).getString("Company");
-        String sex = jsonArray.getJSONObject(i).getString("Sex");
-        String dep = jsonArray.getJSONObject(i).getString("Depart");
-        String industry = jsonArray.getJSONObject(i).getString("Industry");
-        String duty = jsonArray.getJSONObject(i).getString("Duty");
-        String id_card = jsonArray.getJSONObject(i).getString("IDcard");
-        String email = jsonArray.getJSONObject(i).getString("Email");
-        String join_num = jsonArray.getJSONObject(i).getString("Num");
-        String add = jsonArray.getJSONObject(i).getString("Address");
-        String remark = jsonArray.getJSONObject(i).getString("Remark");
-        String amount = jsonArray.getJSONObject(i).getString("Amount");
-        String title = jsonArray.getJSONObject(i).getString("Title");
+        String unit = jsonArray.getJSONObject(m).getString("Company");
+        String sex = jsonArray.getJSONObject(m).getString("Sex");
+        String dep = jsonArray.getJSONObject(m).getString("Depart");
+        String industry = jsonArray.getJSONObject(m).getString("Industry");
+        String duty = jsonArray.getJSONObject(m).getString("Duty");
+        String id_card = jsonArray.getJSONObject(m).getString("IDcard");
+        String email = jsonArray.getJSONObject(m).getString("Email");
+        String join_num = jsonArray.getJSONObject(m).getString("Num");
+        String add = jsonArray.getJSONObject(m).getString("Address");
+        String remark = jsonArray.getJSONObject(m).getString("Remark");
+        String amount = jsonArray.getJSONObject(m).getString("Amount");
+        String title = jsonArray.getJSONObject(m).getString("Title");
         Intent intent = new
                 Intent(this, SignListUserActivity.class);
         intent.putExtra("name", name);
@@ -192,8 +192,8 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         intent.putExtra("title", title);
         intent.putExtra("act_id", act_id);
         JSONObject jsonObject2 = null;
-        if (JSON.parseObject(jsonArray.getJSONObject(i).getString("ExtraInfo")) != null) {
-            jsonObject2 = JSON.parseObject(jsonArray.getJSONObject(i).getString("ExtraInfo"));
+        if (JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo")) != null) {
+            jsonObject2 = JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo"));
             String extra = jsonObject2.toString();
             intent.putExtra("extra", extra);
         }

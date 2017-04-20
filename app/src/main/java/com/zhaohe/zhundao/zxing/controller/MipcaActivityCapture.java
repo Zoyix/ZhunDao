@@ -105,6 +105,9 @@ public class MipcaActivityCapture extends Activity implements Callback,OnClickLi
         Intent intent = getIntent();
         CheckInID = intent.getStringExtra("CheckInID");
         String view_show=intent.getStringExtra("view_show");
+        if(view_show==null){
+            view_show="";
+        }
         if (view_show.equals("false")){
             ll_camera_button_group.setVisibility(View.GONE);
             ll_camera_text_group.setVisibility(View.GONE);

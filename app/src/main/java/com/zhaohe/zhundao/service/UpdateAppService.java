@@ -50,6 +50,9 @@ public class UpdateAppService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        if(null==intent.getStringExtra("app_name")){
+            return super.onStartCommand(intent, flags, startId);
+        }
 
         app_name = intent.getStringExtra("app_name");
         app_path = intent.getStringExtra("app_path");

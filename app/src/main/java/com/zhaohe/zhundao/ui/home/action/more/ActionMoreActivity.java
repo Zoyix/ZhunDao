@@ -521,6 +521,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                 .setTitle("确认要截止活动？")
                 //设定显示的View
                 //对话框中的“登陆”按钮的点击事件
+                .setMessage("确定后，如要再次开启报名\n请通过编辑活动修改报名截止时间。")
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         actionUnDue();
