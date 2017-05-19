@@ -93,6 +93,7 @@ private Handler mHandler;
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "签到发起成功！");
+                            finish();
                         }
                         if ("201".equals(jsonObj.getString("Url"))){
                             UpgradedDialog(ActionSignAddActivity.this);

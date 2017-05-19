@@ -56,7 +56,7 @@ import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
 import com.zhaohe.zhundao.ui.home.HomeActivity;
 import com.zhaohe.zhundao.ui.home.action.ActionDetailsActivity;
-import com.zhaohe.zhundao.ui.home.action.EditActWebActivity;
+import com.zhaohe.zhundao.ui.home.action.EditActActivity;
 import com.zhaohe.zhundao.ui.home.action.SignListActivity;
 
 import java.util.ArrayList;
@@ -210,7 +210,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
             case POSITION_EDIT:
-                Intent intent = new Intent(this, EditActWebActivity.class);
+                Intent intent = new Intent(this, EditActActivity.class);
 
 //        Intent intent = new Intent(getActivity(), EditActActivity.class);
                 Bundle bundle = new Bundle();

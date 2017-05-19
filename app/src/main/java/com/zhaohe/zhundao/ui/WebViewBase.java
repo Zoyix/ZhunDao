@@ -14,6 +14,7 @@ import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.util.Log;
+import android.webkit.CookieManager;
 import android.webkit.ValueCallback;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
@@ -54,7 +55,11 @@ public abstract class WebViewBase extends ToolBarActivity {
         webView.getSettings().setBlockNetworkImage(false);
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        webView.loadUrl(url + accesskey);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            CookieManager cookieManager = CookieManager.getInstance();
+            cookieManager.setAcceptThirdPartyCookies(webView,true);
+        }
+        webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

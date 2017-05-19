@@ -236,9 +236,9 @@ private boolean isGotoList;//true不跳转 false跳转签到名单
             bean.setSignTime(jsonArray.getJSONObject(i).getString("SignTime"));
             bean.setUpdateStatus("false");
             list.add(bean);
-            System.out.println(bean.toString());
-            dao.save(bean);
         }
+        dao.save(list);
+
 
     }
 
@@ -295,7 +295,7 @@ private boolean isGotoList;//true不跳转 false跳转签到名单
             intent.putExtra("NumFact", jsonArray2.getJSONObject(postion).getString("NumFact"));
             intent.putExtra("NumShould", jsonArray2.getJSONObject(postion).getString("NumShould"));
             intent.putExtra("sign_id", sign_id);
-            intent.putExtra("result", result);
+//            intent.putExtra("result", result);
 //            如果是相机第一次拿名单，则不跳转
 if (isGotoList){return;}
             else

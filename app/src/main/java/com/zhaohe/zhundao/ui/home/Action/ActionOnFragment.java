@@ -219,7 +219,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 ////            获取活动报名人数不为0的活动名单
 //            System.out.println("json hashcode"+jsonArray.getJSONObject(i).getString("Status").hashCode()+"0的hashcode"+"0".hashCode());
 
-            if (jsonArray.getJSONObject(i).getString("Status").equals("0")) {
+            if ((jsonArray.getJSONObject(i).getString("Status").equals("0"))||(jsonArray.getJSONObject(i).getString("Status").equals("1"))) {
                 list.add(bean);
             } else {
 

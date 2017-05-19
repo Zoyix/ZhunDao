@@ -150,7 +150,7 @@ private EditText et_signuplist_search;
         Intent intent = getIntent();
         //从Intent当中根据key取得value
         sign_id = intent.getStringExtra("sign_id");
-        result_list = intent.getStringExtra("result");
+//        result_list = intent.getStringExtra("result");
     }
 
     public void resetColor() {
@@ -230,9 +230,9 @@ private EditText et_signuplist_search;
             bean.setUpdateStatus("false");
             bean.setSignTime(jsonArray.getJSONObject(i).getString("SignTime"));
             list.add(bean);
-            System.out.println(bean.toString());
-            dao.save(bean);
         }
+        dao.save(list);
+
 
     }
 

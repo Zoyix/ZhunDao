@@ -2,17 +2,20 @@ package com.zhaohe.zhundao.ui.home.sign;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,11 +23,14 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
+import com.zhaohe.app.utils.ZXingUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncSignDelete;
 import com.zhaohe.zhundao.asynctask.AsyncSignEdit;
 import com.zhaohe.zhundao.bean.SignBean;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
+
+import static com.zhaohe.app.utils.ZXingUtil.createQrBitmap;
 
 
 public class SignEditActivity extends ToolBarActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener,Toolbar.OnMenuItemClickListener {
@@ -134,6 +140,48 @@ private SignBean bean;
         }
 
     }
+    public void QrCodeDialog() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(this);
+        //把activity_login中的控件定义在View中
+        final View v = factory.inflate(R.layout.dialog_qrcode_sign, null);
+        ImageView iv_dialog_qrcode;
+        iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode_sign);
+        TextView title= (TextView) v.findViewById(R.id.tv_qr_title);
+        title.setText(bean.getAct_title());
+
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
+        iv_dialog_qrcode.setImageBitmap(bitmap);
+
+        ;
+        new AlertDialog.Builder(this)
+                //对话框的标题
+//                .setTitle(bean.getAct_title())
+                .setView(v)
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("保存", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+//ZXingUtil.saveMyBitmap(ZXingUtil.createQrBitmap(bean.getUrl(),150,150),bean.getAct_title()+"二维码");
+                        ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title());
+                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
     public void deleteDialog() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -183,6 +231,7 @@ private SignBean bean;
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "签到修改成功！");
+                            finish();
                         }
 else{
                             ToastUtil.makeText(getApplicationContext(),message);
@@ -218,6 +267,9 @@ finish();
         switch (item.getItemId()){
             case R.id.menu_sign_delete:
 deleteDialog();
+                break;
+            case R.id.menu_sign_show:
+QrCodeDialog();
                 break;
         }
         return false;

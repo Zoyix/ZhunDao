@@ -138,6 +138,14 @@
 
         />
 
+    <!--<View-->
+        <!--android:layout_width="fill_parent"-->
+        <!--android:layout_height="0.3dp"-->
+        <!--android:background="@color/black3" />-->
+
+
+
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"

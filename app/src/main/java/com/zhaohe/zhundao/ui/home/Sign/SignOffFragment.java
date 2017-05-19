@@ -214,8 +214,6 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             bean.setUpdateStatus("false");
             bean.setSignTime(jsonArray.getJSONObject(i).getString("SignTime"));
             list.add(bean);
-            System.out.println(bean.toString());
-
         }
         dao.save(list);
 
@@ -274,7 +272,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             intent.putExtra("sign_id", sign_id);
             intent.putExtra("result", result);
             intent.putExtra("sign_id", sign_id);
-            intent.putExtra("result", result);
+//            intent.putExtra("result", result);
             startActivity(intent);
         }
     }

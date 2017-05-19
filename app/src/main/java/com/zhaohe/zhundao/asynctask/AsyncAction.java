@@ -32,7 +32,7 @@ public class AsyncAction extends AsyncTask<String, Integer, String> {
     private String mTitle = "";
     private String mStarttime = "";
     private String mEndtime = "";
-    private String mSize = "100000";
+    private String mSize = "200000";
 
 
     public AsyncAction(Context context, Handler handler, Dialog dialog, int request) {
@@ -57,7 +57,7 @@ public class AsyncAction extends AsyncTask<String, Integer, String> {
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String param = new String();
-        param = "pageSize=" + mSize;
+        param = "pageSize=" + mSize+"&Type="+mType;
         String result = HttpUtil.sendPostNew2request(path, map, "utf-8", param);
         return result;
     }

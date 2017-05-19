@@ -44,6 +44,8 @@
     <string name="menu_beacon_add">扫码绑定设备</string>
     <string name="menu_upload_multi">数据同步</string>
     <string name="menu_sign_delete">删除签到</string>
+    <string name="menu_sign_show">微信签到二维码</string>
+
     <string name="menu_beacon_delete">删除设备</string>
 
     <string name="menu_sign_list_scan">扫码签到</string>

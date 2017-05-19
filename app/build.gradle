@@ -7,8 +7,8 @@ android {
         applicationId "com.zhaohe.zhundao"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1704200
-        versionName "2.0.3"
+        versionCode 1705190
+        versionName "2.0.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
