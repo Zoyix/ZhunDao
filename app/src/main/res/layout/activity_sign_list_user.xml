@@ -57,7 +57,8 @@
                 android:layout_alignParentLeft="true"
                 style="@style/act_user_tv"
 
-                android:text="@string/sex" />
+                android:text="@string/sex"
+                android:id="@+id/textView2" />
 
             <TextView
                 android:id="@+id/tv_sign_user_sex"
@@ -66,7 +67,34 @@
 
                 android:text="@string/none" />
 
-            <include layout="@layout/line"></include>
+            <include layout="@layout/line"
+                android:id="@+id/include"></include>
+
+            <RelativeLayout
+                android:id="@+id/rl_email"
+                style="@style/act_user_rl"
+                android:layout_above="@+id/include"
+                android:layout_marginLeft="67dp"
+                android:layout_marginStart="67dp"
+                android:layout_toEndOf="@+id/textView2"
+                android:layout_toRightOf="@+id/textView2">
+
+                <TextView
+                    style="@style/act_user_tv"
+                    android:layout_alignParentLeft="true"
+
+                    android:text="@string/email" />
+
+                <TextView
+                    android:id="@+id/tv_sign_user_email"
+                    style="@style/act_user_tv"
+                    android:layout_alignParentRight="true"
+
+                    android:text="@string/none" />
+
+                <include layout="@layout/line"></include>
+
+            </RelativeLayout>
 
         </RelativeLayout>
 
@@ -155,27 +183,6 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/rl_email"
-            style="@style/act_user_rl">
-
-            <TextView
-                android:layout_alignParentLeft="true"
-                style="@style/act_user_tv"
-
-                android:text="@string/email" />
-
-            <TextView
-                android:id="@+id/tv_sign_user_email"
-                android:layout_alignParentRight="true"
-                style="@style/act_user_tv"
-
-                android:text="@string/none" />
-
-            <include layout="@layout/line"></include>
-
-        </RelativeLayout>
-
-        <RelativeLayout
             android:id="@+id/rl_join_num"
             style="@style/act_user_rl">
 
@@ -245,19 +252,20 @@
             <TextView
                 android:layout_alignParentLeft="true"
                 style="@style/act_user_tv"
-
+android:id="@+id/tv_sign_user_remark2"
                 android:text="@string/remark" />
 
             <TextView
                 android:id="@+id/tv_sign_user_remark"
                 android:layout_alignParentRight="true"
                 style="@style/act_user_tv"
-
+android:layout_below="@id/tv_sign_user_remark2"
                 android:text="@string/none" />
 
             <include layout="@layout/line"></include>
 
         </RelativeLayout>
+
 
         <RelativeLayout
             android:id="@+id/rl_amount"

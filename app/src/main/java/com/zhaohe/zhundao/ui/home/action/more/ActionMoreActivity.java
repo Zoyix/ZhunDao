@@ -45,9 +45,9 @@ import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.app.utils.ZXingUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.ActionMoreAdapter;
-import com.zhaohe.zhundao.asynctask.AsyncActionDelete;
-import com.zhaohe.zhundao.asynctask.AsyncActionInvitation;
-import com.zhaohe.zhundao.asynctask.AsyncActionUnDue;
+import com.zhaohe.zhundao.asynctask.action.AsyncActionDelete;
+import com.zhaohe.zhundao.asynctask.action.AsyncActionInvitation;
+import com.zhaohe.zhundao.asynctask.action.AsyncActionUnDue;
 import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.bean.ActionMoreBean;
@@ -56,7 +56,7 @@ import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
 import com.zhaohe.zhundao.ui.home.HomeActivity;
 import com.zhaohe.zhundao.ui.home.action.ActionDetailsActivity;
-import com.zhaohe.zhundao.ui.home.action.EditActActivity;
+import com.zhaohe.zhundao.ui.home.action.EditActWebActivity;
 import com.zhaohe.zhundao.ui.home.action.SignListActivity;
 
 import java.util.ArrayList;
@@ -124,8 +124,6 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
     private void initIntent() {
         Intent intent = this.getIntent();
         bean = (ActionBean) intent.getSerializableExtra("bean");
-
-
     }
 
     public void initToolBar(String text, int layoutResID) {
@@ -210,7 +208,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         switch (i) {
             case POSITION_EDIT:
-                Intent intent = new Intent(this, EditActActivity.class);
+                Intent intent = new Intent(this, EditActWebActivity.class);
 
 //        Intent intent = new Intent(getActivity(), EditActActivity.class);
                 Bundle bundle = new Bundle();

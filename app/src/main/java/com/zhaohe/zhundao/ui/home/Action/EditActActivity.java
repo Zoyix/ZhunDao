@@ -82,6 +82,7 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initView() {
         gl_camara = (GridLayout) findViewById(R.id.camera_gridview);
+
         camera = new Camera(EditActActivity.this, gl_camara, false);
         et_edit_title = (EditText) findViewById(R.id.et_edit_title);
         btn_edit_submit = (Button) findViewById(R.id.btn_edit_submit);

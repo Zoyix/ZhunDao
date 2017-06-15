@@ -23,6 +23,7 @@ import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.bean.ToolUserBean;
+import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
 import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
 
@@ -39,7 +40,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
-    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback,tv_min_phone,tv_min_vip;
+    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback,tv_min_phone,tv_min_vip,tv_contacts;
 
 
     @Override
@@ -84,6 +85,9 @@ initHandler();
         tv_min_phone= (TextView) rootView.findViewById(R.id.tv_min_phone);
         tv_min_vip= (TextView) rootView.findViewById(R.id.tv_min_vip);
         tv_min_vip.setOnClickListener(this);
+        tv_contacts= (TextView) rootView.findViewById(R.id.tv_contacts);
+        tv_contacts.setOnClickListener(this);
+
 
     }
 
@@ -223,6 +227,10 @@ initHandler();
                 break;
             case R.id.tv_min_phone:
                 IntentUtils.startActivity(getActivity(), BondPhoneActivity.class);
+                break;
+            case R.id.tv_contacts:
+                IntentUtils.startActivity(getActivity(), ContactsActivity.class);
+
                 break;
 
 

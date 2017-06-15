@@ -26,6 +26,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="5dp"
             android:text="名称"
+            android:textSize="12sp"
+
             android:textColor="@color/black" />
 
         <TextView
@@ -60,6 +62,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="报名成功"
+            android:textSize="12sp"
+
             android:textColor="@color/status_color_green"
             android:layout_marginBottom="5dp" />
     </LinearLayout>

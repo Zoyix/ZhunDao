@@ -7,7 +7,7 @@
     tools:context="com.zhaohe.zhundao.ui.home.action.more.ActionSignAddActivity">
 
     <TextView
-        android:id="@+id/tv_sign_add_name"
+        android:id="@+id/tv_people_add_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -15,16 +15,16 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/et_sign_add_name"
+        android:id="@+id/et_people_add_name"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/tv_sign_add_name"
-        android:layout_toRightOf="@id/tv_sign_add_name"
+        android:layout_alignBaseline="@id/tv_people_add_name"
+        android:layout_toRightOf="@id/tv_people_add_name"
         android:hint="@string/et_sign_add_name"
         />
     <TextView
-        android:id="@+id/tv_sign_add_type"
-        android:layout_below="@id/tv_sign_add_name"
+        android:id="@+id/tv_people_add_num"
+        android:layout_below="@id/tv_people_add_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -34,33 +34,33 @@
         android:id="@+id/sp_sign_add_type"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tv_sign_add_type"
+        android:layout_toRightOf="@id/tv_people_add_num"
         android:entries="@array/sign_add_type"
-        android:layout_below="@id/tv_sign_add_name"
+        android:layout_below="@id/tv_people_add_name"
         android:layout_marginTop="10dp"
 
         ></Spinner>
     <TextView
-        android:id="@+id/tv_sign_add_object"
-        android:layout_below="@id/tv_sign_add_type"
+        android:id="@+id/tv_people_add_group"
+        android:layout_below="@id/tv_people_add_num"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:text="@string/tv_sign_add_object"
         android:textSize="18sp" />
     <Spinner
-        android:id="@+id/sp_sign_add_object"
+        android:id="@+id/sp_people_add_group"
         android:layout_width="200dp"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/tv_sign_add_object"
+        android:layout_toRightOf="@id/tv_people_add_group"
         android:entries="@array/sign_add_object"
-        android:layout_below="@id/tv_sign_add_type"
+        android:layout_below="@id/tv_people_add_num"
         android:layout_marginTop="10dp"
 
         ></Spinner>
     <TextView
         android:id="@+id/tv_sign_add_actname"
-        android:layout_below="@id/tv_sign_add_object"
+        android:layout_below="@id/tv_people_add_group"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -68,7 +68,7 @@
         android:textSize="18sp" />
     <TextView
         android:id="@+id/tv_sign_add_actname2"
-        android:layout_below="@id/tv_sign_add_object"
+        android:layout_below="@id/tv_people_add_group"
         android:maxLines="1"
         android:layout_toRightOf="@id/tv_sign_add_actname"
         android:layout_width="wrap_content"
@@ -79,8 +79,8 @@
 
     <Button
         android:layout_marginTop="100dp"
-        android:id="@+id/btn_sign_add"
+        android:id="@+id/btn_people_add"
         android:text="@string/ok"
-        android:layout_below="@id/tv_sign_add_object"
+        android:layout_below="@id/tv_people_add_group"
         style="@style/btn_login" />
 </RelativeLayout>

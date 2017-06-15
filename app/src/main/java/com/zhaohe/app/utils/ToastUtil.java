@@ -31,4 +31,8 @@ public class ToastUtil {
     public static void makeText(Context context, int content) {
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
     }
+
+    public static void print(String a){
+        System.out.println(a);
+    }
 }

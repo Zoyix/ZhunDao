@@ -428,6 +428,114 @@ public class HttpUtil {
     }
 
     /**
+     * @param path
+     * @param params
+     * @param files
+     * @return
+     * @throws Exception
+     * @Description: Post 有文件上传的提交， tMultipart/Form-data
+     * @Author:杨攀
+     * @Since: 2014年11月21日下午3:25:
+     */
+    public static String photoUpload(String path, Map<String, String> params, FormFile[] files) {
+        Log.i(TAG, "请求发送：" + path + "-参数-" + params);
+        final String BOUNDARY = "---------------------------7da2137580612"; // 数据分隔线
+        final String endline = "--" + BOUNDARY + "--\r\n";// 数据结束标志
+        HttpURLConnection httpURLConnection = null;
+        try {
+            URL url = new URL(path);
+            httpURLConnection = (HttpURLConnection) url.openConnection();
+            httpURLConnection.setDoInput(true);// 允许输入
+            httpURLConnection.setDoOutput(true);// 允许输出
+            httpURLConnection.setUseCaches(false);// 不允许使用缓存
+            httpURLConnection.setRequestMethod("POST");
+            // 设置Http请求头
+            httpURLConnection.setRequestProperty("Connection", "Keep-Alive");
+            httpURLConnection.setRequestProperty("Charset", "UTF-8");
+            // 必须在Content-Type 请求头中指定分界符中的任意字符串
+            httpURLConnection.setRequestProperty("Content-Type", "multipart/form-data;boundary=" + BOUNDARY);
+
+            int fileDataLength = 0;
+            for (FormFile uploadFile : files) {// 得到文件类型数据的总长度
+                StringBuilder fileExplain = new StringBuilder();
+                fileExplain.append("--");
+                fileExplain.append(BOUNDARY);
+                fileExplain.append("\r\n");
+                fileExplain.append("Content-Disposition: form-data;name=\"" + uploadFile.getName() + "\";filename=\"" + uploadFile.getFilname()
+                        + "\"\r\n");
+                fileExplain.append("Content-Type: " + uploadFile.getContentType() + "\r\n\r\n");
+                fileDataLength += fileExplain.length();
+                if (uploadFile.getInStream() != null) {
+                    fileDataLength += uploadFile.getFile().length();
+                } else {
+                    fileDataLength += uploadFile.getData().length;
+                }
+                fileDataLength += "\r\n".length();
+            }
+
+            // 构造文本类型参数的实体数据
+            StringBuilder textEntity = new StringBuilder();
+            for (Map.Entry<String, String> entry : params.entrySet()) {// 构造文本类型参数的实体数据
+                textEntity.append("--");
+                textEntity.append(BOUNDARY);
+                textEntity.append("\r\n");
+                textEntity.append("Content-Disposition: form-data; name=\"" + entry.getKey() + "\"\r\n\r\n");
+                textEntity.append(entry.getValue());
+                textEntity.append("\r\n");
+            }
+            // 计算传输给服务器的实体数据总长度
+            int dataLength = textEntity.toString().getBytes().length + fileDataLength + endline.getBytes().length;
+
+            // 定义数据写入流，准备上传文件
+            DataOutputStream outStream = new DataOutputStream(httpURLConnection.getOutputStream());
+            outStream.write(textEntity.toString().getBytes());
+
+            // 把所有文件类型的实体数据发送出来
+            for (FormFile uploadFile : files) {
+                StringBuilder fileEntity = new StringBuilder();
+                fileEntity.append("--");
+                fileEntity.append(BOUNDARY);
+                fileEntity.append("\r\n");
+                fileEntity.append("Content-Disposition: form-data;name=\"" + uploadFile.getName() + "\";filename=\"" + uploadFile.getFilname()
+                        + "\"\r\n");
+                fileEntity.append("Content-Type: " + uploadFile.getContentType() + "\r\n\r\n");
+                outStream.write(fileEntity.toString().getBytes());
+                if (uploadFile.getInStream() != null) {
+                    byte[] buffer = new byte[1024];
+                    int len = 0;
+                    while ((len = uploadFile.getInStream().read(buffer, 0, 1024)) != -1) {
+                        outStream.write(buffer, 0, len);
+                    }
+                    uploadFile.getInStream().close();
+                } else {
+                    outStream.write(uploadFile.getData(), 0, uploadFile.getData().length);
+                }
+                outStream.write("\r\n".getBytes());
+            }
+            // 下面发送数据结束标志，表示数据已经结束
+            outStream.write(endline.getBytes());
+            outStream.flush();
+
+            // 得到响应码
+            int resCode = httpURLConnection.getResponseCode();
+            if (resCode == 200) {
+                // 读取从服务器传过来的信息
+                InputStream is = httpURLConnection.getInputStream();
+                byte[] dateStream = readStream(is);
+                return new String(dateStream);
+            } else {
+                Log.i(TAG, "请求返回状态码：" + resCode);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            httpURLConnection.disconnect();
+        }
+        return null;
+    }
+
+
+    /**
      * 读取流
      *
      * @param inStream

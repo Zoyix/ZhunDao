@@ -78,6 +78,17 @@ public static final String SentWxUserInf = "/oauth/CreateUserFromAndroid";
 //        修改签到
 public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTypeName";
         public static final String DeleteCheckIn = "/api/CheckIn/DeleteCheckIn";
+        public static final String PostContact = "/api/Contact/PostContact";//获取全部联系人
+        public static final String PostContactGroup="/api/Contact/PostContactGroup";//获取全部群组
+        public static final String UpdateOrAddContact = "/api/Contact/UpdateOrAddContact";//添加或修改联系人
+        public static final String UpdateOrAddContactGroup = "/api/Contact/UpdateOrAddContactGroup";//添加或修改分组
+        public static final String DeleteContactGroup = "/api/Contact/DeleteContactGroup";//删除分组
+        public static final String UploadFile = "/OAuth/UploadFile";//上传图片
+        public static final String DeleteContact = "/api/Contact/DeleteContact";//删除分组
+        public static final String SendActivityListByEmail = "/api/PerActivity/SendActivityListByEmail";//发送报名名单到分组
+
+
+
 
         public static final String Device = "Android";
 

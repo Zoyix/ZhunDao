@@ -132,13 +132,13 @@
                 android:background="@color/black3" />
 
             <TextView
-                android:id="@+id/tv_myaddressbook"
+                android:id="@+id/tv_contacts"
                 style="@style/list_txt_Style"
                 android:clickable="true"
-                android:drawableLeft="@drawable/icon_me_smail"
+                android:drawableLeft="@mipmap/contacts108"
                 android:drawablePadding="10dp"
                 android:text="@string/tv_myaddressbook"
-                android:visibility="gone" />
+                android:visibility="visible" />
 
 
             <View

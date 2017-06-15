@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!--<item-->
+    <!--android:id="@+id/action_search"-->
+    <!--android:icon="@mipmap/ic_search"-->
+    <!--android:title="@string/menu_search"-->
+    <!--app:showAsAction="always" />-->
+
+    <!--<item-->
+    <!--android:id="@+id/action_notification"-->
+    <!--android:icon="@mipmap/ic_notifications"-->
+    <!--android:title="@string/menu_notifications"-->
+    <!--app:showAsAction="ifRoom" />-->
+
+    <item
+        android:id="@+id/menu_people_edit"
+        android:orderInCategory="100"
+        android:title="@string/menu_people_edit"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/menu_people_delete"
+        android:orderInCategory="100"
+        android:title="@string/menu_people_delete"
+        app:showAsAction="never" />
+
+</menu>

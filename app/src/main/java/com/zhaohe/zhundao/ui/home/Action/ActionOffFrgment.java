@@ -39,7 +39,7 @@ import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.ActionAdapter;
-import com.zhaohe.zhundao.asynctask.AsyncAction;
+import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.constant.Constant;
@@ -444,19 +444,26 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                 .show();
     }
     private void UmengShare(ActionBean bean,SHARE_MEDIA type ) {
-        UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
-        UMImage image = new UMImage(getActivity(), bean.getUrl());
-        web.setTitle( bean.getAct_title());//标题
-        web.setDescription(bean.getAct_starttime()+"\n活动地点： "+bean.getAddress());//描述
-        web.setThumb(image);
+        try {
+
+            UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
+            UMImage image = new UMImage(getActivity(), bean.getUrl());
+            web.setTitle( bean.getAct_title());//标题
+            web.setDescription(bean.getAct_starttime()+"\n活动地点： "+bean.getAddress());//描述
+            web.setThumb(image);
 //        new ShareAction(getActivity())
 //                .withMedia(web)
 //                .setDisplayList(SHARE_MEDIA.SINA,SHARE_MEDIA.QQ,SHARE_MEDIA.WEIXIN,SHARE_MEDIA.QZONE)
 //                .setCallback(mShareListener).open();
-        new ShareAction(getActivity()).setPlatform(type)
-                .withMedia(web)
-                .setCallback(mShareListener)
-                .share();
+            new ShareAction(getActivity()).setPlatform(type)
+                    .withMedia(web)
+                    .setCallback(mShareListener)
+                    .share();
+        }
+        catch (Exception e){
+            ToastUtil.makeText(getActivity(),type.toString()+"异常，请暂时先使用更多选项中的复制链接进行手动分享");
+            return;
+        }
     }
     @Override
     public void onMoreClick(ActionBean bean) {

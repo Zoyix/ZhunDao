@@ -7,8 +7,8 @@ android {
         applicationId "com.zhaohe.zhundao"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1705190
-        versionName "2.0.5"
+        versionCode 1706150
+        versionName "2.1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -27,35 +27,38 @@ android {
             flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
 
 
-    }
-    signingConfigs {
-        release {
-            storeFile file('sign_key.jks')
-            storePassword '685594200'
-            keyAlias 'sign_key'
-            keyPassword '685594200'
         }
-    }
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.release
+        signingConfigs {
+            release {
+                storeFile file('sign_key.jks')
+                storePassword '685594200'
+                keyAlias 'sign_key'
+                keyPassword '685594200'
+            }
         }
-        debug {
-            signingConfig signingConfigs.release
+        buildTypes {
+            release {
+                minifyEnabled false
+                proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+                signingConfig signingConfigs.release
+            }
+            debug {
+                signingConfig signingConfigs.release
+            }
         }
+        useLibrary 'org.apache.http.legacy'
     }
-    useLibrary 'org.apache.http.legacy'
-}
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2',
+            {
 //        exclude group: 'com.android.support', module: 'support-annotations'
+                transitive = false;
         exclude group: 'com.android.support', module: 'appcompat-v7'
         exclude group: 'com.android.support', module: 'appcompat-v4'
+
 
     })
     compile files('libs/libammsdk.jar')
@@ -69,7 +72,11 @@ dependencies {
     compile files('libs/umeng_social_tool.jar')
 //    compile files('libs/umeng_social_shareview.jar')
     compile files('libs/SocialSDK_WeChat_Simplify.jar')
+    compile files('libs/SharePlugin.jar')
+
+//    compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.android.support:appcompat-v7:25.1.1'
+
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.github.citux:datetimepicker:0.2.0'
@@ -79,6 +86,8 @@ dependencies {
     compile 'com.android.support:design:25.1.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.0-alpha9'
     compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.belerweb:pinyin4j:2.5.1'
+    compile 'com.jakewharton:butterknife:8.6.0'
     testCompile 'junit:junit:4.12'
-    compile files('libs/SharePlugin.jar')
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
 }

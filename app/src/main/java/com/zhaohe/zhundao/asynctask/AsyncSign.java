@@ -25,7 +25,7 @@ public class AsyncSign extends AsyncTask<String, Integer, String> {
     private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
-    private String mSize = "100000";
+    private String mSize = "200000";
 
 
     public AsyncSign(Context context, Handler handler, Dialog dialog, int request) {

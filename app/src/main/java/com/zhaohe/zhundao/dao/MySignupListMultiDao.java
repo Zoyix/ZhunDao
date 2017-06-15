@@ -71,7 +71,7 @@ public class MySignupListMultiDao {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
 
         db.execSQL("delete from MySignupListMulti");
-db.close();
+        db.close();
     }
 
     public List<MySignListupBean> queryAll(){

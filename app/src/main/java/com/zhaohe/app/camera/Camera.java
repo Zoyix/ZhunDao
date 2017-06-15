@@ -18,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.Toast;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.squareup.picasso.Picasso;
 import com.zhaohe.app.camera.multimgselector.MultiImageSelectorActivity;
 import com.zhaohe.app.commons.dialog.DialogUtils;
@@ -27,8 +29,10 @@ import com.zhaohe.app.utils.FileUtils;
 import com.zhaohe.app.utils.ImageUtils;
 import com.zhaohe.app.utils.MD5;
 import com.zhaohe.app.utils.StringUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncImageDeleteTask;
+import com.zhaohe.zhundao.asynctask.photoUpload.AsyncPhotoUpload;
 import com.zhaohe.zhundao.constant.Constant;
 
 import java.io.File;
@@ -65,6 +69,8 @@ public class Camera {
     private static final int COMPRESSION_SUCCESS = 1;
 
     private static final int COMPRESSION_FAIL = -1;
+    public static final int MESSAGE_UPLOAD_PHOTO = 95;
+
 
     /**
      * @Fields square_size : 缩略图的图片的宽度
@@ -80,7 +86,7 @@ public class Camera {
     /**
      * @Fields MAX_SELECT_COUNT : 最大照片数
      */
-    public static int max_select_count = 1;
+    public static int max_select_count = 9;
 
     private Activity mActivity;
     private Fragment mFragment;
@@ -95,6 +101,7 @@ public class Camera {
             if (msg.what == COMPRESSION_SUCCESS && msg.obj != null) {
                 Bundle bundle = msg.getData();
                 String path = bundle.getString(BUNDLE_IMGTHUM_PATH);
+                uploadPhoto( getFormFile(path));
 
                 // 显示图片
                 showImage2View(path, (Bitmap) msg.obj);
@@ -103,6 +110,17 @@ public class Camera {
                 Toast.makeText(mActivity, R.string.camera_photo_compression_image, Toast.LENGTH_SHORT)
                         .show();
             }
+            if (msg.what==MESSAGE_UPLOAD_PHOTO){
+                String result = (String) msg.obj;
+                JSONObject jsonObj = JSON.parseObject(result);
+                String message = jsonObj.getString("Res");
+                System.out.println("group_delete_result:" + result);
+
+                    ToastUtil.makeText(mActivity.getApplicationContext(), result);
+
+
+            }
+
         }
     };
 
@@ -402,15 +420,21 @@ public class Camera {
             if (resultCode == Activity.RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
+                System.out.println();
                 for (int i = 0; i < path.size(); i++) {
                     // 处理照片 - 压缩
+                    System.out.println(path.get(i));
+                    uploadPhoto( getFormFile(path.get(i)));
                     CompressionRunnable runnable = new CompressionRunnable(path.get(i));
                     new Thread(runnable).start();
                 }
             }
-        }
     }
 
+    }
+    public void uploadPhoto(FormFile[] flie) {
+        AsyncPhotoUpload async = new AsyncPhotoUpload(mActivity.getApplicationContext(), mHandler, MESSAGE_UPLOAD_PHOTO,flie);
+        async.execute();}
     /**
      * @Description: 压缩图片线程
      * @Author:杨攀

@@ -38,24 +38,24 @@ private Handler mHandler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initHandler();
         setContentView(R.layout.activity_action_sign_add);
         initIntent();
         initToolBar("发起签到", R.layout.activity_action_sign_add);
         initView();
-        initHandler();
     }
 
     private void initView() {
         tv_act_title= (TextView) findViewById(R.id.tv_sign_add_actname2);
         tv_act_title.setText(act_title);
-        et_sign_add_name= (EditText) findViewById(R.id.et_sign_add_name);
+        et_sign_add_name= (EditText) findViewById(R.id.et_people_add_name);
         et_sign_add_name.setText(act_title+"[签到]");
         sp_sign_add_type= (Spinner) findViewById(R.id.sp_sign_add_type);
         sp_sign_add_type.setOnItemSelectedListener(this);
-        sp_sign_add_object= (Spinner) findViewById(R.id.sp_sign_add_object);
+        sp_sign_add_object= (Spinner) findViewById(R.id.sp_people_add_group);
         sp_sign_add_object.setOnItemSelectedListener(this);
 
-        btn_sign_add= (Button) findViewById(R.id.btn_sign_add);
+        btn_sign_add= (Button) findViewById(R.id.btn_people_add);
         btn_sign_add.setOnClickListener(this);
     }
 
@@ -111,7 +111,7 @@ private Handler mHandler;
     @Override
     public void onClick(View view) {
         switch (view.getId()){
-            case R.id.btn_sign_add:
+            case R.id.btn_people_add:
 Name=et_sign_add_name.getText().toString();
                 if(Name.length()==0){
                     ToastUtil.makeText(getApplicationContext(), "签到名称不得为空！");

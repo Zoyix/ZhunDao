@@ -1,5 +1,7 @@
 package com.zhaohe.app.commons.http.service;
 
+import com.zhaohe.app.utils.TimeUtil;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,7 +23,10 @@ public class FormFile {
     /* 请求参数名称 */
     private String parameterName;
     /* 内容类型 */
-    private String contentType = "application/octet-stream";
+    private String name="imgFile";
+    private String fileName= TimeUtil.getNowTime();
+//    private String contentType = "application/octet-stream";
+private String contentType = "image/jpeg";
 
     public FormFile(String filname, byte[] data, String parameterName, String contentType) {
         this.data = data;
@@ -69,6 +74,14 @@ public class FormFile {
 
     public String getFilname() {
         return filname;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public void setFilname(String filname) {

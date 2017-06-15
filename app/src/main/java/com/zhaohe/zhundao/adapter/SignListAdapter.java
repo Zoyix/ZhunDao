@@ -29,7 +29,7 @@ public class SignListAdapter extends AdapterBase<SignListBean, SignListHolder> {
     @Override
     protected void handlerData(List<SignListBean> mList2, int position, SignListHolder itemView) {
         SignListBean bean = mList2.get(position);
-        itemView.tv_signlist_id.setText(bean.getSign_list_id());
+        itemView.tv_signlist_id.setText(mList2.size()-(position)+"");
         itemView.tv_signlist_name.setText(bean.getSign_list_name()+"("+bean.getNickname()+")");
         itemView.tv_signlist_time.setText(bean.getSign_list_time());
         itemView.tv_signlist_phone.setText(bean.getSign_list_phone());

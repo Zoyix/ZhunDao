@@ -35,7 +35,7 @@ public class AsyncGetCode extends AsyncTask<String, Integer, String> {
         this.mDialog = dialog;
         this.mParam = param;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-    }
+}
 
     @Override
     protected String doInBackground(String... strings) {

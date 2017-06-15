@@ -77,7 +77,7 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
     public static final int PAGE_SIZE = 100000;    //            单页显示的数据数目
 
     public static final int SCANNIN_GREQUEST_CODE = 89;
-private boolean isGotoList;//true不跳转 false跳转签到名单
+    private boolean isGotoList;//true不跳转 false跳转签到名单
 
     @Override
     public void onCreate(Bundle savedInstanceState) {

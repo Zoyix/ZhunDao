@@ -17,4 +17,9 @@
         <item>限报名人员</item>
         <item>不限报名人员</item>
     </string-array>
+    <string-array name="sex">
+        <item>未选择</item>
+        <item>男</item>
+        <item>女</item>
+    </string-array>
 </resources>

@@ -1,21 +1,35 @@
 package com.zhaohe.zhundao.ui.home.action;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.SignListAdapter;
+import com.zhaohe.zhundao.asynctask.action.AsyncSignlistEmail;
 import com.zhaohe.zhundao.bean.SignListBean;
+import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.dao.MySignListDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -23,12 +37,14 @@ import com.zhaohe.zhundao.ui.ToolBarHelper;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.zhaohe.zhundao.ui.login.BondPhoneActivity.MESSAGE_GET_CODE;
+
 /**
  * @Description:
  * @Author:邹苏隆
  * @Since:2016/12/14 10:52
  */
-public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener{
+public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener{
     private SignListAdapter adapter;
     private List<SignListBean> list_act;
     private ListView lv_signlist;
@@ -39,6 +55,8 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     private int count=0;
     private MySignListDao dao;
     private EditText et_signlist_search;
+    private Handler mHandler;
+    public static final int MESSAGE_SEND_SIGNLIST_EMAIL = 94;
 
 
     @Override
@@ -46,11 +64,23 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_list);
         initToolBar("报名用户信息", R.layout.activity_sign_list);
+        initHandler();
         initView();
         init();
 //        test();
     }
 
+
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_menu_signlist_email, menu);
+        toolbar.setOnMenuItemClickListener(this);
+
+        return true;
+    }
     private void initToolBar(String text, int layoutResID) {
         ToolBarHelper mToolBarHelper;
         mToolBarHelper = new ToolBarHelper(this, layoutResID);
@@ -194,11 +224,96 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         JSONObject jsonObject2 = null;
         if (JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo")) != null) {
             jsonObject2 = JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo"));
+            ToastUtil.print(            jsonArray.getJSONObject(m).getString("ExtraInfo"));
+
             String extra = jsonObject2.toString();
-            intent.putExtra("extra", extra);
+            intent.putExtra("extra", jsonArray.getJSONObject(m).getString("ExtraInfo"));
         }
         startActivity(intent);
 
 
+    }
+
+    private void initHandler() {
+        mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+
+                    case MESSAGE_SEND_SIGNLIST_EMAIL:
+                        String result2 = (String) msg.obj;
+                        ToolUserBean bean = (ToolUserBean) JSON.parseObject(result2, ToolUserBean.class);
+                        Toast.makeText(getApplicationContext(), bean.getMsg(), Toast.LENGTH_LONG).show();
+                        break;
+
+
+
+
+                    default:
+                        break;
+                }
+            }
+        };     }
+    private void sendSignListByEmail(String email,String act_id ){
+        Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
+        AsyncSignlistEmail getCode = new AsyncSignlistEmail(this, mHandler,dialog, MESSAGE_GET_CODE, email,act_id);
+        getCode.execute();
+
+    }
+    public void sendEmail() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(this);
+        //把activity_login中的控件定义在View中
+        final View textEntryView = factory.inflate(R.layout.dialog_email, null);
+
+        //将LoginActivity中的控件显示在对话框中
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("发送报名名单到邮箱")
+                //设定显示的View
+                .setView(textEntryView)
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("发送", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        //获取用户输入的“用户名”，“密码”
+                        //注意：textEntryView.findViewById很重要，因为上面factory.inflate(R.layout.activity_login, null)将页面布局赋值给了textEntryView了
+                        final EditText etPassword = (EditText) textEntryView.findViewById(R.id.et_dialog_password);
+
+                        //将页面输入框中获得的“用户名”，“密码”转为字符串
+                        String email = etPassword.getText().toString();
+if (email==null||email.equals("")){
+    ToastUtil.makeText(getApplicationContext(),"邮箱不得为空！");
+    return;
+}
+else{
+    sendSignListByEmail(email,act_id);
+}
+                        //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
+                        //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）
+
+                    }
+                })
+                //对话框的“退出”单击事件
+                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(false)
+                //对话框的创建、显示
+                .create().show();
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_signlist_email:
+                sendEmail();
+                break;
+        }
+        return false;
     }
 }

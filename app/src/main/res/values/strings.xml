@@ -45,6 +45,13 @@
     <string name="menu_upload_multi">数据同步</string>
     <string name="menu_sign_delete">删除签到</string>
     <string name="menu_sign_show">微信签到二维码</string>
+    <string name="menu_contacts_add">新建联系人</string>
+    <string name="menu_contacts_group">分组</string>
+    <string name="menu_group_add">新建群组</string>
+    <string name="menu_people_edit">编辑联系人</string>
+    <string name="menu_people_delete">删除联系人</string>
+    <string name="menu_signlist_email">发送到邮件</string>
+
 
     <string name="menu_beacon_delete">删除设备</string>
 
@@ -134,6 +141,8 @@
     <string name="tv_acton">报名中的活动</string>
     <string name="tv_actoff">已截止的活动</string>
     <string name="et_signlist_search">姓名/昵称/手机号</string>
+    <string name="et_contacts_search">姓名/手机号</string>
+
     <string name="et_signuplist_search">姓名/手机号</string>
 
 
@@ -145,7 +154,7 @@
     <string name="tv_action_sign_suggest">暂无该活动签到数据,请在主界面点击右上角发起新的签到~</string>
     <string name="tv_shake_suggest">请添加微信号”izhundao“\n发送“Beacon”关键词了解更多</string>
     <string name="tv_custom_suggest">如果系统默认报名选项不够,\n请点击右上角添加更多选项~</string>
-
+    <string name="tv_group_suggest">当前分组没有联系人，请点击右上角添加联系人~</string>
 
 
     <!--toolbar title-->
@@ -185,6 +194,8 @@
     <string name="remark">备注</string>
     <string name="none">暂无</string>
     <string name="pay_inf">付款信息:</string>
+    <string name="SerialNo">编号</string>
+
     <!--beacon 信息-->
     <string name="IconUrl">图标</string>
     <string name="beacon_name">设备名称</string>
@@ -272,8 +283,8 @@
     <string name="share">分享到</string>
     <string name="wechat">微信好友</string>
     <string name="wehcat_friends">微信朋友圈</string>
-    <string name="qq_friends">QQ空间</string>
-    <string name="qq_zone">QQ好友</string>
+    <string name="qq_friends">QQ好友</string>
+    <string name="qq_zone">QQ空间</string>
     <string name="weibo">微博</string>
     <!--提示-->
     <string name="multi_introduce">多点签到是准到科技研发的面向部分大型活动需要多个子签到员帮忙进行电子签到的一款插件。\n\n
@@ -303,5 +314,25 @@
     <string name="umeng_socialize_sharetotencent">分享到腾讯微博</string>
     <string name="umeng_socialize_sharetotwitter">分享到twitter</string>
     <string name="umeng_socialize_sharetolinkin">分享到领英</string>
+    <string name="tv_group_all">全部联系人</string>
+    <string name="tv_group_none">未分组</string>
+    <!--联系人-->
+    <string name="et_people_add_phone">请输入联系人的手机号码</string>
+    <string name="et_people_add_name">请输入联系人的姓名</string>
+    <string name="et_people_add_unit">请输入联系人的单位</string>
+    <string name="et_people_add_add">请输入联系人的地址</string>
+
+    <string name="et_people_add_duty">请输入联系人的职务</string>
+    <string name="et_people_add_IDcard">请输入联系人的身份证号</string>
+    <string name="et_people_add_SerialNo">请输入联系人的编号</string>
+    <string name="et_people_add_email">请输入联系人的邮箱</string>
+
+
+    <string name="et_group_add_name">请输入分组的名称</string>
+    <string name="et_group_add_num">请输入分组的序列,数字越小越靠前</string>
+
+    <string name="group_name">分组</string>
+    <string name="group_num">序列</string>
+
 
 </resources>

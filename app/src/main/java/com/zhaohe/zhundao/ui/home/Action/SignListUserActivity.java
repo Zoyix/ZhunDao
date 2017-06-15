@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.alibaba.fastjson.TypeReference;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.zhaohe.app.utils.SPUtils;
@@ -31,7 +32,7 @@ import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
 
-import java.util.Map;
+import java.util.LinkedHashMap;
 
 import static com.zhaohe.app.utils.DensityUtil.dip2px;
 import static com.zhaohe.zhundao.R.id.tv_sign_user_phone;
@@ -182,11 +183,12 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         }
         int i = 0;
         String extra = intent.getStringExtra("extra");
-        JSONObject jsonObject2 = JSON.parseObject(extra);
-
-        if (extra != null) {
-            for (Map.Entry<String, Object> entry : jsonObject2.entrySet()) {
-                System.out.println(entry.getKey() + ":" + entry.getValue());
+        if (extra != null){
+            LinkedHashMap<String, String> jsonMap = JSON.parseObject(extra, new TypeReference<LinkedHashMap<String, String>>() {
+        });
+        for (LinkedHashMap.Entry<String, String> entry : jsonMap.entrySet()) {
+            System.out.println(entry.getKey() + ":" + entry.getValue());
+            //                System.out.println(entry.getKey() + ":" + entry.getValue());
                 String value = entry.getValue().toString();
 //                截取第一个key值字母
 //                截取非空
@@ -209,9 +211,39 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
                 }
                 i++;
             }
+        }}
+//        JSONObject jsonObject2 = JSON.parseObject(extra);
+//        JSONArray listObjectThir = JSONArray.parseArray(extra);
+//        ToastUtil.print(listObjectThir.toString());
 
-        }
-    }
+//        if (extra != null) {
+//            for (Map.Entry<String, Object> entry : jsonObject2.entrySet()) {
+//                System.out.println(entry.getKey() + ":" + entry.getValue());
+//                String value = entry.getValue().toString();
+////                截取第一个key值字母
+////                截取非空
+//                if (value == null) {
+//                    insertTextView(entry.getKey(), (String) entry.getValue());
+//                }
+////                String s = value.substring(0,1);
+//                int isphoto = value.indexOf("http");
+////                判断是否是图片
+//                if (isphoto != -1) {
+////                    insertImageView(entry.getKey(), (String) entry.getValue());
+//                    String url = (String) entry.getValue();
+//                    String[] imgurl = url.split("\\|");
+//                    insertRL(entry.getKey(), imgurl);
+//
+//                } else if (value.length() >= 20) {
+//                    insertLongTextView(entry.getKey(), (String) entry.getValue());
+//                } else {
+//                    insertTextView(entry.getKey(), (String) entry.getValue());
+//                }
+//                i++;
+//            }
+//
+//        }
+
 
     public void insertTextView(String text1, String text2) {
         int margin = dip2px(this, 10);
@@ -447,13 +479,6 @@ url=imgurl[num];
                 } else {
                     Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        // TODO: Consider calling
-                        //    ActivityCompat#requestPermissions
-                        // here to request the missing permissions, and then overriding
-                        //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                        //                                          int[] grantResults)
-                        // to handle the case where the user grants the permission. See the documentation
-                        // for ActivityCompat#requestPermissions for more details.
                         return;
                     }
                     startActivity(intent);

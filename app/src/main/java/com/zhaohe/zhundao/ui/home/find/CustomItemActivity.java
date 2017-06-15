@@ -167,6 +167,7 @@ public class CustomItemActivity extends ToolBarActivity implements AdapterView.O
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "添加成功");
+                            finish();
                             ;
                         }
                         break;

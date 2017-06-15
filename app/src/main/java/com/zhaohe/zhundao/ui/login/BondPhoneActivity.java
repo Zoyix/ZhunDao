@@ -118,7 +118,7 @@ public class BondPhoneActivity extends ToolBarActivity implements View.OnClickLi
                 }
                 if (NetworkUtils.checkNetState(this)) {
                     Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
-                    AsyncGetCode getCode = new AsyncGetCode(this, mHandler, dialog, MESSAGE_GET_CODE, mPhone);
+                    AsyncGetCode getCode = new AsyncGetCode(this, mHandler,dialog, MESSAGE_GET_CODE, mPhone);
                     getCode.execute();
 
 

@@ -26,6 +26,8 @@ import com.zhaohe.app.version.VersionBean;
 import com.zhaohe.app.version.VersionXmlUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncChangePassword;
+import com.zhaohe.zhundao.dao.MyContactsDao;
+import com.zhaohe.zhundao.dao.MyGroupDao;
 import com.zhaohe.zhundao.dao.MySignupListMultiDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -38,6 +40,9 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
     private Handler mHandler;
     private VersionBean bean;
     private MySignupListMultiDao dao;
+    private MyGroupDao groupDao;
+    private MyContactsDao contactsDao;
+
 
 
 
@@ -71,6 +76,8 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         tv_setting_version_show= (TextView) findViewById(R.id.tv_setting_version_show);
         tv_setting_version_show.setText("APP版本号："+getVersion(this));
         dao=new MySignupListMultiDao(this);
+        groupDao=new MyGroupDao(this);
+        contactsDao=new MyContactsDao(this);
 
     }
 
@@ -204,6 +211,8 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         switch (view.getId()) {
             case R.id.tv_setting_exit:
                 dao.deleteTable();
+                groupDao.deleteTable();
+                contactsDao.deleteTable();
                 SPUtils.clear(this);
                 IntentUtils.startActivity(this, LoginActivity.class);
                 break;
@@ -218,7 +227,9 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                 break;
                 case R.id.tv_setting_version:
 //                    ToastUtil.makeText(this,"APP版本号："+getVersion(this));
-                    if (bean.getSynccode().equals("0")) {
+                    if(bean.getSynccode()==null)
+                    {return;}
+                    else if (bean.getSynccode().equals("0")) {
 return;
                     }
                     if (VersionXmlUtils.isUpdateApp(SettingActivity.this, bean)) {// 更新App

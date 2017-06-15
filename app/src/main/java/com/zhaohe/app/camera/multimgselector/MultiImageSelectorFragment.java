@@ -537,6 +537,8 @@ public class MultiImageSelectorFragment extends Fragment {
                     // 设定默认选择
                     if (resultList != null && resultList.size() > 0) {
                         mImageAdapter.setDefaultSelected(resultList);
+                        System.out.println(resultList);
+
                     }
 
                     mFolderAdapter.setData(mResultFolder);

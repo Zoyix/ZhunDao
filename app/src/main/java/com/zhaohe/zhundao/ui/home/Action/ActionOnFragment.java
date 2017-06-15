@@ -40,7 +40,7 @@ import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.ActionAdapter;
-import com.zhaohe.zhundao.asynctask.AsyncAction;
+import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.asynctask.AsyncUpLoadSignupStatus;
@@ -375,33 +375,37 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         dao = new MySignupListDao(getActivity());
         tv_acton_suggest = (TextView) rootView.findViewById(R.id.tv_acton_suggest);
-mShareListener = new UMShareListener() {
-            @Override
-            public void onStart(SHARE_MEDIA platform) {
-                //分享开始的回调
-            }
-            @Override
-            public void onResult(SHARE_MEDIA platform) {
-                Log.d("plat","platform"+platform);
+        bindListener();
 
-                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+    }
 
-            }
+    private void bindListener() {
+        mShareListener = new UMShareListener() {
+                    @Override
+                    public void onStart(SHARE_MEDIA platform) {
+                        //分享开始的回调
+                    }
+                    @Override
+                    public void onResult(SHARE_MEDIA platform) {
+                        Log.d("plat","platform"+platform);
 
-            @Override
-            public void onError(SHARE_MEDIA platform, Throwable t) {
-                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                if(t!=null){
-                    Log.d("throw","throw:"+t.getMessage());
-                }
-            }
+                        Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
-            @Override
-            public void onCancel(SHARE_MEDIA platform) {
-                Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
-            }
-        };
+                    }
 
+                    @Override
+                    public void onError(SHARE_MEDIA platform, Throwable t) {
+                        Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                        if(t!=null){
+                            Log.d("throw","throw:"+t.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onCancel(SHARE_MEDIA platform) {
+                        Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+                    }
+                };
     }
 
     private void upload() {
@@ -509,6 +513,8 @@ mShareListener = new UMShareListener() {
     }
 
     private void UmengShare(ActionBean bean,SHARE_MEDIA type ) {
+        try {
+
         UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
         UMImage image = new UMImage(getActivity(), bean.getUrl());
         web.setTitle( bean.getAct_title());//标题
@@ -522,6 +528,11 @@ mShareListener = new UMShareListener() {
                 .withMedia(web)
                 .setCallback(mShareListener)
                 .share();
+        }
+        catch (Exception e){
+            ToastUtil.makeText(getActivity(),type.toString()+"异常，请暂时先使用更多选项中的复制链接进行手动分享");
+            return;
+        }
     }
 
     @Override

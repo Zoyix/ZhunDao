@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.home.mine.contacts.PeopleAddActivity">
+
+    <TextView
+        android:id="@+id/tv_people_add_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/name"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_people_add_name"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_name"
+        android:layout_toRightOf="@id/tv_people_add_name"
+        android:hint="@string/et_people_add_name"
+        />
+    <TextView
+        android:id="@+id/tv_people_add_num"
+        android:layout_below="@id/tv_people_add_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/phone"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/et_people_add_num"
+        android:maxLength="11"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_people_add_num"
+        android:entries="@array/sign_add_type"
+        android:layout_below="@id/tv_people_add_name"
+        android:hint="@string/et_people_add_phone"
+        ></EditText>
+    <TextView
+        android:id="@+id/tv_people_add_group"
+        android:layout_below="@id/tv_people_add_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/menu_contacts_group"
+        android:textSize="18sp" />
+    <Spinner
+        android:id="@+id/sp_people_add_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/tv_people_add_group"
+        android:layout_below="@id/tv_people_add_num"
+
+       ></Spinner>
+
+    <TextView
+        android:id="@+id/tv_people_add_sex"
+        android:layout_below="@id/tv_people_add_group"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/sex"
+        android:textSize="18sp" />
+
+    <Spinner
+        android:id="@+id/sp_people_add_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@id/tv_people_add_sex"
+        android:layout_toRightOf="@id/tv_people_add_sex"
+        android:entries="@array/sex"
+        ></Spinner>
+    <TextView
+        android:id="@+id/tv_people_add_add"
+        android:layout_below="@id/tv_people_add_sex"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/add"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/et_people_add_add"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_add"
+        android:layout_toRightOf="@id/tv_people_add_add"
+        android:hint="@string/et_people_add_add"
+        />
+
+    <TextView
+        android:id="@+id/tv_people_add_company"
+        android:layout_below="@id/tv_people_add_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/unit"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/et_people_add_company"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_company"
+        android:layout_toRightOf="@id/tv_people_add_company"
+        android:hint="@string/et_people_add_unit"
+        />
+
+    <TextView
+        android:id="@+id/tv_people_add_duty"
+        android:layout_below="@id/tv_people_add_company"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/duty"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/et_people_add_duty"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_duty"
+        android:layout_toRightOf="@id/tv_people_add_duty"
+        android:hint="@string/et_people_add_duty"
+        />
+    <TextView
+        android:id="@+id/tv_people_add_IDcard"
+        android:layout_below="@id/tv_people_add_duty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/id_card"
+        android:textSize="12sp" />
+    <EditText
+        android:id="@+id/et_people_add_IDcard"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_IDcard"
+        android:layout_toRightOf="@id/tv_people_add_IDcard"
+        android:hint="@string/et_people_add_IDcard"
+        />
+    <TextView
+        android:id="@+id/tv_people_add_SerialNo"
+        android:layout_below="@id/tv_people_add_IDcard"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/SerialNo"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/et_people_add_SerialNo"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_SerialNo"
+        android:layout_toRightOf="@id/tv_people_add_SerialNo"
+        android:hint="@string/et_people_add_SerialNo" />
+    <TextView
+        android:id="@+id/tv_people_add_email"
+        android:layout_below="@id/tv_people_add_SerialNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/email"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/et_people_add_email"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_email"
+        android:layout_toRightOf="@id/tv_people_add_email"
+        android:hint="@string/et_people_add_email" />
+    <TextView
+        android:id="@+id/tv_people_add_remark"
+        android:layout_below="@id/tv_people_add_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/remark"
+        android:textSize="18sp" />
+    <EditText
+        android:id="@+id/et_people_add_remark"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_people_add_remark"
+        android:layout_toRightOf="@id/tv_people_add_remark"
+        android:hint="@string/remark" />
+    <Button
+        android:layout_marginBottom="30dp"
+        android:id="@+id/btn_people_add"
+        android:text="@string/ok"
+        android:layout_alignParentBottom="true"
+        style="@style/btn_login" />
+</RelativeLayout>
