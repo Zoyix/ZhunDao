@@ -51,6 +51,13 @@
     <string name="menu_people_edit">编辑联系人</string>
     <string name="menu_people_delete">删除联系人</string>
     <string name="menu_signlist_email">发送到邮件</string>
+    <string name="menu_signlist_upload">更新数据</string>
+    <string name="menu_signlist_user_delete">删除报名</string>
+    <string name="menu_signlist_user_edit">修改报名信息</string>
+
+
+
+    <string name="menu_signlist_more">扩展列表</string>
 
 
     <string name="menu_beacon_delete">删除设备</string>
@@ -235,6 +242,11 @@
     <string name="tv_sign_add_type">签到类型</string>
     <string name="tv_sign_add_object">签到对象</string>
     <string name="tv_sign_add_actname">活动名称</string>
+    <string name="tv_sign_edit">修改签到</string>
+    <string name="tv_sign_delete">删除签到</string>
+    <string name="tv_sign_qcode">签到二维码</string>
+
+
 
 
     <string name="et_sign_add_name">请输入签到的名称</string>

@@ -86,7 +86,7 @@ public class MainActivity extends AppCompatActivity {
                         isLogin();
 
                     }
-//                    VersionXmlUtils.isUpdateApp (MainActivity.this, bean)
+//                    VersionXmlUtils.isUpdateApp (SignListMoreActivity.this, bean)
                     if (VersionXmlUtils.isUpdateApp(MainActivity.this, bean)) {// 更新App
                         DialogUtils.showDialog(MainActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
                                 new UpdateAppNegativeButtonListener());
@@ -120,7 +120,7 @@ public class MainActivity extends AppCompatActivity {
             // 开始 更新App
             VersionXmlUtils.startUpdateApp(MainActivity.this, bean);
             isLogin();
-//            MainActivity.this.finish ();
+//            SignListMoreActivity.this.finish ();
         }
 
     }
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(DialogInterface dialog, int which) {
             dialog.dismiss();
             isLogin();
-//            MainActivity.this.finish ();
+//            SignListMoreActivity.this.finish ();
 //            System.exit (0);
         }
 

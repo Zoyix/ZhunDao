@@ -4,9 +4,9 @@
         <!--<style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">-->
         <item name="colorControlActivated">@color/status_color_green</item>
         <!-- Inactive thumb color switch关闭时的拇指按钮的颜色 -->
-        <!--<item name="colorSwitchThumbNormal">@color/status_color_green</item>-->
+        <!--<list_item_sign_list_more name="colorSwitchThumbNormal">@color/status_color_green</list_item_sign_list_more>-->
         <!-- Inactive track color(30% transparency) switch关闭时的轨迹的颜色  30%这个颜色 -->
-        <!--<item name="android:colorForeground">@color/status_color_green</item>-->
+        <!--<list_item_sign_list_more name="android:colorForeground">@color/status_color_green</list_item_sign_list_more>-->
         <!-- Customize your theme here. -->
         <item name="colorControlNormal">#aaaaaa</item>
         <item name="colorPrimary">@color/colorPrimary</item>
@@ -120,10 +120,12 @@
     </style>
     <!-- 活动报名人员详情列表textview风格. -->
     <style name="act_user_tv">
+        <item name="android:textIsSelectable">true</item>
+
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:paddingTop">10dp</item>
+        <item name="android:paddingBottom">10dp</item>
 
     </style>
 

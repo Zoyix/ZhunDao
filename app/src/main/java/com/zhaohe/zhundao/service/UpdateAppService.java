@@ -163,7 +163,7 @@ public class UpdateAppService extends Service {
         // 这个参数是通知提示闪出来的值.
         notification.tickerText = "开始下载";
         
-        updateIntent = new Intent(this, MainActivity.class);
+        updateIntent = new Intent(this, SignListMoreActivity.class);
         pendingIntent = PendingIntent.getActivity(this, 0, updateIntent, 0);
         // 这里面的参数是通知栏view显示的内容
         notification.setLatestEventInfo(this, app_name, "下载：0", pendingIntent);

@@ -192,6 +192,16 @@ public class CustomItemEditActivity extends ToolBarActivity implements AdapterVi
             rl_find_custom_option.setVisibility(View.VISIBLE);
 
         }
+        if (sp_find_custom_type.getSelectedItem().toString().equals("日期控件")) {
+            sp_result = "6";
+            rl_find_custom_option.setVisibility(View.GONE);
+
+        }
+        if (sp_find_custom_type.getSelectedItem().toString().equals("数字输入框")) {
+            sp_result = "7";
+            rl_find_custom_option.setVisibility(View.GONE);
+
+        }
     }
 
     public void UpdateOrAddCustom(String param) {

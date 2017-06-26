@@ -56,7 +56,7 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
     }
 
     private void initView() {
-        et_group_add_name = (EditText) findViewById(R.id.et_people_add_name);
+        et_group_add_name = (EditText) findViewById(R.id.et_signlist_user_name);
         et_group_add_num = (EditText) findViewById(R.id.et_people_add_num);
         et_group_add_num.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         btn_people_add = (Button) findViewById(R.id.btn_people_add);

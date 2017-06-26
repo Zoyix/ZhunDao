@@ -18,13 +18,13 @@ public class MySignListupBean implements Serializable {
     private String AdminRemark;
     private String FeeName;
     private String Fee;
-    private String SignTime;
-    public String getSignTime() {
-        return SignTime;
+    private String CheckInTime;
+    public String getCheckInTime() {
+        return CheckInTime;
     }
 
-    public void setSignTime(String signTime) {
-        SignTime = signTime;
+    public void setCheckInTime(String checkInTime) {
+        CheckInTime = checkInTime;
     }
 
 

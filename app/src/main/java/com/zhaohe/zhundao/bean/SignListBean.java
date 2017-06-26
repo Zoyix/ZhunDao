@@ -14,7 +14,11 @@ public class SignListBean implements Serializable {
     private String sign_list_time;
     private String sign_list_phone;
     private String sign_list_status;
-
+    private String nickname;
+    //    活动ID
+    private String act_id;
+    //    和用户详细信息对应的jasonBean
+    private int mIndex;
     public String getNickname() {
         return nickname;
     }
@@ -23,11 +27,8 @@ public class SignListBean implements Serializable {
         this.nickname = nickname;
     }
 
-    private String nickname;
-//    活动ID
-    private String act_id;
-    //    和用户详细信息对应的jasonBean
-    private int mIndex;
+
+
 
     public int getmIndex() {
         return mIndex;

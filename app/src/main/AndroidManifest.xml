@@ -167,9 +167,9 @@
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait"
             android:theme="@android:style/Theme.Translucent.NoTitleBar" />
-        <activity
-            android:name="com.umeng.socialize.editorpage.ShareActivity"
-            android:excludeFromRecents="true" />
+        <!--<activity-->
+            <!--android:name="com.umeng.socialize.editorpage.ShareActivity"-->
+            <!--android:excludeFromRecents="true" />-->
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -204,15 +204,24 @@
             android:name=".ui.home.mine.contacts.ContactsActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".ui.home.mine.contacts.group.GroupActivity"            android:launchMode="singleTask"
-            />
-        <activity android:name=".ui.home.mine.contacts.PeopleActivity"             android:launchMode="singleTask"
-            />
-        <activity android:name=".ui.home.mine.contacts.PeopleAddActivity"             android:launchMode="singleTask"
-            />
-        <activity android:name=".ui.home.mine.contacts.group.GroupAddActivity"             android:launchMode="singleTask"
-            />
-        <activity android:name=".ui.home.mine.contacts.group.textActivity"></activity>
+        <activity
+            android:name=".ui.home.mine.contacts.group.GroupActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.home.mine.contacts.PeopleActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.home.mine.contacts.PeopleAddActivity"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".ui.home.mine.contacts.group.GroupAddActivity"
+            android:launchMode="singleTask" />
+        <activity android:name=".ui.home.mine.contacts.group.textActivity" />
+        <!--<activity android:name=".ui.home.action.signlist.SignListMoreActivity" />-->
+        <activity android:name=".ui.home.action.SignListUserEditActivity"
+            android:launchMode="singleTask"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            ></activity>
     </application>
 
 </manifest>

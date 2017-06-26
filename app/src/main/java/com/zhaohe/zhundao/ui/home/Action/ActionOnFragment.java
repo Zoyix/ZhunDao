@@ -75,7 +75,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     public static final int MESSAGE_GET_USERINF = 91;
     public static final int MESSAGE_UPLOAD_SIGNUPSTATUS = 88;
     //            单页显示的数据数目
-    public static final int PAGE_SIZE = 1000;
+    public static final int PAGE_SIZE = 200000;
 
 
     protected View rootView;

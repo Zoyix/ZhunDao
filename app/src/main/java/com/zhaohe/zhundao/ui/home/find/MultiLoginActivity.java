@@ -194,6 +194,10 @@ public class MultiLoginActivity extends ToolBarActivity implements View.OnClickL
                 IntentUtils.startActivity(MultiLoginActivity.this, MultipointActivity.class);
             }
 
+            else {
+                ToastUtil.makeText(this, "暂无网络，请联网后再试。");
+
+            }
         }
         else {
             ToastUtil.makeText(this, "暂无网络，请联网后再试。");
@@ -231,7 +235,7 @@ public class MultiLoginActivity extends ToolBarActivity implements View.OnClickL
                 showDialog();
                 break;
         }
-//        IntentUtils.startActivity(this,MainActivity.class);
+//        IntentUtils.startActivity(this,SignListMoreActivity.class);
 
     }
 }

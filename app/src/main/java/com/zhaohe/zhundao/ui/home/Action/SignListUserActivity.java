@@ -1,16 +1,22 @@
 package com.zhaohe.zhundao.ui.home.action;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.app.ActivityCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
@@ -25,10 +31,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.app.utils.ZXingUtil;
 import com.zhaohe.zhundao.R;
+import com.zhaohe.zhundao.asynctask.action.AsyncSignListPeopleDelete;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
 
@@ -37,19 +45,23 @@ import java.util.LinkedHashMap;
 import static com.zhaohe.app.utils.DensityUtil.dip2px;
 import static com.zhaohe.zhundao.R.id.tv_sign_user_phone;
 
-public class SignListUserActivity extends ToolBarActivity implements View.OnClickListener {
+public class SignListUserActivity extends ToolBarActivity implements View.OnClickListener ,Toolbar.OnMenuItemClickListener {
     private TextView tv_name, tv_phone, tv_unit, tv_sex, tv_dep, tv_industry, tv_duty,
             tv_id_card, tv_email, tv_join_num, tv_add, tv_remark, tv_amount, tv_title;
     private RelativeLayout rl_name, rl_phone, rl_sex, rl_unit, rl_dep, rl_industry, rl_duty, rl_id_card, rl_email, rl_join_num, rl_add, rl_remark, rl_amount;
     Toolbar toolbar;
     private LinearLayout ll_sign_list_user;
     private String signup_list;
-    private String act_id;
+    private String act_id,ID;
     private JSONObject jsonObj;
     private JSONArray jsonArray;
     private String phone;
     private static int id=R.id.tv_code_img;
     private String url,text;//当前要保存的图片的url和标题
+    private Handler mHandler;
+
+
+    public static final int MESSAGE_SEND_SIGNLIST_DELETE = 94;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +70,15 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         initToolBar("用户个人信息", R.layout.activity_sign_list_user);
         initView();
         init();
+        initHandler();
+    }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.toolbar_menu_signlist_user, menu);
+        toolbar.setOnMenuItemClickListener(this);
+
+        return true;
     }
 
     private void initToolBar(String text, int layoutResID) {
@@ -116,6 +137,8 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         if (intent != null) {
             act_id = intent.getStringExtra("act_id");
             signup_list = (String) SPUtils.get(this, "listup_" + act_id, "");
+            ID = intent.getStringExtra("id");
+
         }
         jsonObj = JSON.parseObject(signup_list);
         jsonArray = jsonObj.getJSONArray("Data");
@@ -212,37 +235,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
                 i++;
             }
         }}
-//        JSONObject jsonObject2 = JSON.parseObject(extra);
-//        JSONArray listObjectThir = JSONArray.parseArray(extra);
-//        ToastUtil.print(listObjectThir.toString());
 
-//        if (extra != null) {
-//            for (Map.Entry<String, Object> entry : jsonObject2.entrySet()) {
-//                System.out.println(entry.getKey() + ":" + entry.getValue());
-//                String value = entry.getValue().toString();
-////                截取第一个key值字母
-////                截取非空
-//                if (value == null) {
-//                    insertTextView(entry.getKey(), (String) entry.getValue());
-//                }
-////                String s = value.substring(0,1);
-//                int isphoto = value.indexOf("http");
-////                判断是否是图片
-//                if (isphoto != -1) {
-////                    insertImageView(entry.getKey(), (String) entry.getValue());
-//                    String url = (String) entry.getValue();
-//                    String[] imgurl = url.split("\\|");
-//                    insertRL(entry.getKey(), imgurl);
-//
-//                } else if (value.length() >= 20) {
-//                    insertLongTextView(entry.getKey(), (String) entry.getValue());
-//                } else {
-//                    insertTextView(entry.getKey(), (String) entry.getValue());
-//                }
-//                i++;
-//            }
-//
-//        }
 
 
     public void insertTextView(String text1, String text2) {
@@ -254,6 +247,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         tv1.setText(text1);
         tv1.setId(R.id.tv_code_title);
         TextView tv2 = new TextView(this);
+        tv2.setTextIsSelectable(true);
         tv2.setText(text2);
         tv2.setId(R.id.tv_code_content);
         RelativeLayout.LayoutParams rlParams =
@@ -334,6 +328,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         tv1.setText(text1);
         tv1.setId(R.id.tv_code_title);
         TextView tv2 = new TextView(this);
+        tv2.setTextIsSelectable(true);
         tv2.setText(text2);
         tv2.setId(R.id.tv_code_content);
         RelativeLayout.LayoutParams rlParams =
@@ -477,7 +472,7 @@ url=imgurl[num];
                 if (phone.equals("") && phone.equals(null)) {
                     ToastUtil.makeText(this, "号码不得为空");
                 } else {
-                    Intent intent = new Intent(Intent.ACTION_CALL, Uri.parse("tel:" + phone));
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
                     if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
                         return;
                     }
@@ -505,6 +500,85 @@ url=imgurl[num];
         }
         return true;
     }
+    private void SignListDelete(String id ){
+        Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
+        AsyncSignListPeopleDelete getCode = new AsyncSignListPeopleDelete(this, mHandler,dialog, MESSAGE_SEND_SIGNLIST_DELETE, id);
+        getCode.execute();
+
+    }
+    private void initHandler() {
+        mHandler = new Handler() {
+
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what) {
+
+                    case MESSAGE_SEND_SIGNLIST_DELETE:
+                        String result = (String) msg.obj;
+                        JSONObject jsonObj = JSON.parseObject(result);
+                        String message = jsonObj.getString("Res");
+                        if (message.equals("0")){
+                            ToastUtil.makeText(getApplicationContext(),"删除成功！");
+                            finish();
+                        }
+                        else {
+                            ToastUtil.makeText(getApplicationContext(),jsonObj.getString("Msg"));
+
+                        }
+
+                        break;
 
 
+                    default:
+                        break;
+                }
+            }
+        };     }
+    public void deleteDialog() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("确认要删除报名人员吗？")
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        SignListDelete(ID);
+
+
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
+
+    @Override
+    public boolean onMenuItemClick(MenuItem item) {
+
+        switch (item .getItemId()){
+            case R.id.menu_signlist_user_delete:
+                deleteDialog();
+                break;
+            case R.id.menu_signlist_user_edit:
+                Intent intent =  getIntent() ;
+intent.setClass(this,SignListUserEditActivity.class);
+                startActivity(intent);
+                break;
+        }
+
+        return false;
+    }
 }

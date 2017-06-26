@@ -86,6 +86,8 @@ public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTy
         public static final String UploadFile = "/OAuth/UploadFile";//上传图片
         public static final String DeleteContact = "/api/Contact/DeleteContact";//删除分组
         public static final String SendActivityListByEmail = "/api/PerActivity/SendActivityListByEmail";//发送报名名单到分组
+        public static final String UpdateActivityList = "/api/PerActivity/UpdateActivityList";//修改报名人员信息
+        public static final String DeleteActivityList = "/api/PerActivity/DeleteActivityList";//删除报名人员
 
 
 

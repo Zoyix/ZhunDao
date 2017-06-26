@@ -26,6 +26,7 @@ import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.QueryCodeUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.SignAdapter;
@@ -223,7 +224,7 @@ public class ActionSignActivity extends ToolBarActivity implements View.OnClickL
             bean.setAdminRemark(jsonArray.getJSONObject(i).getString("AdminRemark"));
             bean.setFeeName(jsonArray.getJSONObject(i).getString("FeeName"));
             bean.setFee(jsonArray.getJSONObject(i).getString("Fee"));
-            bean.setSignTime(jsonArray.getJSONObject(i).getString("SignTime"));
+            bean.setCheckInTime(jsonArray.getJSONObject(i).getString("SignTime"));
             bean.setUpdateStatus("false");
             list.add(bean);
             System.out.println(bean.toString());
@@ -473,6 +474,7 @@ public class ActionSignActivity extends ToolBarActivity implements View.OnClickL
                             bean.setVCode(result);
                             bean.setStatus("true");
                             bean.setUpdateStatus("true");
+                            bean.setCheckInTime(TimeUtil.getNowTime());
                             bean.setCheckInID(CheckInID);
                             dao.update(bean);
                             MySignListupBean bean2 = (MySignListupBean) list.get(0);

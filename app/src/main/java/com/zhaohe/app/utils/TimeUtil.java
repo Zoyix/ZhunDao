@@ -32,9 +32,10 @@ public class TimeUtil {
         String monthDay = thanTen(time.monthDay);
         String hour = thanTen(time.hour);
         String minute = thanTen(time.minute);
+        String second=thanTen(time.second);
 
         timeString = year + "-" + month + "-" + monthDay + " " + hour + ":"
-                + minute;
+                + minute+":"+second;
         // System.out.println("-------timeString----------" + timeString);
         return timeString;
     }

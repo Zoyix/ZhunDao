@@ -7,6 +7,8 @@
         <item>多选</item>
         <item>图片</item>
         <item>单选</item>
+        <item>日期控件</item>
+        <item>数字输入框</item>
     </string-array>
     <string-array name="sign_add_type">
         <item>到场签到</item>

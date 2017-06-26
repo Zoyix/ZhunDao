@@ -52,7 +52,12 @@ public class MySignListDao {
             db.close();
         }
     }
+    public void deleteTable(){
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
 
+        db.execSQL("delete from "+TABLE_NAME);
+        db.close();
+    }
 
     private void setContentValues(ContentValues values,
                                  SignListBean bean) {

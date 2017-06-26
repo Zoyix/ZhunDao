@@ -51,6 +51,12 @@ public class CustomAdapter extends AdapterBase<CustomBean, CustomHolder> {
             case "5":
                 type = "[单    选]";
                 break;
+            case "6":
+                type = "[日    期]";
+                break;
+            case "7":
+                type = "[数    字]";
+                break;
 
             default:
                 type = "[输入框]";

@@ -22,7 +22,7 @@ public class DialogUtils {
      * @param context
      * @param title   标题
      *                //     *@param items 编辑、删除
-     *                //     *@param itemClickListener item 对于的事件
+     *                //     *@param itemClickListener list_item_sign_list_more 对于的事件
      * @return
      * @Description: 显示 Edit 对话框(列表对话框形式 )
      * @Author:杨攀

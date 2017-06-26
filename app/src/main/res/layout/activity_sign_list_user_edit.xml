@@ -1,0 +1,315 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/ll_signlist_user"
+    tools:context="com.zhaohe.zhundao.ui.home.action.SignListUserEditActivity">
+    <RelativeLayout
+        android:id="@+id/rl_user_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_signlist_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/name"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_signlist_user_name"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_signlist_user_name"
+            android:layout_toRightOf="@id/tv_signlist_user_name"
+            android:hint="@string/name"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_user_phone"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        >
+
+        <TextView
+            android:id="@+id/tv_signlist_user_phone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/phone"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_signlist_user_phone"
+            android:layout_width="300dp"
+            android:maxLength="11"
+            android:inputType="number"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_signlist_user_phone"
+            android:layout_toRightOf="@id/tv_signlist_user_phone"
+            android:hint="@string/phone"
+            />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_user_sex"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:id="@+id/tv_signlist_user_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/sex"
+            android:textSize="18sp" />
+        <Spinner
+            android:id="@+id/sp_signlist_user_sex"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignBottom="@id/tv_signlist_user_sex"
+            android:layout_toRightOf="@id/tv_signlist_user_sex"
+            android:entries="@array/sex"
+            ></Spinner>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_user_email"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_signlist_user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/email"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_signlist_user_email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_signlist_user_email"
+            android:layout_toRightOf="@id/tv_signlist_user_email"
+            android:hint="@string/email"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_user_unit"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_signlist_user_unit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/unit"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_signlist_user_unit"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_signlist_user_unit"
+            android:layout_toRightOf="@id/tv_signlist_user_unit"
+            android:hint="@string/unit"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_user_dep"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_signlist_user_dep"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/dep"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_signlist_user_dep"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_signlist_user_dep"
+            android:layout_toRightOf="@id/tv_signlist_user_dep"
+            android:hint="@string/dep"
+            />
+    </RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_user_duty"
+
+        android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_signlist_user_duty"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/duty"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_signlist_user_duty"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_signlist_user_duty"
+        android:layout_toRightOf="@id/tv_signlist_user_duty"
+        android:hint="@string/duty"
+        />
+</RelativeLayout>
+    <RelativeLayout
+    android:id="@+id/rl_user_industry"
+
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_signlist_user_industry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/industry"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_signlist_user_industry"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_signlist_user_industry"
+        android:layout_toRightOf="@id/tv_signlist_user_industry"
+        android:hint="@string/industry"
+        />
+</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_user_join_num"
+
+        android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_signlist_user_join_num"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/join_num"
+        android:textSize="9sp" />
+
+    <EditText
+        android:id="@+id/et_signlist_user_join_num"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_signlist_user_join_num"
+        android:layout_toRightOf="@id/tv_signlist_user_join_num"
+        android:hint="@string/join_num"
+        />
+</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_user_id_card"
+
+        android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_signlist_user_id_card"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/id_card"
+        android:textSize="12sp" />
+
+    <EditText
+        android:id="@+id/et_signlist_user_id_card"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_signlist_user_id_card"
+        android:layout_toRightOf="@id/tv_signlist_user_id_card"
+        android:hint="@string/id_card"
+        />
+</RelativeLayout>
+    <RelativeLayout
+        android:id="@+id/rl_user_add"
+
+        android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <TextView
+        android:id="@+id/tv_signlist_user_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/add"
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/et_signlist_user_add"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/tv_signlist_user_add"
+        android:layout_toRightOf="@id/tv_signlist_user_add"
+        android:hint="@string/add"
+        />
+</RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/rl_user_remark"
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/tv_signlist_user_remark"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:text="@string/remark"
+            android:textSize="18sp" />
+
+        <EditText
+            android:id="@+id/et_signlist_user_remark"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_alignBaseline="@id/tv_signlist_user_remark"
+            android:layout_toRightOf="@id/tv_signlist_user_remark"
+            android:hint="@string/remark"
+            />
+    </RelativeLayout>
+
+
+
+
+</LinearLayout>
+    <Button
+        android:id="@+id/btn_signlist_user_sumbit"
+        android:layout_gravity="center_horizontal"
+        android:text="@string/ok"
+        style="@style/btn_login" />
+    </LinearLayout>
+</ScrollView>
+

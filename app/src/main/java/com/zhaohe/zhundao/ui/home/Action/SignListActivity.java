@@ -27,6 +27,7 @@ import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.SignListAdapter;
+import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.asynctask.action.AsyncSignlistEmail;
 import com.zhaohe.zhundao.bean.SignListBean;
 import com.zhaohe.zhundao.bean.ToolUserBean;
@@ -57,6 +58,11 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     private EditText et_signlist_search;
     private Handler mHandler;
     public static final int MESSAGE_SEND_SIGNLIST_EMAIL = 94;
+    public static final int MESSAGE_GET_SIGNLIST = 93;
+    public static final int MESSAGE_GET_SIGNLIST_NO_DIALOG = 92;
+
+
+    public static final int PAGE_SIZE = 200000;
 
 
     @Override
@@ -71,7 +77,11 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
 
+        updateNoDialog();    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -108,8 +118,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         List<SignListBean> list = new ArrayList<SignListBean>();
         for (int i = 0; i < jsonArray.size(); i++) {
             SignListBean bean = new SignListBean();
-            id=id-1;
-            bean.setSign_list_id("" + id);
+            bean.setSign_list_id(jsonArray.getJSONObject(i).getString("ID"));
             bean.setSign_list_name(jsonArray.getJSONObject(i).getString("UserName"));
             bean.setSign_list_time(jsonArray.getJSONObject(i).getString("AddTime"));
             bean.setSign_list_phone(jsonArray.getJSONObject(i).getString("Mobile"));
@@ -144,6 +153,15 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
 
 
     }
+    private void getSignList(String param) {
+        Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
+        AsyncSignList asyncSignList = new AsyncSignList(this, mHandler, dialog, MESSAGE_GET_SIGNLIST, param);
+        asyncSignList.execute();
+    }
+    private void getSignListNoDialog(String param) {
+        AsyncSignList asyncSignList = new AsyncSignList(this, mHandler,  MESSAGE_GET_SIGNLIST_NO_DIALOG, param);
+        asyncSignList.execute();
+    }
 
     private void test() {
         List<SignListBean> list = new ArrayList<SignListBean>();
@@ -158,6 +176,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         }
         adapter.refreshData(list);
     }
+
 
     private void initView() {
         dao = new MySignListDao(this);
@@ -221,7 +240,9 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         intent.putExtra("amount", amount);
         intent.putExtra("title", title);
         intent.putExtra("act_id", act_id);
-        JSONObject jsonObject2 = null;
+            intent.putExtra("id", bean.getSign_list_id());
+
+            JSONObject jsonObject2 = null;
         if (JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo")) != null) {
             jsonObject2 = JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo"));
             ToastUtil.print(            jsonArray.getJSONObject(m).getString("ExtraInfo"));
@@ -247,9 +268,27 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
                         Toast.makeText(getApplicationContext(), bean.getMsg(), Toast.LENGTH_LONG).show();
                         break;
 
+                    case MESSAGE_GET_SIGNLIST:
+                        String result = (String) msg.obj;
+                        JSONObject jsonObj = JSON.parseObject(result);
+                        String message = jsonObj.getString("Res");
+                        if (message.equals("0")){
+    SPUtils.put(getApplicationContext(), "listup_" + act_id, result);
+                            dao.deleteTable();
+    init();
+                        ToastUtil.makeText(getApplicationContext(),"刷新成功！");
+                        }
 
+                        break;
 
-
+                    case MESSAGE_GET_SIGNLIST_NO_DIALOG:
+                         result = (String) msg.obj;
+                         jsonObj = JSON.parseObject(result);
+                         message = jsonObj.getString("Res");
+                        if (message.equals("0")){
+                            SPUtils.put(getApplicationContext(), "listup_" + act_id, result);
+                            dao.deleteTable();
+                            init();}
                     default:
                         break;
                 }
@@ -313,7 +352,18 @@ else{
             case R.id.menu_signlist_email:
                 sendEmail();
                 break;
+            case R.id.menu_signlist_upload:
+                update();
         }
         return false;
+    }
+
+    private void update() {
+        String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
+        getSignList(mParam);
+    }
+    private void updateNoDialog() {
+        String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
+        getSignListNoDialog(mParam);
     }
 }

@@ -70,34 +70,30 @@
             <include layout="@layout/line"
                 android:id="@+id/include"></include>
 
-            <RelativeLayout
-                android:id="@+id/rl_email"
-                style="@style/act_user_rl"
-                android:layout_above="@+id/include"
-                android:layout_marginLeft="67dp"
-                android:layout_marginStart="67dp"
-                android:layout_toEndOf="@+id/textView2"
-                android:layout_toRightOf="@+id/textView2">
 
-                <TextView
-                    style="@style/act_user_tv"
-                    android:layout_alignParentLeft="true"
-
-                    android:text="@string/email" />
-
-                <TextView
-                    android:id="@+id/tv_sign_user_email"
-                    style="@style/act_user_tv"
-                    android:layout_alignParentRight="true"
-
-                    android:text="@string/none" />
-
-                <include layout="@layout/line"></include>
-
-            </RelativeLayout>
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/rl_email"
+            style="@style/act_user_rl"
+            >
 
+            <TextView
+                style="@style/act_user_tv"
+                android:layout_alignParentLeft="true"
+
+                android:text="@string/email" />
+
+            <TextView
+                android:id="@+id/tv_sign_user_email"
+                style="@style/act_user_tv"
+                android:layout_alignParentRight="true"
+
+                android:text="@string/none" />
+
+            <include layout="@layout/line"></include>
+
+        </RelativeLayout>
         <RelativeLayout
             android:id="@+id/rl_unit"
             style="@style/act_user_rl">

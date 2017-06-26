@@ -26,6 +26,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.SignupListAdapter;
@@ -228,7 +229,7 @@ private EditText et_signuplist_search;
             bean.setFeeName(jsonArray.getJSONObject(i).getString("FeeName"));
             bean.setFee(jsonArray.getJSONObject(i).getString("Fee"));
             bean.setUpdateStatus("false");
-            bean.setSignTime(jsonArray.getJSONObject(i).getString("SignTime"));
+            bean.setCheckInTime(jsonArray.getJSONObject(i).getString("SignTime"));
             list.add(bean);
         }
         dao.save(list);
@@ -259,6 +260,7 @@ private EditText et_signuplist_search;
                     String message = jsonObj.getString("Msg");
                     if (jsonObj.getString("Res").equals("0")) {
                         mbean.setStatus("true");
+                        mbean.setCheckInTime(TimeUtil.getNowTime());
                         dao.updateByPhone(mbean);
                         updateList();
                         adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,status));
@@ -300,6 +302,7 @@ private EditText et_signuplist_search;
 //                            ToastUtil.makeText(getActivity(), message + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
                             mbean.setStatus("true");
+                            mbean.setCheckInTime(TimeUtil.getNowTime());
                             dao.update(mbean);
                             updateList();
                             resultDialog(message,"姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
@@ -366,6 +369,7 @@ private EditText et_signuplist_search;
                             bean.setStatus("true");
                             bean.setUpdateStatus("true");
                             bean.setCheckInID(CheckInID);
+                            bean.setCheckInTime(TimeUtil.getNowTime());
                             dao.update(bean);
                             MySignListupBean bean2 = (MySignListupBean) list.get(0);
                             String Name = bean2.getName();
@@ -505,6 +509,7 @@ private EditText et_signuplist_search;
         else{
             bean.setStatus("true");
             bean.setUpdateStatus("true");
+            bean.setCheckInTime(TimeUtil.getNowTime());
             dao.updateByPhone(bean);
             updateList();
             ToastUtil.makeText(getApplicationContext(),"代签成功");

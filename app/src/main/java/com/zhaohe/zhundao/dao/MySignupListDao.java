@@ -53,6 +53,12 @@ public class MySignupListDao {
             db.close();
         }
     }
+    public void deleteTable(){
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
+
+        db.execSQL("delete from "+TABLE_NAME);
+        db.close();
+    }
 
     private void setContentValues(ContentValues values,
                                   MySignListupBean bean) {
@@ -65,7 +71,7 @@ public class MySignupListDao {
         values.put("AdminRemark", bean.getAdminRemark());
         values.put("FeeName", bean.getFeeName());
         values.put("Fee", bean.getFee());
-        values.put("SignTime",bean.getSignTime());
+        values.put("CheckInTime",bean.getCheckInTime());
 
     }
 
@@ -96,6 +102,7 @@ public class MySignupListDao {
         // db.beginTransaction ();// 开启事务
         try {
             ContentValues values = new ContentValues();
+            values.put("CheckInTime",bean.getCheckInTime());
             values.put("Status", bean.getStatus());
             values.put("UpdateStatus", bean.getUpdateStatus());
             return db.update(TABLE_NAME, values, "VCode = ? and CheckInID = ?", new String[]{bean.getVCode(), bean.getCheckInID()});
@@ -111,9 +118,10 @@ public class MySignupListDao {
         // db.beginTransaction ();// 开启事务
         try {
             ContentValues values = new ContentValues();
+            values.put("CheckInTime",bean.getCheckInTime());
             values.put("Status", bean.getStatus());
             values.put("UpdateStatus", bean.getUpdateStatus());
-//            values.put("SignTime",bean.getSignTime());
+//            values.put("SignTime",bean.getCheckInTime());
             return db.update(TABLE_NAME, values, "Phone = ? and CheckInID = ?", new String[]{bean.getPhone(), bean.getCheckInID()});
             // db.setTransactionSuccessful ();// 设置事务的标志为True
         } finally {
@@ -296,6 +304,7 @@ public class MySignupListDao {
 
 
     private void setBean(Cursor cursor, MySignListupBean bean) {
+        String CheckInTime = cursor.getString(cursor.getColumnIndex("CheckInTime"));
 
         String VCode = cursor.getString(cursor.getColumnIndex("VCode"));
         String CheckInID = cursor.getString(cursor.getColumnIndex("CheckInID"));
@@ -306,7 +315,6 @@ public class MySignupListDao {
         String AdminRemark = cursor.getString(cursor.getColumnIndex("AdminRemark"));
         String FeeName = cursor.getString(cursor.getColumnIndex("FeeName"));
         String Fee = cursor.getString(cursor.getColumnIndex("Fee"));
-        String SignTime=cursor.getString(cursor.getColumnIndex("SignTime"));
         bean.setVCode(VCode);
         bean.setCheckInID(CheckInID);
         bean.setStatus(Status);
@@ -316,7 +324,8 @@ public class MySignupListDao {
         bean.setAdminRemark(AdminRemark);
         bean.setFeeName(FeeName);
         bean.setFee(Fee);
-        bean.setSignTime(SignTime);
+        bean.setCheckInTime(CheckInTime);
+
     }
 
 

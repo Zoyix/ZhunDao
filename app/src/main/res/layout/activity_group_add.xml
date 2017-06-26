@@ -7,7 +7,7 @@
     tools:context="com.zhaohe.zhundao.ui.home.mine.contacts.group.GroupAddActivity">
 
     <TextView
-        android:id="@+id/tv_people_add_name"
+        android:id="@+id/tv_signlist_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -15,16 +15,16 @@
         android:textSize="18sp" />
 
     <EditText
-        android:id="@+id/et_people_add_name"
+        android:id="@+id/et_signlist_user_name"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@id/tv_people_add_name"
-        android:layout_toRightOf="@id/tv_people_add_name"
+        android:layout_alignBaseline="@id/tv_signlist_user_name"
+        android:layout_toRightOf="@id/tv_signlist_user_name"
         android:hint="@string/et_group_add_name"
         />
     <TextView
         android:id="@+id/tv_people_add_num"
-        android:layout_below="@id/tv_people_add_name"
+        android:layout_below="@id/tv_signlist_user_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -36,7 +36,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/tv_people_add_num"
         android:entries="@array/sign_add_type"
-        android:layout_below="@id/tv_people_add_name"
+        android:layout_below="@id/tv_signlist_user_name"
         android:hint="@string/et_group_add_num"
 
 

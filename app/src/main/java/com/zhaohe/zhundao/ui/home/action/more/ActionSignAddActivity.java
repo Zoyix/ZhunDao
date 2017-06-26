@@ -48,7 +48,7 @@ private Handler mHandler;
     private void initView() {
         tv_act_title= (TextView) findViewById(R.id.tv_sign_add_actname2);
         tv_act_title.setText(act_title);
-        et_sign_add_name= (EditText) findViewById(R.id.et_people_add_name);
+        et_sign_add_name= (EditText) findViewById(R.id.et_signlist_user_name);
         et_sign_add_name.setText(act_title+"[签到]");
         sp_sign_add_type= (Spinner) findViewById(R.id.sp_sign_add_type);
         sp_sign_add_type.setOnItemSelectedListener(this);

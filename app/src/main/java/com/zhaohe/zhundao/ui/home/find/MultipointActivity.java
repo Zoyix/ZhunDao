@@ -19,6 +19,7 @@ import com.zhaohe.app.utils.CameraUtils;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.testScan.AsyncScanCodeMulti;
@@ -169,6 +170,7 @@ if ("true".equals(jsonObject3.getString("Status")))
                             bean.setStatus("true");
                             bean.setUpdateStatus("true");
                             bean.setCheckInID(mSignID);
+                            bean.setCheckInTime(TimeUtil.getNowTime());
                             dao.update(bean);
                             tv_sign_status.setText("扫码成功");
                             MySignListupBean bean2=(MySignListupBean)list.get(0);
@@ -251,6 +253,8 @@ if ("true".equals(jsonObject3.getString("Status")))
                                 on = on + 1;
                                 setNum();
                             }
+
+
                         }
                         else{
                             tv_sign_status.setText(message);
@@ -268,7 +272,10 @@ if ("true".equals(jsonObject3.getString("Status")))
                         JSONObject jsonObj2 = JSON.parseObject(result4);
                         if (jsonObj2.getString("Res") == "0") {
                             changeStatus();
+                            dao.deleteTable();
+                            getSignupList(mSignID);
                             ToastUtil.makeText(getApplicationContext(), "数据上传成功");
+
                         }
                         break;
                     default:

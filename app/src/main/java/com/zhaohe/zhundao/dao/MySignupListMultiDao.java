@@ -65,12 +65,13 @@ public class MySignupListMultiDao {
         values.put("AdminRemark", bean.getAdminRemark());
         values.put("FeeName", bean.getFeeName());
         values.put("Fee", bean.getFee());
+        values.put("CheckInTime",bean.getCheckInTime());
 
     }
     public void deleteTable(){
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
 
-        db.execSQL("delete from MySignupListMulti");
+        db.execSQL("delete from "+TABLE_NAME);
         db.close();
     }
 
@@ -102,6 +103,7 @@ public int update(MySignListupBean bean){
     // db.beginTransaction ();// 开启事务
     try {
         ContentValues values = new ContentValues();
+        values.put("CheckInTime",bean.getCheckInTime());
         values.put("Status", bean.getStatus());
         values.put("UpdateStatus", bean.getUpdateStatus());
         return db.update (TABLE_NAME, values, "VCode = ? and CheckInID = ?", new String[] { bean.getVCode(),bean.getCheckInID()});
@@ -197,6 +199,7 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
     }
 
     private void setBean(Cursor cursor, MySignListupBean bean) {
+        String CheckInTime = cursor.getString(cursor.getColumnIndex("CheckInTime"));
 
         String VCode = cursor.getString(cursor.getColumnIndex("VCode"));
         String CheckInID = cursor.getString(cursor.getColumnIndex("CheckInID"));
@@ -217,6 +220,7 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
         bean.setAdminRemark(AdminRemark);
         bean.setFeeName(FeeName);
         bean.setFee(Fee);
+        bean.setCheckInTime(CheckInTime);
 
     }
 

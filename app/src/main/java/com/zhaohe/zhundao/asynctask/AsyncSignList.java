@@ -36,7 +36,13 @@ public class AsyncSignList extends AsyncTask<String, Integer, String> {
         this.mParam = param;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
-
+    public AsyncSignList(Context context, Handler handler, int request, String param) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+        this.mParam = param;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
     @Override
     protected String doInBackground(String... strings) {
         String path = Constant.HOST + Constant.Url.PostActivityListed;

@@ -31,6 +31,7 @@
     <!-- wechat-->
     <color name="black3">#ffeeeeee</color>
     <color name="white">#ffffff</color>
+    <color name="green">#00ff00</color>
 
 
     <!-- 登录界面字体 -->

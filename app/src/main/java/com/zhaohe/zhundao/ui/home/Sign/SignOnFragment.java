@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.hardware.Camera;
 import android.os.Bundle;
 import android.os.Handler;
@@ -15,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,11 +30,14 @@ import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.QueryCodeUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
+import com.zhaohe.app.utils.ZXingUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.SignAdapter;
 import com.zhaohe.zhundao.asynctask.AsyncScanCode;
 import com.zhaohe.zhundao.asynctask.AsyncSign;
+import com.zhaohe.zhundao.asynctask.AsyncSignDelete;
 import com.zhaohe.zhundao.asynctask.AsyncSignupList;
 import com.zhaohe.zhundao.asynctask.AsyncUpLoadSignupStatus;
 import com.zhaohe.zhundao.asynctask.AsyncUpdateSignStatus;
@@ -48,6 +53,7 @@ import java.util.List;
 import static android.app.Activity.RESULT_CANCELED;
 import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
+import static com.zhaohe.app.utils.ZXingUtil.createQrBitmap;
 import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.REFRESH_COMPLETE;
 
 /**
@@ -74,6 +80,8 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
     public static final int MESSAGE_SCAN_CODE = 90;
     public static final int MESSAGE_UPDATE_SIGN_STATUS = 84;
     public static final int MESSAGE_UPLOAD_SIGNUPSTATUS = 88;
+    public static final int MESSAGE_SIGN_DELETE = 97;
+
     public static final int PAGE_SIZE = 100000;    //            单页显示的数据数目
 
     public static final int SCANNIN_GREQUEST_CODE = 89;
@@ -233,7 +241,7 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
             bean.setAdminRemark(jsonArray.getJSONObject(i).getString("AdminRemark"));
             bean.setFeeName(jsonArray.getJSONObject(i).getString("FeeName"));
             bean.setFee(jsonArray.getJSONObject(i).getString("Fee"));
-            bean.setSignTime(jsonArray.getJSONObject(i).getString("SignTime"));
+            bean.setCheckInTime(jsonArray.getJSONObject(i).getString("SignTime"));
             bean.setUpdateStatus("false");
             list.add(bean);
         }
@@ -367,6 +375,23 @@ if (isGotoList){return;}
                             ToastUtil.makeText(getActivity(), "数据上传成功");
                         }
                         break;
+                    case   MESSAGE_SIGN_DELETE :
+                    result = (String) msg.obj;
+                    jsonObj = JSON.parseObject(result);
+                    message = jsonObj.getString("Msg");
+                    System.out.println("sign_add_result:"+result);
+                    if (jsonObj.getString("Res").equals("0"))
+                    //添加或修改请求结果
+                    {
+                        init();
+                        ToastUtil.makeText(getActivity(), "删除成功！");
+
+                    }
+                    else{
+                        ToastUtil.makeText(getActivity(),message);
+                    }
+                    break;
+
                     default:
                         break;
                 }
@@ -379,7 +404,9 @@ if (isGotoList){return;}
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.tv_sign_edit:
+                ToastUtil.print("OK");
+                break;
 
             default:
                 break;
@@ -405,6 +432,11 @@ if (isGotoList){return;}
 
     @Override
     public void onEditTitle(SignBean bean) {
+//        signEdit(bean);
+        signItem(bean);
+    }
+
+    private void signEdit(SignBean bean) {
         Intent intent = new Intent();
         intent.setClass(getActivity(), SignEditActivity.class);
         Bundle bundle = new Bundle();
@@ -443,6 +475,176 @@ if (list.size()!=0){
             return;
         }
 
+    }
+    public void signItem(final SignBean bean) {
+        final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+        //把activity_login中的控件定义在View中
+        final View textEntryView = factory.inflate(R.layout.dialog_sign_item, null);
+        builder                //对话框的标题
+                .setTitle("签到操作")
+                //设定显示的View
+                .setView(textEntryView)
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        //获取用户输入的“用户名”，“密码”
+
+
+
+
+
+
+                    }
+                })
+                //对话框的“退出”单击事件
+//                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int whichButton) {
+//                    }
+//                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create();
+        final AlertDialog  dialog  = builder.show();
+
+        View.OnClickListener onClickListener=new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                switch (view.getId())
+                {
+                    case R.id.tv_sign_edit:
+                        dialog.dismiss();
+                        signEdit(bean);
+                        break;
+                    case R.id.tv_sign_delete:
+                        dialog.dismiss();
+
+                        deleteDialog(bean);
+                        break;
+                    case R.id.tv_sign_qcode:
+                        dialog.dismiss();
+                        QrCodeDialog(bean);
+                        break;
+
+                }
+
+            }
+        };
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+
+        //注意：textEntryView.findViewById很重要，因为上面factory.inflate(R.layout.activity_login, null)将页面布局赋值给了textEntryView了
+        final TextView tv_sign_edit = (TextView) textEntryView.findViewById(R.id.tv_sign_edit);
+        tv_sign_edit.setOnClickListener(onClickListener);
+        final TextView tv_sign_delete = (TextView) textEntryView.findViewById(R.id.tv_sign_delete);
+        tv_sign_delete.setOnClickListener(onClickListener);
+
+        final TextView tv_sign_qcode = (TextView) textEntryView.findViewById(R.id.tv_sign_qcode);
+        tv_sign_qcode.setOnClickListener(onClickListener);
+        //将LoginActivity中的控件显示在对话框中
+                 builder                //对话框的标题
+                .setTitle("签到操作")
+                //设定显示的View
+                .setView(textEntryView)
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        //获取用户输入的“用户名”，“密码”
+
+
+
+
+
+
+                    }
+                })
+                //对话框的“退出”单击事件
+//                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int whichButton) {
+//                    }
+//                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create();
+
+    }
+    public void QrCodeDialog(final SignBean bean) {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(getContext());
+        //把activity_login中的控件定义在View中
+        final View v = factory.inflate(R.layout.dialog_qrcode_sign, null);
+        ImageView iv_dialog_qrcode;
+        iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode_sign);
+        TextView title= (TextView) v.findViewById(R.id.tv_qr_title);
+        title.setText(bean.getAct_title());
+
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
+        iv_dialog_qrcode.setImageBitmap(bitmap);
+
+        ;
+        new AlertDialog.Builder(getActivity())
+                //对话框的标题
+//                .setTitle(bean.getAct_title())
+                .setView(v)
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("保存", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+//ZXingUtil.saveMyBitmap(ZXingUtil.createQrBitmap(bean.getUrl(),150,150),bean.getAct_title()+"二维码");
+                        ZXingUtil.saveImageToGallery(getContext(), bitmap, bean.getAct_title());
+                        ToastUtil.makeText(getContext(), "保存成功！");
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
+    public void deleteDialog(final SignBean bean) {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+
+        new AlertDialog.Builder(getActivity())
+                //对话框的标题
+                .setTitle("确认要删除签到？")
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        deleteSign(bean.getSign_id());
+
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
+    private void deleteSign(String checkInId){
+        AsyncSignDelete async =new AsyncSignDelete(getActivity(),mHandler,MESSAGE_SIGN_DELETE,checkInId);
+        async.execute();
     }
 
     @Override
@@ -487,6 +689,7 @@ if (list.size()!=0){
                             bean.setStatus("true");
                             bean.setUpdateStatus("true");
                             bean.setCheckInID(CheckInID);
+                            bean.setCheckInTime(TimeUtil.getNowTime());
                             dao.update(bean);
                             MySignListupBean bean2 = (MySignListupBean) list.get(0);
                             String Name = bean2.getName();
@@ -622,6 +825,7 @@ if (list.size()!=0){
         if (NetworkUtils.checkNetState(getActivity())) {
             List<MySignListupBean> list = dao.queryUpdateStatus();
             String jsonString = JSON.toJSONString(list);
+            ToastUtil.print("上传数据"+jsonString);
             if (list.size() == 0) {
                 return;
             }

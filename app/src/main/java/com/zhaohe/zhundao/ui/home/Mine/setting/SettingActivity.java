@@ -133,7 +133,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         } catch (PackageManager.NameNotFoundException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-            return null;
+            return "暂时无法显示";
         }
     }
 
@@ -210,9 +210,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_setting_exit:
-                dao.deleteTable();
-                groupDao.deleteTable();
-                contactsDao.deleteTable();
+                deleteDao();
                 SPUtils.clear(this);
                 IntentUtils.startActivity(this, LoginActivity.class);
                 break;
@@ -246,6 +244,18 @@ return;
 
         }
     }
+
+    private void deleteDao() {
+        try {
+            dao.deleteTable();
+            groupDao.deleteTable();
+            contactsDao.deleteTable();
+
+    }catch (Exception e) {
+
+        }
+    }
+
     private final class AsyncUpdateVersion extends AsyncTask<String, Integer, String> {
 
         @Override
@@ -278,7 +288,7 @@ return;
                     if (bean.getSynccode().equals("0")) {
 
                     }
-//                    VersionXmlUtils.isUpdateApp (MainActivity.this, bean)
+//                    VersionXmlUtils.isUpdateApp (SignListMoreActivity.this, bean)
                     if (VersionXmlUtils.isUpdateApp(SettingActivity.this, bean)) {// 更新App
 //                        DialogUtils.showDialog(SettingActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
 //                                new UpdateAppNegativeButtonListener());
@@ -315,7 +325,7 @@ return;
             // 开始 更新App
             VersionXmlUtils.startUpdateApp(SettingActivity.this, bean);
 
-//            MainActivity.this.finish ();
+//            SignListMoreActivity.this.finish ();
         }
 
     }
@@ -330,7 +340,7 @@ return;
         @Override
         public void onClick(DialogInterface dialog, int which) {
             dialog.dismiss();
-//            MainActivity.this.finish ();
+//            SignListMoreActivity.this.finish ();
 //            System.exit (0);
         }
 

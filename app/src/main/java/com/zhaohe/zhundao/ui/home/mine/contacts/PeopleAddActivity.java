@@ -82,7 +82,7 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
 
 
     private void initView() {
-        et_people_add_name = (EditText) findViewById(R.id.et_people_add_name);
+        et_people_add_name = (EditText) findViewById(R.id.et_signlist_user_name);
         et_people_add_phone = (EditText) findViewById(R.id.et_people_add_num);
         et_people_add_phone.setInputType(EditorInfo.TYPE_CLASS_PHONE);
         et_people_add_company = (EditText) findViewById(R.id.et_people_add_company);

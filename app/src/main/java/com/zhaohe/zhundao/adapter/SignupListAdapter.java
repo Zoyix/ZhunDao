@@ -40,14 +40,15 @@ public class SignupListAdapter extends AdapterBase<MySignListupBean, SignupListH
 
         itemView.tv_signuplist_phone.setText(bean.getPhone());
         itemView.tv_signuplist_name.setText(bean.getName());
-        itemView.tv_signuplist_time.setText(bean.getSignTime());
+        itemView.tv_signuplist_time.setText(bean.getCheckInTime());
+
         itemView.btn_signuplist_signup.setOnClickListener(this);
         itemView.btn_signuplist_signup.setTag(position);
         if (bean.getStatus().equals("true")) {
             itemView.img_signuplist_status.setImageResource(R.drawable.check_on);
             itemView.btn_signuplist_signup.setVisibility(View.GONE);
-//            if (bean.getSignTime().equals("")){
-//                bean.setSignTime("2017-3-13");
+//            if (bean.getCheckInTime().equals("")){
+//                bean.setCheckInTime("2017-3-13");
 //            }
         }
 //        if (bean.getStatus() == "true") {
