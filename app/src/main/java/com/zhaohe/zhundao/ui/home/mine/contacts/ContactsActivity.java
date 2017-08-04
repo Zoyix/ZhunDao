@@ -62,8 +62,7 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
         initHandler();
         initIntent();
         initView();
-        ShowData();
-//        initData();
+        initData();
         initGroup();
     }
     public void initGroup(){
@@ -165,7 +164,26 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
 
     private void ShowData() {
         if (GroupID==null){
-        list=dao.queryAll();}
+            list=dao.queryAll();}
+        else{
+            list=dao.queryGroupID(GroupID);
+        }
+        if (list.size()==0){
+            tv_group_suggest.setVisibility(View.VISIBLE);
+        }
+        else{
+            tv_group_suggest.setVisibility(View.GONE);
+
+        }
+        Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
+        adapter.refresh(list);
+
+        et_contacts_search.setHint("搜索"+list.size()+"位联系人");
+    }
+
+    private void initData() {
+        if (GroupID==null){
+            list=dao.queryAll();}
         else{
             list=dao.queryGroupID(GroupID);
         }
@@ -177,68 +195,71 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
 
         }
 
-        Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
-         adapter = new SortAdapter(getApplicationContext(), list);
-        listView.setAdapter(adapter);
-        listView.setOnItemClickListener(this);
-        et_contacts_search.setHint("搜索"+list.size()+"位联系人");
-    }
-    private void refreshData() {
-
 
         Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
         adapter = new SortAdapter(getApplicationContext(), list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
+        et_contacts_search.setHint("搜索"+list.size()+"位联系人");
+    }
+    private void refreshData() {
+        Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
+
+        adapter.refresh(list);
+//        adapter = new SortAdapter(getApplicationContext(), list);
+//        listView.setAdapter(adapter);
+//        listView.setOnItemClickListener(this);
     }
 
-    private void initData() {
-        list = new ArrayList<>();
-        list.add(new MyContactsBean("亳州")); // 亳[bó]属于不常见的二级汉字
-        list.add(new MyContactsBean("大娃"));
-        list.add(new MyContactsBean("二娃"));
-        list.add(new MyContactsBean("三娃"));
-        list.add(new MyContactsBean("四娃"));
-        list.add(new MyContactsBean("五娃"));
-        list.add(new MyContactsBean("六娃"));
-        list.add(new MyContactsBean("七娃"));
-        list.add(new MyContactsBean("喜羊羊"));
-        list.add(new MyContactsBean("美羊羊"));
-        list.add(new MyContactsBean("懒羊羊"));
-        list.add(new MyContactsBean("沸羊羊"));
-        list.add(new MyContactsBean("暖羊羊"));
-        list.add(new MyContactsBean("慢羊羊"));
-        list.add(new MyContactsBean("灰太狼"));
-        list.add(new MyContactsBean("红太狼"));
-        list.add(new MyContactsBean("孙悟空"));
-        list.add(new MyContactsBean("黑猫警长"));
-        list.add(new MyContactsBean("舒克"));
-        list.add(new MyContactsBean("贝塔"));
-        list.add(new MyContactsBean("海尔"));
-        list.add(new MyContactsBean("阿凡提"));
-        list.add(new MyContactsBean("邋遢大王"));
-        list.add(new MyContactsBean("哪吒"));
-        list.add(new MyContactsBean("没头脑"));
-        list.add(new MyContactsBean("不高兴"));
-        list.add(new MyContactsBean("蓝皮鼠"));
-        list.add(new MyContactsBean("大脸猫"));
-        list.add(new MyContactsBean("大头儿子"));
-        list.add(new MyContactsBean("小头爸爸"));
-        list.add(new MyContactsBean("蓝猫"));
-        list.add(new MyContactsBean("淘气"));
-        list.add(new MyContactsBean("叶峰"));
-        list.add(new MyContactsBean("楚天歌"));
-        list.add(new MyContactsBean("江流儿"));
-        list.add(new MyContactsBean("Tom"));
-        list.add(new MyContactsBean("Jerry"));
-        list.add(new MyContactsBean("12345"));
-        list.add(new MyContactsBean("54321"));
-        list.add(new MyContactsBean("_(:з」∠)_"));
-        list.add(new MyContactsBean("……%￥#￥%#"));
-        Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
-        SortAdapter adapter = new SortAdapter(this, list);
-        listView.setAdapter(adapter);
-    }
+
+//    private void initData() {
+//        list = new ArrayList<>();
+//        list.add(new MyContactsBean("亳州")); // 亳[bó]属于不常见的二级汉字
+//        list.add(new MyContactsBean("大娃"));
+//        list.add(new MyContactsBean("二娃"));
+//        list.add(new MyContactsBean("三娃"));
+//        list.add(new MyContactsBean("四娃"));
+//        list.add(new MyContactsBean("五娃"));
+//        list.add(new MyContactsBean("六娃"));
+//        list.add(new MyContactsBean("七娃"));
+//        list.add(new MyContactsBean("喜羊羊"));
+//        list.add(new MyContactsBean("美羊羊"));
+//        list.add(new MyContactsBean("懒羊羊"));
+//        list.add(new MyContactsBean("沸羊羊"));
+//        list.add(new MyContactsBean("暖羊羊"));
+//        list.add(new MyContactsBean("慢羊羊"));
+//        list.add(new MyContactsBean("灰太狼"));
+//        list.add(new MyContactsBean("红太狼"));
+//        list.add(new MyContactsBean("孙悟空"));
+//        list.add(new MyContactsBean("黑猫警长"));
+//        list.add(new MyContactsBean("舒克"));
+//        list.add(new MyContactsBean("贝塔"));
+//        list.add(new MyContactsBean("海尔"));
+//        list.add(new MyContactsBean("阿凡提"));
+//        list.add(new MyContactsBean("邋遢大王"));
+//        list.add(new MyContactsBean("哪吒"));
+//        list.add(new MyContactsBean("没头脑"));
+//        list.add(new MyContactsBean("不高兴"));
+//        list.add(new MyContactsBean("蓝皮鼠"));
+//        list.add(new MyContactsBean("大脸猫"));
+//        list.add(new MyContactsBean("大头儿子"));
+//        list.add(new MyContactsBean("小头爸爸"));
+//        list.add(new MyContactsBean("蓝猫"));
+//        list.add(new MyContactsBean("淘气"));
+//        list.add(new MyContactsBean("叶峰"));
+//        list.add(new MyContactsBean("楚天歌"));
+//        list.add(new MyContactsBean("江流儿"));
+//        list.add(new MyContactsBean("Tom"));
+//        list.add(new MyContactsBean("Jerry"));
+//        list.add(new MyContactsBean("12345"));
+//        list.add(new MyContactsBean("54321"));
+//        list.add(new MyContactsBean("_(:з」∠)_"));
+//        list.add(new MyContactsBean("……%￥#￥%#"));
+//        Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
+//        SortAdapter adapter = new SortAdapter(this, list);
+//        listView.setAdapter(adapter);
+//
+//    }
     private void insertData(String result) {
         JSONObject jsonObj = JSON.parseObject(result);
         JSONArray jsonArray = jsonObj.getJSONArray("Data");

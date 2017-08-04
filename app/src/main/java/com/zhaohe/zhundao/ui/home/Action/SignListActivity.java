@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
@@ -63,7 +64,8 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
 
 
     public static final int PAGE_SIZE = 200000;
-
+  private String  ActivityFees;
+    private String    UserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,6 +111,8 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         //从Intent当中根据key取得value
         if (intent != null) {
             act_id = intent.getStringExtra("act_id");
+            UserInfo=intent.getStringExtra("UserInfo");
+            ActivityFees=intent.getStringExtra("ActivityFees");
             signup_list = (String) SPUtils.get(this, "listup_" + act_id, "");
         }
         jsonObj = JSON.parseObject(signup_list);
@@ -126,19 +130,19 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             bean.setmIndex(i);
             bean.setAct_id(act_id);
 //          Status  -1取消报名，0报名成功，1待缴费
-            if (jsonArray.getJSONObject(i).getString("Status") == "0") {
+            if (jsonArray.getJSONObject(i).getString("Status") .equals("0") ) {
                 bean.setSign_list_status("报名成功");
             }
-            if (jsonArray.getJSONObject(i).getString("Status") == "1") {
+            if (jsonArray.getJSONObject(i).getString("Status") .equals("1")) {
                 bean.setSign_list_status("待缴费");
             }
-            if (jsonArray.getJSONObject(i).getString("Status") == "-1") {
+            if (jsonArray.getJSONObject(i).getString("Status").equals("-1")) {
                 bean.setSign_list_status("取消报名");
             }
-            if (jsonArray.getJSONObject(i).getString("Status") == "2") {
+            if (jsonArray.getJSONObject(i).getString("Status").equals("2")) {
                 bean.setSign_list_status("待审核");
             }
-            if (jsonArray.getJSONObject(i).getString("Status") == "3") {
+            if (jsonArray.getJSONObject(i).getString("Status").equals("3")) {
                 bean.setSign_list_status("审核失败");
             }
 
@@ -223,7 +227,9 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         String remark = jsonArray.getJSONObject(m).getString("Remark");
         String amount = jsonArray.getJSONObject(m).getString("Amount");
         String title = jsonArray.getJSONObject(m).getString("Title");
-        Intent intent = new
+            String face_img = jsonArray.getJSONObject(m).getString("FaceImg");
+
+            Intent intent = new
                 Intent(this, SignListUserActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("phone", phone);
@@ -240,6 +246,8 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         intent.putExtra("amount", amount);
         intent.putExtra("title", title);
         intent.putExtra("act_id", act_id);
+            intent.putExtra("face_img", face_img);
+
             intent.putExtra("id", bean.getSign_list_id());
 
             JSONObject jsonObject2 = null;
@@ -345,6 +353,19 @@ else{
                 //对话框的创建、显示
                 .create().show();
     }
+    public void addSign(){
+
+        Intent intent = new
+                Intent(this, SignListUserAddActivity.class);
+
+        intent.putExtra("act_id", act_id);
+        intent.putExtra("UserInfo",UserInfo);
+        intent.putExtra("ActivityFees",ActivityFees);
+        JSONObject jsonObject2 = null;
+
+        startActivity(intent);
+
+    }
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
@@ -354,6 +375,12 @@ else{
                 break;
             case R.id.menu_signlist_upload:
                 update();
+                break;
+            case R.id.menu_signlist_add:
+                if (NetworkUtils.checkNetState(this)){
+                addSign();}
+                else ToastUtil.makeText(this,R.string.net_error);
+                break;
         }
         return false;
     }

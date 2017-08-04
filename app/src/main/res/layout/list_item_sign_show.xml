@@ -6,7 +6,10 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
         <TextView
             android:layout_marginTop="10dp"
@@ -97,27 +100,30 @@ android:layout_marginLeft="10dp"
 
 
         <TextView
-            android:layout_marginTop="10dp"
-android:layout_marginLeft="10dp"
             android:id="@+id/tv_sign_num"
             android:text="@string/tv_sign"
-            android:layout_below="@+id/tv_act_name"
-            android:layout_toRightOf="@id/tv_sign_user"
+            android:textColor="@color/status_color_green"
+
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            android:layout_alignBaseline="@+id/tv_sign_user"
+            android:layout_alignBottom="@+id/tv_sign_user"
+            android:layout_toRightOf="@+id/tv_sign_user"
+            android:layout_toEndOf="@+id/tv_sign_user" />
 
         <ImageView
             style="@style/sign_right"
             android:id="@+id/iv_sign_right"
             android:src="@drawable/right"
 android:paddingLeft="150dp"
-            android:layout_below="@id/tv_act_name"
-             />
+            android:layout_below="@+id/line6"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_marginTop="10dp"
-
+android:visibility="invisible"
             android:layout_marginRight="30dp"
             android:id="@+id/tv_sign_find"
             android:layout_width="wrap_content"
@@ -130,34 +136,82 @@ android:layout_alignParentRight="true"
 
             />
 
-        <TextView
-            android:layout_marginTop="10dp"
 
-            android:layout_marginRight="10dp"
+        <TextView
+android:textColor="@color/status_color_green"
             android:id="@+id/tv_signup_num"
             android:text="@string/tv_signup"
-            android:layout_below="@+id/tv_act_name"
-            android:layout_toLeftOf="@id/tv_sign_find"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
 
-            />
+            android:layout_above="@+id/line6"
+            android:layout_toRightOf="@+id/tv_signed"
+            android:layout_toEndOf="@+id/tv_signed" />
 
         <TextView
-            android:layout_marginTop="10dp"
-
-            android:layout_marginRight="10dp"
 
             android:id="@+id/tv_signed"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/tv_act_name"
-            android:layout_toLeftOf="@id/tv_signup_num"
             android:textSize="14sp"
 
-            android:text="已签到:" />
+            android:text="签到："
+            android:layout_alignBaseline="@+id/tv_sign_num"
+            android:layout_alignBottom="@+id/tv_sign_num"
+            android:layout_alignLeft="@+id/tv_sign_title"
+            android:layout_alignStart="@+id/tv_sign_title" />
+        <TextView
 
+            android:id="@+id/tv_unsigned"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+
+            android:text="待签："
+            android:layout_alignBaseline="@+id/tv_unsignup_num"
+            android:layout_alignBottom="@+id/tv_unsignup_num"
+            android:layout_toRightOf="@+id/tv_signup_num"
+            android:layout_toEndOf="@+id/tv_signup_num"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp" />
+        <TextView
+
+            android:id="@+id/tv_unsignup_num"
+            android:text="@string/tv_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/status_color_green"
+
+            android:layout_above="@+id/line6"
+            android:layout_toRightOf="@+id/tv_unsigned"
+            android:layout_toEndOf="@+id/tv_unsigned" />
+
+        <TextView
+
+            android:id="@+id/tv_signed_percent_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+
+            android:text="签到率："
+            android:layout_above="@+id/line6"
+            android:layout_toLeftOf="@+id/tv_sign_find"
+            android:layout_toStartOf="@+id/tv_sign_find" />
+        <TextView
+
+            android:id="@+id/tv_signed_percent"
+            android:text="@string/tv_signup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="14sp"
+            android:textColor="@color/status_color_green"
+
+            android:layout_alignBaseline="@+id/tv_sign_find"
+            android:layout_alignBottom="@+id/tv_sign_find"
+            android:layout_toRightOf="@id/tv_signed_percent_name"
+            />
 
         <View
             android:id="@+id/line6"
@@ -169,6 +223,7 @@ android:layout_alignParentRight="true"
 
 
         <TextView
+            android:visibility="gone"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
             android:layout_marginLeft="10dp"
@@ -201,42 +256,57 @@ android:layout_alignParentRight="true"
             android:layout_height="wrap_content"
             android:visibility="gone" />
 
-        <ImageView
+        <!--<ImageView-->
 
-            android:paddingTop="8dp"
-            android:paddingRight="10dp"
-            android:paddingLeft="200dp"
-            android:id="@+id/img_sign_scan"
-            android:clickable="true"
-            android:layout_width="230dp"
-            android:layout_height="36dp"
-            android:src="@drawable/scan"
-            android:focusable="false"
-            android:layout_below="@id/line6"
-            android:layout_alignParentRight="true"
+            <!--android:paddingTop="8dp"-->
+            <!--android:paddingRight="10dp"-->
+            <!--android:paddingLeft="200dp"-->
+            <!--android:id="@+id/img_sign_scan"-->
+            <!--android:clickable="true"-->
+            <!--android:layout_width="230dp"-->
+            <!--android:layout_height="36dp"-->
+            <!--android:src="@drawable/scan"-->
+            <!--android:focusable="false"-->
+            <!--android:layout_below="@id/line6"-->
+            <!--android:layout_alignParentRight="true"-->
 
-            />
+            <!--/>-->
 
         <TextView
             android:id="@+id/tv_sign_scan"
-            android:paddingTop="14dp"
-            android:layout_below="@id/line6"
-            android:paddingRight="40dp"
+            android:paddingTop="10dp"
             android:layout_width="wrap_content"
             android:layout_height="35dp"
             android:textSize="14sp"
-            android:text="扫码签到"
-            android:layout_alignParentRight="true"
+            android:text="签到"
 
-            />
+            android:layout_below="@+id/line6"
+            android:layout_alignLeft="@+id/tv_sign_find"
+            android:layout_alignStart="@+id/tv_sign_find" />
+        <ImageView
+            style="@style/sign_right"
+            android:id="@+id/iv_sign_scan_right"
+            android:src="@drawable/right"
+            android:paddingLeft="150dp"
+android:layout_toRightOf="@id/tv_sign_scan"            />
 
         <View
-            android:layout_marginTop="10dp"
-            android:layout_below="@id/img_sign_scan"
             android:layout_width="match_parent"
             android:layout_height="10dp"
             android:background="@color/line_gray"
-            android:layout_alignParentBottom="true" />
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/sw_sign_status"
+            android:id="@+id/view" />
+        <ImageView
+            android:visibility="visible"
+            android:id="@+id/iv_list_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/unread60"
+            android:layout_marginBottom="5dp"
+            android:layout_alignBottom="@+id/sw_sign_status"
+            android:layout_toLeftOf="@+id/tv_sign_scan"
+            android:layout_toStartOf="@+id/tv_sign_scan" />
 
 
     </RelativeLayout>

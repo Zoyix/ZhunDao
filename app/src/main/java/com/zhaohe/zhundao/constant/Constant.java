@@ -54,13 +54,11 @@ public static final String SentWxUserInf = "/oauth/CreateUserFromAndroid";
         public static final String BatchCheckIn = "/api/CheckIn/BatchCheckIn";
         //        修改用户密码
         public static final String UpdatePassWord = "/api/PerBase/UpdatePassWord";
-        //xml存放位置
-        public static final String VERSION = "";
-        public static final String PostActivityOptions = "/api/PerActivity/PostActivityOptions";
-        public static final String UpdateOrAddOption = "/api/PerActivity/UpdateOrAddOption";
-        public static final String GetMybeaconList = "/api/Game/GetMybeaconList";
-        public static final String UpdateBeacon = "/api/Game/UpdateBeacon";
-        public static final String DeteleActivity="/api/PerActivity/DeteleActivity";
+        public static final String PostActivityOptions = "/api/PerActivity/PostActivityOptions";//获取选项
+        public static final String UpdateOrAddOption = "/api/PerActivity/UpdateOrAddOption";//修改增加选项
+        public static final String GetMybeaconList = "/api/Game/GetMybeaconList";//获取beacon列表
+        public static final String UpdateBeacon = "/api/Game/UpdateBeacon";//更新Beacon
+        public static final String DeteleActivity="/api/PerActivity/DeteleActivity";//删除活动
 //        终止活动
         public static final String UnDueActivity="/api/PerActivity/UnDueActivity";
 
@@ -84,10 +82,11 @@ public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTy
         public static final String UpdateOrAddContactGroup = "/api/Contact/UpdateOrAddContactGroup";//添加或修改分组
         public static final String DeleteContactGroup = "/api/Contact/DeleteContactGroup";//删除分组
         public static final String UploadFile = "/OAuth/UploadFile";//上传图片
-        public static final String DeleteContact = "/api/Contact/DeleteContact";//删除分组
+        public static final String DeleteContact = "/api/Contact/DeleteContact";//删除联系人
         public static final String SendActivityListByEmail = "/api/PerActivity/SendActivityListByEmail";//发送报名名单到分组
         public static final String UpdateActivityList = "/api/PerActivity/UpdateActivityList";//修改报名人员信息
         public static final String DeleteActivityList = "/api/PerActivity/DeleteActivityList";//删除报名人员
+        public static final String AddActivityList = "/api/PerActivity/AddActivityList";//添加报名人员
 
 
 

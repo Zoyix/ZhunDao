@@ -57,7 +57,7 @@ public class AsyncActionDelete extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("Custom_result" + result);
+            System.out.println("删除活动" + result);
             mHandler.sendMessage(msg);
         } else {
 //            DialogUtils.showDialog (mContext, R.string.app_serviceError);

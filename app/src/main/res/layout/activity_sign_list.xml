@@ -10,6 +10,7 @@
     android:layout_height="50dp"
     android:drawableLeft="@mipmap/search"
     android:drawablePadding="5dp"
+    android:textSize="12sp"
     android:hint="@string/et_signlist_search"
     />
     <ListView

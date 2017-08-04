@@ -39,7 +39,21 @@ public class TimeUtil {
         // System.out.println("-------timeString----------" + timeString);
         return timeString;
     }
+    public static String getNowTimeNew() {
+        String timeString = null;
+        Time time = new Time();
+        time.setToNow();
+        String year = thanTen(time.year);
+        String month = thanTen(time.month + 1);
+        String monthDay = thanTen(time.monthDay);
+        String hour = thanTen(time.hour);
+        String minute = thanTen(time.minute);
+        String second=thanTen(time.second);
 
+        timeString = year + "-" + month + "-" + monthDay;
+        // System.out.println("-------timeString----------" + timeString);
+        return timeString;
+    }
 
     public static int calculate(int year, int month) {
 

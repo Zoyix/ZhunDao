@@ -93,6 +93,10 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     private int list_empty = 0;
     private UMShareListener mShareListener;
 
+    private String UserInfo;
+    private String ActivityFees;
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -116,6 +120,10 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
         //        上传本地扫码
         upload();
+
+        if((boolean)SPUtils.get(getActivity(),"updateAction",false)){
+            init();
+        }
 
     }
 
@@ -212,10 +220,13 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
             }
             bean.setAct_sign_num(jsonArray.getJSONObject(i).getString("HasJoinNum"));
             bean.setAct_sign_income(jsonArray.getJSONObject(i).getString("Amount"));
-            bean.setAct_status("  报名中");
+            bean.setAct_status("报名中");
             bean.setAct_content(jsonArray.getJSONObject(i).getString("Content"));
             bean.setUrl(jsonArray.getJSONObject(i).getString("ShareImgurl"));
             bean.setAct_id(jsonArray.getJSONObject(i).getString("ID"));
+            bean.setBaseItem(jsonArray.getJSONObject(i).getString("UserInfo"));
+            bean.setActivityFees(jsonArray.getJSONObject(i).getString("ActivityFees"));
+
 ////            获取活动报名人数不为0的活动名单
 //            System.out.println("json hashcode"+jsonArray.getJSONObject(i).getString("Status").hashCode()+"0的hashcode"+"0".hashCode());
 
@@ -280,6 +291,8 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
             SPUtils.put(getActivity(), "listup_" + act_id, result);
             //在Intent对象当中添加一个键值对
             intent.putExtra("act_id", act_id);
+            intent.putExtra("UserInfo",UserInfo);
+            intent.putExtra("ActivityFees",ActivityFees);
             startActivity(intent);
         }
     }
@@ -293,7 +306,6 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
                     case MESSAGE_ACT_ALL:
                         String result = (String) msg.obj;
 
-                        System.out.println("Activity result:  " + result);
                         //活动列表结果
                         if (NetworkUtils.checkNetState(getActivity())) {
                             SPUtils.put(getActivity(), "act_result", result);
@@ -306,7 +318,6 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
                         break;
                     case MESSAGE_GET_SIGNLIST:
                         String result2 = (String) msg.obj;
-                        System.out.println("SignupList result:  " + result2);
                         if (NetworkUtils.checkNetState(getActivity())) {
                         }
                         gotoSignList(result2);
@@ -314,7 +325,6 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
                     case MESSAGE_GET_USERINF:
                         String result3 = (String) msg.obj;
                         SPUtils.put(getActivity(), "UserInfo", result3);
-                        System.out.println("use" + result3);
                         savaUserInf(result3);
                         break;
                     case MESSAGE_UPLOAD_SIGNUPSTATUS:
@@ -489,6 +499,8 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onListClick(ActionBean bean) {
+        ActivityFees=bean.getActivityFees();
+        UserInfo=bean.getBaseItem();
 //       这里开始写 判断网络状况
         if (NetworkUtils.checkNetState(getActivity())) {
             String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE;
@@ -498,6 +510,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
                     Intent(getActivity(), SignListActivity.class);
             //在Intent对象当中添加一个键值对
             intent.putExtra("act_id", bean.getAct_id());
+
             startActivity(intent);
 
         } else {
@@ -537,6 +550,8 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onMoreClick(ActionBean bean) {
+        ActivityFees=bean.getActivityFees();
+        UserInfo=bean.getBaseItem();
         Intent intent = new Intent();
         intent.setClass(getActivity(), ActionMoreActivity.class);
         Bundle bundle = new Bundle();

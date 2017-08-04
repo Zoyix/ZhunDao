@@ -53,6 +53,8 @@ this.openid=openid;
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
+            System.out.println("发送微信信息给服务器" + result);
+
             mHandler.sendMessage(msg);
         } else {
             DialogUtils.showDialog(mContext, R.string.app_serviceError);

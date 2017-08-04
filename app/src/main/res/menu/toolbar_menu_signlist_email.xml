@@ -13,6 +13,11 @@
     <!--android:icon="@mipmap/ic_notifications"-->
     <!--android:title="@string/menu_notifications"-->
     <!--app:showAsAction="ifRoom" />-->
+    <item
+        android:id="@+id/menu_signlist_add"
+        android:orderInCategory="100"
+        android:title="@string/menu_signlist_add"
+        app:showAsAction="never" />
 
     <item
         android:id="@+id/menu_signlist_email"
@@ -24,5 +29,6 @@
         android:orderInCategory="100"
         android:title="@string/menu_signlist_upload"
         app:showAsAction="never" />
+
 
 </menu>

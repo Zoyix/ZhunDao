@@ -52,7 +52,7 @@ public class AsyncUpdateSignStatus extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("wtf" + result);
+            System.out.println("更新签到列表" + result);
             mHandler.sendMessage(msg);
         } else {
             DialogUtils.showDialog(mContext, R.string.app_serviceError);

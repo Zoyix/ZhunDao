@@ -47,10 +47,10 @@
         android:layout_marginTop="20dp"
         android:id="@+id/btn_login_multi"
         android:layout_centerHorizontal="true"
-        android:background="@color/status_color_green"
         android:layout_width="300dp"
         android:layout_below="@id/et_password_multi"
         android:layout_height="wrap_content"
+        style="@style/btn_login"
         android:text="登录"
         android:textColor="@color/white"
         />

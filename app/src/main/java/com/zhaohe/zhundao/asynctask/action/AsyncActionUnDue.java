@@ -52,7 +52,7 @@ public class AsyncActionUnDue extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("Undue_result" + result);
+            System.out.println("终止活动" + result);
             mHandler.sendMessage(msg);
         } else {
 //            DialogUtils.showDialog (mContext, R.string.app_serviceError);

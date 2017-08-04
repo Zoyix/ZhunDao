@@ -70,15 +70,15 @@ public class SignupListActivity extends ToolBarActivity implements View.OnClickL
 private EditText et_signuplist_search;
     private Handler mHandler;
     private MySignListupBean mbean;
-
+private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup_list);
-        initToolBar("用户签到信息", R.layout.activity_signup_list);
-        initHandler();
         initIntent();
+        initToolBar(title, R.layout.activity_signup_list);
+        initHandler();
         initView();
         init();
     }
@@ -151,7 +151,9 @@ private EditText et_signuplist_search;
         Intent intent = getIntent();
         //从Intent当中根据key取得value
         sign_id = intent.getStringExtra("sign_id");
-//        result_list = intent.getStringExtra("result");
+        title=intent.getStringExtra("title");
+        ToastUtil.print(title);
+
     }
 
     public void resetColor() {
@@ -256,7 +258,6 @@ private EditText et_signuplist_search;
                     case MESSAGE_SIGN_SCAN_PHONE:
                     String result3 = (String) msg.obj;
                     JSONObject jsonObj = JSON.parseObject(result3);
-                        System.out.println(result3);
                     String message = jsonObj.getString("Msg");
                     if (jsonObj.getString("Res").equals("0")) {
                         mbean.setStatus("true");
@@ -400,21 +401,50 @@ private EditText et_signuplist_search;
                 break;
         }
     }
-    public void resultDialog(String status,String message){
-        new AlertDialog.Builder(this)
-                .setIcon(R.mipmap.ic_launcher)
-                .setTitle(status)
-                .setMessage(message)
-                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//    public void resultDialog(String status,String message){
+//        new AlertDialog.Builder(this)
+//                .setIcon(R.mipmap.ic_launcher)
+//                .setTitle(status)
+//                .setMessage(message)
+//                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                    }
+//                })
+//
+//                .setCancelable(true)
+//                .show();
+//    }
+public void resultDialog(String status,String message){
+    new AlertDialog.Builder(this)
+            .setIcon(R.mipmap.ic_launcher)
+            .setTitle(status)
+            .setMessage(message)
+            .setPositiveButton("继续扫码", new DialogInterface.OnClickListener() {
 
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                    }
-                })
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    Intent intent = new Intent();
+                    intent.setClass(getApplication(), MipcaActivityCapture.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    intent.putExtra("CheckInID", sign_id);
+                    startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
 
-                .setCancelable(true)
-                .show();
-    }
+
+                }
+            })
+
+            .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    init();
+                }
+            })
+            .setCancelable(true)
+            .show();
+}
 
     private void updateList(String result2) {
         JSONObject jsonObj = JSON.parseObject(result2);
@@ -552,4 +582,5 @@ private EditText et_signuplist_search;
         }
         return false;
     }
+
 }

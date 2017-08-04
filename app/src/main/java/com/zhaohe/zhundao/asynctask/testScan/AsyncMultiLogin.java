@@ -53,6 +53,8 @@ public class AsyncMultiLogin extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage (mRequest);
             msg.obj = result;
+            System.out.println("登录获取多点签到Accesskey" + result);
+
             mHandler.sendMessage (msg);
         } else {
 //            DialogUtils.showDialog (mContext, R.string.app_serviceError);

@@ -32,7 +32,7 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_group_add);
-        initView();
+
         initIntent();
 
         initHandler();
@@ -45,13 +45,14 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
             bean = (MyGroupBean) intent.getSerializableExtra("bean");
         if (bean!=null){
             initToolBarNew("编辑群组", R.layout.activity_group_add);
+            initView();
             et_group_add_num.setText(bean.getSequence());
             et_group_add_name.setText(bean.getName());
 
         }
         else{
             initToolBarNew("新建群组", R.layout.activity_group_add);
-
+            initView();
         }
     }
 
@@ -134,7 +135,7 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
                 }
                 String num = et_group_add_num.getText().toString();
                 if (num.length() == 0) {
-                    ToastUtil.makeText(this, "分组名称不得为空，请重新输入~");
+                    ToastUtil.makeText(this, "序列不得为空，请重新输入~");
                     return;
                 }
                 if(bean!=null){

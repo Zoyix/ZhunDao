@@ -21,6 +21,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -80,7 +81,13 @@ public class EditActWebActivity extends ToolBarActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                ToastUtil.print(url);
+                if(url.contains("MangeActivity")){
+                    ToastUtil.makeText(getApplication(),"活动编辑成功！");
+                    finish();
+                }
                 view.loadUrl(url);
+
                 return true;
             }
 

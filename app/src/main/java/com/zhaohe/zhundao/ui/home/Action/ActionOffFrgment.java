@@ -76,6 +76,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     private SwipeRefreshLayout mSwipeLayout;
     private TextView tv_actoff_suggest;
     private UMShareListener mShareListener;
+    private String UserInfo;
+    private String ActivityFees;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -166,6 +168,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             bean.setAct_content(jsonArray.getJSONObject(i).getString("Content"));
             bean.setUrl(jsonArray.getJSONObject(i).getString("ShareImgurl"));
             bean.setAct_id(jsonArray.getJSONObject(i).getString("ID"));
+            bean.setBaseItem(jsonArray.getJSONObject(i).getString("UserInfo"));
+            bean.setActivityFees(jsonArray.getJSONObject(i).getString("ActivityFees"));
 ////            获取活动报名人数不为0的活动名单
 //            if (jsonArray.getJSONObject(i).getString("HasJoinNum")!="0") {
 ////            获取报名列表活动ID
@@ -232,6 +236,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             SPUtils.put(getActivity(), "listup_" + act_id, result);
             //在Intent对象当中添加一个键值对
             intent.putExtra("act_id", act_id);
+            intent.putExtra("UserInfo",UserInfo);
+            intent.putExtra("ActivityFees",ActivityFees);
             startActivity(intent);
         }
     }
@@ -371,6 +377,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onListClick(ActionBean bean) {
+        ActivityFees=bean.getActivityFees();
+        UserInfo=bean.getBaseItem();
 //       这里开始写 判断网络状况
         if (NetworkUtils.checkNetState(getActivity())) {
             String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE;
@@ -467,6 +475,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     }
     @Override
     public void onMoreClick(ActionBean bean) {
+        ActivityFees=bean.getActivityFees();
+        UserInfo=bean.getBaseItem();
         Intent intent = new Intent();
         intent.setClass(getActivity(), ActionMoreActivity.class);
         Bundle bundle = new Bundle();

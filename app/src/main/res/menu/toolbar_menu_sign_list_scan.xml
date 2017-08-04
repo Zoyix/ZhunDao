@@ -18,7 +18,9 @@
         android:id="@+id/menu_sign_list_scan"
         android:orderInCategory="100"
         android:title="@string/menu_sign_list_scan"
-        app:showAsAction="never" />
+        android:icon="@mipmap/scan108"
+
+        app:showAsAction="always" />
 
 
 </menu>

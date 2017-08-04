@@ -63,6 +63,10 @@ public class SortAdapter extends BaseAdapter {
         return view;
 
     }
+    public void refresh(List<MyContactsBean> list) {
+        this.list = list;//传入list，然后调用notifyDataSetChanged方法
+        notifyDataSetChanged();
+    }
 
     final static class ViewHolder {
         TextView catalog;

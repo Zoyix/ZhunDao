@@ -2,25 +2,28 @@ package com.zhaohe.app.camera;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.app.Fragment;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.GridLayout;
 import android.widget.GridLayout.LayoutParams;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.squareup.picasso.Picasso;
+import com.squareup.picasso.Target;
 import com.zhaohe.app.camera.multimgselector.MultiImageSelectorActivity;
 import com.zhaohe.app.commons.dialog.DialogUtils;
 import com.zhaohe.app.commons.http.service.FormFile;
@@ -28,6 +31,7 @@ import com.zhaohe.app.utils.DensityUtil;
 import com.zhaohe.app.utils.FileUtils;
 import com.zhaohe.app.utils.ImageUtils;
 import com.zhaohe.app.utils.MD5;
+import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.StringUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
@@ -48,8 +52,13 @@ import java.util.List;
 public class Camera {
 
     private static final String TAB = "Camera";
-
+    private  ArrayList<String> upload=new ArrayList<>();
+   private Dialog dialog;
+private int uploadSize=-1;
     private GridLayout gl_camera;
+    //图片标题
+    private String title;
+
 
     /**
      * @Fields saveDir : 存放照片的文件夹
@@ -87,7 +96,7 @@ public class Camera {
      * @Fields MAX_SELECT_COUNT : 最大照片数
      */
     public static int max_select_count = 9;
-
+private Handler uploadHandler;
     private Activity mActivity;
     private Fragment mFragment;
     private GridLayout mGl_camera;
@@ -103,22 +112,35 @@ public class Camera {
                 String path = bundle.getString(BUNDLE_IMGTHUM_PATH);
                 uploadPhoto( getFormFile(path));
 
+
                 // 显示图片
                 showImage2View(path, (Bitmap) msg.obj);
 
-            } else {
-                Toast.makeText(mActivity, R.string.camera_photo_compression_image, Toast.LENGTH_SHORT)
-                        .show();
             }
+//            else {
+//                Toast.makeText(mActivity, R.string.camera_photo_compression_image, Toast.LENGTH_SHORT)
+//                        .show();
+//            }
             if (msg.what==MESSAGE_UPLOAD_PHOTO){
                 String result = (String) msg.obj;
                 JSONObject jsonObj = JSON.parseObject(result);
+                String Url=jsonObj.getString("url");
                 String message = jsonObj.getString("Res");
-                System.out.println("group_delete_result:" + result);
+                upload.add(Url);
+//                if (uploadSize!=-1){
+//                    uploadSize--;
+//                }
+//                if (uploadSize==0&&uploadHandler!=null&&dialog!=null){
+//                    dialog.dismiss();
+//                    ToastUtil.makeText(mActivity,"上传图片成功");
+//                }
+                ToastUtil.print("还需上传数量"+--uploadSize);
+                if (uploadSize==0){
+                    dialog.dismiss();
+                     msg = uploadHandler.obtainMessage(1000);
+                    uploadHandler.sendMessage(msg);
 
-                    ToastUtil.makeText(mActivity.getApplicationContext(), result);
-
-
+                }
             }
 
         }
@@ -154,13 +176,34 @@ public class Camera {
      * @param activity  当前的activty
      * @param gl_camera 显示照片小图的 gridview
      */
-    public Camera(Activity activity, GridLayout gl_camera, boolean isShow) {
+    public Camera(Activity activity, GridLayout gl_camera, boolean isShow  ) {
         this.mActivity = activity;
         this.mGl_camera = gl_camera;
-
+        init(isShow);
+    }
+//设置选择的图片数量
+    public Camera(Activity activity, GridLayout gl_camera, boolean isShow ,int max_num ) {
+        this.mActivity = activity;
+        this.mGl_camera = gl_camera;
+        max_select_count=max_num;
         init(isShow);
     }
 
+    public Camera(Activity activity, GridLayout gl_camera, boolean isShow ,int max_num ,Handler handler,String title) {
+        this.mActivity = activity;
+        this.mGl_camera = gl_camera;
+        max_select_count=max_num;
+        init(isShow);
+        uploadHandler=handler;
+        this.title=title;
+    }
+    public   ArrayList<String> getUploadUrl() {
+        // 照片上传
+        return upload;
+    }
+    public  void clearUpload(){
+        upload.clear();
+    }
 
     /**
      * @param isShow - true：只是显示照片， false: 需要拍照
@@ -175,9 +218,11 @@ public class Camera {
         if (!isShow) {//如果要拍照
             // 初始化数据
             createFileDir();
-            AddViewOnClickListener listener = new AddViewOnClickListener();
+//            AddViewOnClickListener listener = new AddViewOnClickListener();
+
             longClickListener = new ImgViewOnLongClickListener();
             // 显示添加 “+” View
+            AddViewOnTouchClickListener listener =new AddViewOnTouchClickListener();
             addImgView = showAddView(mActivity, listener);
             mGl_camera.addView(addImgView);
         }
@@ -200,6 +245,25 @@ public class Camera {
      * @Author:杨攀
      * @Since:2015年11月4日上午11:03:38
      */
+
+    private final class AddViewOnTouchClickListener implements View.OnTouchListener{
+
+        @Override
+        public boolean onTouch(View v, MotionEvent motionEvent) {
+
+            int selectCount = 0;
+            for (int i = 0; i < mGl_camera.getChildCount(); i++) {
+                View view = mGl_camera.getChildAt(i);
+                if (!ADD_CAMERA.equals(view.getTag())) {
+                    selectCount++;
+                }
+            }
+            selectImage(selectCount);
+            return false;
+        }
+    }
+
+
     private final class AddViewOnClickListener implements OnClickListener {
 
         @Override
@@ -234,8 +298,12 @@ public class Camera {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
 
-                    String imgpath = view.getTag() + "";
-
+                    String imgpath = view.getTag(R.id.a) + "";
+                    int position= (int) view.getTag(R.id.b);
+                    upload.remove(position);
+                    Message msg = uploadHandler.obtainMessage(999);
+                    msg.obj=title;
+                    uploadHandler.sendMessage(msg);
                     if (imgpath.indexOf("/") >= 0) {// 本地图片
                         mGl_camera.removeView(view);// 删除图片
                         int count = max_select_count - 1;
@@ -257,7 +325,7 @@ public class Camera {
                 }
             }).create().show();
 
-            return true;
+            return false;
         }
     }
 
@@ -271,7 +339,7 @@ public class Camera {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent();
-            intent.putExtra("imgpath", v.getTag() + "");
+            intent.putExtra("imgpath", v.getTag(R.id.a) + "");
             intent.setClass(mActivity, PreviewImgActivity.class);
             mActivity.startActivity(intent);
         }
@@ -293,7 +361,13 @@ public class Camera {
         imgView.setBackgroundResource(R.drawable.ic_add_camera);
         return imgView;
     }
-
+    private ImageView showAddView(Activity activity, View.OnTouchListener listener) {
+        ImageView imgView = createView(activity);
+        imgView.setTag(ADD_CAMERA);
+        imgView.setOnTouchListener(listener);
+        imgView.setBackgroundResource(R.drawable.ic_add_camera);
+        return imgView;
+    }
     /**
      * @param path
      * @param bitmap
@@ -302,12 +376,13 @@ public class Camera {
      * @Author:杨攀
      * @Since: 2015年11月4日下午2:39:15
      */
-    private ImageView createImageView(String path, Bitmap bitmap) {
+    private ImageView createImageView(String path, Bitmap bitmap ,int position) {
         ImageView imgView = createView(mActivity);
         // 长按删除图片
         imgView.setOnLongClickListener(longClickListener);
         imgView.setOnClickListener(onClickListener);
-        imgView.setTag(path);
+        imgView.setTag(R.id.a,path);
+        imgView.setTag(R.id.b,position);
         imgView.setImageBitmap(bitmap);
         return imgView;
     }
@@ -327,9 +402,46 @@ public class Camera {
         if (max_select_count <= childCount) {// 超过图片数量，则删除 “+” 的 ImageView
             mGl_camera.removeViewAt(position);
         }
-        ImageView imgView = createImageView(path, bitmap);
+        ImageView imgView = createImageView(path, bitmap,position);
         mGl_camera.addView(imgView, position);
     }
+    private void showImageInternetView(final String path) {
+
+        int childCount = mGl_camera.getChildCount();
+        final int position = childCount - 1;
+        if (max_select_count <= childCount) {// 超过图片数量，则删除 “+” 的 ImageView
+            mGl_camera.removeViewAt(position);
+        }
+        Picasso.with(mActivity)
+                .load(path)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+                        ImageView   imgView = createImageView(path, bitmap,position);
+                          mGl_camera.addView(imgView, position);
+
+                    }
+
+
+                    @Override
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+
+                    }
+                });
+    }
+    public void showInternet(String path){
+        String[] imgurl = path.split("\\|");
+        for (int i=0;i<imgurl.length;i++)
+        {showImageInternetView(imgurl[i]);
+        upload.add(imgurl[i]);
+        }
+
+    }
+
 
     /**
      * @Description: 检查图片数量，判断是否需要删除 “+” 的 ImageView
@@ -420,13 +532,15 @@ public class Camera {
             if (resultCode == Activity.RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                System.out.println();
+                dialog= ProgressDialogUtils.showProgressDialog(mActivity,"正在上传中","请稍后");
+                uploadSize=path.size();
                 for (int i = 0; i < path.size(); i++) {
                     // 处理照片 - 压缩
                     System.out.println(path.get(i));
-                    uploadPhoto( getFormFile(path.get(i)));
+//                    uploadPhoto( getFormFile(path.get(i)));
                     CompressionRunnable runnable = new CompressionRunnable(path.get(i));
                     new Thread(runnable).start();
+
                 }
             }
     }
@@ -544,6 +658,32 @@ public class Camera {
         }
     }
 
+    public void showImageNew(String imgUuids) {
+
+        if (StringUtils.isNotEmpty(imgUuids)) {// 如果有图片
+
+            String[] imguuid = imgUuids.split("//|");
+
+            StringBuffer imageUrl = new StringBuffer();
+            for (int i = 0; i < imguuid.length; i++) {
+
+                ImageView imageView = createView(mActivity);
+                imageView.setTag(imguuid[i]);
+                imageView.setOnClickListener(onClickListener);
+                mGl_camera.addView(imageView);
+                try {
+
+                    Picasso.with(mActivity).load(imguuid[i]).placeholder(R.mipmap.default_error).error(R.mipmap.default_error)
+                            .into(imageView);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            checkImgViewCount();
+        }
+    }
+
     /**
      * @param imgPath
      * @Description: 显示本地图片地址
@@ -612,6 +752,8 @@ public class Camera {
         FormFile[] files = new FormFile[list.size()];
         return list.toArray(files);
     }
+
+
 
 
 }

@@ -45,10 +45,10 @@ import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.app.utils.ZXingUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.ActionMoreAdapter;
+import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.asynctask.action.AsyncActionDelete;
 import com.zhaohe.zhundao.asynctask.action.AsyncActionInvitation;
 import com.zhaohe.zhundao.asynctask.action.AsyncActionUnDue;
-import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.bean.ActionMoreBean;
 import com.zhaohe.zhundao.constant.Constant;
@@ -145,9 +145,10 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
         tv_act_more_title = (TextView) findViewById(R.id.tv_act_more_title);
         tv_act_more_title.setText(bean.getAct_title());
         tv_act_more_starttime = (TextView) findViewById(R.id.tv_act_more_starttime);
-        tv_act_more_starttime.setText(bean.getAct_starttime());
+//        对调了就开始和截止时间
+        tv_act_more_starttime.setText(bean.getAct_endtime());
         tv_act_more_endtime = (TextView) findViewById(R.id.tv_act_more_endtime);
-        tv_act_more_endtime.setText(bean.getAct_endtime());
+        tv_act_more_endtime.setText(bean.getAct_starttime());
 
         tv_act_more_sign_num = (TextView) findViewById(R.id.tv_act_more_sign_num);
         tv_act_more_sign_num.setText(bean.getAct_sign_num());
@@ -210,7 +211,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
             case POSITION_EDIT:
                 Intent intent = new Intent(this, EditActWebActivity.class);
 
-//        Intent intent = new Intent(getActivity(), EditActActivity.class);
+//        Intent intent = new Intent(this, EditActActivity.class);
                 Bundle bundle = new Bundle();
                 bundle.putString("act_id", bean.getAct_id());
                 intent.putExtras(bundle);
@@ -225,6 +226,8 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                             Intent(this, SignListActivity.class);
                     //在Intent对象当中添加一个键值对
                     intent.putExtra("act_id", bean.getAct_id());
+                    intent.putExtra("UserInfo",bean.getBaseItem());
+                    intent.putExtra("ActivityFees",bean.getActivityFees());
                     startActivity(intent);
 
                 } else {
@@ -365,6 +368,8 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
             String act_id = jsonArray.getJSONObject(0).getString("ActivityID");
             SPUtils.put(this, "listup_" + act_id, result);
             //在Intent对象当中添加一个键值对
+            intent.putExtra("UserInfo",bean.getBaseItem());
+            intent.putExtra("ActivityFees",bean.getActivityFees());
             intent.putExtra("act_id", act_id);
             startActivity(intent);
         }

@@ -171,7 +171,7 @@
     <style name="btn_login">
         <item name="android:layout_marginTop">20dp</item>
         <item name="android:layout_centerHorizontal">true</item>
-        <item name="android:background">@color/status_color_green</item>
+        <item name="android:background">@drawable/button_circle</item>
         <item name="android:layout_width">300dp</item>
 
         <item name="android:layout_height">wrap_content</item>

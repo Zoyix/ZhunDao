@@ -176,6 +176,8 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
         }
         return list;
     }
+
+
 //查找需要更新上传服务器的数据
     public List<MySignListupBean> queryUpdateStatus() {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();

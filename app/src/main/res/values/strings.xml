@@ -50,11 +50,12 @@
     <string name="menu_group_add">新建群组</string>
     <string name="menu_people_edit">编辑联系人</string>
     <string name="menu_people_delete">删除联系人</string>
+    <string name="menu_signlist_add">新增报名</string>
+
     <string name="menu_signlist_email">发送到邮件</string>
     <string name="menu_signlist_upload">更新数据</string>
     <string name="menu_signlist_user_delete">删除报名</string>
     <string name="menu_signlist_user_edit">修改报名信息</string>
-
 
 
     <string name="menu_signlist_more">扩展列表</string>
@@ -137,7 +138,7 @@
     <string name="btn_act_more">更多</string>
     <string name="tv_act_title">嘻游记晚宴-“追忆古惑仔那些年”</string>
     <string name="tv_act_status">活动状态</string>
-    <string name="tv_act_sign_num">已报名：</string>
+    <string name="tv_act_sign_num">报名人数：</string>
     <string name="num0">0</string>
     <string name="money0">0.00</string>
 
@@ -199,6 +200,8 @@
     <string name="id_card">身份证</string>
     <string name="add">地址</string>
     <string name="remark">备注</string>
+    <string name="face">人脸照片</string>
+
     <string name="none">暂无</string>
     <string name="pay_inf">付款信息:</string>
     <string name="SerialNo">编号</string>
@@ -224,7 +227,7 @@
     <string name="tv_sign_type">到场签到：</string>
     <string name="tv_act_name">所属活动</string>
     <string name="tv_sign_stoptime">2016/12/19 17:55</string>
-    <string name="tv_sign_user">报名用户：</string>
+    <string name="tv_sign_user">全部：</string>
     <string name="tv_sign_signup">签到/报名</string>
     <string name="tv_sign">50</string>
     <string name="tv_sign_">/</string>
@@ -245,8 +248,6 @@
     <string name="tv_sign_edit">修改签到</string>
     <string name="tv_sign_delete">删除签到</string>
     <string name="tv_sign_qcode">签到二维码</string>
-
-
 
 
     <string name="et_sign_add_name">请输入签到的名称</string>

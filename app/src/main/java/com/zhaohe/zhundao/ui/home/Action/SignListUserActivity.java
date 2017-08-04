@@ -31,6 +31,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
+import com.zhaohe.app.camera.PreviewImgActivity;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
@@ -160,7 +161,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         if (intent.getStringExtra("email") == null) {
             rl_email.setVisibility(View.GONE);
         }
-        if (intent.getStringExtra("id_card") == null) {
+        if (intent.getStringExtra("id_card") == null||intent.getStringExtra("id_card") .equals("")) {
             rl_id_card.setVisibility(View.GONE);
         }
         if (intent.getStringExtra("join_num").equals("0")) {
@@ -174,6 +175,12 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         }
         if (intent.getStringExtra("title") == null) {
             rl_amount.setVisibility(View.GONE);
+        }
+        String FaceImg=intent.getStringExtra("face_img");
+        if (FaceImg!=null){
+            String[] imgurl = FaceImg.split("\\|");
+
+            insertRL("人脸照片",imgurl);
         }
         tv_name.setText(intent.getStringExtra("name"));
         tv_phone.setText(intent.getStringExtra("phone"));
@@ -212,15 +219,21 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         for (LinkedHashMap.Entry<String, String> entry : jsonMap.entrySet()) {
             System.out.println(entry.getKey() + ":" + entry.getValue());
             //                System.out.println(entry.getKey() + ":" + entry.getValue());
-                String value = entry.getValue().toString();
+                String value = entry.getValue();
 //                截取第一个key值字母
 //                截取非空
-                if (value == null) {
-                    insertTextView(entry.getKey(), (String) entry.getValue());
+                if (entry.getKey()==null) {
+                    insertTextView("无", (String) entry.getValue());
+                    return;
                 }
 //                String s = value.substring(0,1);
                 int isphoto = value.indexOf("http");
-//                判断是否是图片
+//            int isWrong=value.indexOf("https://joinheadoss.oss-cn-hangzhou.aliyuncs.com/zhundao");
+////                判断是否是图片
+//            if (isWrong!=-1){
+//                insertLongTextView(entry.getKey(), (String) entry.getValue());
+//return;
+//            }
                 if (isphoto != -1) {
 //                    insertImageView(entry.getKey(), (String) entry.getValue());
                     String url = (String) entry.getValue();
@@ -278,46 +291,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         ll_sign_list_user.addView(view, vParams);
     }
 
-    public void insertImageView(String text1, String url) {
-        int margin = dip2px(this, 10);
-        int h = dip2px(this, 1);
-        int h1 = dip2px(this, 100);
 
-        RelativeLayout rl = new RelativeLayout(this);
-        rl.setPadding(margin, margin, margin, margin);
-        TextView tv1 = new TextView(this);
-        tv1.setText(text1);
-        tv1.setId(R.id.tv_code_title);
-        RelativeLayout.LayoutParams rlParams =
-                new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.MATCH_PARENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        RelativeLayout.LayoutParams tvParams1 =
-                new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.WRAP_CONTENT,
-                        RelativeLayout.LayoutParams.WRAP_CONTENT);
-        tvParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, tv1.getId());
-        rl.addView(tv1, tvParams1);
-        ImageView img = new ImageView(this);
-        img.setId(R.id.tv_code_img);
-        Picasso.with(this).load(url).error(R.mipmap.ic_launcher).into(img);
-        RelativeLayout.LayoutParams imgParams1 =
-                new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.MATCH_PARENT,
-                        h1);
-        img.setScaleType(ImageView.ScaleType.FIT_START);
-        imgParams1.addRule(RelativeLayout.BELOW, tv1.getId());
-        imgParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, img.getId());
-        rl.addView(img, imgParams1);
-        ll_sign_list_user.addView(rl, rlParams);
-        View view = new View(this);
-        view.setBackgroundColor(getResources().getColor(R.color.line_gray));
-        RelativeLayout.LayoutParams vParams =
-                new RelativeLayout.LayoutParams(
-                        RelativeLayout.LayoutParams.MATCH_PARENT,
-                        h);
-        ll_sign_list_user.addView(view, vParams);
-    }
 
     public void insertLongTextView(String text1, String text2) {
         int margin = dip2px(this, 10);
@@ -416,6 +390,16 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
             registerForContextMenu(img);
 //            将图片设置到RL父控件中去
             rl.addView(img, imgParams1);
+            img.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent();
+                    intent.putExtra("imgpath", imgurl[num]);
+                    intent.setClass(getApplication(), PreviewImgActivity.class);
+                    startActivity(intent);
+                }
+            });
+
             img.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View view) {
@@ -576,6 +560,7 @@ url=imgurl[num];
                 Intent intent =  getIntent() ;
 intent.setClass(this,SignListUserEditActivity.class);
                 startActivity(intent);
+                finish();
                 break;
         }
 

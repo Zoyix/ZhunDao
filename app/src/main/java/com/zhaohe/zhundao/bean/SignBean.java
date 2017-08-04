@@ -67,7 +67,18 @@ public class SignBean implements Serializable {
     //    签到人数
     private String sign_num;
     //    报名人数
+
+    public String getList_status() {
+        return list_status;
+    }
+
+    public void setList_status(String list_status) {
+        this.list_status = list_status;
+    }
+
     private String signup_num;
+
+    private String list_status="false";
 
     public String getSign_title() {
         return sign_title;

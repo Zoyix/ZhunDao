@@ -57,7 +57,7 @@ public class AsyncSignListPeopleDelete  extends AsyncTask<String, Integer, Strin
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("send email:" + result);
+            System.out.println("删除报名人员:" + result);
             mHandler.sendMessage(msg);
         } else {
             DialogUtils.showDialog(mContext, R.string.app_serviceError);

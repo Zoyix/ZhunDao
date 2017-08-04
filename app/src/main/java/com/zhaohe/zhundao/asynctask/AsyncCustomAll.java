@@ -50,7 +50,7 @@ public class AsyncCustomAll extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("Custom_result" + result);
+            System.out.println("自定义选项全部查询" + result);
             mHandler.sendMessage(msg);
         } else {
 //            DialogUtils.showDialog (mContext, R.string.app_serviceError);

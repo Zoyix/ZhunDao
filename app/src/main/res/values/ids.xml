@@ -31,6 +31,8 @@
     <item name="tv_code_img8" type="id" />
     <item name="tv_code_img9" type="id" />
     <item name="tv_code_img" type="id" />
+    <item name="a" type="id" />
+    <item name="b" type="id" />
 
 
 </resources>

@@ -21,6 +21,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -73,7 +74,13 @@ public class ActionAddActivity extends ToolBarActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
+                if(url.contains("MangeActivity")){
+                    ToastUtil.makeText(getApplication(),"活动发布成功！");
+                    SPUtils.put(getApplicationContext(),"updateAction",true);
+                    finish();
+                }
                 view.loadUrl(url);
+                ToastUtil.print(url);
                 return true;
             }
 

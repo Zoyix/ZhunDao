@@ -58,10 +58,12 @@ public class ActionAdapter extends AdapterBase<ActionBean, ActionHolder> impleme
         itemView.tv_act_title.setTag(position);
         itemView.tv_act_status.setText(bean.getAct_status());
         itemView.tv_act_sign_num.setText(bean.getAct_sign_num());
-        itemView.tv_act_endtime.setText(bean.getAct_endtime());
-        itemView.tv_act_resttime.setText(bean.getAct_resttime());
-        itemView.tv_act_starttime.setText(bean.getAct_starttime());
-        itemView.tv_act_resttime2.setText(bean.getAct_resttime2());
+        //报名开始时间和截止时间对掉了位置和内容
+        itemView.tv_act_starttime.setText(bean.getAct_endtime());
+        itemView.tv_act_resttime2.setText(bean.getAct_resttime());
+        itemView.tv_act_endtime.setText(bean.getAct_starttime());
+        itemView.tv_act_resttime.setText(bean.getAct_resttime2());
+
         itemView.tv_act_sign_income.setText(bean.getAct_sign_income());
         itemView.img_act.setOnClickListener(this);
         itemView.img_act.setTag(position);

@@ -13,6 +13,24 @@ public class ActionBean implements Serializable {
     private static final long serialVersionUID = -8764809360546296586L;
     private String act_id;
     private String url;
+    private String baseItem;
+    private String ActivityFees;
+
+    public String getBaseItem() {
+        return baseItem;
+    }
+
+    public void setBaseItem(String baseItem) {
+        this.baseItem = baseItem;
+    }
+
+    public String getActivityFees() {
+        return ActivityFees;
+    }
+
+    public void setActivityFees(String activityFees) {
+        ActivityFees = activityFees;
+    }
 
     public String getAddress() {
         return address;

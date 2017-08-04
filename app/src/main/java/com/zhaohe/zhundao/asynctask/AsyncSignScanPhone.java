@@ -63,6 +63,8 @@ public class AsyncSignScanPhone extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
+            System.out.println("添加或修改联系人" + result);
+
             mHandler.sendMessage(msg);
         } else {
             DialogUtils.showDialog(mContext, R.string.app_serviceError);

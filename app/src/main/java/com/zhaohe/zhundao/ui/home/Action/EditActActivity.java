@@ -19,15 +19,18 @@ import com.android.datetimepicker.time.TimePickerDialog;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.zhaohe.app.camera.Camera;
 import com.zhaohe.app.commons.dialog.DialogUtils;
+import com.zhaohe.app.commons.http.service.FormFile;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncEditAction;
+import com.zhaohe.zhundao.asynctask.photoUpload.AsyncPhotoUpload;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -52,6 +55,8 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
     private GridLayout gl_camara;
     private Camera camera;
     public static final int MESSAGE_EDIT_ACT = 97;
+    public static final int MESSAGE_UPLOAD_PHOTO = 95;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -83,7 +88,8 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
     private void initView() {
         gl_camara = (GridLayout) findViewById(R.id.camera_gridview);
 
-        camera = new Camera(EditActActivity.this, gl_camara, false);
+        camera = new Camera(EditActActivity.this, gl_camara, false,3);
+
         et_edit_title = (EditText) findViewById(R.id.et_edit_title);
         btn_edit_submit = (Button) findViewById(R.id.btn_edit_submit);
         btn_edit_submit.setOnClickListener(this);
@@ -137,6 +143,9 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
                         System.out.println("Activity result:  " + result);
 
                         break;
+                    case MESSAGE_UPLOAD_PHOTO:
+
+
 
 
                     default:
@@ -195,11 +204,14 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
             update2();
         }
     };
-
+    public void uploadPhoto(FormFile[] flie) {
+        AsyncPhotoUpload async = new AsyncPhotoUpload(this.getApplicationContext(), mHandler, MESSAGE_UPLOAD_PHOTO,flie);
+        async.execute();}
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         camera.onActivityResult(requestCode, resultCode, data);
+
     }
 
     @Override
@@ -217,6 +229,11 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.tv_stoptime_clock:
                 TimePickerDialog.newInstance(endTimeListener, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
             case R.id.btn_edit_submit:
+                ArrayList<String> a= camera.getUploadUrl();
+                for(int i=0;i<a.size();i++){
+                ToastUtil.print("图片"+i+a.get(i));
+            }
+//                ToastUtil.print(a[0]);
                 init();
                 break;
         }

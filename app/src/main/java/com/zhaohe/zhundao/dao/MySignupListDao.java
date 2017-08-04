@@ -74,7 +74,28 @@ public class MySignupListDao {
         values.put("CheckInTime",bean.getCheckInTime());
 
     }
+    public int queryListSize( String CheckInID) {
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        // db.beginTransaction ();// 开启事务
+        List<MySignListupBean> list = new ArrayList<MySignListupBean>();
 
+            Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
+                    + " where  CheckInID = ?", new String[]{ CheckInID});
+        int num=cursor.getCount();
+            cursor.close();
+            // db.setTransactionSuccessful ();// 设置事务的标志为True
+
+            // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.close();
+
+        return num;
+    }
+
+    public void close( ) {
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        // db.beginTransaction ();// 开启事务
+    db.close();
+    }
     public List<MySignListupBean> queryAll() {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
@@ -180,6 +201,7 @@ public class MySignupListDao {
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
                     + " where Phone = ? and CheckInID = ?", new String[]{Phone, CheckInID});
+
             while (cursor.moveToNext()) {
                 MySignListupBean bean = new MySignListupBean();
                 setBean(cursor, bean);

@@ -86,4 +86,6 @@ public abstract class ToolBarActivity extends AppCompatActivity {
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
+
+
 }

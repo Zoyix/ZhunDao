@@ -83,10 +83,11 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
     public static final int MESSAGE_SIGN_DELETE = 97;
 
     public static final int PAGE_SIZE = 100000;    //            单页显示的数据数目
+    List<SignBean> list = new ArrayList<SignBean>();
 
     public static final int SCANNIN_GREQUEST_CODE = 89;
     private boolean isGotoList;//true不跳转 false跳转签到名单
-
+String title;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -96,6 +97,7 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
         initHandler();
         initData();
 //        test();
+        init();
 
     }
 
@@ -103,7 +105,9 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
         super.onResume();
         MobclickAgent.onResume(getActivity());
         upload();
-        init();
+        if((boolean)SPUtils.get(getActivity(),"updateSign",false)){
+init();
+        }
 
     }
     public void onPause() {
@@ -134,6 +138,7 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
         }
         else if(NetworkUtils.checkNetState(getActivity()))
         {
+            upload();
         getSignAll();
 //            getSignAllNoneDialog();
         }
@@ -172,6 +177,8 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
     }
 
     private void jsonconver(String result) {
+        String starttime=TimeUtil.getNowTime();
+String endtime;
         if ((result == null)||(result=="")) {
             ToastUtil.makeText(getActivity(), "请联网后再试");
         } else {
@@ -180,39 +187,131 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
             List<SignBean> list = new ArrayList<SignBean>();
             for (int i = 0; i < jsonArray.size(); i++) {
                 SignBean bean = new SignBean();
-                bean.setSign_title(jsonArray.getJSONObject(i).getString("ActivityName"));
-                bean.setAct_title(jsonArray.getJSONObject(i).getString("Name"));
-                bean.setStoptime(jsonArray.getJSONObject(i).getString("AddTime"));
-                bean.setSign_num(jsonArray.getJSONObject(i).getString("NumShould"));
-                bean.setSignup_num(jsonArray.getJSONObject(i).getString("NumFact"));
-                bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
-                bean.setSign_id(jsonArray.getJSONObject(i).getString("ID"));
-                bean.setSign_status(jsonArray.getJSONObject(i).getString("Status"));
-                bean.setSignObject(jsonArray.getJSONObject(i).getString("SignObject"));
 
-                //签到类型  默认0 到场签到   1离场签退  2 集合签到"
-                if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("0")) {
-                    bean.setSign_type("到场签到：");
-                }
-                if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("1")) {
-                    bean.setSign_type("离场签退：");
-                }
-                if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("2")) {
-                    bean.setSign_type("集合签到：");
-                }
-                bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
 
                 if (jsonArray.getJSONObject(i).getString("Status") .equals("true") ) {
+                    bean.setSign_title(jsonArray.getJSONObject(i).getString("ActivityName"));
+                    bean.setAct_title(jsonArray.getJSONObject(i).getString("Name"));
+                    bean.setStoptime(jsonArray.getJSONObject(i).getString("AddTime"));
+                    bean.setSign_num(jsonArray.getJSONObject(i).getString("NumShould"));
+                    bean.setSignup_num(jsonArray.getJSONObject(i).getString("NumFact"));
+                    bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
+                    bean.setSign_id(jsonArray.getJSONObject(i).getString("ID"));
+                    bean.setSign_status(jsonArray.getJSONObject(i).getString("Status"));
+                    bean.setSignObject(jsonArray.getJSONObject(i).getString("SignObject"));
+                    bean.setList_status("false");
+
+                    //签到类型  默认0 到场签到   1离场签退  2 集合签到"
+                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("0")) {
+                        bean.setSign_type("到场签到：");
+                    }
+                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("1")) {
+                        bean.setSign_type("离场签退：");
+                    }
+                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("2")) {
+                        bean.setSign_type("集合签到：");
+                    }
+                    bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
+                    if(i<50){
+                        ToastUtil.print("数据"+i);
+                        int NumShould = Integer.parseInt(bean.getSign_num());
+                        int NubFact= Integer.parseInt(bean.getSignup_num());
+                if(NumShould==dao.queryListSize(bean.getSign_id())){
+                    bean.setList_status("true");
+                }
+
+
+//                        if(NumShould!=NubFact){
+//                            bean.setList_status("false");
+//                        }
+
+                    }
                     list.add(bean);
 
                 } else {
 
                 }
             }
+            endtime=TimeUtil.getNowTime();
+            ToastUtil.print("开始时间"+starttime+"结束时间"+endtime);
             showSuggest(list);
             adapter.refreshData(list);
         }
     }
+//private void jsonconver(final String result) {
+//
+//    if ((result == null)||(result=="")) {
+//        ToastUtil.makeText(getActivity(), "请联网后再试");
+//    }
+//    Thread thread=new Thread(new Runnable()
+//    {
+//
+//
+//
+//        @Override
+//        public void run()
+//        {
+//                        JSONObject jsonObj = JSON.parseObject(result);
+//            JSONArray jsonArray = jsonObj.getJSONArray("Data");
+//            for (int i = 0; i < jsonArray.size(); i++) {
+//                SignBean bean = new SignBean();
+//
+//
+//                if (jsonArray.getJSONObject(i).getString("Status") .equals("true") ) {
+//                    bean.setSign_title(jsonArray.getJSONObject(i).getString("ActivityName"));
+//                    bean.setAct_title(jsonArray.getJSONObject(i).getString("Name"));
+//                    bean.setStoptime(jsonArray.getJSONObject(i).getString("AddTime"));
+//                    bean.setSign_num(jsonArray.getJSONObject(i).getString("NumShould"));
+//                    bean.setSignup_num(jsonArray.getJSONObject(i).getString("NumFact"));
+//                    bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
+//                    bean.setSign_id(jsonArray.getJSONObject(i).getString("ID"));
+//                    bean.setSign_status(jsonArray.getJSONObject(i).getString("Status"));
+//                    bean.setSignObject(jsonArray.getJSONObject(i).getString("SignObject"));
+//
+//                    //签到类型  默认0 到场签到   1离场签退  2 集合签到"
+//                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("0")) {
+//                        bean.setSign_type("到场签到：");
+//                    }
+//                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("1")) {
+//                        bean.setSign_type("离场签退：");
+//                    }
+//                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("2")) {
+//                        bean.setSign_type("集合签到：");
+//                    }
+//                    bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
+//                    if(i<50){
+//                        ToastUtil.print("数据"+i);
+//                        int NumShould = Integer.parseInt(bean.getSign_num());
+//                        int NubFact= Integer.parseInt(bean.getSignup_num());
+//                        MySignupListDao       dao2 = new MySignupListDao(getActivity());
+//
+//                        if(NumShould!=dao2.queryListSize(bean.getSign_id())){
+//                    bean.setList_status("false");
+//                }
+////                        if(NumShould!=NubFact){
+////                            bean.setList_status("false");
+////                        }
+//                        else {
+//                            bean.setList_status("true");
+//
+//                        }
+//                    }
+//                    list.add(bean);
+//
+//                } else {
+//
+//                }
+//            }
+//
+//
+//            // TODO Auto-generated method stub
+//            Message message=new Message();
+//            message.what=1;
+//            mHandler.sendMessage(message);
+//        }
+//    });
+//    thread.start();
+//}
     private void showSuggest(List<SignBean> list) {
         if (list.size() == 0) {
             lv_signon.setVisibility(GONE);
@@ -300,8 +399,9 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
             String result2 = (String) SPUtils.get(getActivity(), "sign_result", "");
             JSONObject jsonObj2 = JSON.parseObject(result2);
             JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
-            intent.putExtra("NumFact", jsonArray2.getJSONObject(postion).getString("NumFact"));
-            intent.putExtra("NumShould", jsonArray2.getJSONObject(postion).getString("NumShould"));
+            intent.putExtra("title",title);
+
+
             intent.putExtra("sign_id", sign_id);
 //            intent.putExtra("result", result);
 //            如果是相机第一次拿名单，则不跳转
@@ -379,7 +479,6 @@ if (isGotoList){return;}
                     result = (String) msg.obj;
                     jsonObj = JSON.parseObject(result);
                     message = jsonObj.getString("Msg");
-                    System.out.println("sign_add_result:"+result);
                     if (jsonObj.getString("Res").equals("0"))
                     //添加或修改请求结果
                     {
@@ -391,6 +490,10 @@ if (isGotoList){return;}
                         ToastUtil.makeText(getActivity(),message);
                     }
                     break;
+                    case 1:
+                        showSuggest(list);
+                        adapter.refreshData(list);
+                        break;
 
                     default:
                         break;
@@ -447,7 +550,7 @@ if (isGotoList){return;}
 
     @Override
     public void onGetList(SignBean bean) {
-
+title=bean.getAct_title();
         isGotoList=false;
         mSignID = bean.getSign_id();
         if (NetworkUtils.checkNetState(getActivity())) {
@@ -461,12 +564,13 @@ if (list.size()!=0){
             String mParam = "ID=" + bean.getSign_id() + "&pageSize=" + PAGE_SIZE;
             getSignupList(mParam);
 
-        } else if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
+        }else if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
             Intent intent = new
                     Intent(getActivity(), SignupListActivity.class);
             //在Intent对象当中添加一个键值对
             String result = (String) SPUtils.get(getActivity(), "signup_" + bean.getSign_id(), "");
             intent.putExtra("result", result);
+            intent.putExtra("title",title);
             intent.putExtra("sign_id", bean.getSign_id());
             startActivity(intent);
 
@@ -582,7 +686,9 @@ if (list.size()!=0){
         TextView title= (TextView) v.findViewById(R.id.tv_qr_title);
         title.setText(bean.getAct_title());
 
-        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
+//        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/ck/" + bean.getSign_id()+"/"+bean.getAct_id()+"/3", 600, 600);
+
         iv_dialog_qrcode.setImageBitmap(bitmap);
 
         ;
@@ -736,6 +842,7 @@ if (list.size()!=0){
 
 
     private void getSignupList(String sign_id) {
+        ToastUtil.print("签到列表请求"+sign_id);
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
         AsyncSignupList asyncSignupList = new AsyncSignupList(getActivity(), mHandler, dialog, MESSAGE_GET_SIGNUPLIST, sign_id);
         asyncSignupList.execute();

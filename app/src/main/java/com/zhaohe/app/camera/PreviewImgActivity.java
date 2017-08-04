@@ -7,8 +7,8 @@ import android.view.Window;
 import android.widget.ImageView;
 
 import com.squareup.picasso.Picasso;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
-import com.zhaohe.zhundao.constant.Constant;
 
 
 /**
@@ -28,14 +28,16 @@ public class PreviewImgActivity extends Activity {
 
         ImageView imgView = (ImageView) this.findViewById(R.id.large_image);
         String imgpath = this.getIntent().getStringExtra("imgpath");// 图片路径
+        ToastUtil.print("图片路径"+imgpath);
 
-        if (imgpath.indexOf("/") >= 0) { //“/”开头，表示图片路径, 在手机上存在的图片
-            imgView.setImageURI(Uri.parse(imgpath));
-        } else {
-            StringBuffer imageUrl = new StringBuffer();
-            imageUrl.append(Constant.HOST).append(Constant.Url.IMG_DOWNLOAD).append("?isthumb=false&imgid=").append(imgpath);
+
+        if (imgpath.indexOf("http") >= 0) {
+            Picasso.with(this).load(imgpath).placeholder(R.mipmap.default_error).error(R.mipmap.default_error).noFade().into(imgView);
             //网络请求图片
-            Picasso.with(this).load(imageUrl.toString()).placeholder(R.mipmap.default_error).error(R.mipmap.default_error).noFade().into(imgView);
+
+        } else {
+            imgView.setImageURI(Uri.parse(imgpath));
+//“/”开头，表示图片路径, 在手机上存在的图片
         }
     }
 

@@ -1,5 +1,6 @@
 package com.zhaohe.zhundao.ui.home.action;
 
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -7,6 +8,7 @@ import android.os.Message;
 import android.support.annotation.IdRes;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.AdapterView;
@@ -14,7 +16,9 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -26,13 +30,17 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.fastjson.TypeReference;
+import com.zhaohe.app.camera.Camera;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.action.AsyncSignListEdit;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedHashMap;
 
 import butterknife.BindView;
@@ -105,10 +113,15 @@ public class SignListUserEditActivity extends ToolBarActivity {
     private JSONArray jsonArray;
     private Handler mHandler;
     public static final int MESSAGE_SIGNLIST_USER_EDIT = 94;
+    public static final int MESSAGE_UPLOAD_COMPLETE= 1000;
+    public static final int MESSAGE_DELETE_COMPLETE= 999;
+
     private String param;
-private int size;
-    private String[] item=new String[100];
+    private HashMap<String,Camera> cameraHashMap=new HashMap<>();
     String json;
+    private Camera camera;
+    private String PhotoTitle;
+    private String FaceImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,8 +129,8 @@ private int size;
         setContentView(R.layout.activity_sign_list_user_edit);
         initToolBarNew("修改用户信息", R.layout.activity_sign_list_user_edit);
         ButterKnife.bind(this);
-        initIntent();
         initHandler();
+        initIntent();
     }
 
     private void initHandler() {
@@ -131,16 +144,53 @@ private int size;
                         String result = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result);
                         String message = jsonObj.getString("Res");
-                        System.out.println("people_add_result:" + result);
                         if (message.equals("0"))
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "修改成功！");
                             finish();
                         }
+                        else{
+                            ToastUtil.makeText(getApplicationContext(),  jsonObj.getString("Msg"));
+
+                        }
                         break;
+                    case MESSAGE_UPLOAD_COMPLETE:
 
+                        String cameraUrl="";
 
+                        ArrayList<String> a = camera.getUploadUrl();
+                        for (int i = 0; i < a.size(); i++) {
+                            cameraUrl=cameraUrl+a.get(i)+"|";
+
+                        }
+                        if(PhotoTitle.equals("人脸照片")){
+                            FaceImg=cameraUrl;
+
+                        }
+                        else{
+                            ToastUtil.print("PhotoTitle"+PhotoTitle+cameraUrl);
+                            jsonMap.put(PhotoTitle, cameraUrl);}
+                        ToastUtil.makeText(getApplicationContext(), "图片上传成功！");
+                        break;
+                    case MESSAGE_DELETE_COMPLETE:
+
+                   cameraUrl="";
+                         PhotoTitle = (String) msg.obj;
+                        camera=cameraHashMap.get(PhotoTitle);
+                         a = camera.getUploadUrl();
+                        for (int i = 0; i < a.size(); i++) {
+                            cameraUrl=cameraUrl+a.get(i)+"|";
+
+                        }
+                        if(PhotoTitle.equals("人脸照片")){
+                            FaceImg=cameraUrl;
+
+                        }
+                        else{
+                            ToastUtil.print("PhotoTitle"+PhotoTitle+cameraUrl);
+                            jsonMap.put(PhotoTitle, cameraUrl);}
+                        ToastUtil.print("图片删除成功");
                     default:
                         break;
                 }
@@ -176,7 +226,7 @@ private int size;
         if (intent.getStringExtra("email") == null) {
             rlUserEmail.setVisibility(View.GONE);
         }
-        if (intent.getStringExtra("id_card") == null) {
+        if (intent.getStringExtra("id_card") == null||intent.getStringExtra("id_card") .equals("") ) {
             rlUserIdCard.setVisibility(View.GONE);
         }
         if (intent.getStringExtra("join_num").equals("0")) {
@@ -187,6 +237,10 @@ private int size;
         }
         if (intent.getStringExtra("remark") == null) {
             rlUserRemark.setVisibility(View.GONE);
+        }
+        String FaceImg=intent.getStringExtra("face_img");
+        if (FaceImg!=null){
+createPhotoFace("人脸照片",FaceImg);
         }
         etSignlistUserName.setText(intent.getStringExtra("name"));
         etSignlistUserPhone.setText(intent.getStringExtra("phone"));
@@ -246,9 +300,19 @@ private int size;
             case"3":
                 createCheckBox(Title,Content,Option,i);
                 break;
+
+            case"4":
+                createPhoto(Title,Content,Option,i);
+
+                break;
             case"5":
                 createRadioButton(Title,Content,Option,i);
                 break;
+            case"6":
+                createDateView(Title,Content,i);
+
+                break;
+
             case"7":
                 createTextNumView(Title,Content,i);
 break;
@@ -308,6 +372,88 @@ break;
         llSignListUser.addView(rl, rlParams);
         llSignListUser.setTag(et);
     }
+
+    private void createDateView(final String title, String Content , final int i) {
+        int margin = dip2px(this, 10);
+        int etWidth=dip2px(this, 300);
+        int h = dip2px(this, 1);
+        final DatePicker datePicker = new DatePicker(this);
+        final EditText et = new EditText(this);
+        RelativeLayout rl = new RelativeLayout(this);
+
+        String[] date = Content.split("\\-");
+        if(date.length<3){
+            date = TimeUtil.getNowTimeNew().split("\\-");
+
+        }
+        ToastUtil.print(date[0]+date[1]+date[2]);
+        datePicker.updateDate(Integer.valueOf(date[0]).intValue(),Integer.valueOf(date[1]).intValue()-1,Integer.valueOf(date[2]).intValue());
+
+        final DatePickerDialog dialog =new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
+                i1++;
+                jsonMap.put(title,i+"-"+i1+"-"+i2);
+                et.setText(i+"-"+i1+"-"+i2);
+
+
+            }
+        },Integer.valueOf(date[0]).intValue(),Integer.valueOf(date[1]).intValue()-1,Integer.valueOf(date[2]).intValue());
+
+        TextView tv1 = new TextView(this);
+        tv1.setText(title);
+        et.setText(Content);
+        et.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                    dialog.show();
+                    return true;
+                }
+                return false;
+            }
+
+        });
+        et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                if(b){
+                    dialog.show();
+
+                }
+            }
+        });
+
+
+        tv1.setId(R.id.tv_code_title);
+        RelativeLayout.LayoutParams rlParams =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams tvParams1 =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tvParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, tv1.getId());
+
+        RelativeLayout.LayoutParams tvParams2 =
+                new RelativeLayout.LayoutParams(
+                        etWidth,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tvParams2.addRule(RelativeLayout.RIGHT_OF, tv1.getId());
+        tvParams2.addRule(RelativeLayout.ALIGN_BASELINE, tv1.getId());
+
+        tv1.setPadding(margin, margin, margin, margin);
+
+
+
+
+        rl.addView(tv1, tvParams1);
+        rl.addView(et, tvParams2);
+        llSignListUser.addView(rl, rlParams);
+
+    }
+
     private void createTextNumView(final String title, String Content , final int i) {
         int margin = dip2px(this, 10);
         int etWidth=dip2px(this, 300);
@@ -579,7 +725,132 @@ for(int j=0;j<s.length;j++){
         }
 
     }
+    private void createPhoto(final String title, String Content , String Option, final int i) {
+        int margin = dip2px(this, 10);
+        int etWidth=dip2px(this, 300);
+        int h = dip2px(this, 1);
+        RelativeLayout rl = new RelativeLayout(this);
+        LinearLayout ll=new LinearLayout(this);
+        TextView tv1 = new TextView(this);
+        tv1.setText(title);
+        tv1.setId(R.id.tv_code_title);
+         GridLayout gl_camara=new GridLayout(this);
+       final Camera camera1 = new Camera(SignListUserEditActivity.this, gl_camara, false,9,mHandler,title);
+        PhotoTitle=title;
+cameraHashMap.put(title,camera1);
+        camera1.showInternet(Content);
+        gl_camara.requestDisallowInterceptTouchEvent(true);
+            gl_camara.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ToastUtil.print("onclick");
+                    camera=camera1;
+                    PhotoTitle=title;
 
+
+
+                }
+            });
+        gl_camara.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+ToastUtil.print("ontouch");
+                camera=camera1;
+                PhotoTitle=title;
+
+                return false;
+            }
+        });
+        gl_camara.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ToastUtil.print("onlongclick");
+
+                camera=camera1;
+                PhotoTitle=title;
+
+                return false;
+            }
+        });
+
+
+        tv1.setPadding(margin, margin, margin, margin);
+
+
+
+        gl_camara.setPadding(2*margin, margin, margin, margin);
+        llSignListUser.addView(tv1);
+        llSignListUser.addView(gl_camara);
+
+
+
+
+
+    }
+    private void createPhotoFace(final String title, String Content ) {
+        int margin = dip2px(this, 10);
+        int etWidth=dip2px(this, 300);
+        int h = dip2px(this, 1);
+        RelativeLayout rl = new RelativeLayout(this);
+        LinearLayout ll=new LinearLayout(this);
+        TextView tv1 = new TextView(this);
+        tv1.setText(title);
+        tv1.setId(R.id.tv_code_title);
+        GridLayout gl_camara=new GridLayout(this);
+        final Camera camera1 = new Camera(SignListUserEditActivity.this, gl_camara, false,3,mHandler,title);
+        PhotoTitle=title;
+        cameraHashMap.put(title,camera1);
+        camera1.showInternet(Content);
+        gl_camara.requestDisallowInterceptTouchEvent(true);
+        gl_camara.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.print("onclick");
+                camera=camera1;
+                PhotoTitle=title;
+
+
+
+            }
+        });
+        gl_camara.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                ToastUtil.print("ontouch");
+                camera=camera1;
+                PhotoTitle=title;
+
+                return false;
+            }
+        });
+        gl_camara.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ToastUtil.print("onlongclick");
+
+                camera=camera1;
+                PhotoTitle=title;
+
+                return false;
+            }
+        });
+
+
+        tv1.setPadding(margin, margin, margin, margin);
+
+
+
+        gl_camara.setPadding(2*margin, margin, margin, margin);
+        llSignListUser.addView(tv1);
+        llSignListUser.addView(gl_camara);
+
+
+
+
+
+    }
     public void edit(String param) {
         if (NetworkUtils.checkNetState(this)) {
             AsyncSignListEdit async = new AsyncSignListEdit(this, mHandler, MESSAGE_SIGNLIST_USER_EDIT, param);
@@ -588,7 +859,12 @@ for(int j=0;j<s.length;j++){
             ToastUtil.makeText(this, R.string.net_error);
         }
     }
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        camera.onActivityResult(requestCode, resultCode, data);
 
+
+    }
 
     @OnClick(R.id.btn_signlist_user_sumbit)
     public void onViewClicked() {
@@ -598,13 +874,13 @@ for(int j=0;j<s.length;j++){
             ToastUtil.makeText(this, "姓名不得为空，请重新输入~");
             return;
         }
-        if (Mobile.length() != 11) {
-            ToastUtil.makeText(this, "请输入11位电话号码，请检查后重新输入~");
+        if (Mobile.length() == 0) {
+            ToastUtil.makeText(this, "手机号不得为空，请重新输入~");
             return;
         }
+
         json=JSON.toJSONString(jsonMap);
         ToastUtil.print("json数据"+json);
-
         param = "UserName=" + Name + "&Mobile=" + Mobile + "&ID=" + ID+"&ExtraInfo="+json;
         edit(setParam(param));
     }
@@ -637,6 +913,10 @@ for(int j=0;j<s.length;j++){
 
         if (etSignlistUserEmail.getText().toString()!=null){
             param=param+"&Email="+etSignlistUserEmail.getText().toString();
+        }
+        if (FaceImg!=null){
+            param=param+"&FaceImg="+FaceImg;
+
         }
 
         return param;

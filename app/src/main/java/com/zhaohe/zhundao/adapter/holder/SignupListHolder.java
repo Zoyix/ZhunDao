@@ -15,6 +15,4 @@ public class SignupListHolder {
     public TextView tv_signuplist_name;
     public TextView tv_signuplist_time;
     public Button btn_signuplist_signup;
-
-
 }

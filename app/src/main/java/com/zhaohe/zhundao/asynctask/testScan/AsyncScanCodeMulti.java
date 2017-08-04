@@ -54,7 +54,7 @@ private String mCheckinId;
         if (result != null) {
             Message msg = mHandler.obtainMessage (mRequest);
             msg.obj = result;
-            System.out.println("wtf"+result);
+            System.out.println("扫码"+result);
             mHandler.sendMessage (msg);
         } else {
             ToastUtil.makeText(mContext,"网络不稳定，请切换为离线模式");

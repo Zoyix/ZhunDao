@@ -50,7 +50,7 @@ public class AsyncUpLoadSignupStatusMulti extends AsyncTask<String, Integer, Str
         if (result != null) {
             Message msg = mHandler.obtainMessage (mRequest);
             msg.obj = result;
-            System.out.println("wtf"+result);
+            System.out.println("上传签到状态"+result);
             mHandler.sendMessage (msg);
         } else {
             DialogUtils.showDialog (mContext, R.string.app_serviceError);

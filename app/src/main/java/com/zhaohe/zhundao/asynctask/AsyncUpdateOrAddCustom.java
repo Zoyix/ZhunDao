@@ -50,7 +50,7 @@ public class AsyncUpdateOrAddCustom extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("Custom_result" + result);
+            System.out.println("增加和修改自定义选项" + result);
             mHandler.sendMessage(msg);
         } else {
 //            DialogUtils.showDialog (mContext, R.string.app_serviceError);

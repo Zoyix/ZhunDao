@@ -38,6 +38,7 @@ import com.zhaohe.zhundao.asynctask.AsyncScanCode;
 import com.zhaohe.zhundao.asynctask.AsyncSign;
 import com.zhaohe.zhundao.asynctask.AsyncSignDelete;
 import com.zhaohe.zhundao.asynctask.AsyncSignupList;
+import com.zhaohe.zhundao.asynctask.AsyncUpLoadSignupStatus;
 import com.zhaohe.zhundao.asynctask.AsyncUpdateSignStatus;
 import com.zhaohe.zhundao.bean.SignBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
@@ -67,6 +68,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     public static final int MESSAGE_SCAN_CODE = 90;
     public static final int SCANNIN_GREQUEST_CODE = 89;
     public static final int MESSAGE_SIGN_DELETE = 97;
+    public static final int MESSAGE_UPLOAD_SIGNUPSTATUS = 88;
+
 
     private SignAdapter adapter;
     private List<SignBean> list_act;
@@ -81,7 +84,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     private MySignupListDao dao;
     protected View rootView;
     private TextView tv_signoff_suggest;
-
+    String title;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -98,11 +101,12 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(getActivity());
-
+        upload();
     }
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());
+
     }
 
 
@@ -127,6 +131,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         else if(NetworkUtils.checkNetState(getActivity()))
         {
 //            getSignAll();
+            upload();
             getSignAllNoneDialog();
 
         }
@@ -274,11 +279,10 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             String result2 = (String) SPUtils.get(getActivity(), "sign_result", "");
             JSONObject jsonObj2 = JSON.parseObject(result2);
             JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
-            intent.putExtra("NumFact", jsonArray2.getJSONObject(postion).getString("NumFact"));
-            intent.putExtra("NumShould", jsonArray2.getJSONObject(postion).getString("NumShould"));
             intent.putExtra("sign_id", sign_id);
             intent.putExtra("result", result);
-            intent.putExtra("sign_id", sign_id);
+            intent.putExtra("title",title);
+
 //            intent.putExtra("result", result);
             startActivity(intent);
         }
@@ -357,6 +361,15 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                             ToastUtil.makeText(getActivity(),message);
                         }
                         break;
+
+                    case MESSAGE_UPLOAD_SIGNUPSTATUS:
+                        String result4 = (String) msg.obj;
+                        JSONObject jsonObj4 = JSON.parseObject(result4);
+                        if (jsonObj4.getString("Res") == "0") {
+                            changeStatus();
+                            ToastUtil.makeText(getActivity(), "数据上传成功");
+                        }
+                        break;
                     default:
                         break;
                 }
@@ -365,7 +378,20 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
 
 
     }
+    //    上传成功后 修改已上传数据更新状态
+    private void changeStatus() {
+        List<MySignListupBean> list = dao.queryUpdateStatus();
+        for (int i = 0; i < list.size(); i++) {
+            MySignListupBean bean2 = (MySignListupBean) list.get(i);
+            MySignListupBean bean = new MySignListupBean();
+            bean.setVCode(bean2.getVCode());
+            bean.setStatus("true");
+            bean.setUpdateStatus("false");
+            bean.setCheckInID(bean2.getCheckInID());
+            dao.update(bean);
+        }
 
+    }
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -579,7 +605,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         TextView title= (TextView) v.findViewById(R.id.tv_qr_title);
         title.setText(bean.getAct_title());
 
-        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/ck/" + bean.getSign_id()+"/"+bean.getAct_id()+"/3", 600, 600);
         iv_dialog_qrcode.setImageBitmap(bitmap);
 
         ;
@@ -622,12 +648,32 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         intent.putExtras(bundle);
         this.startActivity(intent);
     }
+    private void upload() {
+        if (NetworkUtils.checkNetState(getActivity())) {
+            List<MySignListupBean> list = dao.queryUpdateStatus();
+            String jsonString = JSON.toJSONString(list);
+            if (list.size() == 0) {
+                ToastUtil.print("已是最新数据");
+                return;
+            }
 
+            AsyncUpLoadSignupStatus async = new AsyncUpLoadSignupStatus(getActivity(), mHandler, MESSAGE_UPLOAD_SIGNUPSTATUS, jsonString);
+            async.execute();
+        }
+    }
     @Override
     public void onGetList(SignBean bean){
+        title=bean.getAct_title();
         mSignID = bean.getSign_id();
         if (NetworkUtils.checkNetState(getActivity())) {
             //            单页显示的数据数目
+            List<MySignListupBean> list = dao.queryUpdateStatus();
+            if (list.size()!=0){
+                upload();
+                ToastUtil.makeText(getActivity(),"正在同步数据，等提示数据上传成功后再试~");
+                return;
+            }
+
             String mParam = "ID=" + bean.getSign_id() + "&pageSize=" + PAGE_SIZE;
             getSignupList(mParam);
 
@@ -638,6 +684,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             String result = (String) SPUtils.get(getActivity(), "signup_" + bean.getSign_id(), "");
             intent.putExtra("result", result);
             intent.putExtra("sign_id", bean.getSign_id());
+            intent.putExtra("title",title);
+
             startActivity(intent);
 
         } else {
