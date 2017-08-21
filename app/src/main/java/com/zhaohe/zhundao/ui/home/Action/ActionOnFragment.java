@@ -2,8 +2,6 @@ package com.zhaohe.zhundao.ui.home.action;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,9 +19,10 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
@@ -40,10 +39,10 @@ import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.ActionAdapter;
-import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.asynctask.AsyncUpLoadSignupStatus;
+import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
@@ -77,6 +76,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     //            单页显示的数据数目
     public static final int PAGE_SIZE = 200000;
 
+    PtrClassicFrameLayout ptrClassicFrameLayout;
 
     protected View rootView;
     private IWXAPI api;
@@ -95,8 +95,9 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
     private String UserInfo;
     private String ActivityFees;
-
-
+    int page = 0;
+    List<ActionBean> list = new ArrayList<ActionBean>();
+boolean load=true;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,8 +106,9 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
         initHandler();
         initWx();
         initView();
-        //        初始化活动列表
         init();
+
+        //        初始化活动列表
 //        获取用户信息，头像 昵称 性别
         getUserInf();
 
@@ -123,6 +125,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
         if((boolean)SPUtils.get(getActivity(),"updateAction",false)){
             init();
+            SPUtils.put(getActivity(),"updateAction",false);
         }
 
     }
@@ -149,8 +152,9 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void init() {
-        if (SPUtils.contains(getActivity(),"act_result")) {
-            jsonconver((String) SPUtils.get(getActivity(), "act_result", ""));
+
+        if (SPUtils.contains(getActivity(),"act_result_on")) {
+            jsonconver((String) SPUtils.get(getActivity(), "act_result_on", ""));
             getActionListNoneDialog();
 
         } else {
@@ -162,11 +166,11 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
     private void getActionList() {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, dialog, MESSAGE_ACT_ALL);
+        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, dialog, MESSAGE_ACT_ALL,"1");
         asyncActivity.execute();
     }
     private void getActionListNoneDialog() {
-        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, MESSAGE_ACT_ALL);
+        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, MESSAGE_ACT_ALL,"1");
         asyncActivity.execute();
     }
 
@@ -184,53 +188,85 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void jsonconver(String result) {
+        if (!load){
+            return;
+        }
+        int i2;
+        int size=5;
+if (page==0){
+    list.clear();
+    ptrClassicFrameLayout.setLoadMoreEnable(true);
+    ptrClassicFrameLayout.setPullToRefresh(true);
+    ToastUtil.print("重置后能更新吗"+ptrClassicFrameLayout.isLoadMoreEnable());
+
+//    initFrameLayout();
+//ptrClassicFrameLayout.
+}
+            i2=page*size;
+        ToastUtil.print("当前页数"+i2);
         JSONObject jsonObj = JSON.parseObject(result);
         JSONArray jsonArray = jsonObj.getJSONArray("Data");
-        List<ActionBean> list = new ArrayList<ActionBean>();
-        for (int i = 0; i < jsonArray.size(); i++) {
-            ActionBean bean = new ActionBean();
-            bean.setAct_title(jsonArray.getJSONObject(i).getString("Title"));
-            bean.setClick_num(jsonArray.getJSONObject(i).getString("ClickNo"));
-            String time = jsonArray.getJSONObject(i).getString("TimeStop");
-//            去除json传回来的时间中的T字符
-            String newtime = time.replace("T", " ");
-//             去除秒
-            bean.setAddress(jsonArray.getJSONObject(i).getString("Address"));
-            String newtime1 = newtime.substring(2, newtime.length() - 3);
-            bean.setAct_endtime("报名截止：" + newtime1);
-            String comparetime = TimeUtil.getTimeDifference(TimeUtil.getNowTime(), newtime);
-            if(comparetime.indexOf("-")!=-1){
-                String newtime3=comparetime.replace("-","");
-                bean.setAct_resttime("(进行" + newtime3 + ")");
+        int m=0;
+        if((page+1)*size<jsonArray.size()){
+            m=(page+1)*size;
 
-            }
-            else{bean.setAct_resttime("(剩余" + comparetime + ")");}
-            time = jsonArray.getJSONObject(i).getString("TimeStart");
-            newtime = time.replace("T", " ");
-            newtime1 = newtime.substring(2, newtime.length() - 3);
-            bean.setAct_starttime("活动开始：" + newtime1);
-            comparetime = TimeUtil.getTimeDifference(TimeUtil.getNowTime(), newtime);
-            if(comparetime.indexOf("-")!=-1){
-                String newtime3=comparetime.replace("-","");
-                bean.setAct_resttime2("(进行" + newtime3 + ")");
-            }
-//            int lasttime=Integer.parseInt(comparetime);
-            else{
-                bean.setAct_resttime2("(剩余" + comparetime + ")");
-            }
-            bean.setAct_sign_num(jsonArray.getJSONObject(i).getString("HasJoinNum"));
-            bean.setAct_sign_income(jsonArray.getJSONObject(i).getString("Amount"));
-            bean.setAct_status("报名中");
-            bean.setAct_content(jsonArray.getJSONObject(i).getString("Content"));
-            bean.setUrl(jsonArray.getJSONObject(i).getString("ShareImgurl"));
-            bean.setAct_id(jsonArray.getJSONObject(i).getString("ID"));
-            bean.setBaseItem(jsonArray.getJSONObject(i).getString("UserInfo"));
-            bean.setActivityFees(jsonArray.getJSONObject(i).getString("ActivityFees"));
+        }
+        else{
+            page--;
+            m=jsonArray.size();
+//            ToastUtil.makeText(getActivity(),"已无更多数据");
+            ptrClassicFrameLayout.setLoadMoreEnable(false);
+load=false;
+
+        }
+        ToastUtil.print("\n当前页码"+m);
+
+
+        for ( int i=i2; i<m; i++) {
+            ActionBean bean = new ActionBean();
+
 
 ////            获取活动报名人数不为0的活动名单
 //            System.out.println("json hashcode"+jsonArray.getJSONObject(i).getString("Status").hashCode()+"0的hashcode"+"0".hashCode());
 
             if ((jsonArray.getJSONObject(i).getString("Status").equals("0"))||(jsonArray.getJSONObject(i).getString("Status").equals("1"))) {
+                bean.setAct_title(jsonArray.getJSONObject(i).getString("Title"));
+                bean.setClick_num(jsonArray.getJSONObject(i).getString("ClickNo"));
+                String time = jsonArray.getJSONObject(i).getString("TimeStop");
+//            去除json传回来的时间中的T字符
+                String newtime = time.replace("T", " ");
+//             去除秒
+                bean.setAddress(jsonArray.getJSONObject(i).getString("Address"));
+                String newtime1 = newtime.substring(2, newtime.length() - 3);
+                bean.setAct_endtime("报名截止：" + newtime1);
+                String comparetime = TimeUtil.getTimeDifference(TimeUtil.getNowTime(), newtime);
+                if(comparetime.indexOf("-")!=-1){
+                    String newtime3=comparetime.replace("-","");
+                    bean.setAct_resttime("(进行" + newtime3 + ")");
+
+                }
+                else{bean.setAct_resttime("(剩余" + comparetime + ")");}
+                time = jsonArray.getJSONObject(i).getString("TimeStart");
+                newtime = time.replace("T", " ");
+                newtime1 = newtime.substring(2, newtime.length() - 3);
+                bean.setAct_starttime("活动开始：" + newtime1);
+                comparetime = TimeUtil.getTimeDifference(TimeUtil.getNowTime(), newtime);
+                if(comparetime.indexOf("-")!=-1){
+                    String newtime3=comparetime.replace("-","");
+                    bean.setAct_resttime2("(进行" + newtime3 + ")");
+                }
+//            int lasttime=Integer.parseInt(comparetime);
+                else{
+                    bean.setAct_resttime2("(剩余" + comparetime + ")");
+                }
+                bean.setAct_sign_num(jsonArray.getJSONObject(i).getString("HasJoinNum"));
+                bean.setAct_sign_income(jsonArray.getJSONObject(i).getString("Amount"));
+                bean.setAct_status("报名中");
+                bean.setAct_content(jsonArray.getJSONObject(i).getString("Content"));
+                bean.setUrl(jsonArray.getJSONObject(i).getString("ShareImgurl"));
+                bean.setAct_id(jsonArray.getJSONObject(i).getString("ID"));
+                bean.setBaseItem(jsonArray.getJSONObject(i).getString("UserInfo"));
+                bean.setActivityFees(jsonArray.getJSONObject(i).getString("ActivityFees"));
                 list.add(bean);
             } else {
 
@@ -238,6 +274,8 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
         }
         showSuggest(list);
         adapter.refreshData(list);
+        ToastUtil.print("数据加载了");
+        ToastUtil.print("数据长度"+jsonArray.size());
     }
 
 
@@ -258,22 +296,6 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
         asyncSignList.execute();
     }
 
-    private void wxShare(int flag, ActionBean bean) {
-        String actid = bean.getAct_id();
-        WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = ShareUrl + actid;
-        WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = bean.getAct_title();
-        msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
-        //这里替换一张自己工程里的图片资源
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_multi);
-        msg.setThumbImage(thumb);
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());
-        req.message = msg;
-        req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
-        api.sendReq(req);
-    }
 
     private void gotoSignList(String result) {
         Intent intent = new
@@ -293,6 +315,9 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
             intent.putExtra("act_id", act_id);
             intent.putExtra("UserInfo",UserInfo);
             intent.putExtra("ActivityFees",ActivityFees);
+            SPUtils.put(getActivity(), "UserInfo" + act_id, UserInfo);
+            SPUtils.put(getActivity(), "ActivityFees" + act_id, ActivityFees);
+
             startActivity(intent);
         }
     }
@@ -308,8 +333,12 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
                         //活动列表结果
                         if (NetworkUtils.checkNetState(getActivity())) {
-                            SPUtils.put(getActivity(), "act_result", result);
-                            jsonconver((String) SPUtils.get(getActivity(), "act_result", ""));
+                            SPUtils.put(getActivity(), "act_result_on", result);
+
+                            load=true;
+                            ToastUtil.print("获取最新数据");
+                            page=0;
+                            jsonconver((String) SPUtils.get(getActivity(), "act_result_on", ""));
                         }
 
                         break;
@@ -376,10 +405,18 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     public void initView() {
 //        btn_test= (Button) rootView.findViewById(btn_test);
 //        btn_test.setOnClickListener(this);
+//        ptrClassicFrameLayout.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                ptrClassicFrameLayout.autoRefresh(true);
+//            }
+//        }, 150);
+        initFrameLayout();
         lv_act = (ListView) rootView.findViewById(R.id.lv_act);
         adapter = new ActionAdapter(getActivity());
         adapter.setActionClickListener(this);
         lv_act.setAdapter(adapter);
+
         mSwipeLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_ly);
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
@@ -389,33 +426,87 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    private void bindListener() {
-        mShareListener = new UMShareListener() {
-                    @Override
-                    public void onStart(SHARE_MEDIA platform) {
-                        //分享开始的回调
-                    }
-                    @Override
-                    public void onResult(SHARE_MEDIA platform) {
-                        Log.d("plat","platform"+platform);
+    private void initFrameLayout() {
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) rootView.findViewById(R.id.test_list_view_frame);
 
-                        Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+        ptrClassicFrameLayout.setLoadMoreEnable(true);
 
-                    }
+        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
 
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mHandler.postDelayed(new Runnable() {
                     @Override
-                    public void onError(SHARE_MEDIA platform, Throwable t) {
-                        Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                        if(t!=null){
-                            Log.d("throw","throw:"+t.getMessage());
+                    public void run() {
+                        load=true;
+                        page = 0;
+//                        jsonconver((String) SPUtils.get(getActivity(), "act_result_on", ""));
+                        init();
+                        ptrClassicFrameLayout.refreshComplete();
+
+
+//                        adapter.refreshData(list);
+
+                        if (!ptrClassicFrameLayout.isLoadMoreEnable()) {
+                            ptrClassicFrameLayout.setLoadMoreEnable(true);
                         }
                     }
+                }, 1000);
+            }
+        });
+
+
+        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
+            @Override
+            public void loadMore() {
+                mHandler.postDelayed(new Runnable() {
 
                     @Override
-                    public void onCancel(SHARE_MEDIA platform) {
-                        Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+                    public void run() {
+                        ++page;
+                        jsonconver((String) SPUtils.get(getActivity(), "act_result_on", ""));
+                        ptrClassicFrameLayout.loadMoreComplete(true);
+//                        Toast.makeText(getActivity(), "load more complete", Toast.LENGTH_SHORT)
+//                                .show();
+
+                        if (page == 1) {
+                            //set load more disable
+//                            ptrClassicFrameLayout.setLoadMoreEnable(false);
+                        }
                     }
-                };
+                }, 1000);
+            }
+        });
+    }
+
+    private void bindListener() {
+        mShareListener = new UMShareListener() {
+            @Override
+            public void onStart(SHARE_MEDIA platform) {
+                //分享开始的回调
+            }
+            @Override
+            public void onResult(SHARE_MEDIA platform) {
+                Log.d("plat","platform"+platform);
+
+                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onError(SHARE_MEDIA platform, Throwable t) {
+                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                if(t!=null){
+                    Log.d("throw","throw:"+t.getMessage());
+                }
+            }
+
+            @Override
+            public void onCancel(SHARE_MEDIA platform) {
+                Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+            }
+        };
     }
 
     private void upload() {
@@ -462,6 +553,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onRefresh() {
+        page=0;
         if (NetworkUtils.checkNetState(getActivity())) {
             init();
             upload();

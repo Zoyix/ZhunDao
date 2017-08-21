@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:weightSum="1">
 
     <View
         android:layout_width="fill_parent"
@@ -38,4 +40,42 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_find_multipoint" />
+    <View
+        android:visibility="gone"
+
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+    <TextView
+        android:visibility="gone"
+        android:drawableLeft="@mipmap/find_multi108"
+        android:id="@+id/tv_find_print"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_find_print" />
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+    <com.coorchice.library.SuperTextView
+        android:visibility="gone"
+        android:layout_width="300dp"
+        android:layout_height="100dp"
+        android:text="@string/act_more_delete"
+        android:drawableRight="@mipmap/scan108"
+        app:corner="100dp"
+        android:background="@color/aliceblue"
+        app:isShowState="true"
+        app:state_drawable_padding_left="5dp"
+        app:state_drawable_height="100dp"
+    app:state_drawable_width="100dp"
+        app:text_fill_color="@color/blue"
+        app:text_stroke_color="@color/black"
+        app:solid="@color/red"
+        app:state_drawable="@drawable/btn_style_alert_dialog_button"
+        />
+
+
+
+
 </LinearLayout>

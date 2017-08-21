@@ -46,6 +46,24 @@
         android:clickable="true"
         android:text="@string/tv_setting_about_us" />
 
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_setting_inf"
+        style="@style/list_txt_Style"
+        android:clickable="true"
+        android:text="@string/tv_setting_inf" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+    <TextView
+        android:id="@+id/tv_setting_net"
+        style="@style/list_txt_Style"
+        android:maxLines="1"
+        android:clickable="true"
+        android:text="@string/tv_setting_net" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"

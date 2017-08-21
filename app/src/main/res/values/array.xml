@@ -24,4 +24,31 @@
         <item>男</item>
         <item>女</item>
     </string-array>
+
+    <string-array name="size">
+        <item>30*30</item>
+        <item>60*60</item>
+        <item>90*90</item>
+
+    </string-array>
+
+    <string-array name="model">
+        <item>二维码</item>
+        <item>二维码+姓名</item>
+        <item>姓名+备注</item>
+
+
+    </string-array>
+    <string-array name="print_type">
+        <item>全部打印</item>
+        <item>签到成功</item>
+        <item>手动打印</item>
+
+    </string-array>
+    <string-array name="net">
+        <item>默认线路</item>
+        <item>备用线路</item>
+
+
+    </string-array>
 </resources>

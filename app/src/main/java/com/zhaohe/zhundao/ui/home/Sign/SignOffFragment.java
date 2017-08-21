@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -38,9 +39,11 @@ import com.zhaohe.zhundao.asynctask.AsyncScanCode;
 import com.zhaohe.zhundao.asynctask.AsyncSign;
 import com.zhaohe.zhundao.asynctask.AsyncSignDelete;
 import com.zhaohe.zhundao.asynctask.AsyncSignupList;
+import com.zhaohe.zhundao.asynctask.AsyncSignuplistEmail;
 import com.zhaohe.zhundao.asynctask.AsyncUpLoadSignupStatus;
 import com.zhaohe.zhundao.asynctask.AsyncUpdateSignStatus;
 import com.zhaohe.zhundao.bean.SignBean;
+import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
 import com.zhaohe.zhundao.dao.MySignupListDao;
 import com.zhaohe.zhundao.ui.home.mine.UpgradedActivity;
@@ -54,6 +57,7 @@ import static android.app.Activity.RESULT_OK;
 import static android.view.View.GONE;
 import static com.zhaohe.app.utils.ZXingUtil.createQrBitmap;
 import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.REFRESH_COMPLETE;
+import static com.zhaohe.zhundao.ui.home.sign.SignOnFragment.MESSAGE_SEND_SIGNUPLIST_EMAIL;
 
 /**
  * @Description:
@@ -85,7 +89,10 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     protected View rootView;
     private TextView tv_signoff_suggest;
     String title;
+    String act_id;
+
     @Override
+
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_sigoff,
@@ -282,6 +289,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             intent.putExtra("sign_id", sign_id);
             intent.putExtra("result", result);
             intent.putExtra("title",title);
+            intent.putExtra("act_id", act_id);
 
 //            intent.putExtra("result", result);
             startActivity(intent);
@@ -360,6 +368,11 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                         else{
                             ToastUtil.makeText(getActivity(),message);
                         }
+                        break;
+                    case MESSAGE_SEND_SIGNUPLIST_EMAIL:
+                        result2 = (String) msg.obj;
+                        ToolUserBean bean = (ToolUserBean) JSON.parseObject(result2, ToolUserBean.class);
+                        Toast.makeText(getActivity(), bean.getMsg(), Toast.LENGTH_LONG).show();
                         break;
 
                     case MESSAGE_UPLOAD_SIGNUPSTATUS:
@@ -471,6 +484,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         signItem(bean);
     }
     public void signItem(final SignBean bean) {
+        mSignID=bean.getSign_id();
+
         final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
         LayoutInflater factory = LayoutInflater.from(getActivity());
         //把activity_login中的控件定义在View中
@@ -521,6 +536,10 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                         dialog.dismiss();
                         QrCodeDialog(bean);
                         break;
+                    case R.id.tv_sign_email:
+                        dialog.dismiss();
+                        sendEmail();
+                        break;
 
                 }
 
@@ -536,6 +555,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
 
         final TextView tv_sign_qcode = (TextView) textEntryView.findViewById(R.id.tv_sign_qcode);
         tv_sign_qcode.setOnClickListener(onClickListener);
+        final TextView tv_sign_email = (TextView) textEntryView.findViewById(R.id.tv_sign_email);
+        tv_sign_email.setOnClickListener(onClickListener);
         //将LoginActivity中的控件显示在对话框中
         builder                //对话框的标题
                 .setTitle("签到操作")
@@ -663,6 +684,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     }
     @Override
     public void onGetList(SignBean bean){
+        act_id= bean.getAct_id();
+
         title=bean.getAct_title();
         mSignID = bean.getSign_id();
         if (NetworkUtils.checkNetState(getActivity())) {
@@ -685,6 +708,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             intent.putExtra("result", result);
             intent.putExtra("sign_id", bean.getSign_id());
             intent.putExtra("title",title);
+            intent.putExtra("act_id", act_id);
 
             startActivity(intent);
 
@@ -815,6 +839,57 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 })
                 .setCancelable(true)
                 .show();
+    }
+    private void sendSignListByEmail(String email,String mSignID ){
+        Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
+        AsyncSignuplistEmail async = new AsyncSignuplistEmail(getActivity(), mHandler,dialog, MESSAGE_SEND_SIGNUPLIST_EMAIL, email,mSignID);
+        async.execute();
+
+    }
+    public void sendEmail() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(getActivity());
+        //把activity_login中的控件定义在View中
+        final View textEntryView = factory.inflate(R.layout.dialog_email, null);
+
+        //将LoginActivity中的控件显示在对话框中
+        new AlertDialog.Builder(getActivity())
+                //对话框的标题
+                .setTitle("发送签到名单到邮箱")
+                //设定显示的View
+                .setView(textEntryView)
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("发送", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        //获取用户输入的“用户名”，“密码”
+                        //注意：textEntryView.findViewById很重要，因为上面factory.inflate(R.layout.activity_login, null)将页面布局赋值给了textEntryView了
+                        final EditText etPassword = (EditText) textEntryView.findViewById(R.id.et_dialog_password);
+
+                        //将页面输入框中获得的“用户名”，“密码”转为字符串
+                        String email = etPassword.getText().toString();
+                        if (email==null||email.equals("")){
+                            ToastUtil.makeText(getActivity(),"邮箱不得为空！");
+                            return;
+                        }
+                        else{
+                            sendSignListByEmail(email,mSignID);
+                        }
+                        //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
+                        //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）
+
+                    }
+                })
+                //对话框的“退出”单击事件
+                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(false)
+                //对话框的创建、显示
+                .create().show();
     }
 
     public void UpgradedDialog(final Activity activity) {

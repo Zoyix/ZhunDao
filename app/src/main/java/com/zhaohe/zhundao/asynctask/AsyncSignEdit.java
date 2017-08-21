@@ -41,7 +41,7 @@ public class AsyncSignEdit extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = Constant.HOST + Constant.Url.UpdateCheckInTypeName;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.UpdateCheckInTypeName;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         map.put("checkInId",mCheckInId);

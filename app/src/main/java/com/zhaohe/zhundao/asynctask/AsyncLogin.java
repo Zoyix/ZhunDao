@@ -8,6 +8,7 @@ import android.os.Message;
 
 import com.zhaohe.app.commons.dialog.DialogUtils;
 import com.zhaohe.app.commons.http.HttpUtil;
+import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 
@@ -38,7 +39,7 @@ public class AsyncLogin extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String path = Constant.HOST + Constant.Url.Login;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.Login;
         Map<String, String> map = new HashMap<String, String>();
         map.put("passWord", mpassWord);
         map.put("mobile", mmobile);

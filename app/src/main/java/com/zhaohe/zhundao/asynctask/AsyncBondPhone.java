@@ -41,7 +41,7 @@ public class AsyncBondPhone extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = Constant.HOST + Constant.Url.BondPhone;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.BondPhone;
         Map<String, String> map = new HashMap<String, String>();
         map.put("phone", mParam);
         map.put("accessKey", mAccesskey);

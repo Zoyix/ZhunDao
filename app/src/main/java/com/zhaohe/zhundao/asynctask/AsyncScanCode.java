@@ -40,7 +40,7 @@ public class AsyncScanCode extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = Constant.HOST + Constant.Url.AddCheckInListByQrcode;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.AddCheckInListByQrcode;
         Map<String, String> map = new HashMap<String, String>();
         map.put("vCode", mParam);
         map.put("checkInId", mCheckinId);

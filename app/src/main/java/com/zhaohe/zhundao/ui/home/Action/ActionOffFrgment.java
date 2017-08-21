@@ -2,8 +2,6 @@ package com.zhaohe.zhundao.ui.home.action;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -21,9 +19,10 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
@@ -39,8 +38,8 @@ import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.ActionAdapter;
-import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.asynctask.AsyncSignList;
+import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.ui.home.action.more.ActionMoreActivity;
@@ -78,6 +77,10 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     private UMShareListener mShareListener;
     private String UserInfo;
     private String ActivityFees;
+    PtrClassicFrameLayout ptrClassicFrameLayout;
+    int page = 0;
+    List<ActionBean> list = new ArrayList<ActionBean>();
+    boolean load=true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -102,24 +105,24 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     }
 
     private void init() {
-        if (SPUtils.contains(getActivity(),"act_result")) {
-            jsonconver((String) SPUtils.get(getActivity(), "act_result", ""));
+        if (SPUtils.contains(getActivity(),"act_result_off")) {
+            jsonconver((String) SPUtils.get(getActivity(), "act_result_off", ""));
             getActionListNoneDialog();
 
         } else {
-//            getActionList();
-            getActionListNoneDialog();
+            getActionList();
+//            getActionListNoneDialog();
 
         }
     }
-
     private void getActionList() {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, dialog, MESSAGE_ACT_ALL);
+        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, dialog, MESSAGE_ACT_ALL,"2");
         asyncActivity.execute();
     }
+
     private void getActionListNoneDialog() {
-        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, MESSAGE_ACT_ALL);
+        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, MESSAGE_ACT_ALL,"2");
         asyncActivity.execute();
     }
 
@@ -129,10 +132,41 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     }
 
     private void jsonconver(String result) {
+        if (!load){
+            return;
+        }
+        int i2;
+        int size=5;
+        if (page==0){
+            list.clear();
+            initFrameLayout();
+
+            ptrClassicFrameLayout.setLoadMoreEnable(true);
+
+        }
+        ptrClassicFrameLayout.setLoadMoreEnable(true);
+
+        i2=page*size;
+        ToastUtil.print("当前页数"+i2);
         JSONObject jsonObj = JSON.parseObject(result);
         JSONArray jsonArray = jsonObj.getJSONArray("Data");
-        List<ActionBean> list = new ArrayList<ActionBean>();
-        for (int i = 0; i < jsonArray.size(); i++) {
+        int m=0;
+        if((page+1)*size<jsonArray.size()){
+            m=(page+1)*size;
+
+        }
+        else{
+            page--;
+            m=jsonArray.size();
+//            ToastUtil.makeText(getActivity(),"已无更多数据");
+            ptrClassicFrameLayout.setLoadMoreEnable(false);
+            load=false;
+
+
+        }
+        ToastUtil.print("\n当前页码"+m);
+
+        for (int i=i2; i<m; i++) {
             ActionBean bean = new ActionBean();
             bean.setAct_title(jsonArray.getJSONObject(i).getString("Title"));
             bean.setClick_num(jsonArray.getJSONObject(i).getString("ClickNo"));
@@ -170,17 +204,10 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             bean.setAct_id(jsonArray.getJSONObject(i).getString("ID"));
             bean.setBaseItem(jsonArray.getJSONObject(i).getString("UserInfo"));
             bean.setActivityFees(jsonArray.getJSONObject(i).getString("ActivityFees"));
-////            获取活动报名人数不为0的活动名单
-//            if (jsonArray.getJSONObject(i).getString("HasJoinNum")!="0") {
-////            获取报名列表活动ID
-//                String mParam = "ActivityID=" + bean.getAct_id();
-//                getSignupList(mParam);
-//            }
-            if (jsonArray.getJSONObject(i).getString("Status") .equals("2")) {
-                list.add(bean);
-            } else {
 
-            }
+
+                list.add(bean);
+
         }
         showSuggest(list);
         adapter.refreshData(list);
@@ -203,22 +230,6 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         asyncSignList.execute();
     }
 
-    private void wxShare(int flag, ActionBean bean) {
-        String actid = bean.getAct_id();
-        WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = Constant.Url.ShareUrl + actid;
-        WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = bean.getAct_title();
-        msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
-        //这里替换一张自己工程里的图片资源
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_multi);
-        msg.setThumbImage(thumb);
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());
-        req.message = msg;
-        req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
-        api.sendReq(req);
-    }
 
     private void gotoSignList(String result) {
         Intent intent = new
@@ -251,11 +262,12 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                     case MESSAGE_ACT_ALL:
                         String result = (String) msg.obj;
 
-                        System.out.println("Activity result:  " + result);
                         //活动列表结果
                         if (NetworkUtils.checkNetState(getActivity())) {
-                            SPUtils.put(getActivity(), "act_result", result);
-                            jsonconver((String) SPUtils.get(getActivity(), "act_result", ""));
+                            SPUtils.put(getActivity(), "act_result_off", result);
+                            page=0;
+                            load=true;
+                            jsonconver((String) SPUtils.get(getActivity(), "act_result_off", ""));
                         }
 
                         break;
@@ -264,12 +276,10 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                         break;
                     case MESSAGE_GET_SIGNLIST:
                         String result2 = (String) msg.obj;
-                        System.out.println("SignupList result:  " + result2);
                         if (NetworkUtils.checkNetState(getActivity())) {
                         }
                         gotoSignList(result2);
                         break;
-//                        savelistup(result2);
 
 
                     default:
@@ -293,8 +303,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     }
 
     public void initView() {
-//        btn_test= (Button) rootView.findViewById(btn_test);
-//        btn_test.setOnClickListener(this);
+        initFrameLayout();
         lv_act = (ListView) rootView.findViewById(R.id.lv_act2);
         adapter = new ActionAdapter(getActivity());
         adapter.setActionClickListener(this);
@@ -303,6 +312,63 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         tv_actoff_suggest = (TextView) rootView.findViewById(R.id.tv_actoff_suggest);
+        bindListener();
+
+    }
+
+    private void initFrameLayout() {
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) rootView.findViewById(R.id.test_list_view_frame);
+
+        ptrClassicFrameLayout.setLoadMoreEnable(true);
+
+        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        page = 0;
+                        load=true;
+                        init();
+                        ptrClassicFrameLayout.setLoadMoreEnable(true);
+
+//                        adapter.refreshData(list);
+                        ptrClassicFrameLayout.refreshComplete();
+
+                        if (!ptrClassicFrameLayout.isLoadMoreEnable()) {
+                            ptrClassicFrameLayout.setLoadMoreEnable(true);
+                        }
+                    }
+                }, 1000);
+            }
+        });
+
+
+        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
+            @Override
+            public void loadMore() {
+                mHandler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        ++page;
+                        jsonconver((String) SPUtils.get(getActivity(), "act_result_off", ""));
+                        ptrClassicFrameLayout.loadMoreComplete(true);
+//                        Toast.makeText(getActivity(), "load more complete", Toast.LENGTH_SHORT)
+//                                .show();
+                        if (page == 1) {
+                            //set load more disable
+//                            ptrClassicFrameLayout.setLoadMoreEnable(false);
+                        }
+                    }
+                }, 1000);
+            }
+        });
+    }
+
+    private void bindListener() {
         mShareListener = new UMShareListener() {
             @Override
             public void onStart(SHARE_MEDIA platform) {
@@ -329,9 +395,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                 Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
             }
         };
-
     }
-
 
 
     @Override
@@ -350,6 +414,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     @Override
     public void onRefresh() {
         if (NetworkUtils.checkNetState(getActivity())) {
+            page=0;
             init();
             System.out.print("成功刷新");
             mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);

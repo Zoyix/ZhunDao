@@ -13,6 +13,7 @@ import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -26,6 +27,7 @@ import com.zhaohe.app.version.VersionBean;
 import com.zhaohe.app.version.VersionXmlUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncChangePassword;
+import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.dao.MyContactsDao;
 import com.zhaohe.zhundao.dao.MyGroupDao;
 import com.zhaohe.zhundao.dao.MySignupListMultiDao;
@@ -35,7 +37,7 @@ import com.zhaohe.zhundao.ui.home.mine.FeedbackActivity;
 import com.zhaohe.zhundao.ui.login.LoginActivity;
 
 public class SettingActivity extends ToolBarActivity implements View.OnClickListener {
-    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password,tv_setting_version,tv_setting_version_show;
+    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password,tv_setting_version,tv_setting_version_show, tv_setting_inf,tv_setting_net;
     public static final int MESSAGE_CHANGE_PASSWORD = 86;
     private Handler mHandler;
     private VersionBean bean;
@@ -75,6 +77,10 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         tv_setting_version.setOnClickListener(this);
         tv_setting_version_show= (TextView) findViewById(R.id.tv_setting_version_show);
         tv_setting_version_show.setText("APP版本号："+getVersion(this));
+        tv_setting_inf = (TextView) findViewById(R.id.tv_setting_inf);
+        tv_setting_inf.setOnClickListener(this);
+        tv_setting_net = (TextView) findViewById(R.id.tv_setting_net);
+        tv_setting_net.setOnClickListener(this);
         dao=new MySignupListMultiDao(this);
         groupDao=new MyGroupDao(this);
         contactsDao=new MyContactsDao(this);
@@ -106,6 +112,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                             ToastUtil.makeText(getApplicationContext(), "密码修改成功！");
                         }
                     default:
+
                         break;
                 }
             }
@@ -206,6 +213,54 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                 .create().show();
     }
 
+    public void netChange() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(this);
+        //把activity_login中的控件定义在View中
+        final View textEntryView = factory.inflate(R.layout.dialog_net_change, null);
+        final Spinner spinner = (Spinner) textEntryView.findViewById(R.id.sp_setting_net);
+
+        //将LoginActivity中的控件显示在对话框中
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("线路切换")
+                //设定显示的View
+                .setView(textEntryView)
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("确认修改", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        switch (spinner.getSelectedItemPosition()+""){
+                            case "0":
+                                SPUtils.put(getApplicationContext(),"HOST", Constant.HOST);
+                                tv_setting_net.setText(R.string.tv_setting_net);
+                                break;
+                            case "1":
+                                SPUtils.put(getApplicationContext(),"HOST", Constant.HOST_1);
+                                tv_setting_net.setText(R.string.tv_setting_net_1);
+
+                                break;
+                            default:
+                                SPUtils.put(getApplicationContext(),"HOST", Constant.HOST);
+                                tv_setting_net.setText(R.string.tv_setting_net);
+
+                                break;
+                        }
+ToastUtil.makeText(getApplicationContext(),"切换成功");
+                    }
+                })
+                //对话框的“退出”单击事件
+                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(false)
+                //对话框的创建、显示
+                .create().show();
+    }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -222,6 +277,16 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                 break;
             case R.id.tv_setting_password:
                 showWaiterAuthorizationDialog();
+                break;
+
+            case R.id.tv_setting_inf:
+                IntentUtils.startActivity(this, InfActivity.class);
+
+                break;
+
+            case R.id.tv_setting_net:
+netChange();
+
                 break;
                 case R.id.tv_setting_version:
 //                    ToastUtil.makeText(this,"APP版本号："+getVersion(this));

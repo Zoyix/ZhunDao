@@ -26,6 +26,4 @@ public class SignHolder {
     public TextView tv_unsignup_num;
 
 
-
-
 }

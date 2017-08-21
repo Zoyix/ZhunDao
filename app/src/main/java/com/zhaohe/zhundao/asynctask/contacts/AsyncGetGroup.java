@@ -35,7 +35,7 @@ public class AsyncGetGroup  extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = Constant.HOST + Constant.Url.PostContactGroup;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PostContactGroup;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String result = HttpUtil.sendPostNewrequest(path, map, "utf-8");

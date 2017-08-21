@@ -22,7 +22,7 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     protected View rootView;
     private TextView tv_find_custom;
     private TextView tv_find_shake;
-    private TextView tv_find_multipoint;
+    private TextView tv_find_multipoint,tv_find_print;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -49,6 +49,9 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         tv_find_shake.setOnClickListener(this);
         tv_find_multipoint= (TextView) rootView.findViewById(R.id.tv_find_multipoint);
         tv_find_multipoint.setOnClickListener(this);
+        tv_find_print= (TextView) rootView.findViewById(R.id.tv_find_print);
+        tv_find_print.setOnClickListener(this);
+
 
     }
 
@@ -77,6 +80,9 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.tv_find_multipoint:
                 IntentUtils.startActivity(getActivity(),MultiLoginActivity.class);
+                break;
+            case R.id.tv_find_print:
+                IntentUtils.startActivity(getActivity(),PrintActivity.class);
                 break;
         }
 

@@ -149,7 +149,8 @@ public class SignListUserAddActivity extends ToolBarActivity {
     String ActivityFees;
     String UserInfo;
     String activityFeeid="0";
-
+    String paramBase="";
+    String sex="0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -239,8 +240,8 @@ break;
         if (intent != null) {
             act_id = intent.getStringExtra("act_id");
             signup_list = (String) SPUtils.get(this, "listup_" + act_id, "");
-            UserInfo=intent.getStringExtra("UserInfo");
-          ActivityFees=intent.getStringExtra("ActivityFees");
+            UserInfo= (String) SPUtils.get(this,"UserInfo" + act_id,"");
+            ActivityFees=(String) SPUtils.get(this,"ActivityFees" + act_id,"");
             ToastUtil.print("基本选项:"+UserInfo+"费用"+ActivityFees);
         }
 
@@ -280,34 +281,52 @@ hideView(baseItem[i]);
     private void hideView(String s) {
         switch (s){
             case "102":
-                rlUserSex.setVisibility(View.VISIBLE);
+//                rlUserSex.setVisibility(View.VISIBLE);
+                createSpinnerBase("性别","Sex","未选择|男|女");
                 break;
             case"103":
-                rlUserUnit.setVisibility(View.VISIBLE);
-            break;
+//                rlUserUnit.setVisibility(View.VISIBLE);
+                createTextViewBase("单位","Company");
+
+                break;
             case"104":
-                rlUserDep.setVisibility(View.VISIBLE);
+//                rlUserDep.setVisibility(View.VISIBLE);
+                createTextViewBase("部门","Depart");
+
                 break;
             case"105":
-                rlUserDuty.setVisibility(View.VISIBLE);
+//                rlUserDuty.setVisibility(View.VISIBLE);
+                createTextViewBase("职务","Duty");
+
                 break;
             case"106":
-                rlUserIndustry.setVisibility(View.VISIBLE);
+//                rlUserIndustry.setVisibility(View.VISIBLE);
+                createTextViewBase("行业","Industry");
+
                 break;
             case"107":
-                rlUserEmail.setVisibility(View.VISIBLE);
+//                rlUserEmail.setVisibility(View.VISIBLE);
+                createTextViewBase("邮箱","Email");
                 break;
             case"108":
-                rlUserJoinNum.setVisibility(View.VISIBLE);
+//                rlUserJoinNum.setVisibility(View.VISIBLE);
+                createTextViewBase("参与人数","Num");
+
                 break;
             case"109":
-                rlUserRemark.setVisibility(View.VISIBLE);
+//                rlUserRemark.setVisibility(View.VISIBLE);
+                createTextViewBase("备注","Remark");
+
                 break;
             case"110":
-                rlUserIdCard.setVisibility(View.VISIBLE);
+//                rlUserIdCard.setVisibility(View.VISIBLE);
+                createTextViewBase("身份证","IDcard");
+
                 break;
             case"111":
-                rlUserAdd.setVisibility(View.VISIBLE);
+//                rlUserAdd.setVisibility(View.VISIBLE);
+                createTextViewBase("地址","Address");
+
                 break;
             case"112":
                 createPhotoFace("人脸照片");
@@ -372,6 +391,57 @@ hideView(baseItem[i]);
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 jsonMap.put(title, et.getText().toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                //TODO:
+            }
+        });
+        et.setId(R.id.tv_code_content);
+        tv1.setPadding(margin, margin, margin, margin);
+
+        RelativeLayout.LayoutParams rlParams =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams tvParams1 =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tvParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, tv1.getId());
+
+        RelativeLayout.LayoutParams tvParams2 =
+                new RelativeLayout.LayoutParams(
+                        etWidth,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tvParams2.addRule(RelativeLayout.RIGHT_OF, tv1.getId());
+        tvParams2.addRule(RelativeLayout.ALIGN_BASELINE, tv1.getId());
+
+        rl.addView(tv1, tvParams1);
+        rl.addView(et, tvParams2);
+        llSignlistAddUser.addView(rl, rlParams);
+        llSignlistAddUser.setTag(et);
+    }
+    private void createTextViewBase(final String title, final String mParam) {
+        int margin = dip2px(this, 10);
+        int etWidth = dip2px(this, 300);
+        int h = dip2px(this, 1);
+        RelativeLayout rl = new RelativeLayout(this);
+        TextView tv1 = new TextView(this);
+        tv1.setText(title);
+        tv1.setId(R.id.tv_code_title);
+        final EditText et = new EditText(this);
+        et.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //TODO:
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                paramBase=paramBase+"&"+mParam+"="+et.getText().toString();
+
             }
 
             @Override
@@ -591,6 +661,64 @@ hideView(baseItem[i]);
         llSignlistAddUser.addView(rl, rlParams);
 
     }
+    private void createSpinnerBase(final String title, final String mParam, String Option) {
+        int margin = dip2px(this, 10);
+        int etWidth = dip2px(this, 300);
+        int h = dip2px(this, 1);
+        RelativeLayout rl = new RelativeLayout(this);
+        TextView tv1 = new TextView(this);
+        tv1.setText(title);
+        tv1.setId(R.id.tv_code_title);
+        final Spinner sp = new Spinner(this);
+
+        sp.setId(R.id.tv_code_content);
+        sp.setPrompt(title);
+        String[] s = Option.split("\\|");
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, s);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        sp.setAdapter(adapter);
+//        for (int j = 0; j < s.length; j++) {
+//            if (s[j].equals(Content)) {
+//                sp.setSelection(j);
+//            }
+//        }
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+sex=sp.getSelectedItemPosition()+"";
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
+            }
+        });
+
+        tv1.setPadding(margin, margin, margin, margin);
+
+        RelativeLayout.LayoutParams rlParams =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.MATCH_PARENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        RelativeLayout.LayoutParams tvParams1 =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tvParams1.addRule(RelativeLayout.ALIGN_PARENT_LEFT, tv1.getId());
+
+        RelativeLayout.LayoutParams tvParams2 =
+                new RelativeLayout.LayoutParams(
+                        RelativeLayout.LayoutParams.WRAP_CONTENT,
+                        RelativeLayout.LayoutParams.WRAP_CONTENT);
+        tvParams2.addRule(RelativeLayout.RIGHT_OF, tv1.getId());
+        tvParams2.addRule(RelativeLayout.ALIGN_BASELINE, tv1.getId());
+
+        rl.addView(tv1, tvParams1);
+        rl.addView(sp, tvParams2);
+        llSignlistAddUser.addView(rl, rlParams);
+
+    }
     private void createSpinnerFee(final String title, String Option                                                                                                                                                        ) {
         int margin = dip2px(this, 10);
         int etWidth = dip2px(this, 300);
@@ -666,6 +794,8 @@ hideView(baseItem[i]);
         llSignlistAddUser.addView(rl, rlParams);
 
     }
+
+
     private void createRadioButton(final String title, String Content, String Option, final int i) {
         int margin = dip2px(this, 10);
         int etWidth = dip2px(this, 300);
@@ -962,44 +1092,43 @@ hideView(baseItem[i]);
 
         json=JSON.toJSONString(jsonMap);
         ToastUtil.print("json数据"+json);
-        param = "UserName=" + Name + "&Mobile=" + Mobile + "&ExtraInfo="+json+"&ActivityID="+act_id;
+        param = "UserName=" + Name + "&Mobile=" + Mobile+ "&ExtraInfo="+json+"&ActivityID="+act_id+paramBase;
 
 //        activityFeeid="0";
         add(setParam(param));
-        ToastUtil.print(param);
+        ToastUtil.print(setParam(param));
 
 
     }
 
     public String setParam(String param) {
         this.param = param;
-        if (etSignlistUserRemark.getText().toString()!=null){
-            param=param+"&Remark="+etSignlistUserRemark.getText().toString();
+//        if (etSignlistUserRemark.getText().toString()!=null){
+//            param=param+"&Remark="+etSignlistUserRemark.getText().toString();
+//        }
+//        if (etSignlistUserAdd.getText().toString()!=null){
+//            param=param+"&Address="+etSignlistUserAdd.getText().toString();
+//        }
+//        if (etSignlistUserUnit.getText().toString()!=null){
+//            param=param+"&Company="+etSignlistUserUnit.getText().toString();
+//        }
+        if (sex!="0"){
+            param=param+"&Sex="+sex;
         }
-        if (etSignlistUserAdd.getText().toString()!=null){
-            param=param+"&Address="+etSignlistUserAdd.getText().toString();
-        }
-        if (etSignlistUserUnit.getText().toString()!=null){
-            param=param+"&Company="+etSignlistUserUnit.getText().toString();
-        }
-        if (spSignlistUserSex.getSelectedItemPosition()!=0){
-            param=param+"&Sex="+spSignlistUserSex.getSelectedItemPosition();
-        }    if (etSignlistUserDep.getText().toString()!=null){
-            param=param+"&Depart="+etSignlistUserDep.getText().toString();
-        }    if (etSignlistUserIndustry.getText().toString()!=null){
-            param=param+"&Industry="+etSignlistUserIndustry.getText().toString();
-        }    if (etSignlistUserIdCard.getText().toString()!=null){
-            param=param+"&IDcard="+etSignlistUserIdCard.getText().toString();
-        }    if (etSignlistUserEmail.getText().toString()!=null){
-            param=param+"&Email="+etSignlistUserEmail.getText().toString();
-        }
-        if (etSignlistUserJoinNum.getText().toString()!=null){
-            param=param+"&Num="+etSignlistUserJoinNum.getText().toString();
-        }
+//        if (etSignlistUserDep.getText().toString()!=null){
+//            param=param+"&Depart="+etSignlistUserDep.getText().toString();
+//        }    if (etSignlistUserIndustry.getText().toString()!=null){
+//            param=param+"&Industry="+etSignlistUserIndustry.getText().toString();
+//        }    if (etSignlistUserIdCard.getText().toString()!=null){
+//            param=param+"&IDcard="+etSignlistUserIdCard.getText().toString();
+//        }    if (etSignlistUserEmail.getText().toString()!=null){
+//            param=param+"&Email="+etSignlistUserEmail.getText().toString();
+//        }
+//        if (etSignlistUserJoinNum.getText().toString()!=null){
+//            param=param+"&Num="+etSignlistUserJoinNum.getText().toString();
+//        }
 
-        if (etSignlistUserEmail.getText().toString()!=null){
-            param=param+"&Email="+etSignlistUserEmail.getText().toString();
-        }
+
         if (FaceImg!=null){
             param=param+"&FaceImg="+FaceImg;
 

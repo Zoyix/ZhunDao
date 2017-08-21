@@ -112,15 +112,27 @@
                     />
             </RelativeLayout>
 
-
             <View
                 android:layout_width="fill_parent"
                 android:layout_height="0.3dp"
                 android:background="@color/black3" />
 
             <TextView
-                android:id="@+id/tv_my_wallet"
+                android:id="@+id/tv_my_inf"
                 android:layout_marginTop="20dp"
+                android:clickable="true"
+                style="@style/list_txt_Style"
+                android:drawableLeft="@mipmap/inf108"
+                android:text="@string/tv_setting_inf" />
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="0.3dp"
+                android:background="@color/black3" />
+
+            <TextView
+                android:layout_marginTop="20dp"
+
+                android:id="@+id/tv_my_wallet"
                 android:clickable="true"
                 style="@style/list_txt_Style"
                 android:drawableLeft="@mipmap/wallet108"

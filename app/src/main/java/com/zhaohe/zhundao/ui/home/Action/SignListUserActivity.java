@@ -71,6 +71,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         initToolBar("用户个人信息", R.layout.activity_sign_list_user);
         initView();
         init();
+
         initHandler();
     }
     @Override
@@ -376,12 +377,13 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
             int y = j % 3;
             ImageView img = new ImageView(this);
             img.setId(R.id.tv_code_img+j);
-
             Picasso.with(this).load(newimgurl).error(R.mipmap.ic_launcher).into(img);
             RelativeLayout.LayoutParams imgParams1 =
                     new RelativeLayout.LayoutParams(
                             h1, h1);
-            img.setScaleType(ImageView.ScaleType.FIT_START);
+//            img.setScaleType(ImageView.ScaleType.FIT_START);
+            img.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
             imgParams1.addRule(RelativeLayout.BELOW, tv1.getId());
 //            设置图片相对父控件的位置
             imgParams1.leftMargin = (y + 1) * margin + y * left;
@@ -527,6 +529,7 @@ url=imgurl[num];
                 .setTitle("确认要删除报名人员吗？")
                 //设定显示的View
                 //对话框中的“登陆”按钮的点击事件
+                .setMessage("删除后将导致用户二维码凭证失效，如果有签到记录也将被删除，是否继续？")
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         SignListDelete(ID);

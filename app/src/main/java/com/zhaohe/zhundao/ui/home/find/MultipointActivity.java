@@ -310,7 +310,6 @@ if ("true".equals(jsonObject3.getString("Status")))
             bean.setFee(jsonArray.getJSONObject(i).getString("Fee"));
             bean.setUpdateStatus("false");
             list.add(bean);
-            System.out.println(bean.toString());
         }
         dao.save(list);
     }

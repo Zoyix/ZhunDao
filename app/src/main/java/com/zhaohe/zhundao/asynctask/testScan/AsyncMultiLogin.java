@@ -7,6 +7,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.zhaohe.app.commons.http.HttpUtil;
+import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.constant.Constant;
 
 import java.util.HashMap;
@@ -37,7 +38,7 @@ public class AsyncMultiLogin extends AsyncTask<String, Integer, String> {
     @Override
     protected String doInBackground(String... params){
 //        修改
-        String path = Constant.HOST + Constant.Url.LoginMulti;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.LoginMulti;
         Map<String, String> map = new HashMap<String, String>();
 //        需要修改
         map.put("checkInId",mSignId);

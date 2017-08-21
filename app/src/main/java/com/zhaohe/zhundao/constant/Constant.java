@@ -8,6 +8,8 @@ package com.zhaohe.zhundao.constant;
 public class Constant {
     public static String APP_ID = "wxfe2a9da163481ba9";
     public static String HOST = "http://open.zhundao.net"; // 测试
+    public static String HOST_1 = "http://open.zhundao.com.cn"; // 测试
+
     public static String HOST_MOBLIE = "http://m.zhundao.net";
     //    public static String       ACCESSKEY;
 //    //是否登录
@@ -84,9 +86,12 @@ public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTy
         public static final String UploadFile = "/OAuth/UploadFile";//上传图片
         public static final String DeleteContact = "/api/Contact/DeleteContact";//删除联系人
         public static final String SendActivityListByEmail = "/api/PerActivity/SendActivityListByEmail";//发送报名名单到分组
+        public static final String SendCheckInListByEmail = "/api/CheckIn/SendCheckInListByEmail";//发送签到名单到分组
+
         public static final String UpdateActivityList = "/api/PerActivity/UpdateActivityList";//修改报名人员信息
         public static final String DeleteActivityList = "/api/PerActivity/DeleteActivityList";//删除报名人员
         public static final String AddActivityList = "/api/PerActivity/AddActivityList";//添加报名人员
+        public static final String GetNoticeList = "/api/ZDInfo/GetNoticeList";//准到通知
 
 
 

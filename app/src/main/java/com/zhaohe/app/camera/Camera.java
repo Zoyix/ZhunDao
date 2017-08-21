@@ -32,10 +32,10 @@ import com.zhaohe.app.utils.FileUtils;
 import com.zhaohe.app.utils.ImageUtils;
 import com.zhaohe.app.utils.MD5;
 import com.zhaohe.app.utils.ProgressDialogUtils;
+import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.StringUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
-import com.zhaohe.zhundao.asynctask.AsyncImageDeleteTask;
 import com.zhaohe.zhundao.asynctask.photoUpload.AsyncPhotoUpload;
 import com.zhaohe.zhundao.constant.Constant;
 
@@ -312,8 +312,8 @@ private Handler uploadHandler;
                             mGl_camera.addView(addImgView);
                         }
                     } else {
-                        AsyncImageDeleteTask asyncImageDeleteTask = new AsyncImageDeleteTask(mGl_camera, addImgView, view, imgpath);
-                        asyncImageDeleteTask.execute();
+//                        AsyncImageDeleteTask asyncImageDeleteTask = new AsyncImageDeleteTask(mGl_camera, addImgView, view, imgpath);
+//                        asyncImageDeleteTask.execute();
                     }
                 }
             });
@@ -384,6 +384,7 @@ private Handler uploadHandler;
         imgView.setTag(R.id.a,path);
         imgView.setTag(R.id.b,position);
         imgView.setImageBitmap(bitmap);
+        imgView.setScaleType(ScaleType.CENTER_CROP  );
         return imgView;
     }
 
@@ -637,7 +638,7 @@ private Handler uploadHandler;
             String[] imgThumbuuid = imgThumbUuids.split(",");
 
             StringBuffer imageUrl = new StringBuffer();
-            imageUrl.append(Constant.HOST).append(Constant.Url.IMG_DOWNLOAD).append("?isthumb=true&imgid=");
+            imageUrl.append((String) SPUtils.get(mActivity,"HOST",Constant.HOST)).append(Constant.Url.IMG_DOWNLOAD).append("?isthumb=true&imgid=");
             for (int i = 0; i < imguuid.length; i++) {
 
                 ImageView imageView = createView(mActivity);

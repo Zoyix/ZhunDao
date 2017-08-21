@@ -1,6 +1,7 @@
 package com.zhaohe.zhundao.ui.home.mine;
 
 import android.content.DialogInterface;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -14,6 +15,9 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.squareup.picasso.Picasso;
 import com.umeng.analytics.MobclickAgent;
 import com.zhaohe.app.utils.CircleTransform;
@@ -22,8 +26,10 @@ import com.zhaohe.app.utils.JSONUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
+import com.zhaohe.zhundao.asynctask.AsyncInf;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
+import com.zhaohe.zhundao.ui.home.mine.setting.InfActivity;
 import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
 
@@ -33,14 +39,14 @@ import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
  * @Since:2016/11/29 10:23
  */
 public class MineFragment extends Fragment implements View.OnClickListener {
-    public static final int MESSAGE_IMG_DOWNLOAD = 98;
+    public static final int MESSAGE_GET_INF = 98;
     public static final int MESSAGE_GET_USERINF = 91;
 
     protected View rootView;
     private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
-    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback,tv_min_phone,tv_min_vip,tv_contacts;
+    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback,tv_min_phone,tv_min_vip,tv_contacts,tv_my_inf;
 
 
     @Override
@@ -50,6 +56,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 null);
 initHandler();
         initView(rootView);
+        getList();
 
     }
     public void onResume() {
@@ -87,7 +94,8 @@ initHandler();
         tv_min_vip.setOnClickListener(this);
         tv_contacts= (TextView) rootView.findViewById(R.id.tv_contacts);
         tv_contacts.setOnClickListener(this);
-
+        tv_my_inf= (TextView) rootView.findViewById(R.id.tv_my_inf);
+        tv_my_inf.setOnClickListener(this);
 
     }
 
@@ -119,7 +127,7 @@ initHandler();
         tv_min_vip.setText("V"+vip);
         TextPaint tp = tv_min_vip.getPaint();
         tp.setFakeBoldText(true);
-        if (url.toString()==null){
+        if (url==null){
             Picasso.with(getActivity()).load(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
 
         }
@@ -184,13 +192,57 @@ initHandler();
                         savaUserInf(result3);
                         break;
 
-
+                    case MESSAGE_GET_INF:
+                        result3 = (String) msg.obj;
+                        infRead(result3);
 
                     default:
                         break;
                 }
             }
         };
+    }
+    private void infRead(String result){
+        if ((result == null) || (result == "")) {
+        }
+        else{
+            JSONObject jsonObj = JSON.parseObject(result);
+            JSONArray jsonArray = jsonObj.getJSONArray("Data");
+            if (jsonArray.size()<=0){
+                return;
+            }
+            else if (!SPUtils.contains(getActivity(),"inf_result")){
+
+                setUnread();
+            }
+            else{
+                String result2= (String) SPUtils.get(getActivity(),"inf_result","");
+                JSONObject jsonObj2 = JSON.parseObject(result2);
+                JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
+                if (jsonArray.size()>jsonArray2.size()){
+                    setUnread();
+                }
+            }
+
+        }
+
+    }
+
+    private void setUnread() {
+        Drawable drawable= getResources().getDrawable(R.mipmap.unread);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        Drawable drawable2= getResources().getDrawable(R.mipmap.inf108);
+        drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());
+
+        tv_my_inf .setCompoundDrawables(drawable2,null,drawable,null);
+    }
+    private void setRead() {
+        Drawable drawable= getResources().getDrawable(R.drawable.right);
+        drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
+        Drawable drawable2= getResources().getDrawable(R.mipmap.inf108);
+        drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());
+
+        tv_my_inf .setCompoundDrawables(drawable2,null,drawable,null);
     }
     private void savaUserInf(String result) {
 
@@ -206,7 +258,10 @@ initHandler();
         initUserInfo();
 
     }
-
+    private void getList(){
+        AsyncInf async=new AsyncInf(getActivity(),mHandler,MESSAGE_GET_INF);
+        async.execute();
+    }
 
 
     @Override
@@ -230,7 +285,10 @@ initHandler();
                 break;
             case R.id.tv_contacts:
                 IntentUtils.startActivity(getActivity(), ContactsActivity.class);
-
+                break;
+            case R.id.    tv_my_inf:
+                IntentUtils.startActivity(getActivity(), InfActivity.class);
+                setRead();
                 break;
 
 

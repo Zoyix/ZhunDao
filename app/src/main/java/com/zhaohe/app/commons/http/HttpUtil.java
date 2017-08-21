@@ -53,7 +53,7 @@ public class HttpUtil {
             }
             UrlEncodedFormEntity entity = new UrlEncodedFormEntity(pairs, encoding);
             HttpPost httpPost = new HttpPost(path);
-            // httpPost.setHeader("Host", Constant.HOST);
+            // httpPost.setHeader("Host", (String) SPUtils.get(mContext,"HOST",Constant.HOST));
             httpPost.setHeader("Connection", "Keep-Alive");
             /* httpPost.setHeader ("Cookie", cookie); */
             // httpPost.setHeader ("User-Agent", AppContext.getHandSetInfo ());

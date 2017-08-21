@@ -37,7 +37,7 @@ public class AsyncActionInvitation extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = Constant.HOST_MOBLIE + Constant.Url.InvitationUrl;
+        String path =Constant.HOST_MOBLIE + Constant.Url.InvitationUrl;
         Map<String, String> map = new HashMap<String, String>();
 //        map.put("accessKey", mAccesskey);
         map.put("activityId",act_id);

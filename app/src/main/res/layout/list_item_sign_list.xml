@@ -5,7 +5,7 @@
     android:layout_margin="10dp">
 
     <TextView
-        android:id="@+id/tv_signlist_id"
+        android:id="@+id/tv_inf_id"
         android:layout_marginTop="15dp"
         android:layout_marginLeft="12dp"
         android:layout_marginRight="12dp"
@@ -18,7 +18,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_toRightOf="@id/tv_signlist_id">
+        android:layout_toRightOf="@id/tv_inf_id">
 
         <TextView
             android:id="@+id/tv_signlist_name"
@@ -31,7 +31,7 @@
             android:textColor="@color/black" />
 
         <TextView
-            android:id="@+id/tv_signlist_time"
+            android:id="@+id/tv_inf_time"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="2011-11-11"

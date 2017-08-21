@@ -49,6 +49,11 @@ android {
         useLibrary 'org.apache.http.legacy'
     }
 }
+allprojects {
+    repositories {
+        maven { url 'https://jitpack.io' }
+    }
+}
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -70,13 +75,13 @@ dependencies {
     compile files('libs/umeng_social_api.jar')
     compile files('libs/umeng_social_shareboard.jar')
     compile files('libs/umeng_social_tool.jar')
-//    compile files('libs/umeng_social_shareview.jar')
+    //    compile files('libs/umeng_social_shareview.jar')
     compile files('libs/SocialSDK_WeChat_Simplify.jar')
     compile files('libs/SharePlugin.jar')
-
-//    compile 'com.android.support:appcompat-v7:25.1.1'
-
-
+    //    compile 'com.android.support:appcompat-v7:25.1.1'
+    compile files('libs/gprintersdkv22.jar')
+    compile files('libs/jcc-bate-0.7.3.jar')
+    compile files('libs/ksoap2-android-assembly-2.5.2-jar-with-dependencies.jar')
     compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'org.apache.httpcomponents:httpcore:4.4.2'
     compile 'com.squareup.picasso:picasso:2.5.2'
@@ -92,6 +97,9 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.squareup.retrofit2:adapter-rxjava:2.1.0'
+    compile 'com.chanven.lib:cptr:1.1.0'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
+    compile 'com.github.chenBingX:SuperTextView:v1.3'
+
 }

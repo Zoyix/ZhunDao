@@ -114,11 +114,10 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             UserInfo=intent.getStringExtra("UserInfo");
             ActivityFees=intent.getStringExtra("ActivityFees");
             signup_list = (String) SPUtils.get(this, "listup_" + act_id, "");
+
         }
         jsonObj = JSON.parseObject(signup_list);
         jsonArray = jsonObj.getJSONArray("Data");
-        int id = jsonArray.size()+1;
-
         List<SignListBean> list = new ArrayList<SignListBean>();
         for (int i = 0; i < jsonArray.size(); i++) {
             SignListBean bean = new SignListBean();
@@ -151,9 +150,17 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         }
 //        count=jsonArray.size()-1;
         dao.save(list);
-        list_act=dao.queryListActID(act_id);
+        if (intent.getStringExtra("phone")!=null){
+//            et_signlist_search.setText(intent.getStringExtra("phone"));
+            list_act=  dao.queryListActIDAndPhoneOrName(act_id,intent.getStringExtra("phone"));
+           SignListBean bean_act= list_act.get(0);
+            StartList(bean_act);
+            finish();
 
-        adapter.refreshData(list_act);
+        }
+        else{
+        list_act=dao.queryListActID(act_id);
+        adapter.refreshData(list_act);}
 
 
     }
@@ -212,7 +219,13 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
       SignListBean bean= adapter.getItem(i);
-      int m=  bean.getmIndex();
+            StartList(bean);
+
+
+    }
+
+    private void StartList(SignListBean bean) {
+        int m=  bean.getmIndex();
         String name = jsonArray.getJSONObject(m).getString("UserName");
         String phone = jsonArray.getJSONObject(m).getString("Mobile");
         String unit = jsonArray.getJSONObject(m).getString("Company");
@@ -227,10 +240,10 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         String remark = jsonArray.getJSONObject(m).getString("Remark");
         String amount = jsonArray.getJSONObject(m).getString("Amount");
         String title = jsonArray.getJSONObject(m).getString("Title");
-            String face_img = jsonArray.getJSONObject(m).getString("FaceImg");
+        String face_img = jsonArray.getJSONObject(m).getString("FaceImg");
 
-            Intent intent = new
-                Intent(this, SignListUserActivity.class);
+        Intent intent = new
+            Intent(this, SignListUserActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("phone", phone);
         intent.putExtra("unit", unit);
@@ -246,11 +259,11 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         intent.putExtra("amount", amount);
         intent.putExtra("title", title);
         intent.putExtra("act_id", act_id);
-            intent.putExtra("face_img", face_img);
+        intent.putExtra("face_img", face_img);
 
-            intent.putExtra("id", bean.getSign_list_id());
+        intent.putExtra("id", bean.getSign_list_id());
 
-            JSONObject jsonObject2 = null;
+        JSONObject jsonObject2 = null;
         if (JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo")) != null) {
             jsonObject2 = JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo"));
             ToastUtil.print(            jsonArray.getJSONObject(m).getString("ExtraInfo"));
@@ -259,8 +272,6 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
             intent.putExtra("extra", jsonArray.getJSONObject(m).getString("ExtraInfo"));
         }
         startActivity(intent);
-
-
     }
 
     private void initHandler() {

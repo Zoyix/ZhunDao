@@ -76,7 +76,7 @@ private String name;
 
 
     private void initlist() {
-        String result=(String) SPUtils.get(this, "act_result", "");
+        String result=(String) SPUtils.get(this, "act_result_on", "");
         JSONObject jsonObj = JSON.parseObject(result);
         JSONArray jsonArray = jsonObj.getJSONArray("Data");
 

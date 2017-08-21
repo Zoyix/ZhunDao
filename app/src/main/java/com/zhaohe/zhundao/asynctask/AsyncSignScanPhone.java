@@ -43,7 +43,7 @@ public class AsyncSignScanPhone extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String path = Constant.HOST + Constant.Url.AddCheckInListByPhone;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.AddCheckInListByPhone;
         Map<String, String> map = new HashMap<String, String>();
         map.put("phone", mmobile);
         map.put("accessKey", mAccesskey);

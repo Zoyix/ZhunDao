@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhaohe.zhundao.ui.home.find.PrintActivity">
+    <TextView
+
+        android:layout_marginTop="10dp"
+        android:id="@+id/tv_bluetooth"
+        style="@style/list_txt_Style"
+        android:clickable="true"
+        android:text="@string/tv_bluetooth" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:textSize="18sp"
+            android:textColor="@color/black"
+            android:layout_alignParentLeft="true"
+            android:layout_margin="10dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_print"
+            />
+
+        <Switch
+            android:id="@+id/sw_print"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_margin="10dp"
+            />
+    </RelativeLayout>
+
+    <TextView
+        style="@style/list_txt_print"
+        android:text="@string/tv_size"
+        />
+
+    <Spinner
+
+        android:id="@+id/sp_size"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/size"
+        >
+    </Spinner>
+    <TextView
+        style="@style/list_txt_print"
+        android:text="@string/tv_model"
+        />
+
+    <Spinner
+        android:id="@+id/sp_model"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/model"
+        >
+    </Spinner>
+    <TextView
+        style="@style/list_txt_print"
+        android:text="@string/tv_type"
+        />
+
+    <Spinner
+        android:id="@+id/sp_type"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:entries="@array/print_type"
+        >
+    </Spinner>
+
+    <TextView
+        style="@style/list_txt_print"
+        android:text="@string/tv_xy"
+        />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="60dp">
+        <EditText
+            android:id="@+id/et_x"
+            android:inputType="numberSigned|numberDecimal"
+            android:hint="@string/et_x"
+            android:layout_margin="5dp"
+            android:layout_width="150dp"
+            android:layout_height="40dp" />
+        <EditText
+            android:id="@+id/et_y"
+            android:inputType="numberSigned|numberDecimal"
+
+            android:hint="@string/et_y"
+            android:layout_alignParentRight="true"
+            android:layout_margin="5dp"
+            android:layout_width="150dp"
+            android:layout_height="40dp" />
+
+    </RelativeLayout>
+
+
+
+
+
+    <Button
+        android:layout_marginTop="0dp"
+        android:id="@+id/btn_print_test"
+        style="@style/btn_login"
+        android:layout_gravity="center"
+        android:text="@string/print_test"
+        />
+
+    <Button
+        android:id="@+id/btn_bluetooth_submit"
+        android:layout_marginTop="30dp"
+        style="@style/btn_login"
+        android:layout_gravity="center"
+        android:text="@string/ok"
+        />
+
+
+
+</LinearLayout>

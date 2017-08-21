@@ -269,7 +269,12 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
         }
         for (int i = 0; i < jsonArray.size(); i++) {
             MyContactsBean bean = new MyContactsBean();
-            bean.setName(jsonArray.getJSONObject(i).getString("TrueName"));
+            if(jsonArray.getJSONObject(i).getString("TrueName")==null||jsonArray.getJSONObject(i).getString("TrueName").equals("")){
+                bean.setName("未知");
+            }
+            else
+            {
+            bean.setName(jsonArray.getJSONObject(i).getString("TrueName"));}
             bean.setAddress(jsonArray.getJSONObject(i).getString("Address"));
             bean.setEmail(jsonArray.getJSONObject(i).getString("Email"));
             bean.setGroupName(jsonArray.getJSONObject(i).getString("GroupName"));

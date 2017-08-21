@@ -72,9 +72,7 @@ public class ToolBarHelper {
         mToolBar.inflateMenu(R.menu.toolbar_act_details);
     }
 
-    public void setToolbarTitle(String text) {
-        tv_toolbar_title.setText(text);
-    }
+
 
     @SuppressWarnings("ResourceType")
     private void initUserView(int id) {
@@ -96,6 +94,10 @@ public class ToolBarHelper {
     public void setTvTitle(String text) {
         tv_toolbar_title.setText(text);
     }
+    public void setToolBarColor(int color) {
+        mToolBar.setBackgroundColor(color);
+    }
+
 
     public FrameLayout getContentView() {
         return mContentView;

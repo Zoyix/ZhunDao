@@ -86,6 +86,18 @@ public abstract class ToolBarActivity extends AppCompatActivity {
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
+    public void initToolBarNew(String text,int color, int layoutResID) {
+        ToolBarHelper mToolBarHelper;
+        mToolBarHelper = new ToolBarHelper(this, layoutResID);
+        mToolBarHelper.setTvTitle(text);
+        mToolBarHelper.setToolBarColor(color);
+        super.setTitle("");
+        setContentView(mToolBarHelper.getContentView());
+        toolbar = mToolBarHelper.getToolBar();
+        toolbar.setBackgroundColor(color);
+  /*把 toolbar 设置到Activity 中*/
+        setSupportActionBar(toolbar);
+    }
 
 
 }

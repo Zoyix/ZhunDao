@@ -46,9 +46,9 @@ public class SignListAdapter extends AdapterBase<SignListBean, SignListHolder> {
     @Override
     protected View initConvertView(View convertView, SignListHolder v) {
         convertView = inflater.inflate(R.layout.list_item_sign_list, null);
-        v.tv_signlist_id = (TextView) convertView.findViewById(R.id.tv_signlist_id);
+        v.tv_signlist_id = (TextView) convertView.findViewById(R.id.tv_inf_id);
         v.tv_signlist_name = (TextView) convertView.findViewById(R.id.tv_signlist_name);
-        v.tv_signlist_time = (TextView) convertView.findViewById(R.id.tv_signlist_time);
+        v.tv_signlist_time = (TextView) convertView.findViewById(R.id.tv_inf_time);
         v.tv_signlist_phone = (TextView) convertView.findViewById(R.id.tv_signlist_phone);
         v.tv_signlist_status = (TextView) convertView.findViewById(R.id.tv_signlist_status);
 

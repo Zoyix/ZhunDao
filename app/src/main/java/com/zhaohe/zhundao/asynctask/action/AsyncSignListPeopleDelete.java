@@ -41,7 +41,7 @@ public class AsyncSignListPeopleDelete  extends AsyncTask<String, Integer, Strin
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = Constant.HOST + Constant.Url.DeleteActivityList;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.DeleteActivityList;
         Map<String, String> map = new HashMap<String, String>();
         map.put("id",mID);
         map.put("accessKey", mAccesskey);

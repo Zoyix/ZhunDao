@@ -42,6 +42,16 @@ public class AsyncAction extends AsyncTask<String, Integer, String> {
         this.mDialog = dialog;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
+
+    public AsyncAction(Context context, Handler handler, Dialog dialog, int request,String type) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+        this.mDialog = dialog;
+        this.mType=type;
+
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
     public AsyncAction(Context context, Handler handler, int request) {
         this.mContext = context;
         this.mHandler = handler;
@@ -49,11 +59,18 @@ public class AsyncAction extends AsyncTask<String, Integer, String> {
 //        this.mDialog = dialog;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
-
+    public AsyncAction(Context context, Handler handler, int request,String type) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+        this.mType=type;
+//        this.mDialog = dialog;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = Constant.HOST + Constant.Url.GetActivityList;
+        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.GetActivityList;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String param = new String();

@@ -15,6 +15,7 @@ import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -31,22 +32,26 @@ import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.adapter.SignupListAdapter;
 import com.zhaohe.zhundao.asynctask.AsyncScanCode;
+import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.asynctask.AsyncSignScanPhone;
 import com.zhaohe.zhundao.asynctask.AsyncSignupList;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
 import com.zhaohe.zhundao.dao.MySignupListDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
+import com.zhaohe.zhundao.ui.home.action.SignListActivity;
 import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static com.zhaohe.app.utils.CameraUtils.cameraIsCanUse;
+import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_GET_SIGNLIST;
 
 
-public class SignupListActivity extends ToolBarActivity implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener,SignupListAdapter.SignupListClickListener,Toolbar.OnMenuItemClickListener {
+public class SignupListActivity extends ToolBarActivity implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener,SignupListAdapter.SignupListClickListener,Toolbar.OnMenuItemClickListener,AdapterView.OnItemClickListener {
     private String sign_id;
+    private String act_id;
     private SignupListAdapter adapter, adapter2, adapter3;
     private ListView lv_signup, lv_signon, lv_signoff;
     private String signup_list,result_list;
@@ -106,7 +111,10 @@ private String title;
         lv_signup = (ListView) findViewById(R.id.lv_signuplist_all);
         adapter = new SignupListAdapter(this);
         adapter.setSignupListClickListener(this);
+
         lv_signup.setAdapter(adapter);
+        lv_signup.setOnItemClickListener(this);
+
         tv_signup_all = (TextView) findViewById(R.id.tv_signup_all);
         tv_signup_all.setOnClickListener(this);
         tv_signup_on = (TextView) findViewById(R.id.tv_signup_on);
@@ -151,7 +159,10 @@ private String title;
         Intent intent = getIntent();
         //从Intent当中根据key取得value
         sign_id = intent.getStringExtra("sign_id");
+        act_id = intent.getStringExtra("act_id");
+
         title=intent.getStringExtra("title");
+
         ToastUtil.print(title);
 
     }
@@ -313,6 +324,23 @@ private String title;
                             resultDialog("扫码失败！",message);
 //                            ToastUtil.makeText(getActivity(), message);
                         }
+                        break;
+
+                    case MESSAGE_GET_SIGNLIST:
+                         result2 = (String) msg.obj;
+                        jsonObj = JSON.parseObject(result2);
+                        message = jsonObj.getString("Msg");
+
+                        if (jsonObj.getString("Res").equals("0") ){
+
+                            SPUtils.put(getApplicationContext(), "listup_" + act_id, result2);
+                        GoToList();
+                    }
+                    else{
+                                                        ToastUtil.makeText(getApplicationContext(), message);
+
+                        }
+
                         break;
                     default:
                         break;
@@ -546,7 +574,11 @@ public void resultDialog(String status,String message){
 
         }
     }
-
+    private void getSignList(String act_id) {
+        Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
+        AsyncSignList asyncSignList = new AsyncSignList(this, mHandler, dialog, MESSAGE_GET_SIGNLIST, act_id);
+        asyncSignList.execute();
+    }
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()){
@@ -583,4 +615,30 @@ public void resultDialog(String status,String message){
         return false;
     }
 
+    @Override
+    public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+        MySignListupBean bean= adapter.getItem(i);
+        phone=bean.getPhone();
+        if (SPUtils.contains(this,"listup_"+act_id)){
+            GoToList();
+
+
+        }
+        else{
+//            ToastUtil.makeText(this,"请先获取该签到的活动名单再试~");
+            String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
+
+            getSignList(mParam);
+        }
+
+
+    }
+
+    private void GoToList() {
+        Intent intent = new
+                Intent(this, SignListActivity.class);
+        intent.putExtra("act_id", act_id);
+        intent.putExtra("phone",phone);
+        startActivity(intent);
+    }
 }
