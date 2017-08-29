@@ -81,6 +81,13 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         tv_setting_inf.setOnClickListener(this);
         tv_setting_net = (TextView) findViewById(R.id.tv_setting_net);
         tv_setting_net.setOnClickListener(this);
+        if (SPUtils.get(this,"HOST",Constant.HOST).equals(Constant.HOST)){
+            tv_setting_net.setText(R.string.tv_setting_net);
+            ;
+        }
+        else{
+            tv_setting_net.setText(R.string.tv_setting_net_1);
+        }
         dao=new MySignupListMultiDao(this);
         groupDao=new MyGroupDao(this);
         contactsDao=new MyContactsDao(this);

@@ -1092,7 +1092,7 @@ sex=sp.getSelectedItemPosition()+"";
 
         json=JSON.toJSONString(jsonMap);
         ToastUtil.print("json数据"+json);
-        param = "UserName=" + Name + "&Mobile=" + Mobile+ "&ExtraInfo="+json+"&ActivityID="+act_id+paramBase;
+        param = "UserName=" + Name + "&Mobile=" + Mobile+ "&ActivityID="+act_id+paramBase;
 
 //        activityFeeid="0";
         add(setParam(param));
@@ -1114,6 +1114,12 @@ sex=sp.getSelectedItemPosition()+"";
 //        }
         if (sex!="0"){
             param=param+"&Sex="+sex;
+        }
+        if(jsonMap.size()!=0){
+            json=JSON.toJSONString(jsonMap);
+
+            param=param+"&ExtraInfo="+json;
+
         }
 //        if (etSignlistUserDep.getText().toString()!=null){
 //            param=param+"&Depart="+etSignlistUserDep.getText().toString();

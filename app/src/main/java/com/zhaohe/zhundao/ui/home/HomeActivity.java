@@ -18,7 +18,6 @@ import com.zhaohe.zhundao.ui.home.action.ActionFragment;
 import com.zhaohe.zhundao.ui.home.find.FindFragment;
 import com.zhaohe.zhundao.ui.home.mine.MineFragment;
 import com.zhaohe.zhundao.ui.home.sign.SignFragment;
-import com.zhaohe.zhundao.ui.home.sign.SignupAddActivity;
 
 /**
  * @Description:
@@ -122,9 +121,7 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
             case R.id.menu_add_action:
                 IntentUtils.startActivity(this, ActionAddActivity.class);
                 break;
-            case R.id.menu_add_signup:
-                IntentUtils.startActivity(this, SignupAddActivity.class);
-                break;
+
 
 
         }

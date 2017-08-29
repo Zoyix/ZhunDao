@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.zhaohe.app.utils.IntentUtils;
+import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncSignAdd;
@@ -93,6 +94,9 @@ private Handler mHandler;
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "签到发起成功！");
+                            SPUtils.put(getApplicationContext(),"updateSign",true);
+
+
                             finish();
                         }
                         if ("201".equals(jsonObj.getString("Url"))){

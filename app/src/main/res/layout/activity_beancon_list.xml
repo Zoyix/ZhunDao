@@ -5,7 +5,9 @@
     android:layout_height="match_parent">
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/black3"
+    >
     <android.support.v7.widget.Toolbar
 
         android:background="?attr/colorPrimary"
@@ -27,6 +29,7 @@
             android:layout_gravity="center" />
     </android.support.v7.widget.Toolbar>
     <ListView
+        android:background="@color/white"
         android:layout_below="@id/toolbar_act_beacon_list"
         android:id="@+id/lv_beacon"
         android:layout_width="match_parent"

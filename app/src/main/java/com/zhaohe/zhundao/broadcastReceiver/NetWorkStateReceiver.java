@@ -96,6 +96,7 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
             List<MySignListupBean> list = dao.queryUpdateStatus();
             String jsonString = JSON.toJSONString(list);
             if (list.size() == 0) {
+                ToastUtil.print("已是最新数据");
                 return;
             }
 

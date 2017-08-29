@@ -92,6 +92,7 @@ public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTy
         public static final String DeleteActivityList = "/api/PerActivity/DeleteActivityList";//删除报名人员
         public static final String AddActivityList = "/api/PerActivity/AddActivityList";//添加报名人员
         public static final String GetNoticeList = "/api/ZDInfo/GetNoticeList";//准到通知
+        public static final String PayOffLine = "/api/PerActivity/PayOffLine";//修改报名为线下支付
 
 
 

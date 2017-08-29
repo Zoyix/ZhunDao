@@ -7,8 +7,8 @@ android {
         applicationId "com.zhaohe.zhundao"
         minSdkVersion 15
         targetSdkVersion 25
-        versionCode 1708040
-        versionName "2.2.0"
+        versionCode 1708290
+        versionName "2.3.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
@@ -101,5 +101,7 @@ dependencies {
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.6.0'
     compile 'com.github.chenBingX:SuperTextView:v1.3'
+    compile 'net.steamcrafted:load-toast:1.0.10'
+
 
 }

@@ -38,7 +38,7 @@ private Map<String,String> map=new HashMap<>();
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inf);
-        initToolBarNew("准到通知", R.layout.activity_inf);
+        initToolBarNew("通知公告", R.layout.activity_inf);
         ButterKnife.bind(this);
         initView();
         initHandler();
@@ -103,7 +103,7 @@ lvInf.setAdapter(adapter);
                 bean.setTitle(jsonArray.getJSONObject(i).getString("Title"));
                 String time=jsonArray.getJSONObject(i).getString("AddTime");
                String newtime = time.replace("T", " ");
-             String   newtime1 = newtime.substring(2, newtime.length() - 3);
+             String   newtime1 = newtime.substring(2, newtime.length() - 7);
                 bean.setAddTime(newtime1);
                 bean.setSortName(jsonArray.getJSONObject(i).getString("SortName"));
                 bean.setDetail(jsonArray.getJSONObject(i).getString("Detail"));

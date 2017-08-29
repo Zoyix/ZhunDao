@@ -15,6 +15,26 @@ public class SignListBean implements Serializable {
     private String sign_list_phone;
     private String sign_list_status;
     private String nickname;
+    private String AdminRemark;
+
+    public String getVCode() {
+        return VCode;
+    }
+
+    public void setVCode(String VCode) {
+        this.VCode = VCode;
+    }
+
+    private String VCode;
+
+    public String getAdminRemark() {
+        return AdminRemark;
+    }
+
+    public void setAdminRemark(String adminRemark) {
+        AdminRemark = adminRemark;
+    }
+
     //    活动ID
     private String act_id;
     //    和用户详细信息对应的jasonBean

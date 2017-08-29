@@ -136,7 +136,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             return;
         }
         int i2;
-        int size=5;
+        int size=20;
         if (page==0){
             list.clear();
             initFrameLayout();

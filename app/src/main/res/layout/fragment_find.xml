@@ -47,7 +47,9 @@
         android:layout_height="0.3dp"
         android:background="@color/black3" />
     <TextView
+
         android:visibility="gone"
+
         android:drawableLeft="@mipmap/find_multi108"
         android:id="@+id/tv_find_print"
         android:clickable="true"

@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,9 +26,6 @@ import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
-import com.tencent.mm.sdk.modelmsg.SendMessageToWX;
-import com.tencent.mm.sdk.modelmsg.WXMediaMessage;
-import com.tencent.mm.sdk.modelmsg.WXWebpageObject;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.socialize.ShareAction;
@@ -259,7 +255,8 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
 
                 break;
             case POSITION_INVITATION:
-                actionInvitation();
+//                actionInvitation();
+                invitationDialogLocal();
                 break;
             case POSITION_QRCODE:
                 QrCodeDialog();
@@ -438,22 +435,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                 .show();
     }
 
-    private void wxShare(int flag, ActionBean bean) {
-        String actid = bean.getAct_id();
-        WXWebpageObject webpage = new WXWebpageObject();
-        webpage.webpageUrl = Constant.Url.ShareUrl + actid;
-        WXMediaMessage msg = new WXMediaMessage(webpage);
-        msg.title = bean.getAct_title();
-        msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
-        //这里替换一张自己工程里的图片资源
-        Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_multi);
-        msg.setThumbImage(thumb);
-        SendMessageToWX.Req req = new SendMessageToWX.Req();
-        req.transaction = String.valueOf(System.currentTimeMillis());
-        req.message = msg;
-        req.scene = flag == 0 ? SendMessageToWX.Req.WXSceneSession : SendMessageToWX.Req.WXSceneTimeline;
-        api.sendReq(req);
-    }
+
 
     private void actionDelete() {
         if (NetworkUtils.checkNetState(this)) {
@@ -651,7 +633,56 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                 .create().show();
 
     }
+    public void invitationDialogLocal() {
 
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(this);
+        //把activity_login中的控件定义在View中
+        final View v = factory.inflate(R.layout.dialog_invitation_local, null);
+        ImageView iv_vcode_invitation;
+        iv_vcode_invitation = (ImageView) v.findViewById(R.id.iv_vcode_invitation);
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/event/" + bean.getAct_id(), 500, 500);
+        iv_vcode_invitation.setImageBitmap(bitmap);
+TextView title= (TextView) v.findViewById(R.id.tv_dialog_title);
+        title.setText(bean.getAct_title());
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle(bean.getAct_title() + "邀请函")
+                .setView(v)
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("保存", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                                        ZXingUtil.saveImageToGallery(getApplicationContext(), ZXingUtil.convertViewToBitmap(v), bean.getAct_title());
+                                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
+
+
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+//                .setNeutralButton("分享", new DialogInterface.OnClickListener() {
+//
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//
+//                    }
+//                })
+
+
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
     @Override
     public void onClick(View view) {
         switch(view.getId()){

@@ -19,6 +19,12 @@
         android:title="@string/menu_signlist_user_edit"
         app:showAsAction="never" />
     <item
+        android:id="@+id/menu_signlist_user_payoff"
+        android:orderInCategory="100"
+        android:title="@string/menu_signlist_user_payoff"
+        app:showAsAction="never" />
+
+    <item
 
         android:id="@+id/menu_signlist_user_delete"
         android:orderInCategory="100"

@@ -126,6 +126,9 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             bean.setSign_list_time(jsonArray.getJSONObject(i).getString("AddTime"));
             bean.setSign_list_phone(jsonArray.getJSONObject(i).getString("Mobile"));
             bean.setNickname(jsonArray.getJSONObject(i).getString("NickName"));
+            bean.setAdminRemark(jsonArray.getJSONObject(i).getString("AdminRemark"));
+            bean.setVCode(jsonArray.getJSONObject(i).getString("VCode"));
+            ToastUtil.print("Vcode"+jsonArray.getJSONObject(i).getString("VCode"));
             bean.setmIndex(i);
             bean.setAct_id(act_id);
 //          Status  -1取消报名，0报名成功，1待缴费
@@ -241,7 +244,8 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         String amount = jsonArray.getJSONObject(m).getString("Amount");
         String title = jsonArray.getJSONObject(m).getString("Title");
         String face_img = jsonArray.getJSONObject(m).getString("FaceImg");
-
+        String VCode= jsonArray.getJSONObject(m).getString("VCode");
+       String AdminRemark= jsonArray.getJSONObject(m).getString("AdminRemark");
         Intent intent = new
             Intent(this, SignListUserActivity.class);
         intent.putExtra("name", name);
@@ -260,6 +264,12 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         intent.putExtra("title", title);
         intent.putExtra("act_id", act_id);
         intent.putExtra("face_img", face_img);
+        if(VCode!=null){
+SPUtils.put(getApplicationContext(),"print_Vcode",VCode);}
+        if(AdminRemark!=null){
+        SPUtils.put(getApplicationContext(),"print_AdminRemark",AdminRemark);}
+        SPUtils.put(getApplicationContext(),"print_name",bean.getSign_list_name());
+
 
         intent.putExtra("id", bean.getSign_list_id());
 

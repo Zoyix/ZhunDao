@@ -18,12 +18,9 @@
         android:id="@+id/menu_add_action"
         android:orderInCategory="100"
         android:title="@string/menu_add_action"
-        app:showAsAction="never" />
+        android:icon="@mipmap/add108"
 
-    <item
-        android:id="@+id/menu_add_signup"
-        android:orderInCategory="101"
-        android:title="@string/menu_add_signup"
-        android:visible="false"
-        app:showAsAction="never" />
+        app:showAsAction="always" />
+
+
 </menu>

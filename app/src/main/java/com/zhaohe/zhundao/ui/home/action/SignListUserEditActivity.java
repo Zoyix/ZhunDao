@@ -105,7 +105,7 @@ public class SignListUserEditActivity extends ToolBarActivity {
     Button btnSignlistUserSumbit;
     @BindView(R.id.ll_signlist_user)
     LinearLayout llSignListUser;
-    LinkedHashMap<String, String> jsonMap;
+    LinkedHashMap<String, String> jsonMap=new LinkedHashMap<>();
     private String signup_list;
     private String act_id;
     private String ID;
@@ -113,6 +113,7 @@ public class SignListUserEditActivity extends ToolBarActivity {
     private JSONArray jsonArray;
     private Handler mHandler;
     public static final int MESSAGE_SIGNLIST_USER_EDIT = 94;
+
     public static final int MESSAGE_UPLOAD_COMPLETE= 1000;
     public static final int MESSAGE_DELETE_COMPLETE= 999;
 
@@ -859,6 +860,8 @@ ToastUtil.print("ontouch");
             ToastUtil.makeText(this, R.string.net_error);
         }
     }
+
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         camera.onActivityResult(requestCode, resultCode, data);
@@ -879,9 +882,8 @@ ToastUtil.print("ontouch");
             return;
         }
 
-        json=JSON.toJSONString(jsonMap);
         ToastUtil.print("json数据"+json);
-        param = "UserName=" + Name + "&Mobile=" + Mobile + "&ID=" + ID+"&ExtraInfo="+json;
+        param = "UserName=" + Name + "&Mobile=" + Mobile + "&ID=" + ID;
         edit(setParam(param));
     }
 
@@ -916,6 +918,11 @@ ToastUtil.print("ontouch");
         }
         if (FaceImg!=null){
             param=param+"&FaceImg="+FaceImg;
+
+        }
+        if(jsonMap.size()!=0){
+            json=JSON.toJSONString(jsonMap);
+            param=param+"&ExtraInfo="+json;
 
         }
 

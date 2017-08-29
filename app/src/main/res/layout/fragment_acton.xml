@@ -34,7 +34,9 @@
 
         <!--将你的内容放在这里-->
         <ListView
-            android:id="@+id/lv_act"
+            android:divider="@null"
+
+        android:id="@+id/lv_act"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
     </com.chanven.lib.cptr.PtrClassicFrameLayout>

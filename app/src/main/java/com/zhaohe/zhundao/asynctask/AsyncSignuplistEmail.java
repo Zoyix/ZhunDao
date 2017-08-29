@@ -12,6 +12,8 @@ import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 
+import net.steamcrafted.loadtoast.LoadToast;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,6 +30,7 @@ public class AsyncSignuplistEmail extends AsyncTask<String, Integer, String> {
     private String mAccesskey;
     private String mEmail;
     private String mSignID;
+private LoadToast lt;
 
 
     public AsyncSignuplistEmail(Context context, Handler handler, Dialog dialog, int request, String param, String mSignID) {
@@ -38,6 +41,15 @@ public class AsyncSignuplistEmail extends AsyncTask<String, Integer, String> {
         this.mEmail = param;
         this.mSignID =mSignID;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
+    public AsyncSignuplistEmail(Context context, Handler handler, LoadToast lt, int request, String param, String mSignID) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+        this.mEmail = param;
+        this.mSignID =mSignID;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+        this.lt=lt;
     }
 
     @Override
@@ -63,6 +75,7 @@ public class AsyncSignuplistEmail extends AsyncTask<String, Integer, String> {
             mHandler.sendMessage(msg);
         } else {
             DialogUtils.showDialog(mContext, R.string.app_serviceError);
+            lt.error();
         }
 
     }

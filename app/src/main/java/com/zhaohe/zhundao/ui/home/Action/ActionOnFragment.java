@@ -192,7 +192,7 @@ boolean load=true;
             return;
         }
         int i2;
-        int size=5;
+        int size=20;
 if (page==0){
     list.clear();
     ptrClassicFrameLayout.setLoadMoreEnable(true);
@@ -651,9 +651,7 @@ load=false;
         intent.putExtras(bundle);
         this.startActivity(intent);
     }
-    private void showDialogNew(){
 
-    }
 
     //    微信分享底部对话框
     private void showDialog(final ActionBean bean) {

@@ -288,13 +288,18 @@ android:layout_below="@id/tv_sign_user_remark2"
                 android:id="@+id/tv_sign_user_amount"
                 android:layout_alignParentRight="true"
                 style="@style/act_user_tv"
-
                 android:text="@string/none" />
 
             <include layout="@layout/line"></include>
 
         </RelativeLayout>
+        <Button
+            android:layout_gravity="center_horizontal"
 
+            android:id="@+id/btn_print"
+            android:text="@string/btn_print"
+
+            style="@style/btn_login" />
 
     </LinearLayout>
 </ScrollView>

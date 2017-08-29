@@ -21,6 +21,8 @@
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
         cube_ptr:ptr_resistance="1.8" >
         <ListView
+            android:divider="@null"
+
             android:id="@+id/lv_act2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>

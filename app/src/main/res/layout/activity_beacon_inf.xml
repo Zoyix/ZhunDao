@@ -121,12 +121,14 @@ android:maxLength="10"
 
         <RelativeLayout
             android:id="@+id/rl_beacon_bind"
-            style="@style/act_user_rl">
+            style="@style/act_user_rl"
+            android:descendantFocusability="blocksDescendants"
+            >
 
             <TextView
                 android:layout_alignParentLeft="true"
                 style="@style/act_user_tv"
-
+                android:clickable="false"
                 android:text="@string/nickname" />
 
             <TextView
@@ -136,6 +138,7 @@ android:maxLength="15"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/right"
                 android:text="@string/none"
+
                 android:layout_alignParentRight="true"
                 android:layout_alignParentEnd="true" />
 

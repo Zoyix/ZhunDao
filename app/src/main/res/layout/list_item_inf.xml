@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp">
+    android:layout_margin="15dp"
+    >
 
     <TextView
         android:id="@+id/tv_inf_id"
@@ -11,19 +12,21 @@
         android:layout_margin="10dp"
         android:layout_marginTop="15dp"
         android:textSize="18sp"
-        android:text="1" />
+        android:text="1"
+        android:visibility="gone"
+
+        />
 
 
     <TextView
+        android:layout_marginLeft="5dp"
         android:id="@+id/tv_inf_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_marginTop="5dp"
-        android:layout_toEndOf="@+id/tv_inf_id"
         android:textSize="16sp"
 
-        android:layout_toRightOf="@+id/tv_inf_id"
         android:text="名称"
         android:textColor="@color/black"
         />
@@ -47,6 +50,8 @@ android:layout_alignBaseline="@id/tv_inf_type"
         />
 
     <TextView
+        android:layout_marginLeft="5dp"
+
         android:id="@+id/tv_inf_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -59,6 +64,7 @@ android:layout_alignBaseline="@id/tv_inf_type"
 
 
     <ImageView
+        android:layout_marginTop="5dp"
         android:id="@+id/iv_inf_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -70,13 +76,15 @@ android:layout_alignBaseline="@id/tv_inf_type"
         android:layout_alignTop="@+id/iv_inf_read" />
 
     <ImageView
+        android:layout_marginTop="10dp"
+
         android:id="@+id/iv_inf_read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/tv_inf_id"
+        android:src="@mipmap/unread60"
+        android:layout_alignBottom="@+id/tv_inf_title"
         android:layout_toLeftOf="@+id/iv_inf_right"
-        android:layout_toStartOf="@+id/iv_inf_right"
-        android:src="@mipmap/unread60" />
+         />
     <!--<LinearLayout-->
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->

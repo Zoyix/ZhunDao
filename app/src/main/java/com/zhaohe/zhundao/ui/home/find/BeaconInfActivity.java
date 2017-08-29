@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -120,6 +121,7 @@ private String name;
         Picasso.with(this).load(IconUrl).error(R.mipmap.ic_launcher).into(iv_beacon_icon);
         rl_beacon_bind= (RelativeLayout) findViewById(R.id.rl_beacon_bind);
         rl_beacon_bind.setOnClickListener(this);
+        tv_beacon_nickname.setOnClickListener(this);
         button= (Button) findViewById(R.id.btn_find_beacon_delete);
         button.setOnClickListener(this);
 
@@ -172,19 +174,25 @@ private String name;
                 .setTitle("选择类别")
                 //设定显示的View
                 //对话框中的“登陆”按钮的点击事件
-                .setPositiveButton("活动", new DialogInterface.OnClickListener() {
+                .setNegativeButton("报名", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
                         actDialog();
 
                     }
 
                 })
-                .setNegativeButton("签到", new DialogInterface.OnClickListener() {
+                .setPositiveButton("签到", new DialogInterface.OnClickListener() {
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         signDialog();
                     }
+                })
+                .setNeutralButton("自定义", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        sendEmail();                    }
                 })
                 // 设置dialog是否为模态，false表示模态，true表示非模态
                 .setCancelable(true)
@@ -192,46 +200,60 @@ private String name;
                 .create().show();
 
     }
-//    private void actDialog() {
-//        BottomDialog.create(getSupportFragmentManager())
-//                .setViewListener(new BottomDialog.ViewListener() {
-//                    @Override
-////                    自定义事件
-//                    public void bindView(View v) {
-//                        final Spinner sp= (Spinner) v.findViewById(R.id.sp_beacon);
-//                        adapter = new ArrayAdapter<String>(getApplicationContext(),android.R.layout.simple_spinner_item,list_act);
-//                        sp.setAdapter(adapter);
-//                        View.OnClickListener onclick = (new View.OnClickListener() {
-//                            @Override
-//                            public void onClick(View v) {
-//                                switch (v.getId()) {
-//                                    case R.id.btn_beacon_submit:
-//
-//                                     int i=sp.getSelectedItemPosition();
-//                                     name= sp.getSelectedItem().toString();
-//                                        String PageUrl="https://m.zhundao.net/event/"+act_id[i];
-//                                        String mParam = "ID=" + ID + "&PageUrl=" + PageUrl + "&NickName=" + name;
-//                                        System.out.println(mParam);
-//
-//                                        updateBeacon(mParam);
-//                                        break;
-//                                    default:
-//                                        break;
-//                                }
-//                            }
-//
-//                        });
-//
-//                        Button btn_beacon_submit= (Button) v.findViewById(R.id.btn_beacon_submit);
-//                        btn_beacon_submit.setOnClickListener(onclick);
-//
-//                    }
-//                })
-//                .setLayoutRes(R.layout.dialog_spinner)
-//                .setDimAmount(0.9f)
-//                .setTag("SelectDialog")
-//                .show();
-//    }
+
+    public void sendEmail() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(this);
+        //把activity_login中的控件定义在View中
+         View textEntryView = factory.inflate(R.layout.dialog_email, null);
+        EditText etPassword = (EditText) textEntryView.findViewById(R.id.et_dialog_password);
+        etPassword.setText("https://");
+        etPassword.setHint("自定义链接地址");
+        final EditText editText=etPassword;
+        //将LoginActivity中的控件显示在对话框中
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("绑定自定义链接")
+                //设定显示的View
+                .setView(textEntryView)
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+
+
+
+                        //将页面输入框中获得的“用户名”，“密码”转为字符串
+                        String email = editText.getText().toString();
+                        if (email==null||email.equals("")){
+                            ToastUtil.makeText(getApplicationContext(),"地址不得为空！");
+                            return;
+                        }
+                        else{
+                            String PageUrl=email;
+                            name=email;
+                            String mParam = "ID=" + ID + "&PageUrl=" + PageUrl + "&NickName=" + name;
+                            updateBeacon(mParam);
+
+
+                        }
+                        //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
+                        //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）
+
+                    }
+                })
+                //对话框的“退出”单击事件
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(false)
+                //对话框的创建、显示
+                .create().show();
+    }
+
     public void actDialog() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -245,7 +267,7 @@ private String name;
 
         new AlertDialog.Builder(this)
                 //对话框的标题
-                .setTitle("绑定活动事件")
+                .setTitle("绑定报名事件")
                 //设定显示的View
                 .setView(v)
                 //对话框中的“登陆”按钮的点击事件
@@ -394,6 +416,15 @@ private String name;
                 }
 
                 break;
+            case R.id.tv_beacon_nickname:
+                if (NetworkUtils.checkNetState(this))
+                { selectDialog();}
+                else
+                {ToastUtil.makeText(this,"暂无网络，请确认后再试！");
+                    return;
+                }
+                break;
+
 //           case R.id.btn_find_beacon_delete:
 //               beaconUnBondDialog();
             default:
