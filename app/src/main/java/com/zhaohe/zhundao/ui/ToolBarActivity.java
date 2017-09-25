@@ -2,20 +2,21 @@ package com.zhaohe.zhundao.ui;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
 
+import com.example.swipebackactivity.app.SwipeBackActivity;
 import com.umeng.analytics.MobclickAgent;
 import com.zhaohe.zhundao.R;
+
 
 /**
  * @Description:
  * @Author:邹苏隆
  * @Since:2016/12/16 10:54
  */
-public abstract class ToolBarActivity extends AppCompatActivity {
+public abstract class ToolBarActivity extends SwipeBackActivity {
     private ToolBarHelper mToolBarHelper;
     public Toolbar toolbar;
     private TextView tvTitle;
@@ -23,6 +24,7 @@ public abstract class ToolBarActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setStatusBarColor(getResources().getColor(R.color.colorPrimary));
     }
 
     @Override

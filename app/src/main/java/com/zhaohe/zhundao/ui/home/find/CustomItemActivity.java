@@ -179,7 +179,7 @@ public class CustomItemActivity extends ToolBarActivity implements AdapterView.O
                             ToastUtil.makeText(getApplicationContext(), "添加成功");
                             finish();
                             ;
-                        }
+                        } else ToastUtil.makeText(getApplication(), jsonObj.getString("Msg"));
                         break;
                     default:
                         break;

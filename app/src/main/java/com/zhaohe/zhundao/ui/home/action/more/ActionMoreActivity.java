@@ -10,6 +10,7 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -33,6 +34,9 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
@@ -95,7 +99,10 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
     private IWXAPI api;
     private RelativeLayout rl_act_more_details;
     private UMShareListener mShareListener;
+    private static final int REQUEST_CODE_PERMISSION = 105;
 
+    private static final int REQUEST_CODE_SETTING = 300;
+    Bitmap bitmap;
 
     private ActionBean bean;
     private ActionMoreAdapter adapter;
@@ -137,7 +144,9 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
         rl_act_more_details= (RelativeLayout) findViewById(R.id.rl_act_more_details);
         rl_act_more_details.setOnClickListener(this);
         iv_act_more_icon = (ImageView) findViewById(R.id.iv_act_more_icon);
-        Picasso.with(this).load(bean.getUrl()).error(R.mipmap.ic_launcher).into(iv_act_more_icon);
+        if (bean.getUrl() != null) {
+            Picasso.with(this).load(bean.getUrl()).error(R.mipmap.ic_launcher).into(iv_act_more_icon);
+        }
         tv_act_more_title = (TextView) findViewById(R.id.tv_act_more_title);
         tv_act_more_title.setText(bean.getAct_title());
         tv_act_more_starttime = (TextView) findViewById(R.id.tv_act_more_starttime);
@@ -174,13 +183,13 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
             public void onResult(SHARE_MEDIA platform) {
                 Log.d("plat","platform"+platform);
 
-                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
-                Toast.makeText(getApplicationContext(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
                 if(t!=null){
                     Log.d("throw","throw:"+t.getMessage());
                 }
@@ -188,7 +197,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
 
             @Override
             public void onCancel(SHARE_MEDIA platform) {
-                Toast.makeText(getApplicationContext(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getApplicationContext(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
             }
         };
 
@@ -256,7 +265,13 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                 break;
             case POSITION_INVITATION:
 //                actionInvitation();
-                invitationDialogLocal();
+//                invitationDialogLocal();
+                intent = new Intent();
+                intent.setClass(this, InvitationActivity.class);
+                bundle = new Bundle();
+                bundle.putSerializable("bean", bean);
+                intent.putExtras(bundle);
+                this.startActivity(intent);
                 break;
             case POSITION_QRCODE:
                 QrCodeDialog();
@@ -315,6 +330,9 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                             SPUtils.put(getApplicationContext(), "tab_now", 0);
                             IntentUtils.startActivity(ActionMoreActivity.this, HomeActivity.class);
                             ToastUtil.makeText(getApplicationContext(), "删除成功！");
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), jsonObj.getString("Msg"));
+
                         }
                         break;
                     case MESSAGE_UNDUE_ACTION:
@@ -535,8 +553,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
         final View v = factory.inflate(R.layout.dialog_qrcode, null);
         ImageView iv_dialog_qrcode;
         iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode);
-
-        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/event/" + bean.getAct_id(), 500, 500);
+        bitmap = createQrBitmap("https://m.zhundao.net/event/" + bean.getAct_id(), 500, 500);
         iv_dialog_qrcode.setImageBitmap(bitmap);
         ;
         new AlertDialog.Builder(this)
@@ -547,9 +564,15 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                 //对话框中的“登陆”按钮的点击事件
                 .setPositiveButton("保存", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-//ZXingUtil.saveMyBitmap(ZXingUtil.createQrBitmap(bean.getUrl(),150,150),bean.getAct_title()+"二维码");
-                        ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title());
-                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
+                        AndPermission.with(getApplicationContext())
+                                .requestCode(REQUEST_CODE_PERMISSION)
+                                .permission(Permission.STORAGE)
+                                .callback(permissionListener)
+                                // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                                // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                                // 你也可以不设置。
+                                .rationale(null)
+                                .start();
                     }
 
                 })
@@ -682,6 +705,40 @@ TextView title= (TextView) v.findViewById(R.id.tv_dialog_title);
                 //对话框的创建、显示
                 .create().show();
 
+    }
+
+    private PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title());
+                    ToastUtil.makeText(getApplicationContext(), "保存成功！");
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    ToastUtil.makeText(getApplicationContext(), "授权失败！");
+
+                    break;
+                }
+            }
+        }
+    };
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        switch (requestCode) {
+            case REQUEST_CODE_SETTING: {
+                Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
+                break;
+            }
+        }
     }
     @Override
     public void onClick(View view) {

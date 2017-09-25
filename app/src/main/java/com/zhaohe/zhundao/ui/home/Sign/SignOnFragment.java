@@ -25,6 +25,10 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.umeng.analytics.MobclickAgent;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.app.utils.NetworkUtils;
@@ -86,6 +90,7 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
     public static final int MESSAGE_SIGN_DELETE = 97;
     public static final int MESSAGE_SEND_SIGNUPLIST_EMAIL = 95;
 
+    PtrClassicFrameLayout ptrClassicFrameLayout;
 
     public static final int PAGE_SIZE = 100000;    //            单页显示的数据数目
     List<SignBean> list = new ArrayList<SignBean>();
@@ -94,6 +99,8 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
     private boolean isGotoList;//true不跳转 false跳转签到名单
 String title;
     String act_id;
+    boolean load = true;
+    int page = 0;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -140,8 +147,8 @@ init();
     }
 
     private void init() {
-        if (SPUtils.contains(getActivity(),"sign_result")) {
-            jsonconver((String) SPUtils.get(getActivity(), "sign_result", ""));
+        if (SPUtils.contains(getActivity(), "sign_result_on")) {
+            jsonconver((String) SPUtils.get(getActivity(), "sign_result_on", ""));
             getSignAllNoneDialog();
         }
         else if(NetworkUtils.checkNetState(getActivity()))
@@ -162,11 +169,11 @@ init();
 
     private void getSignAll() {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, dialog, MESSAGE_SIGN_ALL);
+        AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, dialog, MESSAGE_SIGN_ALL, 1);
         asyncSign.execute();
     }
     private void getSignAllNoneDialog() {
-        AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, MESSAGE_SIGN_ALL);
+        AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, MESSAGE_SIGN_ALL, 1);
         asyncSign.execute();
     }
 
@@ -185,15 +192,46 @@ init();
     }
 
     private void jsonconver(String result) {
+        if (!load) {
+            return;
+        }
+        int i2;
+        int size = 10;
+        if (page == 0) {
+            list.clear();
+            ptrClassicFrameLayout.setLoadMoreEnable(true);
+            ptrClassicFrameLayout.setPullToRefresh(true);
+            ToastUtil.print("重置后能更新吗" + ptrClassicFrameLayout.isLoadMoreEnable());
+
+//    initFrameLayout();
+//ptrClassicFrameLayout.
+        }
+        i2 = page * size;
+        ToastUtil.print("当前页数" + i2);
+        JSONObject jsonObj = JSON.parseObject(result);
+        JSONArray jsonArray = jsonObj.getJSONArray("Data");
+        int m = 0;
+        if ((page + 1) * size < jsonArray.size()) {
+            m = (page + 1) * size;
+
+        } else {
+            page--;
+            m = jsonArray.size();
+//            ToastUtil.makeText(getActivity(),"已无更多数据");
+            ptrClassicFrameLayout.setLoadMoreEnable(false);
+            load = false;
+
+        }
+        ToastUtil.print("总数量" + jsonArray.size());
+        ToastUtil.print("\n当前页码" + m);
+
         String starttime=TimeUtil.getNowTime();
 String endtime;
         if ((result == null)||(result=="")) {
             ToastUtil.makeText(getActivity(), "请联网后再试");
         } else {
-            JSONObject jsonObj = JSON.parseObject(result);
-            JSONArray jsonArray = jsonObj.getJSONArray("Data");
-            List<SignBean> list = new ArrayList<SignBean>();
-            for (int i = 0; i < jsonArray.size(); i++) {
+
+            for (int i = i2; i < m; i++) {
                 SignBean bean = new SignBean();
 
 
@@ -220,11 +258,11 @@ String endtime;
                         bean.setSign_type("集合签到：");
                     }
                     bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
-                    if(i<50){
+
                         ToastUtil.print("数据"+i);
                         int NumShould = Integer.parseInt(bean.getSign_num());
                         int NubFact= Integer.parseInt(bean.getSignup_num());
-                if(NumShould==dao.queryListSize(bean.getSign_id())){
+                    if (NumShould == dao.queryListSize(bean.getSign_id())) {
                     bean.setList_status("true");
                 }
 
@@ -236,9 +274,7 @@ String endtime;
                     }
                     list.add(bean);
 
-                } else {
 
-                }
             }
             endtime=TimeUtil.getNowTime();
             ToastUtil.print("开始时间"+starttime+"结束时间"+endtime);
@@ -290,6 +326,7 @@ String endtime;
 
 
     private void initView() {
+        initFrameLayout();
         lv_signon = (ListView) rootView.findViewById(R.id.lv_signon);
         adapter = new SignAdapter(getActivity());
         adapter.setSignClickListener(this);
@@ -304,11 +341,59 @@ String endtime;
 
     }
 
-    //    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        queryCodeUtils.onActivityResult(requestCode, resultCode, data);
-//    }
+    private void initFrameLayout() {
+        ptrClassicFrameLayout = (PtrClassicFrameLayout) rootView.findViewById(R.id.test_list_view_frame);
+
+        ptrClassicFrameLayout.setLoadMoreEnable(true);
+
+        ptrClassicFrameLayout.setPtrHandler(new PtrDefaultHandler() {
+
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        load = true;
+                        page = 0;
+//                        jsonconver((String) SPUtils.get(getActivity(), "act_result_on", ""));
+                        init();
+                        ptrClassicFrameLayout.refreshComplete();
+
+
+//                        adapter.refreshData(list);
+
+                        if (!ptrClassicFrameLayout.isLoadMoreEnable()) {
+                            ptrClassicFrameLayout.setLoadMoreEnable(true);
+                        }
+                    }
+                }, 1000);
+            }
+        });
+
+
+        ptrClassicFrameLayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+
+            @Override
+            public void loadMore() {
+                mHandler.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        ++page;
+                        jsonconver((String) SPUtils.get(getActivity(), "sign_result_on", ""));
+                        ptrClassicFrameLayout.loadMoreComplete(true);
+//                        Toast.makeText(getActivity(), "load more complete", Toast.LENGTH_SHORT)
+//                                .show();
+
+                        if (page == 1) {
+                            //set load more disable
+//                            ptrClassicFrameLayout.setLoadMoreEnable(false);
+                        }
+                    }
+                }, 1000);
+            }
+        });
+    }
     private void gotoSignupList(String result) {
 
 
@@ -357,8 +442,11 @@ if (isGotoList){return;}
                         String result = (String) msg.obj;
                         //签到列表结果
                         if (NetworkUtils.checkNetState(getActivity())) {
-                            SPUtils.put(getActivity(), "sign_result", result);
-                            jsonconver((String) SPUtils.get(getActivity(), "sign_result", ""));
+                            page = 0;
+                            load = true;
+
+                            SPUtils.put(getActivity(), "sign_result_on", result);
+                            jsonconver((String) SPUtils.get(getActivity(), "sign_result_on", ""));
                         }
                         break;
                     case REFRESH_COMPLETE:
@@ -787,9 +875,16 @@ sendEmail();
 
     @Override
     public void onRefresh() {
-        init();
-        System.out.print("成功刷新");
-        mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
+        page = 0;
+        if (NetworkUtils.checkNetState(getActivity())) {
+            init();
+            upload();
+            System.out.print("成功刷新");
+            mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
+        } else {
+            ToastUtil.makeText(getActivity(), "请联网后再试");
+            mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
+        }
 
     }
 

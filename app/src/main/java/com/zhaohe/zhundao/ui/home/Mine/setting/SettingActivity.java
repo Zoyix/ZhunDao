@@ -30,6 +30,7 @@ import com.zhaohe.zhundao.asynctask.AsyncChangePassword;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.dao.MyContactsDao;
 import com.zhaohe.zhundao.dao.MyGroupDao;
+import com.zhaohe.zhundao.dao.MySignupListDao;
 import com.zhaohe.zhundao.dao.MySignupListMultiDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -44,6 +45,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
     private MySignupListMultiDao dao;
     private MyGroupDao groupDao;
     private MyContactsDao contactsDao;
+    private MySignupListDao mySignupListDao;
 
 
 
@@ -91,7 +93,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         dao=new MySignupListMultiDao(this);
         groupDao=new MyGroupDao(this);
         contactsDao=new MyContactsDao(this);
-
+        mySignupListDao = new MySignupListDao(this);
     }
 
     private void initToolBar(String text) {
@@ -319,9 +321,10 @@ return;
 
     private void deleteDao() {
         try {
-            dao.deleteTable();
+//            dao.deleteTable();
             groupDao.deleteTable();
             contactsDao.deleteTable();
+            mySignupListDao.deleteTable();
 
     }catch (Exception e) {
 

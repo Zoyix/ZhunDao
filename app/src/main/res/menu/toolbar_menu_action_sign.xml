@@ -18,7 +18,9 @@
         android:id="@+id/menu_action_sign_add"
         android:orderInCategory="100"
         android:title="@string/menu_add_signup"
-        app:showAsAction="never" />
+        android:icon="@mipmap/add108"
+
+        app:showAsAction="always" />
 
 
 </menu>

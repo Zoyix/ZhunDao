@@ -10,6 +10,7 @@ import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.socialize.UMShareAPI;
 import com.zhaohe.app.utils.IntentUtils;
+import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.ui.TabHostActivity;
@@ -50,6 +51,11 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        SPUtils.put(this, "context", "-1");
+    }
 
     private void regToWechat() {
         api = WXAPIFactory.createWXAPI(this, Constant.APP_ID, true);

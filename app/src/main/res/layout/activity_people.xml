@@ -16,6 +16,7 @@
 
 
     <TextView
+        android:textIsSelectable="true"
         android:id="@+id/tv_contacts_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -31,6 +32,7 @@
         android:layout_height="wrap_content"
         android:text="电话"
         android:layout_alignLeft="@+id/tv_contacts_head"
+        android:textIsSelectable="true"
 
         android:layout_marginTop="10dp"
         android:layout_below="@id/tv_contacts_head"
@@ -77,13 +79,16 @@
         android:layout_below="@+id/tv_contacts_phone_name"
         android:layout_alignLeft="@+id/tv_contacts_head"
         android:layout_alignStart="@+id/tv_contacts_head"
-         />
+        android:textIsSelectable="true"
+
+        />
     <TextView
         android:id="@+id/tv_contacts_group_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/group_name"
         android:layout_alignLeft="@+id/tv_contacts_phone"
+        android:textIsSelectable="true"
 
         android:layout_marginTop="20dp"
         android:layout_below="@id/tv_contacts_phone"
@@ -97,6 +102,7 @@
         android:text="@string/group_name"
         android:layout_below="@+id/tv_contacts_group_name"
         android:layout_alignLeft="@+id/tv_contacts_phone"
+        android:textIsSelectable="true"
 
 
         />
@@ -141,6 +147,8 @@ android:layout_marginTop="10dp"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:textIsSelectable="true"
+
             />
         <include layout="@layout/line"></include>
         <TextView
@@ -159,6 +167,8 @@ android:layout_marginTop="10dp"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:textIsSelectable="true"
+
             />
         <include layout="@layout/line"></include>
         <TextView
@@ -176,6 +186,8 @@ android:layout_marginTop="10dp"
             android:layout_height="wrap_content"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
+            android:textIsSelectable="true"
+
             android:layout_marginBottom="10dp"
             />
         <include layout="@layout/line"></include>
@@ -195,6 +207,8 @@ android:layout_marginTop="10dp"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:textIsSelectable="true"
+
             />
         <include layout="@layout/line"></include>
         <TextView
@@ -213,6 +227,8 @@ android:layout_marginTop="10dp"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:textIsSelectable="true"
+
             />
         <include layout="@layout/line"></include>
         <TextView
@@ -231,6 +247,8 @@ android:layout_marginTop="10dp"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:textIsSelectable="true"
+
             />
         <include layout="@layout/line"></include>
         <TextView
@@ -249,6 +267,8 @@ android:layout_marginTop="10dp"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:textIsSelectable="true"
+
             />
         <include layout="@layout/line"></include>
 
@@ -268,6 +288,8 @@ android:layout_marginTop="10dp"
             android:text="@string/none"
             android:layout_marginLeft="20dp"
             android:layout_marginBottom="10dp"
+            android:textIsSelectable="true"
+
             />
         <include layout="@layout/line"></include>
 

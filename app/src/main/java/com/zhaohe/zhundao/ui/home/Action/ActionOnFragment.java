@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -490,13 +489,13 @@ load=false;
             public void onResult(SHARE_MEDIA platform) {
                 Log.d("plat","platform"+platform);
 
-                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
-                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
                 if(t!=null){
                     Log.d("throw","throw:"+t.getMessage());
                 }
@@ -504,7 +503,7 @@ load=false;
 
             @Override
             public void onCancel(SHARE_MEDIA platform) {
-                Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -644,6 +643,8 @@ load=false;
     public void onMoreClick(ActionBean bean) {
         ActivityFees=bean.getActivityFees();
         UserInfo=bean.getBaseItem();
+        SPUtils.put(getActivity(), "UserInfo" + bean.getAct_id(), UserInfo);
+        SPUtils.put(getActivity(), "ActivityFees" + bean.getAct_id(), ActivityFees);
         Intent intent = new Intent();
         intent.setClass(getActivity(), ActionMoreActivity.class);
         Bundle bundle = new Bundle();

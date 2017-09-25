@@ -24,11 +24,13 @@ import android.support.v7.widget.Toolbar;
 import android.util.Base64;
 import android.util.Log;
 import android.view.ContextMenu;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
@@ -48,12 +50,14 @@ import com.gprinter.service.GpPrintService;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Target;
 import com.zhaohe.app.camera.PreviewImgActivity;
+import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.app.utils.ZXingUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncPayOffLine;
+import com.zhaohe.zhundao.asynctask.action.AsyncSignListEdit;
 import com.zhaohe.zhundao.asynctask.action.AsyncSignListPeopleDelete;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -95,6 +99,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
     private int mTotalCopies = 0;
     public static final int MESSAGE_SEND_SIGNLIST_DELETE = 94;
     public static final int MESSAGE_SIGNLIST_PAY_OFF = 95;
+    public static final int MESSAGE_SIGNLIST_USER_EDIT = 96;
 
 
     @Override
@@ -257,7 +262,22 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         tv_join_num.setText(intent.getStringExtra("join_num"));
         tv_add.setText(intent.getStringExtra("add"));
         tv_remark.setText(intent.getStringExtra("remark"));
-        tv_title.setText(intent.getStringExtra("title"));
+        String payment = "付款方式";
+        switch (intent.getStringExtra("Payment")) {
+            case "0":
+                payment = "微信支付";
+                break;
+            case "1":
+                payment = "线下支付";
+                break;
+            case "2":
+                payment = "支付宝";
+                break;
+            case "3":
+                payment = "微信支付（直联）";
+                break;
+        }
+        tv_title.setText(intent.getStringExtra("title") + "(" + payment + ")");
         tv_amount.setText("￥" + intent.getStringExtra("amount"));
         JSONArray jsonArray3 = jsonObj.getJSONArray("Option");
         String[] type = null;
@@ -305,6 +325,12 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
                 i++;
             }
         }
+        AdminRemark = intent.getStringExtra("AdminRemark");
+        if (AdminRemark == null) {
+            AdminRemark = "无";
+        }
+        insertTextView("管理员备注", AdminRemark);
+
     }
 
 
@@ -581,6 +607,20 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
 
                         }
 
+                    case MESSAGE_SIGNLIST_USER_EDIT:
+                        result = (String) msg.obj;
+                        jsonObj = JSON.parseObject(result);
+                        message = jsonObj.getString("Res");
+                        if (message.equals("0"))
+                        //添加或修改请求结果
+                        {
+                            ToastUtil.makeText(getApplicationContext(), "修改成功！");
+                            finish();
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), jsonObj.getString("Msg"));
+
+                        }
+
                     default:
                         break;
                 }
@@ -651,6 +691,63 @@ payoff(ID);
 
     }
 
+    public void edit(String param) {
+        if (NetworkUtils.checkNetState(this)) {
+            AsyncSignListEdit async = new AsyncSignListEdit(this, mHandler, MESSAGE_SIGNLIST_USER_EDIT, param);
+            async.execute();
+        } else {
+            ToastUtil.makeText(this, R.string.net_error);
+        }
+    }
+
+    public void setRemark() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(this);
+        //把activity_login中的控件定义在View中
+        final View textEntryView = factory.inflate(R.layout.dialog_email, null);
+        final EditText etPassword = (EditText) textEntryView.findViewById(R.id.et_dialog_password);
+        etPassword.setHint("管理员备注");
+        //将LoginActivity中的控件显示在对话框中
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("设置管理员备注")
+                //设定显示的View
+                .setView(textEntryView)
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        //获取用户输入的“用户名”，“密码”
+                        //注意：textEntryView.findViewById很重要，因为上面factory.inflate(R.layout.activity_login, null)将页面布局赋值给了textEntryView了
+                        EditText et = etPassword;
+
+                        //将页面输入框中获得的“用户名”，“密码”转为字符串
+                        String email = et.getText().toString();
+                        if (email == null || email.equals("")) {
+                            ToastUtil.makeText(getApplicationContext(), "管理员备注不得为空！");
+                            return;
+                        } else {
+                            String param = "ID=" + ID + "&AdminRemark=" + email;
+
+                            edit(param);
+                        }
+                        //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
+                        //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）
+
+                    }
+                })
+                //对话框的“退出”单击事件
+                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(false)
+                //对话框的创建、显示
+                .create().show();
+    }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
 
@@ -666,6 +763,9 @@ payoff(ID);
                 break;
             case R.id.menu_signlist_user_payoff:
                 payoffDialog();
+
+            case R.id.menu_signlist_user_remark:
+                setRemark();
                 break;
 
         }

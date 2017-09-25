@@ -432,23 +432,19 @@ hideView(baseItem[i]);
         tv1.setText(title);
         tv1.setId(R.id.tv_code_title);
         final EditText et = new EditText(this);
-        et.addTextChangedListener(new TextWatcher() {
+        et.setOnFocusChangeListener(new android.view.View.
+                OnFocusChangeListener() {
             @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                //TODO:
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                paramBase=paramBase+"&"+mParam+"="+et.getText().toString();
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                //TODO:
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    // 此处为得到焦点时的处理内容
+                } else {
+                    paramBase = paramBase + "&" + mParam + "=" + et.getText().toString();
+                }
             }
         });
+
+
         et.setId(R.id.tv_code_content);
         tv1.setPadding(margin, margin, margin, margin);
 

@@ -246,6 +246,8 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         String face_img = jsonArray.getJSONObject(m).getString("FaceImg");
         String VCode= jsonArray.getJSONObject(m).getString("VCode");
        String AdminRemark= jsonArray.getJSONObject(m).getString("AdminRemark");
+        String Payment = jsonArray.getJSONObject(m).getString("Payment");
+
         Intent intent = new
             Intent(this, SignListUserActivity.class);
         intent.putExtra("name", name);
@@ -264,10 +266,15 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         intent.putExtra("title", title);
         intent.putExtra("act_id", act_id);
         intent.putExtra("face_img", face_img);
+        intent.putExtra("Payment", Payment);
+
         if(VCode!=null){
 SPUtils.put(getApplicationContext(),"print_Vcode",VCode);}
         if(AdminRemark!=null){
-        SPUtils.put(getApplicationContext(),"print_AdminRemark",AdminRemark);}
+            intent.putExtra("AdminRemark", AdminRemark);
+
+            SPUtils.put(getApplicationContext(), "print_AdminRemark", AdminRemark);
+        }
         SPUtils.put(getApplicationContext(),"print_name",bean.getSign_list_name());
 
 

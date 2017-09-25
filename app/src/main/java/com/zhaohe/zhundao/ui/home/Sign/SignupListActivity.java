@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,9 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
@@ -45,7 +49,6 @@ import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.zhaohe.app.utils.CameraUtils.cameraIsCanUse;
 import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_GET_SIGNLIST;
 
 
@@ -68,7 +71,9 @@ public class SignupListActivity extends ToolBarActivity implements View.OnClickL
     public static final int MESSAGE_SIGN_SCAN_PHONE=100;
     public static final int SCANNIN_GREQUEST_CODE = 89;
     public static final int MESSAGE_SCAN_CODE = 90;
+    private static final int REQUEST_CODE_PERMISSION = 105;
 
+    private static final int REQUEST_CODE_SETTING = 300;
     public static final int MESSAGE_GET_SIGNUPLIST = 92;
     public static final int REFRESH_COMPLETE = 98;
     private String status="%%";
@@ -153,6 +158,9 @@ private String title;
         tv_signup_all.setText("全部（" + all.size() + "）");
         tv_signup_on.setText("已签（" + on.size() + "）");
         tv_signup_off.setText("未签（" + off.size() + "）");
+        String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
+        getSignList(mParam);
+
     }
 
     private void initIntent() {
@@ -215,6 +223,8 @@ private String title;
     public void onRefresh() {
         String mParam = "ID=" +sign_id + "&pageSize=" + PAGE_SIZE;
         getSignupList(mParam);
+        mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
+        getSignList(mParam);
         mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
 
     }
@@ -334,7 +344,7 @@ private String title;
                         if (jsonObj.getString("Res").equals("0") ){
 
                             SPUtils.put(getApplicationContext(), "listup_" + act_id, result2);
-                        GoToList();
+//                        GoToList();
                     }
                     else{
                                                         ToastUtil.makeText(getApplicationContext(), message);
@@ -425,8 +435,11 @@ private String title;
                 if (requestCode == RESULT_CANCELED) {
                     ToastUtil.makeText(this, "未授权相机权限，请授权后重试");
                 }
+                if (requestCode == REQUEST_CODE_SETTING) {
+                    Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
+                }
 
-                break;
+                ;
         }
     }
 //    public void resultDialog(String status,String message){
@@ -574,9 +587,9 @@ public void resultDialog(String status,String message){
 
         }
     }
-    private void getSignList(String act_id) {
-        Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncSignList asyncSignList = new AsyncSignList(this, mHandler, dialog, MESSAGE_GET_SIGNLIST, act_id);
+
+    private void getSignList(String mParam) {
+        AsyncSignList asyncSignList = new AsyncSignList(this, mHandler, MESSAGE_GET_SIGNLIST, mParam);
         asyncSignList.execute();
     }
     @Override
@@ -588,28 +601,35 @@ public void resultDialog(String status,String message){
 //                System.out.println("a==b?"+(a==b)+"a equals b?"+(a.equals(b))+"a hashcode"+a.hashCode()+"b hash code"+b.hashCode()
 //                );
 
-                if (cameraIsCanUse()) {
-                    if (SPUtils.contains(this, "signup_" + sign_id) == true) {
-                        Intent intent = new Intent();
-                        intent.setClass(this, MipcaActivityCapture.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        intent.putExtra("CheckInID",sign_id);
-                        intent.putExtra("view_show","true" );
-
-
-                        startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
-                    } else if (NetworkUtils.checkNetState(this)) {
-                        String mParam = "ID=" + sign_id;
-                        ToastUtil.makeText(this, "暂未获取报名名单，自动跳转获取");
-                        getSignupList(mParam);
-                    } else {
-                        ToastUtil.makeText(this, "未获得名单，无网络，请在有网后重试");
-
-                    }
-                } else {
-                    ToastUtil.makeText(this, "未获得相机权限，请授权后再试！");
-
-                }
+//                if (cameraIsCanUse()) {
+//                    if (SPUtils.contains(this, "signup_" + sign_id) == true) {
+//                        Intent intent = new Intent();
+//                        intent.setClass(this, MipcaActivityCapture.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        intent.putExtra("CheckInID",sign_id);
+//                        intent.putExtra("view_show","true" );
+//                        startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+//                    } else if (NetworkUtils.checkNetState(this)) {
+//                        String mParam = "ID=" + sign_id;
+//                        ToastUtil.makeText(this, "暂未获取报名名单，自动跳转获取");
+//                        getSignupList(mParam);
+//                    } else {
+//                        ToastUtil.makeText(this, "未获得名单，无网络，请在有网后重试");
+//
+//                    }
+//                } else {
+//                    ToastUtil.makeText(this, "未获得相机权限，请授权后再试！");
+//
+//                }
+                AndPermission.with(this)
+                        .requestCode(REQUEST_CODE_PERMISSION)
+                        .permission(Permission.CAMERA)
+                        .callback(permissionListener)
+                        // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                        // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                        // 你也可以不设置。
+                        .rationale(null)
+                        .start();
                 break;
         }
         return false;
@@ -619,18 +639,15 @@ public void resultDialog(String status,String message){
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
         MySignListupBean bean= adapter.getItem(i);
         phone=bean.getPhone();
-        if (SPUtils.contains(this,"listup_"+act_id)){
+
+
+        if (SPUtils.contains(this, "listup_" + act_id)) {
+//            ToastUtil.makeText(this,"请先获取该签到的活动名单再试~");
             GoToList();
 
-
+        } else {
+            ToastUtil.makeText(this, R.string.net_error);
         }
-        else{
-//            ToastUtil.makeText(this,"请先获取该签到的活动名单再试~");
-            String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
-
-            getSignList(mParam);
-        }
-
 
     }
 
@@ -641,4 +658,42 @@ public void resultDialog(String status,String message){
         intent.putExtra("phone",phone);
         startActivity(intent);
     }
+
+    private PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    if (SPUtils.contains(getApplication(), "signup_" + sign_id) == true) {
+                        Intent intent = new Intent();
+                        intent.setClass(getApplication(), MipcaActivityCapture.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("CheckInID", sign_id);
+                        intent.putExtra("view_show", "true");
+                        startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+                    } else if (NetworkUtils.checkNetState(getApplication())) {
+                        String mParam = "ID=" + sign_id + "&pageSize=" + PAGE_SIZE;
+                        ToastUtil.makeText(getApplication(), "暂未获取报名名单，自动跳转获取");
+                        getSignupList(mParam);
+                    } else {
+                        ToastUtil.makeText(getApplication(), "未获得名单，无网络，请在有网后重试");
+
+                    }
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    ToastUtil.makeText(getApplicationContext(), "授权失败！");
+
+                    break;
+                }
+            }
+        }
+    };
+
 }

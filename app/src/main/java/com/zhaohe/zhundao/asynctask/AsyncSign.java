@@ -26,6 +26,7 @@ public class AsyncSign extends AsyncTask<String, Integer, String> {
     private Dialog mDialog;
     private String mAccesskey;
     private String mSize = "200000";
+    private int mType = 0;
 
 
     public AsyncSign(Context context, Handler handler, Dialog dialog, int request) {
@@ -35,11 +36,29 @@ public class AsyncSign extends AsyncTask<String, Integer, String> {
         this.mDialog = dialog;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
+
+    public AsyncSign(Context context, Handler handler, Dialog dialog, int request, int type) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+        this.mDialog = dialog;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+        this.mType = type;
+    }
     public AsyncSign(Context context, Handler handler,int request) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
+
+    public AsyncSign(Context context, Handler handler, int request, int type) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+        this.mType = type;
+
     }
 
     @Override
@@ -48,7 +67,8 @@ public class AsyncSign extends AsyncTask<String, Integer, String> {
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String param = new String();
-        param = "pageSize=" + mSize;
+        param = "pageSize=" + mSize + "&Type=" + mType;
+        ;
         String result = HttpUtil.sendPostNew2request(path, map, "utf-8", param);
         return result;
     }

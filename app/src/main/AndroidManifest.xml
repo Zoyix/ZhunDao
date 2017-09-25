@@ -293,7 +293,8 @@
         <service android:name="com.gprinter.service.AllService" />
 
         <activity android:name=".ui.home.mine.setting.InfActivity" />
-        <activity android:name=".ui.home.mine.setting.NewsActivity"></activity>
+        <activity android:name=".ui.home.mine.setting.NewsActivity" />
+        <activity android:name=".ui.home.action.more.InvitationActivity"></activity>
     </application>
 
 </manifest>

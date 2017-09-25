@@ -9,6 +9,7 @@ import android.os.Message;
 import com.zhaohe.app.commons.dialog.DialogUtils;
 import com.zhaohe.app.commons.http.HttpUtil;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 
@@ -48,6 +49,7 @@ public class AsyncSignList extends AsyncTask<String, Integer, String> {
         String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PostActivityListed;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
+        ToastUtil.print(mParam);
         String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }

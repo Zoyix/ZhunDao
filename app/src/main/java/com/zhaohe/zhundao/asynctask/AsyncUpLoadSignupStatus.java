@@ -40,9 +40,9 @@ public class AsyncUpLoadSignupStatus extends AsyncTask<String, Integer, String> 
         String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.BatchCheckIn;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        map.put("checkJson", mParam);
+//        map.put("checkJson", mParam);
         map.put("checkInWay","7");
-        String result = HttpUtil.sendPostNewrequest(path, map, "utf-8");
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", "checkJson=" + mParam);
         return result;
 
     }

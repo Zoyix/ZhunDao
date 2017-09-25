@@ -249,6 +249,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             intent.putExtra("act_id", act_id);
             intent.putExtra("UserInfo",UserInfo);
             intent.putExtra("ActivityFees",ActivityFees);
+            SPUtils.put(getActivity(), "UserInfo" + act_id, UserInfo);
+            SPUtils.put(getActivity(), "ActivityFees" + act_id, ActivityFees);
             startActivity(intent);
         }
     }
@@ -542,6 +544,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     public void onMoreClick(ActionBean bean) {
         ActivityFees=bean.getActivityFees();
         UserInfo=bean.getBaseItem();
+        SPUtils.put(getActivity(), "UserInfo" + bean.getAct_id(), UserInfo);
+        SPUtils.put(getActivity(), "ActivityFees" + bean.getAct_id(), ActivityFees);
         Intent intent = new Intent();
         intent.setClass(getActivity(), ActionMoreActivity.class);
         Bundle bundle = new Bundle();

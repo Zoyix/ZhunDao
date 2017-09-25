@@ -2,6 +2,7 @@
     <string name="app_name">准到</string>
     <!--常用-->
     <string name="ok">确认</string>
+    <string name="save">保存</string>
 
 
     //Tab标签
@@ -48,14 +49,14 @@
     <string name="menu_signlist_upload">更新数据</string>
     <string name="menu_signlist_user_delete">删除报名</string>
     <string name="menu_signlist_user_payoff">修改报名为线下支付</string>
+    <string name="menu_signlist_user_remark">添加管理员备注</string>
 
     <string name="menu_signlist_user_edit">修改报名信息</string>
-
-
     <string name="menu_beacon_delete">删除设备</string>
-
     <string name="menu_sign_list_scan">扫码签到</string>
 
+    <string name="menu_invitation_share">分享</string>
+    <string name="menu_invitation_save">保存</string>
 
     <!--没有网络  -->
     <string name="app_serviceError">请联网后再试</string>
@@ -223,7 +224,6 @@
     <string name="tv_sign_email">发送到邮箱</string>
 
 
-
     <string name="et_sign_add_name">请输入签到的名称</string>
 
 
@@ -376,5 +376,8 @@
     <string name="bluetooth_address">蓝牙地址： </string>
     <string name="usb_address">USB： </string>
 
+    <string name="message_setting_back">设置</string>
 
+    <string name="successfully">成功</string>
+    <string name="failure">失败</string>
 </resources>

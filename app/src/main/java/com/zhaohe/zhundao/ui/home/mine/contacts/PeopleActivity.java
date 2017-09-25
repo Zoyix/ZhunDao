@@ -1,14 +1,12 @@
 package com.zhaohe.zhundao.ui.home.mine.contacts;
 
-import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v4.app.ActivityCompat;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +18,9 @@ import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
@@ -27,6 +28,8 @@ import com.zhaohe.zhundao.asynctask.contacts.AsyncDeletePeople;
 import com.zhaohe.zhundao.bean.dao.MyContactsBean;
 import com.zhaohe.zhundao.dao.MyContactsDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
+
+import java.util.List;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -42,6 +45,11 @@ public class PeopleActivity extends ToolBarActivity implements Toolbar.OnMenuIte
     private ImageView iv_contacts_phone, iv_contacts_msg;
 
     public static final int MESSAGE_DELETE_PEOPLE = 95;
+    String phone;
+    private static final int REQUEST_CODE_PHONE = 100;
+    private static final int REQUEST_CODE_MSG = 101;
+
+    private static final int REQUEST_CODE_SETTING = 300;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +82,7 @@ public class PeopleActivity extends ToolBarActivity implements Toolbar.OnMenuIte
 
     private void initView() {
         iv_contacts_phone = (ImageView) findViewById(R.id.iv_contacts_phone);
+//        iv_contacts_phone.setImageBitmap(ZXingUtil.getLoacalBitmap("/mnt/sdcard/Zhundao/不错"));
         iv_contacts_phone.setOnClickListener(this);
         iv_contacts_msg = (ImageView) findViewById(R.id.iv_contacts_msg);
         iv_contacts_msg.setOnClickListener(this);
@@ -181,6 +190,8 @@ public class PeopleActivity extends ToolBarActivity implements Toolbar.OnMenuIte
 
 
         }
+
+
         super.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -253,35 +264,90 @@ public class PeopleActivity extends ToolBarActivity implements Toolbar.OnMenuIte
 
     @Override
     public void onClick(View view) {
-        String phone = tv_contacts_phone.getText().toString();
+        phone = tv_contacts_phone.getText().toString();
         switch (view.getId()) {
             case R.id.iv_contacts_phone:
 
                 if (phone.equals("") && phone.equals(null)) {
                     ToastUtil.makeText(this, "号码不得为空");
                 } else {
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.CALL_PHONE) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                    startActivity(intent);
+                    AndPermission.with(this)
+                            .requestCode(REQUEST_CODE_PHONE)
+                            .permission(Permission.PHONE)
+                            .callback(permissionListener)
+                            // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                            // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                            // 你也可以不设置。
+                            .rationale(null)
+                            .start();
+
+
                 }
                 break;
             case R.id.iv_contacts_msg:
                 if (phone.equals("") && phone.equals(null)) {
                     ToastUtil.makeText(this, "号码不得为空");
                 } else {
-                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phone));
-                    if (ActivityCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
-                        return;
-                    }
-                    startActivity(intent);
+
+                    AndPermission.with(this)
+                            .requestCode(REQUEST_CODE_MSG)
+                            .permission(Permission.SMS)
+                            .callback(permissionListener)
+                            // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                            // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                            // 你也可以不设置。
+                            .rationale(null)
+                            .start();
+
                 }
                 break;
 
 
         }
     }
+
+    private PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PHONE: {
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+
+                    startActivity(intent);
+                    break;
+
+
+                }
+                case REQUEST_CODE_MSG:
+                    Intent intent = new Intent(Intent.ACTION_SEND, Uri.parse("smsto:" + phone));
+
+                    startActivity(intent);
+                    break;
+
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PHONE: {
+
+                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + phone));
+
+                    startActivity(intent);
+
+                    break;
+                }
+                case REQUEST_CODE_MSG:
+                    Intent intent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phone));
+
+                    startActivity(intent);
+                    break;
+            }
+        }
+    };
+
+
 
     @OnClick(R.id.tv_contacts_head)
     public void onViewClicked() {
