@@ -12,7 +12,7 @@ public class UpgradedActivity extends WebViewBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_view_base);
-        initToolBarNew("会员升级",R.layout.web_view_base);
+        initToolBarNew("会员升级", getResources().getColor(R.color.blue), R.layout.web_view_base);
         init(setUrl());
     }
 

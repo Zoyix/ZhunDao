@@ -2,6 +2,7 @@ package com.zhaohe.zhundao.ui;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -88,15 +89,17 @@ public abstract class ToolBarActivity extends SwipeBackActivity {
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
-    public void initToolBarNew(String text,int color, int layoutResID) {
+
+    public void initToolBarNew(String text, @ColorInt int colorId, int layoutResID) {
         ToolBarHelper mToolBarHelper;
         mToolBarHelper = new ToolBarHelper(this, layoutResID);
         mToolBarHelper.setTvTitle(text);
-        mToolBarHelper.setToolBarColor(color);
+        mToolBarHelper.setToolBarColor(colorId);
+        setStatusBarColor(colorId);
+
         super.setTitle("");
         setContentView(mToolBarHelper.getContentView());
         toolbar = mToolBarHelper.getToolBar();
-        toolbar.setBackgroundColor(color);
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }

@@ -447,16 +447,16 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         ActivityFees=bean.getActivityFees();
         UserInfo=bean.getBaseItem();
 //       这里开始写 判断网络状况
-        if (NetworkUtils.checkNetState(getActivity())) {
-            String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE;
-            getSignList(mParam);
-        } else if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
+        if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
             Intent intent = new
                     Intent(getActivity(), SignListActivity.class);
             //在Intent对象当中添加一个键值对
             intent.putExtra("act_id", bean.getAct_id());
             startActivity(intent);
 
+        } else if (NetworkUtils.checkNetState(getActivity())) {
+            String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE + "&position=2";
+            getSignList(mParam);
         } else {
             ToastUtil.makeText(getActivity(), "请联网后再试");
             return;
@@ -546,6 +546,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         UserInfo=bean.getBaseItem();
         SPUtils.put(getActivity(), "UserInfo" + bean.getAct_id(), UserInfo);
         SPUtils.put(getActivity(), "ActivityFees" + bean.getAct_id(), ActivityFees);
+        SPUtils.put(getActivity(), "Act_id_now", bean.getAct_id());
         Intent intent = new Intent();
         intent.setClass(getActivity(), ActionMoreActivity.class);
         Bundle bundle = new Bundle();

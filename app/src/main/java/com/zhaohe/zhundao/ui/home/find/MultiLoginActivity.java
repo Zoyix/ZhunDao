@@ -21,6 +21,7 @@ import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.testScan.AsyncMultiLogin;
 import com.zhaohe.zhundao.asynctask.testScan.AsyncUpLoadSignupStatusMulti;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
+import com.zhaohe.zhundao.bean.updateBean;
 import com.zhaohe.zhundao.dao.MySignupListMultiDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
@@ -99,7 +100,7 @@ public class MultiLoginActivity extends ToolBarActivity implements View.OnClickL
 
     private void upload() {
         if (NetworkUtils.checkNetState(this)) {
-            List<MySignListupBean> list = dao.queryUpdateStatus();
+            List<updateBean> list = dao.queryUpdateStatusNew();
             String jsonString = JSON.toJSONString(list);
             if (list.size() == 0) {
                 return;
@@ -166,6 +167,7 @@ public class MultiLoginActivity extends ToolBarActivity implements View.OnClickL
             bean.setStatus("true");
             bean.setUpdateStatus("false");
             bean.setCheckInID(bean2.getCheckInID());
+            bean.setCheckInTime(bean2.getCheckInTime());
             dao.update(bean);
         }
 

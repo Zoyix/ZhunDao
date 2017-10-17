@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @Description:通讯录数据库
  * @Author:邹苏隆
- * @Since:2017/5/22 14:48
+ * @Since:2017/5/22 14:ic_launcher
  */
 public class MyContactsDao {
     private SQLiteOpenHelperDao dbOpenHelper;

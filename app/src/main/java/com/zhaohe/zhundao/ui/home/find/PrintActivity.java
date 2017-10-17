@@ -343,7 +343,7 @@ public class PrintActivity extends ToolBarActivity {
 		/* 打印图片 */
 //        esc.addText("Print bitmap!\n"); // 打印文字
 //        Bitmap b = BitmapFactory.decodeResource(getResources(), R.drawable.gprinter);
-//        esc.addRastBitImage(b, 384, 0); // 打印图片
+//        esc.addRastBitImage(b, ic_launcher, 0); // 打印图片
 
 		/* 打印一维条码 */
         esc.addText("Print code128\n"); // 打印文字
@@ -421,7 +421,7 @@ public class PrintActivity extends ToolBarActivity {
         // esc.addText("Print bitmap!\n"); // 打印文字
         // Bitmap b = BitmapFactory.decodeResource(getResources(),
         // R.drawable.gprinter);
-        // esc.addRastBitImage(b, 384, 0); // 打印图片
+        // esc.addRastBitImage(b, ic_launcher, 0); // 打印图片
 
 		/* 打印一维条码 */
         esc.addText("Print code128\n"); // 打印文字

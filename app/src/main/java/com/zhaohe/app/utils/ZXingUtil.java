@@ -90,12 +90,16 @@ public class ZXingUtil {
 
     public static void saveImageToGallery(Context context, Bitmap bmp,String name) {
         // 首先保存图片
-        File appDir = new File(Environment.getExternalStorageDirectory(), "Zhundao");
+        File appDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Zhundao");
+
+        ToastUtil.print(appDir.getAbsolutePath());
         if (!appDir.exists()) {
             appDir.mkdir();
         }
 
-        File file = new File(appDir, name);
+        File file = new File(appDir, name + ".jpg");
+        ToastUtil.print(file.getAbsolutePath());
+
         try {
             FileOutputStream fos = new FileOutputStream(file);
             bmp.compress(Bitmap.CompressFormat.JPEG, 100, fos);

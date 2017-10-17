@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Description:
  * @Author:邹苏隆
- * @Since:2016/12/13 13:48
+ * @Since:2016/12/13 13:ic_launcher
  */
 public class SignBean implements Serializable {
     public String getSign_id() {

@@ -149,6 +149,8 @@ public class SignListUserEditActivity extends ToolBarActivity {
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "修改成功！");
+                            SPUtils.put(getApplicationContext(), "updateSignList", true);
+
                             finish();
                         }
                         else{

@@ -1,6 +1,5 @@
 package com.zhaohe.zhundao.ui.home.sign;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -29,7 +28,6 @@ import com.yanzhenjie.permission.AndPermission;
 import com.yanzhenjie.permission.Permission;
 import com.yanzhenjie.permission.PermissionListener;
 import com.zhaohe.app.utils.NetworkUtils;
-import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.TimeUtil;
 import com.zhaohe.app.utils.ToastUtil;
@@ -154,11 +152,15 @@ private String title;
     }
 
     public void init() {
+
         adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,"%%"));
         tv_signup_all.setText("全部（" + all.size() + "）");
         tv_signup_on.setText("已签（" + on.size() + "）");
         tv_signup_off.setText("未签（" + off.size() + "）");
-        String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
+        if (act_id == null) {
+            act_id = ((String) SPUtils.get(this, "Act_id_now", ""));
+        }
+        String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE + "&position=3";
         getSignList(mParam);
 
     }
@@ -223,14 +225,13 @@ private String title;
     public void onRefresh() {
         String mParam = "ID=" +sign_id + "&pageSize=" + PAGE_SIZE;
         getSignupList(mParam);
-        mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
+        mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE + "&position=4";
         getSignList(mParam);
         mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
 
     }
     private void getSignupList(String sign_id) {
-        Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncSignupList asyncSignupList = new AsyncSignupList(this, mHandler, dialog, MESSAGE_GET_SIGNUPLIST, sign_id);
+        AsyncSignupList asyncSignupList = new AsyncSignupList(this, mHandler, MESSAGE_GET_SIGNUPLIST, sign_id);
         asyncSignupList.execute();
     }
     //有网时插入数据库

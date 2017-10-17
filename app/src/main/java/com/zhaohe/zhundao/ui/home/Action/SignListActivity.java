@@ -82,8 +82,12 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     @Override
     public void onResume() {
         super.onResume();
+        if ((boolean) SPUtils.get(this, "updateSignList", false)) {
+            updateNoDialog();
+            SPUtils.put(this, "updateSignList", false);
 
-        updateNoDialog();    }
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -128,7 +132,6 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             bean.setNickname(jsonArray.getJSONObject(i).getString("NickName"));
             bean.setAdminRemark(jsonArray.getJSONObject(i).getString("AdminRemark"));
             bean.setVCode(jsonArray.getJSONObject(i).getString("VCode"));
-            ToastUtil.print("Vcode"+jsonArray.getJSONObject(i).getString("VCode"));
             bean.setmIndex(i);
             bean.setAct_id(act_id);
 //          Status  -1取消报名，0报名成功，1待缴费
@@ -414,10 +417,16 @@ else{
     }
 
     private void update() {
+        if (act_id == null) {
+            act_id = ((String) SPUtils.get(this, "Act_id_now", ""));
+        }
         String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
         getSignList(mParam);
     }
     private void updateNoDialog() {
+        if (act_id == null) {
+            act_id = ((String) SPUtils.get(this, "Act_id_now", ""));
+        }
         String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
         getSignListNoDialog(mParam);
     }

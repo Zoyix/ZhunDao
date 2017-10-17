@@ -223,10 +223,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                 this.startActivity(intent);
                 break;
             case POSITION_LIST:
-                if (NetworkUtils.checkNetState(this)) {
-                    String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE;
-                    getSignList(mParam);
-                } else if (SPUtils.contains(this, "listup_" + bean.getAct_id()) == true) {
+                if (SPUtils.contains(this, "listup_" + bean.getAct_id()) == true) {
                     intent = new
                             Intent(this, SignListActivity.class);
                     //在Intent对象当中添加一个键值对
@@ -235,6 +232,12 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                     intent.putExtra("ActivityFees",bean.getActivityFees());
                     startActivity(intent);
 
+                } else if (NetworkUtils.checkNetState(this)) {
+                    if (bean.getAct_id() == null) {
+                        bean.setAct_id((String) SPUtils.get(this, "Act_id_now", ""));
+                    }
+                    String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE + "&position=1";
+                    getSignList(mParam);
                 } else {
                     ToastUtil.makeText(this, "请联网后再试");
                     return;
@@ -268,6 +271,8 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
 //                invitationDialogLocal();
                 intent = new Intent();
                 intent.setClass(this, InvitationActivity.class);
+//                intent.setClass(this, InvitationUserActivity.class);
+
                 bundle = new Bundle();
                 bundle.putSerializable("bean", bean);
                 intent.putExtras(bundle);

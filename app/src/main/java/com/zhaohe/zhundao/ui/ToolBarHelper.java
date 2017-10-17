@@ -2,6 +2,7 @@ package com.zhaohe.zhundao.ui;
 
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.support.annotation.ColorInt;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -94,8 +95,9 @@ public class ToolBarHelper {
     public void setTvTitle(String text) {
         tv_toolbar_title.setText(text);
     }
-    public void setToolBarColor(int color) {
-        mToolBar.setBackgroundColor(color);
+
+    public void setToolBarColor(@ColorInt int colorId) {
+        mToolBar.setBackgroundColor(colorId);
     }
 
 

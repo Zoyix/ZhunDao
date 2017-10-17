@@ -49,6 +49,7 @@ import com.zhaohe.zhundao.asynctask.AsyncUpdateSignStatus;
 import com.zhaohe.zhundao.bean.SignBean;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
+import com.zhaohe.zhundao.bean.updateBean;
 import com.zhaohe.zhundao.dao.MySignupListDao;
 import com.zhaohe.zhundao.ui.home.mine.UpgradedActivity;
 import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
@@ -379,7 +380,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             SPUtils.put(getActivity(), "signup_" + sign_id, result);
             System.out.println(SPUtils.get(getActivity(), "signup_" + sign_id, ""));
             //在Intent对象当中添加一个键值对
-            String result2 = (String) SPUtils.get(getActivity(), "sign_result", "");
+            String result2 = (String) SPUtils.get(getActivity(), "sign_result_off", "");
             JSONObject jsonObj2 = JSON.parseObject(result2);
             JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
             intent.putExtra("sign_id", sign_id);
@@ -499,6 +500,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             bean.setStatus("true");
             bean.setUpdateStatus("false");
             bean.setCheckInID(bean2.getCheckInID());
+            bean.setCheckInTime(bean2.getCheckInTime());
             dao.update(bean);
         }
 
@@ -769,7 +771,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     }
     private void upload() {
         if (NetworkUtils.checkNetState(getActivity())) {
-            List<MySignListupBean> list = dao.queryUpdateStatus();
+            List<updateBean> list = dao.queryUpdateStatusNew();
             String jsonString = JSON.toJSONString(list);
             if (list.size() == 0) {
                 ToastUtil.print("已是最新数据");
@@ -786,19 +788,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
 
         title=bean.getAct_title();
         mSignID = bean.getSign_id();
-        if (NetworkUtils.checkNetState(getActivity())) {
-            //            单页显示的数据数目
-            List<MySignListupBean> list = dao.queryUpdateStatus();
-            if (list.size()!=0){
-                upload();
-                ToastUtil.makeText(getActivity(),"正在同步数据，等提示数据上传成功后再试~");
-                return;
-            }
-
-            String mParam = "ID=" + bean.getSign_id() + "&pageSize=" + PAGE_SIZE;
-            getSignupList(mParam);
-
-        } else if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
+        if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
             Intent intent = new
                     Intent(getActivity(), SignupListActivity.class);
             //在Intent对象当中添加一个键值对
@@ -809,6 +799,18 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             intent.putExtra("act_id", act_id);
 
             startActivity(intent);
+
+        } else if (NetworkUtils.checkNetState(getActivity())) {
+            //            单页显示的数据数目
+            List<MySignListupBean> list = dao.queryUpdateStatus();
+            if (list.size() != 0) {
+                upload();
+                ToastUtil.makeText(getActivity(), "正在同步数据，等提示数据上传成功后再试~");
+                return;
+            }
+
+            String mParam = "ID=" + bean.getSign_id() + "&pageSize=" + PAGE_SIZE;
+            getSignupList(mParam);
 
         } else {
             ToastUtil.makeText(getActivity(), "请联网后再试");

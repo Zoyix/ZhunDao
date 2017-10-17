@@ -37,6 +37,10 @@
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_CONTACTS" />
+    <uses-permission android:name="android.permission.WRITE_SETTINGS" />
+    <uses-permission android:name="android.permission.CHANGE_CONFIGURATION" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 
     <application
         android:name=".ui.App"
@@ -294,7 +298,30 @@
 
         <activity android:name=".ui.home.mine.setting.InfActivity" />
         <activity android:name=".ui.home.mine.setting.NewsActivity" />
-        <activity android:name=".ui.home.action.more.InvitationActivity"></activity>
+        <activity android:name=".ui.home.action.more.InvitationActivity" />
+        <activity
+            android:name=".ui.home.action.signlist.InvitationUserActivity"
+            android:label="@string/title_activity_invitation_user"
+            android:theme="@style/AppTheme"></activity>
+        <!--人脸WIFI-->
+
+
+        <activity
+            android:name=".mywifidemo.activity.MainFaceActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".mywifidemo.activity.SelectWifiActivity"
+            android:screenOrientation="portrait">
+
+        </activity>
+        <activity
+            android:name=".mywifidemo.activity.WifiConfigActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".mywifidemo.activity.AdjustActivity"
+            android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>

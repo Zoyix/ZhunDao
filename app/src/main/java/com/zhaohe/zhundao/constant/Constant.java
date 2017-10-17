@@ -7,8 +7,8 @@ package com.zhaohe.zhundao.constant;
  */
 public class Constant {
     public static String APP_ID = "wxfe2a9da163481ba9";
-    public static String HOST = "http://open.zhundao.net"; // 测试
-    public static String HOST_1 = "http://open.zhundao.com.cn"; // 测试
+    public static String HOST = "http://open.zhundao.net"; // 主线路
+    public static String HOST_1 = "http://open.zhundao.com.cn"; // 备用
 
     public static String HOST_MOBLIE = "http://m.zhundao.net";
     //    public static String       ACCESSKEY;

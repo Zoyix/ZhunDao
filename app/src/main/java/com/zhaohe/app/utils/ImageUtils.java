@@ -111,7 +111,7 @@ public class ImageUtils {
      * @return
      * @Description: 放大缩小图片
      * @Author:杨攀
-     * @Since: 2014年8月17日上午10:48:57
+     * @Since: 2014年8月17日上午10:ic_launcher:57
      */
     public static Bitmap zoomBitmap(Bitmap bitmap, int w, int h) {
         Bitmap newbmp = null;
@@ -281,7 +281,7 @@ public class ImageUtils {
      * @throws IOException
      * @Description: 创建缩略图--压缩图片
      * @Author:杨攀
-     * @Since: 2014年8月17日下午2:52:48
+     * @Since: 2014年8月17日下午2:52:ic_launcher
      */
     public static void createImageThumbnail(Context context, String largeImagePath, String thumbfilePath, int square_size, int quality) throws IOException {
 

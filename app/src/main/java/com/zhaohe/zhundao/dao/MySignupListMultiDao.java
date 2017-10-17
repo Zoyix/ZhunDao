@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
+import com.zhaohe.zhundao.bean.updateBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -200,6 +201,27 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
         return list;
     }
 
+    public List<updateBean> queryUpdateStatusNew() {
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        // db.beginTransaction ();// 开启事务
+        List<updateBean> list = new ArrayList<updateBean>();
+        try {
+            Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
+                    + " where UpdateStatus like ?", new String[]{"true"});
+            while (cursor.moveToNext()) {
+                updateBean bean = new updateBean();
+                setBean(cursor, bean);
+                list.add(bean);
+            }
+            cursor.close();
+            // db.setTransactionSuccessful ();// 设置事务的标志为True
+        } finally {
+            // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.close();
+        }
+        return list;
+    }
+
     private void setBean(Cursor cursor, MySignListupBean bean) {
         String CheckInTime = cursor.getString(cursor.getColumnIndex("CheckInTime"));
 
@@ -226,5 +248,32 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
 
     }
 
+    private void setBean(Cursor cursor, updateBean bean) {
+        String CheckInTime = cursor.getString(cursor.getColumnIndex("CheckInTime"));
 
+        String VCode = cursor.getString(cursor.getColumnIndex("VCode"));
+        String CheckInID = cursor.getString(cursor.getColumnIndex("CheckInID"));
+        String Status = cursor.getString(cursor.getColumnIndex("Status"));
+        String UpdateStatus = cursor.getString(cursor.getColumnIndex("UpdateStatus"));
+        String Name = cursor.getString(cursor.getColumnIndex("Name"));
+        String Phone = cursor.getString(cursor.getColumnIndex("Phone"));
+        String AdminRemark = cursor.getString(cursor.getColumnIndex("AdminRemark"));
+        String UserRemark = cursor.getString(cursor.getColumnIndex("UserRemark"));
+
+        String FeeName = cursor.getString(cursor.getColumnIndex("FeeName"));
+        String Fee = cursor.getString(cursor.getColumnIndex("Fee"));
+//        bean.setIDcard(cursor.getString(cursor.getColumnIndex("IDcard")));
+        bean.setVCode(VCode);
+        bean.setCheckInID(CheckInID);
+//        bean.setStatus(Status);
+//        bean.setUpdateStatus(UpdateStatus);
+//        bean.setName(Name);
+//        bean.setPhone(Phone);
+//        bean.setAdminRemark(AdminRemark);
+//        bean.setFeeName(FeeName);
+//        bean.setFee(Fee);
+        bean.setCheckInTime(CheckInTime);
+//        bean.setUserRemark(UserRemark);
+
+    }
 }

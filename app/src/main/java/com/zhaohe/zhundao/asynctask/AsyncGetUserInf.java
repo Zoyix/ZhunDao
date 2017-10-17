@@ -16,7 +16,7 @@ import java.util.Map;
 /**
  * @Description:
  * @Author:邹苏隆
- * @Since:2016/12/22 15:48
+ * @Since:2016/12/22 15:ic_launcher
  */
 public class AsyncGetUserInf extends AsyncTask<String, Integer, String> {
     private Context mContext;

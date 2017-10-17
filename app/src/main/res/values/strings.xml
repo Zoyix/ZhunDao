@@ -97,6 +97,7 @@
     <string name="tv_find_shake">准到Beacon</string>
     <string name="tv_find_multipoint">多点签到</string>
     <string name="tv_find_print">打印设置</string>
+    <string name="tv_find_face_wifi">人脸wifi</string>
 
 
     <string name="tv_custom_title">111111111111111111111111111111111111111111111111</string>
@@ -380,4 +381,5 @@
 
     <string name="successfully">成功</string>
     <string name="failure">失败</string>
+    <string name="title_activity_invitation_user">InvitationUserActivity</string>
 </resources>

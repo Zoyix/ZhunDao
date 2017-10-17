@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.umeng.analytics.MobclickAgent;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.zhundao.R;
+import com.zhaohe.zhundao.mywifidemo.activity.MainFaceActivity;
 
 
 /**
@@ -22,8 +23,7 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     protected View rootView;
     private TextView tv_find_custom;
     private TextView tv_find_shake;
-    private TextView tv_find_multipoint,tv_find_print;
-
+    private TextView tv_find_multipoint, tv_find_print, tv_find_face_wifi;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +51,8 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         tv_find_multipoint.setOnClickListener(this);
         tv_find_print= (TextView) rootView.findViewById(R.id.tv_find_print);
         tv_find_print.setOnClickListener(this);
-
+        tv_find_face_wifi = (TextView) rootView.findViewById(R.id.tv_find_face_wifi);
+        tv_find_face_wifi.setOnClickListener(this);
 
     }
 
@@ -83,6 +84,10 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.tv_find_print:
                 IntentUtils.startActivity(getActivity(),PrintActivity.class);
+                break;
+            case R.id.tv_find_face_wifi:
+                IntentUtils.startActivity(getActivity(), MainFaceActivity.class);
+
                 break;
         }
 

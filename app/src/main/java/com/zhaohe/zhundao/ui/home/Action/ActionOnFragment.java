@@ -45,6 +45,7 @@ import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
+import com.zhaohe.zhundao.bean.updateBean;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.dao.MySignupListDao;
 import com.zhaohe.zhundao.ui.home.action.more.ActionMoreActivity;
@@ -510,7 +511,7 @@ load=false;
 
     private void upload() {
         if (NetworkUtils.checkNetState(getActivity())) {
-            List<MySignListupBean> list = dao.queryUpdateStatus();
+            List<updateBean> list = dao.queryUpdateStatusNew();
             String jsonString = JSON.toJSONString(list);
             if (list.size() == 0) {
                 return;
@@ -531,6 +532,8 @@ load=false;
             bean.setStatus("true");
             bean.setUpdateStatus("false");
             bean.setCheckInID(bean2.getCheckInID());
+            bean.setCheckInTime(bean2.getCheckInTime());
+
             dao.update(bean);
         }
 
@@ -593,10 +596,7 @@ load=false;
         ActivityFees=bean.getActivityFees();
         UserInfo=bean.getBaseItem();
 //       这里开始写 判断网络状况
-        if (NetworkUtils.checkNetState(getActivity())) {
-            String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE;
-            getSignList(mParam);
-        } else if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
+        if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
             Intent intent = new
                     Intent(getActivity(), SignListActivity.class);
             //在Intent对象当中添加一个键值对
@@ -604,6 +604,10 @@ load=false;
 
             startActivity(intent);
 
+        } else if (NetworkUtils.checkNetState(getActivity())) {
+
+            String mParam = "ActivityID=" + bean.getAct_id() + "&pageSize=" + PAGE_SIZE;
+            getSignList(mParam);
         } else {
             ToastUtil.makeText(getActivity(), "请联网后再试");
             return;
@@ -645,6 +649,8 @@ load=false;
         UserInfo=bean.getBaseItem();
         SPUtils.put(getActivity(), "UserInfo" + bean.getAct_id(), UserInfo);
         SPUtils.put(getActivity(), "ActivityFees" + bean.getAct_id(), ActivityFees);
+        SPUtils.put(getActivity(), "Act_id_now", bean.getAct_id());
+
         Intent intent = new Intent();
         intent.setClass(getActivity(), ActionMoreActivity.class);
         Bundle bundle = new Bundle();

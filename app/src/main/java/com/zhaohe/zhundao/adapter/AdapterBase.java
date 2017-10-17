@@ -52,7 +52,7 @@ public abstract class AdapterBase<T, V> extends BaseAdapter {
     /**
      * @Description: 清除数据
      * @Author:杨攀
-     * @Since: 2014年7月31日下午3:48:02
+     * @Since: 2014年7月31日下午3:ic_launcher:02
      */
     public void clear() {
         mList.clear();

@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/activity_action_more"
+<ScrollView xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.zhaohe.zhundao.ui.home.action.more.ActionMoreActivity">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:id="@+id/activity_action_more"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
     <RelativeLayout
         android:id="@+id/rl_act_more_details"
         android:layout_width="wrap_content"
@@ -139,6 +145,7 @@ android:layout_marginTop="3dp"/>
         android:layout_height="10dp"
         android:background="@color/line_gray"
         />
+
     <com.zhaohe.zhundao.ui.home.IndexGridView
         android:id="@+id/gridview"
         android:layout_below="@id/act_more_view"
@@ -149,5 +156,5 @@ android:layout_marginTop="3dp"/>
 
 
 
-
 </RelativeLayout>
+</ScrollView>

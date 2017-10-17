@@ -26,6 +26,7 @@ import com.zhaohe.zhundao.asynctask.testScan.AsyncScanCodeMulti;
 import com.zhaohe.zhundao.asynctask.testScan.AsyncSignupListMulti;
 import com.zhaohe.zhundao.asynctask.testScan.AsyncUpLoadSignupStatusMulti;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
+import com.zhaohe.zhundao.bean.updateBean;
 import com.zhaohe.zhundao.dao.MySignupListMultiDao;
 import com.zhaohe.zhundao.ui.home.mine.setting.AboutUsActivity;
 import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
@@ -329,7 +330,7 @@ if ("true".equals(jsonObject3.getString("Status")))
     }
     private void upload() {
         if (NetworkUtils.checkNetState(this)) {
-            List<MySignListupBean> list = dao.queryUpdateStatus();
+            List<updateBean> list = dao.queryUpdateStatusNew();
             String jsonString = JSON.toJSONString(list);
             if (list.size() == 0) {
                 ToastUtil.makeText(getApplicationContext(), "已是最新数据");

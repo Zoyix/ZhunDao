@@ -6,10 +6,8 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 
-import com.zhaohe.app.commons.dialog.DialogUtils;
 import com.zhaohe.app.commons.http.HttpUtil;
 import com.zhaohe.app.utils.SPUtils;
-import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 
 import java.util.HashMap;
@@ -38,6 +36,14 @@ public class AsyncSignupList extends AsyncTask<String, Integer, String> {
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
 
+    public AsyncSignupList(Context context, Handler handler, int request, String param) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+        this.mParam = param;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
+    }
+
     @Override
     protected String doInBackground(String... strings) {
         String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PostCheckInList;
@@ -58,7 +64,7 @@ public class AsyncSignupList extends AsyncTask<String, Integer, String> {
             System.out.println("获取签到人员列表" + result);
             mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog(mContext, R.string.app_serviceError);
+//            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

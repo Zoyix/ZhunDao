@@ -203,7 +203,7 @@ public class CustomItemActivity extends ToolBarActivity implements AdapterView.O
                     String Option = null;
 
                     String Title = et_find_custom_name.getText().toString();
-                    if (Title.equals("")) {
+                    if (Title.equals("") || Title == null) {
                         ToastUtil.makeText(getApplicationContext(), "请输入自定义选项名称");
                         return;
                     }

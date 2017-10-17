@@ -48,6 +48,12 @@
     <!--默认灰色-->
     <color name="black90">#383431</color><!--黑色 -->
     <color name="gray">#808080</color><!--灰色 -->
+    <!--人脸识别wifi-->
+    <color name="lightGrey">#A4ACB1</color>
+    <color name="TextSelection">#36B7FB</color>
+    <color name="touming">#00000000</color>
+
+
     <!--象牙色 -->
     <!--亮黄色 -->
     <!--黄色 -->

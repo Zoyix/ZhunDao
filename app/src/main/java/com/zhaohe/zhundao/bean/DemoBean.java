@@ -5,7 +5,7 @@ import java.io.Serializable;
 /**
  * @Description:
  * @Author:邹苏隆
- * @Since:2016/12/2 15:48
+ * @Since:2016/12/2 15:ic_launcher
  */
 public class DemoBean implements Serializable {
     private static final long serialVersionUID = 1428473821613094413L;

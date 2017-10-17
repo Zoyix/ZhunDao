@@ -50,6 +50,7 @@ import com.zhaohe.zhundao.asynctask.AsyncUpdateSignStatus;
 import com.zhaohe.zhundao.bean.SignBean;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
+import com.zhaohe.zhundao.bean.updateBean;
 import com.zhaohe.zhundao.dao.MySignupListDao;
 import com.zhaohe.zhundao.ui.home.mine.UpgradedActivity;
 import com.zhaohe.zhundao.zxing.controller.MipcaActivityCapture;
@@ -416,7 +417,7 @@ String endtime;
             System.out.println(SPUtils.get(getActivity(), "signup_" + sign_id, ""));
             //在Intent对象当中添加一个键值对
             //设置签到列表签到数字
-            String result2 = (String) SPUtils.get(getActivity(), "sign_result", "");
+            String result2 = (String) SPUtils.get(getActivity(), "sign_result_on", "");
             JSONObject jsonObj2 = JSON.parseObject(result2);
             JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
             intent.putExtra("title",title);
@@ -585,18 +586,7 @@ if (isGotoList){return;}
 title=bean.getAct_title();
         isGotoList=false;
         mSignID = bean.getSign_id();
-        if (NetworkUtils.checkNetState(getActivity())) {
-            List<MySignListupBean> list = dao.queryUpdateStatus();
-if (list.size()!=0){
-    upload();
-    ToastUtil.makeText(getActivity(),"正在同步数据，等提示数据上传成功后再试~");
-    return;
-}
-            //            单页显示的数据数目
-            String mParam = "ID=" + bean.getSign_id() + "&pageSize=" + PAGE_SIZE;
-            getSignupList(mParam);
-
-        }else if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
+        if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
             Intent intent = new
                     Intent(getActivity(), SignupListActivity.class);
             //在Intent对象当中添加一个键值对
@@ -607,6 +597,17 @@ if (list.size()!=0){
             intent.putExtra("act_id", act_id);
 
             startActivity(intent);
+
+        } else if (NetworkUtils.checkNetState(getActivity())) {
+            List<MySignListupBean> list = dao.queryUpdateStatus();
+            if (list.size() != 0) {
+                upload();
+                ToastUtil.makeText(getActivity(), "正在同步数据，等提示数据上传成功后再试~");
+                return;
+            }
+            //            单页显示的数据数目
+            String mParam = "ID=" + bean.getSign_id() + "&pageSize=" + PAGE_SIZE;
+            getSignupList(mParam);
 
         } else {
             ToastUtil.makeText(getActivity(), "请联网后再试");
@@ -984,7 +985,7 @@ sendEmail();
     }
     private void upload() {
         if (NetworkUtils.checkNetState(getActivity())) {
-            List<MySignListupBean> list = dao.queryUpdateStatus();
+            List<updateBean> list = dao.queryUpdateStatusNew();
             String jsonString = JSON.toJSONString(list);
             ToastUtil.print("上传数据"+jsonString);
             if (list.size() == 0) {
@@ -1005,6 +1006,7 @@ sendEmail();
             bean.setVCode(bean2.getVCode());
             bean.setStatus("true");
             bean.setUpdateStatus("false");
+            bean.setCheckInTime(bean2.getCheckInTime());
             bean.setCheckInID(bean2.getCheckInID());
             dao.update(bean);
         }

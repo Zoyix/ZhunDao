@@ -382,6 +382,8 @@ hideView(baseItem[i]);
         tv1.setText(title);
         tv1.setId(R.id.tv_code_title);
         final EditText et = new EditText(this);
+        jsonMap.put(title, et.getText().toString());
+
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -556,6 +558,8 @@ hideView(baseItem[i]);
         final EditText et = new EditText(this);
         et.setText(Content);
         et.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        jsonMap.put(title, et.getText().toString());
+
         et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -610,7 +614,9 @@ hideView(baseItem[i]);
 
         sp.setId(R.id.tv_code_content);
         sp.setPrompt(title);
+
         String[] s = Option.split("\\|");
+        jsonMap.put(title, "");
 
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, s);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

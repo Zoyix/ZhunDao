@@ -18,7 +18,7 @@ import java.util.Map;
 /**
  * @Description:
  * @Author:邹苏隆
- * @Since:2017/6/23 15:48
+ * @Since:2017/6/23 15:ic_launcher
  */
 public class AsyncSignListPeopleDelete  extends AsyncTask<String, Integer, String> {
     private Context mContext;

@@ -7,6 +7,11 @@
     <file url="file://$PROJECT_DIR$/app/src/main/res/drawable/list_item_color_bg.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/activity_sign_list_more.xml" charset="GBK" />
     <file url="file://$PROJECT_DIR$/app/src/main/res/layout/list_item_sign_list_more.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../ZhunDaoSign/app/src/main/java/com/zhaohe/zhundao/ui/home/action/signlist/InterceptScrollContainer.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../ZhunDaoSign/app/src/main/java/com/zhaohe/zhundao/ui/home/action/signlist/SignListMoreActivity.java" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../ZhunDaoSign/app/src/main/res/drawable/list_item_color_bg.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../ZhunDaoSign/app/src/main/res/layout/activity_sign_list_more.xml" charset="GBK" />
+    <file url="file://$PROJECT_DIR$/../ZhunDaoSign/app/src/main/res/layout/list_item_sign_list_more.xml" charset="GBK" />
     <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>

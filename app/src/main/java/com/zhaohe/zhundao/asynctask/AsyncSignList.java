@@ -6,11 +6,9 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 
-import com.zhaohe.app.commons.dialog.DialogUtils;
 import com.zhaohe.app.commons.http.HttpUtil;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
-import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 
 import java.util.HashMap;
@@ -65,7 +63,7 @@ public class AsyncSignList extends AsyncTask<String, Integer, String> {
             System.out.println("获取报名人员列表" + result);
             mHandler.sendMessage(msg);
         } else {
-            DialogUtils.showDialog(mContext, R.string.app_serviceError);
+//            DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }

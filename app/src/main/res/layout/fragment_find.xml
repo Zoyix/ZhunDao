@@ -59,6 +59,20 @@
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
+    <TextView
+
+
+        android:drawableLeft="@mipmap/find_multi108"
+        android:id="@+id/tv_find_face_wifi"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_find_face_wifi" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
     <com.coorchice.library.SuperTextView
         android:visibility="gone"
         android:layout_width="300dp"
