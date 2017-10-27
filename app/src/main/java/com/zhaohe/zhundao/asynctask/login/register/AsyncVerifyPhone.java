@@ -38,10 +38,10 @@ public class AsyncVerifyPhone extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String path = (String) SPUtils.get(mContext,"HOST", Constant.HOST) + Constant.Url.VerifyPhone;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.VerifyPhone;
         Map<String, String> map = new HashMap<String, String>();
         map.put("phone", mmobile);
-        map.put("from","Android");
+        map.put("from", "Android");
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

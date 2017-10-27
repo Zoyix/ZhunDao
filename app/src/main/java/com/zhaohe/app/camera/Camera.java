@@ -52,13 +52,13 @@ import java.util.List;
 public class Camera {
 
     private static final String TAB = "Camera";
-    private  ArrayList<String> upload=new ArrayList<>();
-   private Dialog dialog;
-private int uploadSize=-1;
+    private ArrayList<String> upload = new ArrayList<>();
+    private Dialog dialog;
+    private int uploadSize = -1;
     private GridLayout gl_camera;
     //图片标题
     private String title;
-private boolean isshow;
+    private boolean isshow;
 
     /**
      * @Fields saveDir : 存放照片的文件夹
@@ -96,7 +96,7 @@ private boolean isshow;
      * @Fields MAX_SELECT_COUNT : 最大照片数
      */
     public static int max_select_count = 9;
-private Handler uploadHandler;
+    private Handler uploadHandler;
     private Activity mActivity;
     private Fragment mFragment;
     private GridLayout mGl_camera;
@@ -110,21 +110,23 @@ private Handler uploadHandler;
             if (msg.what == COMPRESSION_SUCCESS && msg.obj != null) {
                 Bundle bundle = msg.getData();
                 String path = bundle.getString(BUNDLE_IMGTHUM_PATH);
-                uploadPhoto( getFormFile(path));
+                uploadPhoto(getFormFile(path));
 
 
                 // 显示图片
-                if(!isshow){showImage2View(path, (Bitmap) msg.obj);}
+                if (!isshow) {
+                    showImage2View(path, (Bitmap) msg.obj);
+                }
 
             }
 //            else {
 //                Toast.makeText(mActivity, R.string.camera_photo_compression_image, Toast.LENGTH_SHORT)
 //                        .show();
 //            }
-            if (msg.what==MESSAGE_UPLOAD_PHOTO){
+            if (msg.what == MESSAGE_UPLOAD_PHOTO) {
                 String result = (String) msg.obj;
                 JSONObject jsonObj = JSON.parseObject(result);
-                String Url=jsonObj.getString("url");
+                String Url = jsonObj.getString("url");
                 String message = jsonObj.getString("Res");
                 upload.add(Url);
 //                if (uploadSize!=-1){
@@ -134,11 +136,12 @@ private Handler uploadHandler;
 //                    dialog.dismiss();
 //                    ToastUtil.makeText(mActivity,"上传图片成功");
 //                }
-                ToastUtil.print("还需上传数量"+--uploadSize);
-                if (uploadSize<=0){
-                    if (dialog!=null){
-                    dialog.dismiss();}
-                     msg = uploadHandler.obtainMessage(1000);
+                ToastUtil.print("还需上传数量" + --uploadSize);
+                if (uploadSize <= 0) {
+                    if (dialog != null) {
+                        dialog.dismiss();
+                    }
+                    msg = uploadHandler.obtainMessage(1000);
                     uploadHandler.sendMessage(msg);
 
                 }
@@ -177,45 +180,47 @@ private Handler uploadHandler;
      * @param activity  当前的activty
      * @param gl_camera 显示照片小图的 gridview
      */
-    public Camera(Activity activity, GridLayout gl_camera, boolean isShow  ) {
+    public Camera(Activity activity, GridLayout gl_camera, boolean isShow) {
         this.mActivity = activity;
         this.mGl_camera = gl_camera;
         init(isShow);
     }
-//设置选择的图片数量
-    public Camera(Activity activity, GridLayout gl_camera, boolean isShow ,int max_num ) {
+
+    //设置选择的图片数量
+    public Camera(Activity activity, GridLayout gl_camera, boolean isShow, int max_num) {
         this.mActivity = activity;
         this.mGl_camera = gl_camera;
-        max_select_count=max_num;
+        max_select_count = max_num;
         init(isShow);
     }
 
-    public Camera(Activity activity, GridLayout gl_camera, boolean isShow ,int max_num ,Handler handler,String title) {
+    public Camera(Activity activity, GridLayout gl_camera, boolean isShow, int max_num, Handler handler, String title) {
         this.mActivity = activity;
         this.mGl_camera = gl_camera;
-        max_select_count=max_num;
+        max_select_count = max_num;
         init(isShow);
-        uploadHandler=handler;
-        this.title=title;
+        uploadHandler = handler;
+        this.title = title;
     }
 
-    public Camera(Activity activity  ,Handler handler,String path) {
+    public Camera(Activity activity, Handler handler, String path) {
         this.mActivity = activity;
 
-        uploadHandler=handler;
+        uploadHandler = handler;
         CompressionRunnable runnable = new CompressionRunnable(path);
         new Thread(runnable).start();
-        isshow=true;
-        dialog= ProgressDialogUtils.showProgressDialog(mActivity,"正在上传中","请稍后");
-        uploadSize=1;
+        isshow = true;
+        dialog = ProgressDialogUtils.showProgressDialog(mActivity, "正在上传中", "请稍后");
+        uploadSize = 1;
     }
 
 
-    public   ArrayList<String> getUploadUrl() {
+    public ArrayList<String> getUploadUrl() {
         // 照片上传
         return upload;
     }
-    public  void clearUpload(){
+
+    public void clearUpload() {
         upload.clear();
     }
 
@@ -236,7 +241,7 @@ private Handler uploadHandler;
 
             longClickListener = new ImgViewOnLongClickListener();
             // 显示添加 “+” View
-            AddViewOnTouchClickListener listener =new AddViewOnTouchClickListener();
+            AddViewOnTouchClickListener listener = new AddViewOnTouchClickListener();
             addImgView = showAddView(mActivity, listener);
             mGl_camera.addView(addImgView);
         }
@@ -260,7 +265,7 @@ private Handler uploadHandler;
      * @Since:2015年11月4日上午11:03:38
      */
 
-    private final class AddViewOnTouchClickListener implements View.OnTouchListener{
+    private final class AddViewOnTouchClickListener implements View.OnTouchListener {
 
         @Override
         public boolean onTouch(View v, MotionEvent motionEvent) {
@@ -313,10 +318,10 @@ private Handler uploadHandler;
                 public void onClick(DialogInterface dialog, int which) {
 
                     String imgpath = view.getTag(R.id.a) + "";
-                    int position= (int) view.getTag(R.id.b);
+                    int position = (int) view.getTag(R.id.b);
                     upload.remove(position);
                     Message msg = uploadHandler.obtainMessage(999);
-                    msg.obj=title;
+                    msg.obj = title;
                     uploadHandler.sendMessage(msg);
                     if (imgpath.indexOf("/") >= 0) {// 本地图片
                         mGl_camera.removeView(view);// 删除图片
@@ -375,6 +380,7 @@ private Handler uploadHandler;
         imgView.setBackgroundResource(R.drawable.ic_add_camera);
         return imgView;
     }
+
     private ImageView showAddView(Activity activity, View.OnTouchListener listener) {
         ImageView imgView = createView(activity);
         imgView.setTag(ADD_CAMERA);
@@ -382,6 +388,7 @@ private Handler uploadHandler;
         imgView.setBackgroundResource(R.drawable.ic_add_camera);
         return imgView;
     }
+
     /**
      * @param path
      * @param bitmap
@@ -390,15 +397,15 @@ private Handler uploadHandler;
      * @Author:杨攀
      * @Since: 2015年11月4日下午2:39:15
      */
-    private ImageView createImageView(String path, Bitmap bitmap ,int position) {
+    private ImageView createImageView(String path, Bitmap bitmap, int position) {
         ImageView imgView = createView(mActivity);
         // 长按删除图片
         imgView.setOnLongClickListener(longClickListener);
         imgView.setOnClickListener(onClickListener);
-        imgView.setTag(R.id.a,path);
-        imgView.setTag(R.id.b,position);
+        imgView.setTag(R.id.a, path);
+        imgView.setTag(R.id.b, position);
         imgView.setImageBitmap(bitmap);
-        imgView.setScaleType(ScaleType.CENTER_CROP  );
+        imgView.setScaleType(ScaleType.CENTER_CROP);
         return imgView;
     }
 
@@ -417,9 +424,10 @@ private Handler uploadHandler;
         if (max_select_count <= childCount) {// 超过图片数量，则删除 “+” 的 ImageView
             mGl_camera.removeViewAt(position);
         }
-        ImageView imgView = createImageView(path, bitmap,position);
+        ImageView imgView = createImageView(path, bitmap, position);
         mGl_camera.addView(imgView, position);
     }
+
     private void showImageInternetView(final String path) {
 
         int childCount = mGl_camera.getChildCount();
@@ -432,8 +440,8 @@ private Handler uploadHandler;
                 .into(new Target() {
                     @Override
                     public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                        ImageView   imgView = createImageView(path, bitmap,position);
-                          mGl_camera.addView(imgView, position);
+                        ImageView imgView = createImageView(path, bitmap, position);
+                        mGl_camera.addView(imgView, position);
 
                     }
 
@@ -448,16 +456,16 @@ private Handler uploadHandler;
                     }
                 });
     }
-    public void showInternet(String path){
-        if ((path==null)||path.equals(""))
-        {
+
+    public void showInternet(String path) {
+        if ((path == null) || path.equals("")) {
             ToastUtil.print("头像路径为空");
             return;
         }
         String[] imgurl = path.split("\\|");
-        for (int i=0;i<imgurl.length;i++)
-        {showImageInternetView(imgurl[i]);
-        upload.add(imgurl[i]);
+        for (int i = 0; i < imgurl.length; i++) {
+            showImageInternetView(imgurl[i]);
+            upload.add(imgurl[i]);
         }
 
     }
@@ -552,8 +560,8 @@ private Handler uploadHandler;
             if (resultCode == Activity.RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                dialog= ProgressDialogUtils.showProgressDialog(mActivity,"正在上传中","请稍后");
-                uploadSize=path.size();
+                dialog = ProgressDialogUtils.showProgressDialog(mActivity, "正在上传中", "请稍后");
+                uploadSize = path.size();
                 for (int i = 0; i < path.size(); i++) {
                     // 处理照片 - 压缩
                     System.out.println(path.get(i));
@@ -563,12 +571,15 @@ private Handler uploadHandler;
 
                 }
             }
-    }
+        }
 
     }
+
     public void uploadPhoto(FormFile[] flie) {
-        AsyncPhotoUpload async = new AsyncPhotoUpload(mActivity.getApplicationContext(), mHandler, MESSAGE_UPLOAD_PHOTO,flie);
-        async.execute();}
+        AsyncPhotoUpload async = new AsyncPhotoUpload(mActivity.getApplicationContext(), mHandler, MESSAGE_UPLOAD_PHOTO, flie);
+        async.execute();
+    }
+
     /**
      * @Description: 压缩图片线程
      * @Author:杨攀
@@ -657,7 +668,7 @@ private Handler uploadHandler;
             String[] imgThumbuuid = imgThumbUuids.split(",");
 
             StringBuffer imageUrl = new StringBuffer();
-            imageUrl.append((String) SPUtils.get(mActivity,"HOST",Constant.HOST)).append(Constant.Url.IMG_DOWNLOAD).append("?isthumb=true&imgid=");
+            imageUrl.append((String) SPUtils.get(mActivity, "HOST", Constant.HOST)).append(Constant.Url.IMG_DOWNLOAD).append("?isthumb=true&imgid=");
             for (int i = 0; i < imguuid.length; i++) {
 
                 ImageView imageView = createView(mActivity);
@@ -772,8 +783,6 @@ private Handler uploadHandler;
         FormFile[] files = new FormFile[list.size()];
         return list.toArray(files);
     }
-
-
 
 
 }

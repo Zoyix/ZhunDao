@@ -33,17 +33,17 @@ import com.zhaohe.zhundao.ui.ToolBarActivity;
 import static com.zhaohe.app.utils.ZXingUtil.createQrBitmap;
 
 
-public class SignEditActivity extends ToolBarActivity implements View.OnClickListener,AdapterView.OnItemSelectedListener,Toolbar.OnMenuItemClickListener {
-private SignBean bean;
+public class SignEditActivity extends ToolBarActivity implements View.OnClickListener, AdapterView.OnItemSelectedListener, Toolbar.OnMenuItemClickListener {
+    private SignBean bean;
     private TextView tv_act_title;
     private EditText et_sign_add_name;
-    private Spinner sp_sign_add_type,sp_sign_add_object;
+    private Spinner sp_sign_add_type, sp_sign_add_object;
     private Button btn_sign_add;
     public static final int MESSAGE_SIGN_EDIT = 99;
     public static final int MESSAGE_SIGN_DELETE = 98;
 
-    private String CheckInType,Name,SignObject;
-    private int sign_type,sign_object;
+    private String CheckInType, Name, SignObject;
+    private int sign_type, sign_object;
     private Handler mHandler;
 
 
@@ -61,6 +61,7 @@ private SignBean bean;
         Intent intent = this.getIntent();
         bean = (SignBean) intent.getSerializableExtra("bean");
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -71,49 +72,54 @@ private SignBean bean;
     }
 
     private void initView() {
-        tv_act_title= (TextView) findViewById(R.id.tv_sign_add_actname4);
+        tv_act_title = (TextView) findViewById(R.id.tv_sign_add_actname4);
         tv_act_title.setText(bean.getAct_title());
-        et_sign_add_name= (EditText) findViewById(R.id.et_sign_add_name2);
+        et_sign_add_name = (EditText) findViewById(R.id.et_sign_add_name2);
         et_sign_add_name.setText(bean.getAct_title());
-        sp_sign_add_type= (Spinner) findViewById(R.id.sp_sign_add_type2);
-        if(bean.getSign_type().equals("现场签到：")){;
-            sign_type=0;
+        sp_sign_add_type = (Spinner) findViewById(R.id.sp_sign_add_type2);
+        if (bean.getSign_type().equals("现场签到：")) {
+            ;
+            sign_type = 0;
         }
-        if(bean.getSign_type().equals("离场签退：")){;
-            sign_type=1;
+        if (bean.getSign_type().equals("离场签退：")) {
+            ;
+            sign_type = 1;
         }
-        if(bean.getSign_type().equals("集合签到：")){;
-            sign_type=2;
+        if (bean.getSign_type().equals("集合签到：")) {
+            ;
+            sign_type = 2;
         }
         sp_sign_add_type.setSelection(sign_type);
         sp_sign_add_type.setOnItemSelectedListener(this);
-        sp_sign_add_object= (Spinner) findViewById(R.id.sp_sign_add_object2);
-            sp_sign_add_object.setSelection(Integer.parseInt(bean.getSignObject()));
+        sp_sign_add_object = (Spinner) findViewById(R.id.sp_sign_add_object2);
+        sp_sign_add_object.setSelection(Integer.parseInt(bean.getSignObject()));
 
         sp_sign_add_object.setOnItemSelectedListener(this);
 
-        btn_sign_add= (Button) findViewById(R.id.btn_sign_add2);
+        btn_sign_add = (Button) findViewById(R.id.btn_sign_add2);
         btn_sign_add.setOnClickListener(this);
     }
-    private void editSign(String checkInId,String name,String type, String signObject){
-        AsyncSignEdit async =new AsyncSignEdit(this,mHandler,MESSAGE_SIGN_EDIT,checkInId,name,type,signObject);
+
+    private void editSign(String checkInId, String name, String type, String signObject) {
+        AsyncSignEdit async = new AsyncSignEdit(this, mHandler, MESSAGE_SIGN_EDIT, checkInId, name, type, signObject);
         async.execute();
     }
-    private void deleteSign(String checkInId){
-        AsyncSignDelete async =new AsyncSignDelete(this,mHandler,MESSAGE_SIGN_DELETE,checkInId);
+
+    private void deleteSign(String checkInId) {
+        AsyncSignDelete async = new AsyncSignDelete(this, mHandler, MESSAGE_SIGN_DELETE, checkInId);
         async.execute();
     }
 
     @Override
     public void onClick(View view) {
-        switch (view.getId()){
+        switch (view.getId()) {
             case R.id.btn_sign_add2:
-                Name=et_sign_add_name.getText().toString();
-                if(Name.length()==0){
+                Name = et_sign_add_name.getText().toString();
+                if (Name.length() == 0) {
                     ToastUtil.makeText(getApplicationContext(), "签到名称不得为空！");
                     return;
                 }
-                editSign(bean.getSign_id(),Name,sign_type+"",SignObject);
+                editSign(bean.getSign_id(), Name, sign_type + "", SignObject);
 
 
                 break;
@@ -122,24 +128,25 @@ private SignBean bean;
 
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-        if(sp_sign_add_type.getSelectedItem().toString().equals("到场签到")){
-            sign_type=0;
+        if (sp_sign_add_type.getSelectedItem().toString().equals("到场签到")) {
+            sign_type = 0;
         }
-        if(sp_sign_add_type.getSelectedItem().toString().equals("离场签退")){
-            sign_type=1;
+        if (sp_sign_add_type.getSelectedItem().toString().equals("离场签退")) {
+            sign_type = 1;
         }
-        if(sp_sign_add_type.getSelectedItem().toString().equals("集合签到")){
-            sign_type=2;
+        if (sp_sign_add_type.getSelectedItem().toString().equals("集合签到")) {
+            sign_type = 2;
         }
 
-        if(sp_sign_add_object.getSelectedItem().toString().equals("限报名人员")){
-            SignObject="0";
+        if (sp_sign_add_object.getSelectedItem().toString().equals("限报名人员")) {
+            SignObject = "0";
         }
-        if(sp_sign_add_object.getSelectedItem().toString().equals("不限报名人员")){
-            SignObject="1";
+        if (sp_sign_add_object.getSelectedItem().toString().equals("不限报名人员")) {
+            SignObject = "1";
         }
 
     }
+
     public void QrCodeDialog() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -148,7 +155,7 @@ private SignBean bean;
         final View v = factory.inflate(R.layout.dialog_qrcode_sign, null);
         ImageView iv_dialog_qrcode;
         iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode_sign);
-        TextView title= (TextView) v.findViewById(R.id.tv_qr_title);
+        TextView title = (TextView) v.findViewById(R.id.tv_qr_title);
         title.setText(bean.getAct_title());
 
         final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
@@ -182,6 +189,7 @@ private SignBean bean;
                 .create().show();
 
     }
+
     public void deleteDialog() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -214,8 +222,9 @@ private SignBean bean;
 
     @Override
     public void onNothingSelected(AdapterView<?> adapterView) {
-        SignObject=bean.getSignObject();
+        SignObject = bean.getSignObject();
     }
+
     private void initHandler() {
         mHandler = new Handler() {
 
@@ -226,31 +235,29 @@ private SignBean bean;
                         String result = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result);
                         String message = jsonObj.getString("Msg");
-                        System.out.println("sign_add_result:"+result);
+                        System.out.println("sign_add_result:" + result);
                         if (jsonObj.getString("Res").equals("0"))
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "签到修改成功！");
                             finish();
-                        }
-else{
-                            ToastUtil.makeText(getApplicationContext(),message);
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), message);
                         }
                         break;
                     case MESSAGE_SIGN_DELETE:
-                          result = (String) msg.obj;
-                          jsonObj = JSON.parseObject(result);
-                          message = jsonObj.getString("Msg");
-                        System.out.println("sign_add_result:"+result);
+                        result = (String) msg.obj;
+                        jsonObj = JSON.parseObject(result);
+                        message = jsonObj.getString("Msg");
+                        System.out.println("sign_add_result:" + result);
                         if (jsonObj.getString("Res").equals("0"))
                         //添加或修改请求结果
                         {
                             SPUtils.put(getApplicationContext(), "tab_now", 1);
-finish();
+                            finish();
                             ToastUtil.makeText(getApplicationContext(), "删除成功！");
-                        }
-                        else{
-                            ToastUtil.makeText(getApplicationContext(),message);
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), message);
                         }
                         break;
 
@@ -264,12 +271,12 @@ finish();
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_sign_delete:
-deleteDialog();
+                deleteDialog();
                 break;
             case R.id.menu_sign_show:
-QrCodeDialog();
+                QrCodeDialog();
                 break;
         }
         return false;

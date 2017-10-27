@@ -37,11 +37,11 @@ public class AsyncGetContact extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PostContact;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.PostContact;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        mParam="contactGroupID="+"-1"+"&pageSize="+100000;
-        String result = HttpUtil.sendPostNew2request(path, map, "utf-8",mParam);
+        mParam = "contactGroupID=" + "-1" + "&pageSize=" + 100000;
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }
 

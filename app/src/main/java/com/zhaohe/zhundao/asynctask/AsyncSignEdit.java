@@ -26,28 +26,28 @@ public class AsyncSignEdit extends AsyncTask<String, Integer, String> {
     private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
-    private String mCheckInId,mName,mType,mSignObject;
+    private String mCheckInId, mName, mType, mSignObject;
 
-    public AsyncSignEdit(Context context, Handler handler, int request, String checkInId,String name,String type, String signObject) {
+    public AsyncSignEdit(Context context, Handler handler, int request, String checkInId, String name, String type, String signObject) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.mCheckInId=checkInId;
-        this.mName=name;
-        this.mType=type;
-        this.mSignObject=signObject;
+        this.mCheckInId = checkInId;
+        this.mName = name;
+        this.mType = type;
+        this.mSignObject = signObject;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.UpdateCheckInTypeName;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.UpdateCheckInTypeName;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        map.put("checkInId",mCheckInId);
-        map.put("name",mName);
-        map.put("type",mType);
-        map.put("signObject",mSignObject);
+        map.put("checkInId", mCheckInId);
+        map.put("name", mName);
+        map.put("type", mType);
+        map.put("signObject", mSignObject);
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

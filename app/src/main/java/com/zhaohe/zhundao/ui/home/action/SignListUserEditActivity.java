@@ -105,7 +105,7 @@ public class SignListUserEditActivity extends ToolBarActivity {
     Button btnSignlistUserSumbit;
     @BindView(R.id.ll_signlist_user)
     LinearLayout llSignListUser;
-    LinkedHashMap<String, String> jsonMap=new LinkedHashMap<>();
+    LinkedHashMap<String, String> jsonMap = new LinkedHashMap<>();
     private String signup_list;
     private String act_id;
     private String ID;
@@ -114,11 +114,11 @@ public class SignListUserEditActivity extends ToolBarActivity {
     private Handler mHandler;
     public static final int MESSAGE_SIGNLIST_USER_EDIT = 94;
 
-    public static final int MESSAGE_UPLOAD_COMPLETE= 1000;
-    public static final int MESSAGE_DELETE_COMPLETE= 999;
+    public static final int MESSAGE_UPLOAD_COMPLETE = 1000;
+    public static final int MESSAGE_DELETE_COMPLETE = 999;
 
     private String param;
-    private HashMap<String,Camera> cameraHashMap=new HashMap<>();
+    private HashMap<String, Camera> cameraHashMap = new HashMap<>();
     String json;
     private Camera camera;
     private String PhotoTitle;
@@ -152,47 +152,46 @@ public class SignListUserEditActivity extends ToolBarActivity {
                             SPUtils.put(getApplicationContext(), "updateSignList", true);
 
                             finish();
-                        }
-                        else{
-                            ToastUtil.makeText(getApplicationContext(),  jsonObj.getString("Msg"));
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), jsonObj.getString("Msg"));
 
                         }
                         break;
                     case MESSAGE_UPLOAD_COMPLETE:
 
-                        String cameraUrl="";
+                        String cameraUrl = "";
 
                         ArrayList<String> a = camera.getUploadUrl();
                         for (int i = 0; i < a.size(); i++) {
-                            cameraUrl=cameraUrl+a.get(i)+"|";
+                            cameraUrl = cameraUrl + a.get(i) + "|";
 
                         }
-                        if(PhotoTitle.equals("人脸照片")){
-                            FaceImg=cameraUrl;
+                        if (PhotoTitle.equals("人脸照片")) {
+                            FaceImg = cameraUrl;
 
+                        } else {
+                            ToastUtil.print("PhotoTitle" + PhotoTitle + cameraUrl);
+                            jsonMap.put(PhotoTitle, cameraUrl);
                         }
-                        else{
-                            ToastUtil.print("PhotoTitle"+PhotoTitle+cameraUrl);
-                            jsonMap.put(PhotoTitle, cameraUrl);}
                         ToastUtil.makeText(getApplicationContext(), "图片上传成功！");
                         break;
                     case MESSAGE_DELETE_COMPLETE:
 
-                   cameraUrl="";
-                         PhotoTitle = (String) msg.obj;
-                        camera=cameraHashMap.get(PhotoTitle);
-                         a = camera.getUploadUrl();
+                        cameraUrl = "";
+                        PhotoTitle = (String) msg.obj;
+                        camera = cameraHashMap.get(PhotoTitle);
+                        a = camera.getUploadUrl();
                         for (int i = 0; i < a.size(); i++) {
-                            cameraUrl=cameraUrl+a.get(i)+"|";
+                            cameraUrl = cameraUrl + a.get(i) + "|";
 
                         }
-                        if(PhotoTitle.equals("人脸照片")){
-                            FaceImg=cameraUrl;
+                        if (PhotoTitle.equals("人脸照片")) {
+                            FaceImg = cameraUrl;
 
+                        } else {
+                            ToastUtil.print("PhotoTitle" + PhotoTitle + cameraUrl);
+                            jsonMap.put(PhotoTitle, cameraUrl);
                         }
-                        else{
-                            ToastUtil.print("PhotoTitle"+PhotoTitle+cameraUrl);
-                            jsonMap.put(PhotoTitle, cameraUrl);}
                         ToastUtil.print("图片删除成功");
                     default:
                         break;
@@ -229,7 +228,7 @@ public class SignListUserEditActivity extends ToolBarActivity {
         if (intent.getStringExtra("email") == null) {
             rlUserEmail.setVisibility(View.GONE);
         }
-        if (intent.getStringExtra("id_card") == null||intent.getStringExtra("id_card") .equals("") ) {
+        if (intent.getStringExtra("id_card") == null || intent.getStringExtra("id_card").equals("")) {
             rlUserIdCard.setVisibility(View.GONE);
         }
         if (intent.getStringExtra("join_num").equals("0")) {
@@ -241,9 +240,9 @@ public class SignListUserEditActivity extends ToolBarActivity {
         if (intent.getStringExtra("remark") == null) {
             rlUserRemark.setVisibility(View.GONE);
         }
-        String FaceImg=intent.getStringExtra("face_img");
-        if (FaceImg!=null){
-createPhotoFace("人脸照片",FaceImg);
+        String FaceImg = intent.getStringExtra("face_img");
+        if (FaceImg != null) {
+            createPhotoFace("人脸照片", FaceImg);
         }
         etSignlistUserName.setText(intent.getStringExtra("name"));
         etSignlistUserPhone.setText(intent.getStringExtra("phone"));
@@ -265,68 +264,68 @@ createPhotoFace("人脸照片",FaceImg);
         etSignlistUserRemark.setText(intent.getStringExtra("remark"));
         JSONArray jsonArray3 = jsonObj.getJSONArray("Option");
         String extra = intent.getStringExtra("extra");
-        if (extra != null){
+        if (extra != null) {
             jsonMap = JSON.parseObject(extra, new TypeReference<LinkedHashMap<String, String>>() {
             });
-             json=JSON.toJSONString(jsonMap);
-            ToastUtil.print("json数据"+json);
-        for (int i = 0; i < jsonArray3.size(); i++) {
-            String InputType = jsonArray3.getJSONObject(i).getString("InputType");
-            String Title = jsonArray3.getJSONObject(i).getString("Title");
-            String Option = jsonArray3.getJSONObject(i).getString("Option");
-            String Content="";
-            for (LinkedHashMap.Entry<String, String> entry : jsonMap.entrySet()){
-                if(entry.getKey().equals(Title)){
-                    Content=entry.getValue();
+            json = JSON.toJSONString(jsonMap);
+            ToastUtil.print("json数据" + json);
+            for (int i = 0; i < jsonArray3.size(); i++) {
+                String InputType = jsonArray3.getJSONObject(i).getString("InputType");
+                String Title = jsonArray3.getJSONObject(i).getString("Title");
+                String Option = jsonArray3.getJSONObject(i).getString("Option");
+                String Content = "";
+                for (LinkedHashMap.Entry<String, String> entry : jsonMap.entrySet()) {
+                    if (entry.getKey().equals(Title)) {
+                        Content = entry.getValue();
+                    }
                 }
+                createView(InputType, Title, Option, Content, i);
+
             }
-            createView(InputType, Title, Option,Content,i);
 
         }
 
     }
 
-    }
-
-    private void createView(String InputType, String Title, String Option,String Content, int i) {
+    private void createView(String InputType, String Title, String Option, String Content, int i) {
         switch (InputType) {
             case "0":
-                createTextView(Title,Content,i);
+                createTextView(Title, Content, i);
                 break;
-            case"1":
+            case "1":
 
-                createTextView(Title,Content,i);
-            break;
+                createTextView(Title, Content, i);
+                break;
             case "2":
-                createSpinner(Title,Content,Option,i);
+                createSpinner(Title, Content, Option, i);
                 break;
-            case"3":
-                createCheckBox(Title,Content,Option,i);
-                break;
-
-            case"4":
-                createPhoto(Title,Content,Option,i);
-
-                break;
-            case"5":
-                createRadioButton(Title,Content,Option,i);
-                break;
-            case"6":
-                createDateView(Title,Content,i);
-
+            case "3":
+                createCheckBox(Title, Content, Option, i);
                 break;
 
-            case"7":
-                createTextNumView(Title,Content,i);
-break;
+            case "4":
+                createPhoto(Title, Content, Option, i);
+
+                break;
+            case "5":
+                createRadioButton(Title, Content, Option, i);
+                break;
+            case "6":
+                createDateView(Title, Content, i);
+
+                break;
+
+            case "7":
+                createTextNumView(Title, Content, i);
+                break;
             default:
                 break;
         }
     }
 
-    private void createTextView(final String title, String Content , final int i) {
+    private void createTextView(final String title, String Content, final int i) {
         int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
+        int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
         RelativeLayout rl = new RelativeLayout(this);
         TextView tv1 = new TextView(this);
@@ -342,8 +341,8 @@ break;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                jsonMap.put(title,et.getText().toString());
-         }
+                jsonMap.put(title, et.getText().toString());
+            }
 
             @Override
             public void afterTextChanged(Editable s) {
@@ -376,32 +375,32 @@ break;
         llSignListUser.setTag(et);
     }
 
-    private void createDateView(final String title, String Content , final int i) {
+    private void createDateView(final String title, String Content, final int i) {
         int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
+        int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
         final DatePicker datePicker = new DatePicker(this);
         final EditText et = new EditText(this);
         RelativeLayout rl = new RelativeLayout(this);
 
         String[] date = Content.split("\\-");
-        if(date.length<3){
+        if (date.length < 3) {
             date = TimeUtil.getNowTimeNew().split("\\-");
 
         }
-        ToastUtil.print(date[0]+date[1]+date[2]);
-        datePicker.updateDate(Integer.valueOf(date[0]).intValue(),Integer.valueOf(date[1]).intValue()-1,Integer.valueOf(date[2]).intValue());
+        ToastUtil.print(date[0] + date[1] + date[2]);
+        datePicker.updateDate(Integer.valueOf(date[0]).intValue(), Integer.valueOf(date[1]).intValue() - 1, Integer.valueOf(date[2]).intValue());
 
-        final DatePickerDialog dialog =new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
+        final DatePickerDialog dialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
             @Override
             public void onDateSet(DatePicker datePicker, int i, int i1, int i2) {
                 i1++;
-                jsonMap.put(title,i+"-"+i1+"-"+i2);
-                et.setText(i+"-"+i1+"-"+i2);
+                jsonMap.put(title, i + "-" + i1 + "-" + i2);
+                et.setText(i + "-" + i1 + "-" + i2);
 
 
             }
-        },Integer.valueOf(date[0]).intValue(),Integer.valueOf(date[1]).intValue()-1,Integer.valueOf(date[2]).intValue());
+        }, Integer.valueOf(date[0]).intValue(), Integer.valueOf(date[1]).intValue() - 1, Integer.valueOf(date[2]).intValue());
 
         TextView tv1 = new TextView(this);
         tv1.setText(title);
@@ -420,7 +419,7 @@ break;
         et.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                if(b){
+                if (b) {
                     dialog.show();
 
                 }
@@ -449,17 +448,15 @@ break;
         tv1.setPadding(margin, margin, margin, margin);
 
 
-
-
         rl.addView(tv1, tvParams1);
         rl.addView(et, tvParams2);
         llSignListUser.addView(rl, rlParams);
 
     }
 
-    private void createTextNumView(final String title, String Content , final int i) {
+    private void createTextNumView(final String title, String Content, final int i) {
         int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
+        int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
         RelativeLayout rl = new RelativeLayout(this);
         TextView tv1 = new TextView(this);
@@ -476,7 +473,7 @@ break;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                jsonMap.put(title,et.getText().toString());
+                jsonMap.put(title, et.getText().toString());
             }
 
             @Override
@@ -509,9 +506,10 @@ break;
         llSignListUser.addView(rl, rlParams);
         llSignListUser.setTag(et);
     }
-    private void createSpinner(final String title, String Content ,String Option, final int i) {
+
+    private void createSpinner(final String title, String Content, String Option, final int i) {
         int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
+        int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
         RelativeLayout rl = new RelativeLayout(this);
         TextView tv1 = new TextView(this);
@@ -523,18 +521,18 @@ break;
         sp.setPrompt(title);
         String[] s = Option.split("\\|");
 
-        ArrayAdapter<String> adapter=new ArrayAdapter<String>(this,android.R.layout.simple_spinner_item,s);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, s);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-sp.setAdapter(adapter);
-        for(int j=0;j<s.length;j++){
-            if (s[j].equals(Content)){
+        sp.setAdapter(adapter);
+        for (int j = 0; j < s.length; j++) {
+            if (s[j].equals(Content)) {
                 sp.setSelection(j);
             }
         }
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                jsonMap.put(title,sp.getSelectedItem().toString());
+                jsonMap.put(title, sp.getSelectedItem().toString());
 
             }
 
@@ -568,9 +566,10 @@ sp.setAdapter(adapter);
         llSignListUser.addView(rl, rlParams);
 
     }
-    private void createRadioButton(final String title, String Content ,String Option, final int i) {
+
+    private void createRadioButton(final String title, String Content, String Option, final int i) {
         int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
+        int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
         RelativeLayout rl = new RelativeLayout(this);
         TextView tv1 = new TextView(this);
@@ -581,25 +580,25 @@ sp.setAdapter(adapter);
         radioGroup.setId(R.id.tv_code_content);
 
         String[] s = Option.split("\\|");
-for(int j=0;j<s.length;j++){
-    final RadioButton radioButtonj=new RadioButton(this);
-    radioButtonj.setText(s[j]);
-    radioGroup.addView(radioButtonj);
-    radioGroup.setSelected(true);
-    if (s[j].equals(Content)){
-        radioButtonj.setChecked(true);
-    }
+        for (int j = 0; j < s.length; j++) {
+            final RadioButton radioButtonj = new RadioButton(this);
+            radioButtonj.setText(s[j]);
+            radioGroup.addView(radioButtonj);
+            radioGroup.setSelected(true);
+            if (s[j].equals(Content)) {
+                radioButtonj.setChecked(true);
+            }
 
 
-}
+        }
 
         radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(RadioGroup radioGroup, @IdRes int i) {
-                for(int j = 0 ;j < radioGroup.getChildCount();j++){
-                    RadioButton rb = (RadioButton)radioGroup.getChildAt(j);
-                    if(rb.isChecked()){
-                        jsonMap.put(title,rb.getText().toString());
+                for (int j = 0; j < radioGroup.getChildCount(); j++) {
+                    RadioButton rb = (RadioButton) radioGroup.getChildAt(j);
+                    if (rb.isChecked()) {
+                        jsonMap.put(title, rb.getText().toString());
 
                         break;
                     }
@@ -633,20 +632,18 @@ for(int j=0;j<s.length;j++){
         llSignListUser.addView(rl, rlParams);
 
     }
-    private void createCheckBox(final String title, String Content , String Option, final int i) {
+
+    private void createCheckBox(final String title, String Content, String Option, final int i) {
         int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
+        int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
         RelativeLayout rl = new RelativeLayout(this);
-        LinearLayout ll=new LinearLayout(this);
+        LinearLayout ll = new LinearLayout(this);
         TextView tv1 = new TextView(this);
         tv1.setText(title);
         tv1.setId(R.id.tv_code_title);
 
 //        radioGroup.setId(R.id.tv_code_content);
-
-
-
 
 
         tv1.setPadding(margin, margin, margin, margin);
@@ -667,7 +664,7 @@ for(int j=0;j<s.length;j++){
                         RelativeLayout.LayoutParams.WRAP_CONTENT);
         tvParams2.addRule(RelativeLayout.BELOW, tv1.getId());
 
-        LinearLayout.LayoutParams layoutParams=
+        LinearLayout.LayoutParams layoutParams =
                 new LinearLayout.LayoutParams(
                         LinearLayout.LayoutParams.WRAP_CONTENT,
                         LinearLayout.LayoutParams.WRAP_CONTENT);
@@ -678,14 +675,14 @@ for(int j=0;j<s.length;j++){
 
         final String[] s = Option.split("\\|");
         String[] c = Content.split("\\|");
-        final boolean[] booleen=new boolean[s.length];
+        final boolean[] booleen = new boolean[s.length];
 
-        for(int j=0;j<s.length;j++){
-            final CheckBox checkBox=new CheckBox(this);
+        for (int j = 0; j < s.length; j++) {
+            final CheckBox checkBox = new CheckBox(this);
             checkBox.setText(s[j]);
-            for(int k=0;k<c.length;k++){
-                if (s[j].equals(c[k])){
-                    booleen[j]=true;
+            for (int k = 0; k < c.length; k++) {
+                if (s[j].equals(c[k])) {
+                    booleen[j] = true;
                     checkBox.setChecked(true);
                 }
 
@@ -693,32 +690,33 @@ for(int j=0;j<s.length;j++){
             checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                 @Override
                 public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                    if(compoundButton.isChecked()){
-                        ToastUtil.print("选择:"+compoundButton.getText().toString());
+                    if (compoundButton.isChecked()) {
+                        ToastUtil.print("选择:" + compoundButton.getText().toString());
 
-                        for(int l=0;l<s.length;l++){
-                            if(compoundButton.getText().toString().equals(s[l])){
-                                booleen[l]=true;}
+                        for (int l = 0; l < s.length; l++) {
+                            if (compoundButton.getText().toString().equals(s[l])) {
+                                booleen[l] = true;
+                            }
+                        }
+                    } else {
+                        ToastUtil.print("取消:" + compoundButton.getText().toString());
+
+
+                        for (int l = 0; l < s.length; l++) {
+                            if (compoundButton.getText().toString().equals(s[l])) {
+                                booleen[l] = false;
+                            }
                         }
                     }
-                    else {
-                        ToastUtil.print("取消:"+compoundButton.getText().toString());
-
-
-                        for(int l=0;l<s.length;l++){
-                            if(compoundButton.getText().toString().equals(s[l])){
-                                booleen[l]=false;}
+                    String result = "";
+                    for (int m = 0; m < s.length; m++) {
+                        if (booleen[m]) {
+                            result = result + s[m] + "|";
                         }
                     }
-                    String result="";
-                    for(int m=0;m<s.length;m++){
-                        if(booleen[m]){
-                            result=result+s[m]+"|";
-                        }
-                    }
-                    ToastUtil.print("多选结果:"+result);
+                    ToastUtil.print("多选结果:" + result);
 
-                    jsonMap.put(title,result);
+                    jsonMap.put(title, result);
 
 
                 }
@@ -728,91 +726,28 @@ for(int j=0;j<s.length;j++){
         }
 
     }
-    private void createPhoto(final String title, String Content , String Option, final int i) {
+
+    private void createPhoto(final String title, String Content, String Option, final int i) {
         int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
+        int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
         RelativeLayout rl = new RelativeLayout(this);
-        LinearLayout ll=new LinearLayout(this);
+        LinearLayout ll = new LinearLayout(this);
         TextView tv1 = new TextView(this);
         tv1.setText(title);
         tv1.setId(R.id.tv_code_title);
-         GridLayout gl_camara=new GridLayout(this);
-       final Camera camera1 = new Camera(SignListUserEditActivity.this, gl_camara, false,9,mHandler,title);
-        PhotoTitle=title;
-cameraHashMap.put(title,camera1);
-        camera1.showInternet(Content);
-        gl_camara.requestDisallowInterceptTouchEvent(true);
-            gl_camara.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ToastUtil.print("onclick");
-                    camera=camera1;
-                    PhotoTitle=title;
-
-
-
-                }
-            });
-        gl_camara.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-
-ToastUtil.print("ontouch");
-                camera=camera1;
-                PhotoTitle=title;
-
-                return false;
-            }
-        });
-        gl_camara.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                ToastUtil.print("onlongclick");
-
-                camera=camera1;
-                PhotoTitle=title;
-
-                return false;
-            }
-        });
-
-
-        tv1.setPadding(margin, margin, margin, margin);
-
-
-
-        gl_camara.setPadding(2*margin, margin, margin, margin);
-        llSignListUser.addView(tv1);
-        llSignListUser.addView(gl_camara);
-
-
-
-
-
-    }
-    private void createPhotoFace(final String title, String Content ) {
-        int margin = dip2px(this, 10);
-        int etWidth=dip2px(this, 300);
-        int h = dip2px(this, 1);
-        RelativeLayout rl = new RelativeLayout(this);
-        LinearLayout ll=new LinearLayout(this);
-        TextView tv1 = new TextView(this);
-        tv1.setText(title);
-        tv1.setId(R.id.tv_code_title);
-        GridLayout gl_camara=new GridLayout(this);
-        final Camera camera1 = new Camera(SignListUserEditActivity.this, gl_camara, false,3,mHandler,title);
-        PhotoTitle=title;
-        cameraHashMap.put(title,camera1);
+        GridLayout gl_camara = new GridLayout(this);
+        final Camera camera1 = new Camera(SignListUserEditActivity.this, gl_camara, false, 9, mHandler, title);
+        PhotoTitle = title;
+        cameraHashMap.put(title, camera1);
         camera1.showInternet(Content);
         gl_camara.requestDisallowInterceptTouchEvent(true);
         gl_camara.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 ToastUtil.print("onclick");
-                camera=camera1;
-                PhotoTitle=title;
-
+                camera = camera1;
+                PhotoTitle = title;
 
 
             }
@@ -822,8 +757,8 @@ ToastUtil.print("ontouch");
             public boolean onTouch(View view, MotionEvent motionEvent) {
 
                 ToastUtil.print("ontouch");
-                camera=camera1;
-                PhotoTitle=title;
+                camera = camera1;
+                PhotoTitle = title;
 
                 return false;
             }
@@ -833,8 +768,8 @@ ToastUtil.print("ontouch");
             public boolean onLongClick(View view) {
                 ToastUtil.print("onlongclick");
 
-                camera=camera1;
-                PhotoTitle=title;
+                camera = camera1;
+                PhotoTitle = title;
 
                 return false;
             }
@@ -844,16 +779,72 @@ ToastUtil.print("ontouch");
         tv1.setPadding(margin, margin, margin, margin);
 
 
-
-        gl_camara.setPadding(2*margin, margin, margin, margin);
+        gl_camara.setPadding(2 * margin, margin, margin, margin);
         llSignListUser.addView(tv1);
         llSignListUser.addView(gl_camara);
 
 
+    }
 
+    private void createPhotoFace(final String title, String Content) {
+        int margin = dip2px(this, 10);
+        int etWidth = dip2px(this, 300);
+        int h = dip2px(this, 1);
+        RelativeLayout rl = new RelativeLayout(this);
+        LinearLayout ll = new LinearLayout(this);
+        TextView tv1 = new TextView(this);
+        tv1.setText(title);
+        tv1.setId(R.id.tv_code_title);
+        GridLayout gl_camara = new GridLayout(this);
+        final Camera camera1 = new Camera(SignListUserEditActivity.this, gl_camara, false, 3, mHandler, title);
+        PhotoTitle = title;
+        cameraHashMap.put(title, camera1);
+        camera1.showInternet(Content);
+        gl_camara.requestDisallowInterceptTouchEvent(true);
+        gl_camara.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                ToastUtil.print("onclick");
+                camera = camera1;
+                PhotoTitle = title;
+
+
+            }
+        });
+        gl_camara.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+
+                ToastUtil.print("ontouch");
+                camera = camera1;
+                PhotoTitle = title;
+
+                return false;
+            }
+        });
+        gl_camara.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                ToastUtil.print("onlongclick");
+
+                camera = camera1;
+                PhotoTitle = title;
+
+                return false;
+            }
+        });
+
+
+        tv1.setPadding(margin, margin, margin, margin);
+
+
+        gl_camara.setPadding(2 * margin, margin, margin, margin);
+        llSignListUser.addView(tv1);
+        llSignListUser.addView(gl_camara);
 
 
     }
+
     public void edit(String param) {
         if (NetworkUtils.checkNetState(this)) {
             AsyncSignListEdit async = new AsyncSignListEdit(this, mHandler, MESSAGE_SIGNLIST_USER_EDIT, param);
@@ -884,47 +875,51 @@ ToastUtil.print("ontouch");
             return;
         }
 
-        ToastUtil.print("json数据"+json);
+        ToastUtil.print("json数据" + json);
         param = "UserName=" + Name + "&Mobile=" + Mobile + "&ID=" + ID;
         edit(setParam(param));
     }
 
     public String setParam(String param) {
         this.param = param;
-        if (etSignlistUserRemark.getText().toString()!=null){
-            param=param+"&Remark="+etSignlistUserRemark.getText().toString();
+        if (etSignlistUserRemark.getText().toString() != null) {
+            param = param + "&Remark=" + etSignlistUserRemark.getText().toString();
         }
-        if (etSignlistUserAdd.getText().toString()!=null){
-            param=param+"&Address="+etSignlistUserAdd.getText().toString();
+        if (etSignlistUserAdd.getText().toString() != null) {
+            param = param + "&Address=" + etSignlistUserAdd.getText().toString();
         }
-        if (etSignlistUserUnit.getText().toString()!=null){
-            param=param+"&Company="+etSignlistUserUnit.getText().toString();
+        if (etSignlistUserUnit.getText().toString() != null) {
+            param = param + "&Company=" + etSignlistUserUnit.getText().toString();
         }
-        if (spSignlistUserSex.getSelectedItemPosition()!=0){
-            param=param+"&Sex="+spSignlistUserSex.getSelectedItemPosition();
-        }    if (etSignlistUserDep.getText().toString()!=null){
-            param=param+"&Depart="+etSignlistUserDep.getText().toString();
-        }    if (etSignlistUserIndustry.getText().toString()!=null){
-            param=param+"&Industry="+etSignlistUserIndustry.getText().toString();
-        }    if (etSignlistUserIdCard.getText().toString()!=null){
-            param=param+"&IDcard="+etSignlistUserIdCard.getText().toString();
-        }    if (etSignlistUserEmail.getText().toString()!=null){
-            param=param+"&Email="+etSignlistUserEmail.getText().toString();
+        if (spSignlistUserSex.getSelectedItemPosition() != 0) {
+            param = param + "&Sex=" + spSignlistUserSex.getSelectedItemPosition();
         }
-           if (etSignlistUserJoinNum.getText().toString()!=null){
-            param=param+"&Num="+etSignlistUserJoinNum.getText().toString();
+        if (etSignlistUserDep.getText().toString() != null) {
+            param = param + "&Depart=" + etSignlistUserDep.getText().toString();
+        }
+        if (etSignlistUserIndustry.getText().toString() != null) {
+            param = param + "&Industry=" + etSignlistUserIndustry.getText().toString();
+        }
+        if (etSignlistUserIdCard.getText().toString() != null) {
+            param = param + "&IDcard=" + etSignlistUserIdCard.getText().toString();
+        }
+        if (etSignlistUserEmail.getText().toString() != null) {
+            param = param + "&Email=" + etSignlistUserEmail.getText().toString();
+        }
+        if (etSignlistUserJoinNum.getText().toString() != null) {
+            param = param + "&Num=" + etSignlistUserJoinNum.getText().toString();
         }
 
-        if (etSignlistUserEmail.getText().toString()!=null){
-            param=param+"&Email="+etSignlistUserEmail.getText().toString();
+        if (etSignlistUserEmail.getText().toString() != null) {
+            param = param + "&Email=" + etSignlistUserEmail.getText().toString();
         }
-        if (FaceImg!=null){
-            param=param+"&FaceImg="+FaceImg;
+        if (FaceImg != null) {
+            param = param + "&FaceImg=" + FaceImg;
 
         }
-        if(jsonMap.size()!=0){
-            json=JSON.toJSONString(jsonMap);
-            param=param+"&ExtraInfo="+json;
+        if (jsonMap.size() != 0) {
+            json = JSON.toJSONString(jsonMap);
+            param = param + "&ExtraInfo=" + json;
 
         }
 

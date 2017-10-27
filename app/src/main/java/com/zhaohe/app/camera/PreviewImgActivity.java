@@ -28,7 +28,7 @@ public class PreviewImgActivity extends Activity {
 
         ImageView imgView = (ImageView) this.findViewById(R.id.large_image);
         String imgpath = this.getIntent().getStringExtra("imgpath");// 图片路径
-        ToastUtil.print("图片路径"+imgpath);
+        ToastUtil.print("图片路径" + imgpath);
 
 
         if (imgpath.indexOf("http") >= 0) {

@@ -5,14 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.zhaohe.zhundao.ui.home.mine.contacts.PeopleActivity">
-<ImageView
-    android:layout_width="58dp"
-    android:layout_height="64dp"
-    android:src="@drawable/unkown_head"
-    android:layout_margin="20dp"
-    android:id="@+id/tv_contacts_head"
-    android:clickable="true"
-    />
+
+    <ImageView
+        android:layout_width="58dp"
+        android:layout_height="64dp"
+        android:src="@drawable/unkown_head"
+        android:layout_margin="20dp"
+        android:id="@+id/tv_contacts_head"
+        android:clickable="true" />
 
 
     <TextView
@@ -22,10 +22,10 @@
         android:layout_height="wrap_content"
         android:text="@string/name"
         android:layout_toRightOf="@+id/tv_contacts_head"
-        android:layout_marginTop="45dp"
-        />
+        android:layout_marginTop="45dp" />
 
-        />
+    />
+
     <TextView
         android:id="@+id/tv_contacts_phone_name"
         android:layout_width="wrap_content"
@@ -45,8 +45,7 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black3"
-        android:layout_above="@id/tv_contacts_phone_name"
-        ></View>
+        android:layout_above="@id/tv_contacts_phone_name"></View>
 
     <ImageView
 
@@ -57,8 +56,8 @@
         android:clickable="true"
         android:layout_below="@id/line_contacts_phone"
         android:layout_margin="10dp"
-        android:layout_alignParentRight="true"
-        />
+        android:layout_alignParentRight="true" />
+
     <ImageView
         android:layout_below="@id/line_contacts_phone"
         android:layout_margin="10dp"
@@ -70,6 +69,7 @@
         android:clickable="true"
 
         />
+
     <TextView
         android:id="@+id/tv_contacts_phone"
         android:layout_width="wrap_content"
@@ -82,6 +82,7 @@
         android:textIsSelectable="true"
 
         />
+
     <TextView
         android:id="@+id/tv_contacts_group_name"
         android:layout_width="wrap_content"
@@ -95,6 +96,7 @@
         android:textSize="12sp"
 
         />
+
     <TextView
         android:id="@+id/tv_contacts_group"
         android:layout_width="wrap_content"
@@ -106,195 +108,210 @@
 
 
         />
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black3"
         android:layout_below="@id/tv_contacts_phone"
-android:layout_marginTop="10dp"
-        />
+        android:layout_marginTop="10dp" />
+
     <View
         android:id="@+id/line_group"
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/black3"
         android:layout_below="@id/tv_contacts_group"
-        android:layout_marginTop="10dp"
-        />
+        android:layout_marginTop="10dp" />
+
     <ScrollView
         android:layout_below="@id/line_group"
 
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        >
-        <TextView
-            android:layout_width="wrap_content"
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/SerialNo"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_SerialNo"
+            android:orientation="vertical">
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textIsSelectable="true"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/SerialNo"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
 
-            />
-        <include layout="@layout/line"></include>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/sex"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_sex"
+            <TextView
+                android:id="@+id/tv_contacts_SerialNo"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textIsSelectable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="true"
 
-            />
-        <include layout="@layout/line"></include>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/add"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_add"
+                />
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:textIsSelectable="true"
+            <include layout="@layout/line"></include>
 
-            android:layout_marginBottom="10dp"
-            />
-        <include layout="@layout/line"></include>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_email"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/sex"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textIsSelectable="true"
+            <TextView
+                android:id="@+id/tv_contacts_sex"
 
-            />
-        <include layout="@layout/line"></include>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/unit"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_company"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="true"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textIsSelectable="true"
+                />
 
-            />
-        <include layout="@layout/line"></include>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/duty"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_duty"
+            <include layout="@layout/line"></include>
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textIsSelectable="true"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/add"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
 
-            />
-        <include layout="@layout/line"></include>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/id_card"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_IDcard"
+            <TextView
+                android:id="@+id/tv_contacts_add"
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textIsSelectable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:textIsSelectable="true"
 
-            />
-        <include layout="@layout/line"></include>
+                android:layout_marginBottom="10dp" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/remark"
-            android:textSize="12sp"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            />
-        <TextView
-            android:id="@+id/tv_contacts_remark"
+            <include layout="@layout/line"></include>
 
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/none"
-            android:layout_marginLeft="20dp"
-            android:layout_marginBottom="10dp"
-            android:textIsSelectable="true"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/email"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
 
-            />
-        <include layout="@layout/line"></include>
+            <TextView
+                android:id="@+id/tv_contacts_email"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="true"
+
+                />
+
+            <include layout="@layout/line"></include>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/unit"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/tv_contacts_company"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="true"
+
+                />
+
+            <include layout="@layout/line"></include>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/duty"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/tv_contacts_duty"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="true"
+
+                />
+
+            <include layout="@layout/line"></include>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/id_card"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/tv_contacts_IDcard"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="true"
+
+                />
+
+            <include layout="@layout/line"></include>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/remark"
+                android:textSize="12sp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="10dp" />
+
+            <TextView
+                android:id="@+id/tv_contacts_remark"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/none"
+                android:layout_marginLeft="20dp"
+                android:layout_marginBottom="10dp"
+                android:textIsSelectable="true"
+
+                />
+
+            <include layout="@layout/line"></include>
 
 
-    </LinearLayout>
+        </LinearLayout>
 
     </ScrollView>
 </RelativeLayout>

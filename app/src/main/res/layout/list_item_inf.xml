@@ -2,8 +2,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_margin="15dp"
-    >
+    android:layout_margin="15dp">
 
     <TextView
         android:id="@+id/tv_inf_id"
@@ -28,8 +27,7 @@
         android:textSize="16sp"
 
         android:text="名称"
-        android:textColor="@color/black"
-        />
+        android:textColor="@color/black" />
 
     <TextView
         android:ellipsize="end"
@@ -43,11 +41,10 @@
         android:layout_height="wrap_content"
         android:text="@string/ok"
         android:textColor="@color/black"
-android:layout_alignBaseline="@id/tv_inf_type"
+        android:layout_alignBaseline="@id/tv_inf_type"
 
 
-        android:layout_toRightOf="@+id/tv_inf_type"
-        />
+        android:layout_toRightOf="@+id/tv_inf_type" />
 
     <TextView
         android:layout_marginLeft="5dp"
@@ -81,8 +78,7 @@ android:layout_alignBaseline="@id/tv_inf_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/unread60"
-        android:layout_toLeftOf="@+id/iv_inf_right"
-         />
+        android:layout_toLeftOf="@+id/iv_inf_right" />
     <!--<LinearLayout-->
     <!--android:layout_width="wrap_content"-->
     <!--android:layout_height="wrap_content"-->

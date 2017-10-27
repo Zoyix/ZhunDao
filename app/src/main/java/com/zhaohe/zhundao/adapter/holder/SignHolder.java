@@ -11,7 +11,7 @@ import android.widget.TextView;
  */
 public class SignHolder {
     public Switch sw_sign_status;
-//    public ImageView img_sign_scan;
+    //    public ImageView img_sign_scan;
     public TextView tv_sign_title;
     public TextView tv_act_title;
     public TextView tv_sign_type;

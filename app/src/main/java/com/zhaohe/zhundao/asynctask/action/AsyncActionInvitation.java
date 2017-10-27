@@ -27,20 +27,20 @@ public class AsyncActionInvitation extends AsyncTask<String, Integer, String> {
     private String mAccesskey;
 
 
-    public AsyncActionInvitation(Context context, Handler handler, int request,String act_id) {
+    public AsyncActionInvitation(Context context, Handler handler, int request, String act_id) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.act_id=act_id;
+        this.act_id = act_id;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path =Constant.HOST_MOBLIE + Constant.Url.InvitationUrl;
+        String path = Constant.HOST_MOBLIE + Constant.Url.InvitationUrl;
         Map<String, String> map = new HashMap<String, String>();
 //        map.put("accessKey", mAccesskey);
-        map.put("activityId",act_id);
+        map.put("activityId", act_id);
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

@@ -38,7 +38,7 @@ public class MainFaceActivity extends ToolBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolBarNew("连接设备",R.layout.activity_main_face);
+        initToolBarNew("连接设备", R.layout.activity_main_face);
         initPm();
         initViews();
 

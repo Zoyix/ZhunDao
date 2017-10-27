@@ -31,23 +31,23 @@ public class AsyncBeaconBond extends AsyncTask<String, Integer, String> {
     private String mType;//	0绑定摇一摇设备 1解除绑定摇一摇
 
 
-    public AsyncBeaconBond(Context context, Handler handler,  int request, String param,String Type) {
+    public AsyncBeaconBond(Context context, Handler handler, int request, String param, String Type) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
 //        this.mDialog = dialog;
         this.mParam = param;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.mType=Type;
+        this.mType = Type;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.AddBeacon;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.AddBeacon;
         Map<String, String> map = new HashMap<String, String>();
         map.put("deviceId", mParam);
         map.put("accessKey", mAccesskey);
-        map.put("type",mType);
+        map.put("type", mType);
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;
     }

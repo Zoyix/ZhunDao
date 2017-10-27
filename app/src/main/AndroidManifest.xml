@@ -323,9 +323,9 @@
             android:theme="@style/AppTheme" />
         <activity android:name=".ui.home.find.InvitationProActivity" />
         <activity android:name=".ui.home.action.signlist.InvitationPersonActivity" />
-        <activity android:name=".ui.home.mine.UpdateUserInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"
-            ></activity>
+        <activity
+            android:name=".ui.home.mine.UpdateUserInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
     </application>
 
 </manifest>

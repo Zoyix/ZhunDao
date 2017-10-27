@@ -318,6 +318,7 @@ public class HttpUtil {
         }
         return null;
     }
+
     //带url参数和body参数体的post方法
     public static String sendPostNew2request(String path, Map<String, String> params, String ecoding, Map<String, String> bodys) {
         InputStream inputStream = null;
@@ -345,7 +346,7 @@ public class HttpUtil {
                 body.append(URLEncoder.encode(entry.getValue(), ecoding));
                 body.append("&");
             }
-String ok=body.toString();
+            String ok = body.toString();
             os.write(ok.getBytes());
 
             if (conn.getResponseCode() == 200) {

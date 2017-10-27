@@ -51,7 +51,7 @@ public class ZXingUtil {
                 for (int x = 0; x < width; x++) {
                     if (bitMatrix.get(x, y)) {
                         pixels[y * width + x] = 0xff000000;
-                    }else{
+                    } else {
                         pixels[y * width + x] = 0xffffffff;
                     }
                 }
@@ -68,8 +68,8 @@ public class ZXingUtil {
         return null;
     }
 
-    public static void  saveMyBitmap(Bitmap mBitmap,String bitName)  {
-        File f = new File( "/sdcard/"+bitName);
+    public static void saveMyBitmap(Bitmap mBitmap, String bitName) {
+        File f = new File("/sdcard/" + bitName);
         FileOutputStream fOut = null;
         try {
             fOut = new FileOutputStream(f);
@@ -90,7 +90,7 @@ public class ZXingUtil {
 
     }
 
-    public static void saveImageToGallery(Context context, Bitmap bmp,String name) {
+    public static void saveImageToGallery(Context context, Bitmap bmp, String name) {
         // 首先保存图片
         File appDir = new File(Environment.getExternalStorageDirectory().getAbsolutePath(), "Zhundao");
 
@@ -116,15 +116,15 @@ public class ZXingUtil {
         // 其次把文件插入到系统图库
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                    file.getAbsolutePath(), name+".jpg", null);
+                    file.getAbsolutePath(), name + ".jpg", null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
         // 最后通知图库更新
         context.sendBroadcast(new Intent(Intent.ACTION_MEDIA_SCANNER_SCAN_FILE, Uri.parse("file://" + path)));
     }
-    public static Bitmap convertViewToBitmap(View view)
-    {
+
+    public static Bitmap convertViewToBitmap(View view) {
         view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED), View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
         view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
         view.buildDrawingCache();
@@ -132,6 +132,7 @@ public class ZXingUtil {
 
         return bitmap;
     }
+
     public static Bitmap createViewBitmap(View view) {
         view.setDrawingCacheEnabled(true);
         /**
@@ -152,29 +153,30 @@ public class ZXingUtil {
 
 
     public static Bitmap takeScreenShot(Activity activity) {
-    // View是你需要截图的View
-    View view = activity.getWindow().getDecorView();
-    view.setDrawingCacheEnabled(true);
-    view.buildDrawingCache();
-    Bitmap b1 = view.getDrawingCache();
+        // View是你需要截图的View
+        View view = activity.getWindow().getDecorView();
+        view.setDrawingCacheEnabled(true);
+        view.buildDrawingCache();
+        Bitmap b1 = view.getDrawingCache();
 
-    // 获取状态栏高度
-    Rect frame = new Rect();
-    activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
-    int statusBarHeight = frame.top;
-    System.out.println(statusBarHeight);
+        // 获取状态栏高度
+        Rect frame = new Rect();
+        activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+        int statusBarHeight = frame.top;
+        System.out.println(statusBarHeight);
 
-    // 获取屏幕长和高
-    int width = activity.getWindowManager().getDefaultDisplay().getWidth();
-    int height = activity.getWindowManager().getDefaultDisplay()
-            .getHeight();
-    // 去掉标题栏
-    // Bitmap b = Bitmap.createBitmap(b1, 0, 25, 320, 455);
-    Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height
-            - statusBarHeight);
-    view.destroyDrawingCache();
-    return b;
-}
+        // 获取屏幕长和高
+        int width = activity.getWindowManager().getDefaultDisplay().getWidth();
+        int height = activity.getWindowManager().getDefaultDisplay()
+                .getHeight();
+        // 去掉标题栏
+        // Bitmap b = Bitmap.createBitmap(b1, 0, 25, 320, 455);
+        Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height
+                - statusBarHeight);
+        view.destroyDrawingCache();
+        return b;
+    }
+
     public static Bitmap getLoacalBitmap(String url) {
 
         if (url != null) {

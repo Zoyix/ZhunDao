@@ -67,16 +67,16 @@
 
                 android:text="@string/none" />
 
-            <include layout="@layout/line"
+            <include
+                layout="@layout/line"
                 android:id="@+id/include"></include>
 
 
-
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/rl_email"
-            style="@style/act_user_rl"
-            >
+            style="@style/act_user_rl">
 
             <TextView
                 style="@style/act_user_tv"
@@ -94,6 +94,7 @@
             <include layout="@layout/line"></include>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/rl_unit"
             style="@style/act_user_rl">
@@ -248,14 +249,14 @@
             <TextView
                 android:layout_alignParentLeft="true"
                 style="@style/act_user_tv"
-android:id="@+id/tv_sign_user_remark2"
+                android:id="@+id/tv_sign_user_remark2"
                 android:text="@string/remark" />
 
             <TextView
                 android:id="@+id/tv_sign_user_remark"
                 android:layout_alignParentRight="true"
                 style="@style/act_user_tv"
-android:layout_below="@id/tv_sign_user_remark2"
+                android:layout_below="@id/tv_sign_user_remark2"
                 android:text="@string/none" />
 
             <include layout="@layout/line"></include>
@@ -293,6 +294,7 @@ android:layout_below="@id/tv_sign_user_remark2"
             <include layout="@layout/line"></include>
 
         </RelativeLayout>
+
         <Button
             android:layout_gravity="center_horizontal"
 

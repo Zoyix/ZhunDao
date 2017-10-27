@@ -134,23 +134,24 @@ public class SignListUserAddActivity extends ToolBarActivity {
     private JSONObject jsonObj;
     private JSONArray jsonArray;
     private Handler mHandler;
-    private String param="";
+    private String param = "";
     private String FaceImg;
-    LinkedHashMap<String, String> jsonMap= new LinkedHashMap<>();
-    LinkedHashMap<String, String> jsonFeeGroup= new LinkedHashMap<>();
+    LinkedHashMap<String, String> jsonMap = new LinkedHashMap<>();
+    LinkedHashMap<String, String> jsonFeeGroup = new LinkedHashMap<>();
 
-    private HashMap<String,Camera> cameraHashMap=new HashMap<>();
+    private HashMap<String, Camera> cameraHashMap = new HashMap<>();
     public static final int MESSAGE_SIGNLIST_USER_ADD = 94;
-    public static final int MESSAGE_UPLOAD_COMPLETE= 1000;
-    public static final int MESSAGE_DELETE_COMPLETE= 999;
+    public static final int MESSAGE_UPLOAD_COMPLETE = 1000;
+    public static final int MESSAGE_DELETE_COMPLETE = 999;
     String json;
     private Camera camera;
     private String PhotoTitle;
     String ActivityFees;
     String UserInfo;
-    String activityFeeid="0";
-    String paramBase="";
-    String sex="0";
+    String activityFeeid = "0";
+    String paramBase = "";
+    String sex = "0";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -161,9 +162,10 @@ public class SignListUserAddActivity extends ToolBarActivity {
         initIntent();
 
     }
+
     public void add(String param) {
         if (NetworkUtils.checkNetState(this)) {
-            AsyncSignListAdd async = new AsyncSignListAdd(this, mHandler, MESSAGE_SIGNLIST_USER_ADD,activityFeeid,param);
+            AsyncSignListAdd async = new AsyncSignListAdd(this, mHandler, MESSAGE_SIGNLIST_USER_ADD, activityFeeid, param);
             async.execute();
         } else {
             ToastUtil.makeText(this, R.string.net_error);
@@ -185,47 +187,46 @@ public class SignListUserAddActivity extends ToolBarActivity {
                         {
                             ToastUtil.makeText(getApplicationContext(), "添加成功！");
                             finish();
-                        }
-                        else{
-                            ToastUtil.makeText(getApplicationContext(),  jsonObj.getString("Msg"));
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), jsonObj.getString("Msg"));
 
                         }
                         break;
                     case MESSAGE_UPLOAD_COMPLETE:
 
-                        String cameraUrl="";
+                        String cameraUrl = "";
 
                         ArrayList<String> a = camera.getUploadUrl();
                         for (int i = 0; i < a.size(); i++) {
-                            cameraUrl=cameraUrl+a.get(i)+"|";
+                            cameraUrl = cameraUrl + a.get(i) + "|";
 
                         }
-                        ToastUtil.print("PhotoTitle"+PhotoTitle+cameraUrl);
-                        if(PhotoTitle.equals("人脸照片")){
-                       FaceImg=cameraUrl;
+                        ToastUtil.print("PhotoTitle" + PhotoTitle + cameraUrl);
+                        if (PhotoTitle.equals("人脸照片")) {
+                            FaceImg = cameraUrl;
+                        } else {
+                            jsonMap.put(PhotoTitle, cameraUrl);
                         }
-                        else{
-                        jsonMap.put(PhotoTitle, cameraUrl);}
                         ToastUtil.makeText(getApplicationContext(), "图片上传成功！");
                         break;
                     case MESSAGE_DELETE_COMPLETE:
 
-                        cameraUrl="";
+                        cameraUrl = "";
                         PhotoTitle = (String) msg.obj;
-                        camera=cameraHashMap.get(PhotoTitle);
+                        camera = cameraHashMap.get(PhotoTitle);
                         a = camera.getUploadUrl();
                         for (int i = 0; i < a.size(); i++) {
-                            cameraUrl=cameraUrl+a.get(i)+"|";
+                            cameraUrl = cameraUrl + a.get(i) + "|";
                         }
-                        if(PhotoTitle.equals("人脸照片")){
-                            FaceImg=cameraUrl;
+                        if (PhotoTitle.equals("人脸照片")) {
+                            FaceImg = cameraUrl;
 
+                        } else {
+                            ToastUtil.print("PhotoTitle" + PhotoTitle + cameraUrl);
+                            jsonMap.put(PhotoTitle, cameraUrl);
                         }
-                        else{
-                        ToastUtil.print("PhotoTitle"+PhotoTitle+cameraUrl);
-                        jsonMap.put(PhotoTitle, cameraUrl);}
                         ToastUtil.print("图片删除成功");
-break;
+                        break;
                     default:
                         break;
                 }
@@ -239,29 +240,30 @@ break;
         if (intent != null) {
             act_id = intent.getStringExtra("act_id");
             signup_list = (String) SPUtils.get(this, "listup_" + act_id, "");
-            UserInfo= (String) SPUtils.get(this,"UserInfo" + act_id,"");
-            ActivityFees=(String) SPUtils.get(this,"ActivityFees" + act_id,"");
-            ToastUtil.print("基本选项:"+UserInfo+"费用"+ActivityFees);
+            UserInfo = (String) SPUtils.get(this, "UserInfo" + act_id, "");
+            ActivityFees = (String) SPUtils.get(this, "ActivityFees" + act_id, "");
+            ToastUtil.print("基本选项:" + UserInfo + "费用" + ActivityFees);
         }
 
 
         jsonObj = JSON.parseObject(signup_list);
         jsonArray = jsonObj.getJSONArray("Data");
-if (UserInfo!=null){
-String[] baseItem= UserInfo.split("\\,");
+        if (UserInfo != null) {
+            String[] baseItem = UserInfo.split("\\,");
 
-        for (int i=0;i<baseItem.length;i++){
-            ToastUtil.print("基本选项:"+baseItem[i]);
-hideView(baseItem[i]);
-        }}
-        if (ActivityFees!=("")) {
+            for (int i = 0; i < baseItem.length; i++) {
+                ToastUtil.print("基本选项:" + baseItem[i]);
+                hideView(baseItem[i]);
+            }
+        }
+        if (ActivityFees != ("")) {
 
-            createSpinnerFee("缴费","");
+            createSpinnerFee("缴费", "");
         }
 
 
         JSONArray jsonArray3 = jsonObj.getJSONArray("Option");
-        if (jsonArray3.size()!=0) {
+        if (jsonArray3.size() != 0) {
             json = JSON.toJSONString(jsonMap);
             ToastUtil.print("json数据" + json);
             for (int i = 0; i < jsonArray3.size(); i++) {
@@ -278,56 +280,56 @@ hideView(baseItem[i]);
     }
 
     private void hideView(String s) {
-        switch (s){
+        switch (s) {
             case "102":
 //                rlUserSex.setVisibility(View.VISIBLE);
-                createSpinnerBase("性别","Sex","未选择|男|女");
+                createSpinnerBase("性别", "Sex", "未选择|男|女");
                 break;
-            case"103":
+            case "103":
 //                rlUserUnit.setVisibility(View.VISIBLE);
-                createTextViewBase("单位","Company");
+                createTextViewBase("单位", "Company");
 
                 break;
-            case"104":
+            case "104":
 //                rlUserDep.setVisibility(View.VISIBLE);
-                createTextViewBase("部门","Depart");
+                createTextViewBase("部门", "Depart");
 
                 break;
-            case"105":
+            case "105":
 //                rlUserDuty.setVisibility(View.VISIBLE);
-                createTextViewBase("职务","Duty");
+                createTextViewBase("职务", "Duty");
 
                 break;
-            case"106":
+            case "106":
 //                rlUserIndustry.setVisibility(View.VISIBLE);
-                createTextViewBase("行业","Industry");
+                createTextViewBase("行业", "Industry");
 
                 break;
-            case"107":
+            case "107":
 //                rlUserEmail.setVisibility(View.VISIBLE);
-                createTextViewBase("邮箱","Email");
+                createTextViewBase("邮箱", "Email");
                 break;
-            case"108":
+            case "108":
 //                rlUserJoinNum.setVisibility(View.VISIBLE);
-                createTextViewBase("参与人数","Num");
+                createTextViewBase("参与人数", "Num");
 
                 break;
-            case"109":
+            case "109":
 //                rlUserRemark.setVisibility(View.VISIBLE);
-                createTextViewBase("备注","Remark");
+                createTextViewBase("备注", "Remark");
 
                 break;
-            case"110":
+            case "110":
 //                rlUserIdCard.setVisibility(View.VISIBLE);
-                createTextViewBase("身份证","IDcard");
+                createTextViewBase("身份证", "IDcard");
 
                 break;
-            case"111":
+            case "111":
 //                rlUserAdd.setVisibility(View.VISIBLE);
-                createTextViewBase("地址","Address");
+                createTextViewBase("地址", "Address");
 
                 break;
-            case"112":
+            case "112":
                 createPhotoFace("人脸照片");
 
                 break;
@@ -424,6 +426,7 @@ hideView(baseItem[i]);
         llSignlistAddUser.addView(rl, rlParams);
         llSignlistAddUser.setTag(et);
     }
+
     private void createTextViewBase(final String title, final String mParam) {
         int margin = dip2px(this, 10);
         int etWidth = dip2px(this, 300);
@@ -662,6 +665,7 @@ hideView(baseItem[i]);
         llSignlistAddUser.addView(rl, rlParams);
 
     }
+
     private void createSpinnerBase(final String title, final String mParam, String Option) {
         int margin = dip2px(this, 10);
         int etWidth = dip2px(this, 300);
@@ -687,7 +691,7 @@ hideView(baseItem[i]);
         sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-sex=sp.getSelectedItemPosition()+"";
+                sex = sp.getSelectedItemPosition() + "";
             }
 
             @Override
@@ -720,7 +724,8 @@ sex=sp.getSelectedItemPosition()+"";
         llSignlistAddUser.addView(rl, rlParams);
 
     }
-    private void createSpinnerFee(final String title, String Option                                                                                                                                                        ) {
+
+    private void createSpinnerFee(final String title, String Option) {
         int margin = dip2px(this, 10);
         int etWidth = dip2px(this, 300);
         int h = dip2px(this, 1);
@@ -730,12 +735,12 @@ sex=sp.getSelectedItemPosition()+"";
         tv1.setId(R.id.tv_code_title);
         final Spinner sp = new Spinner(this);
         JSONArray jsonFee = JSON.parseArray(ActivityFees);
-        if (jsonFee.size()==0){
+        if (jsonFee.size() == 0) {
             return;
         }
-        activityFeeid=jsonFee.getJSONObject(0).getString("ID");
-        for (int i=0;i<jsonFee.size();i++){
-            Option+=jsonFee.getJSONObject(i).getString("Title")+":"+jsonFee.getJSONObject(i).getString("Amount")+"|";
+        activityFeeid = jsonFee.getJSONObject(0).getString("ID");
+        for (int i = 0; i < jsonFee.size(); i++) {
+            Option += jsonFee.getJSONObject(i).getString("Title") + ":" + jsonFee.getJSONObject(i).getString("Amount") + "|";
         }
         sp.setId(R.id.tv_code_content);
         sp.setPrompt(title);
@@ -755,11 +760,11 @@ sex=sp.getSelectedItemPosition()+"";
             public void onItemSelected(AdapterView<?> adapterView, View view, int k, long l) {
                 JSONArray jsonFee = JSON.parseArray(ActivityFees);
 
-                for (int i=0;i<jsonFee.size();i++){
-                   if ((jsonFee.getJSONObject(i).getString("Title")+":"+jsonFee.getJSONObject(i).getString("Amount")) .equals(sp.getSelectedItem().toString()))     {
-                       activityFeeid=jsonFee.getJSONObject(i).getString("ID");
-                       ToastUtil.print(activityFeeid);
-                   }
+                for (int i = 0; i < jsonFee.size(); i++) {
+                    if ((jsonFee.getJSONObject(i).getString("Title") + ":" + jsonFee.getJSONObject(i).getString("Amount")).equals(sp.getSelectedItem().toString())) {
+                        activityFeeid = jsonFee.getJSONObject(i).getString("ID");
+                        ToastUtil.print(activityFeeid);
+                    }
                 }
 
 
@@ -970,7 +975,7 @@ sex=sp.getSelectedItemPosition()+"";
         GridLayout gl_camara = new GridLayout(this);
         final Camera camera1 = new Camera(this, gl_camara, false, 9, mHandler, title);
         PhotoTitle = title;
-        cameraHashMap.put(title,camera1);
+        cameraHashMap.put(title, camera1);
 
         gl_camara.requestDisallowInterceptTouchEvent(true);
         gl_camara.setOnClickListener(new View.OnClickListener() {
@@ -1014,6 +1019,7 @@ sex=sp.getSelectedItemPosition()+"";
 
 
     }
+
     private void createPhotoFace(final String title) {
         int margin = dip2px(this, 10);
         int etWidth = dip2px(this, 300);
@@ -1026,7 +1032,7 @@ sex=sp.getSelectedItemPosition()+"";
         GridLayout gl_camara = new GridLayout(this);
         final Camera camera1 = new Camera(this, gl_camara, false, 3, mHandler, title);
         PhotoTitle = title;
-        cameraHashMap.put(title,camera1);
+        cameraHashMap.put(title, camera1);
 
         gl_camara.requestDisallowInterceptTouchEvent(true);
         gl_camara.setOnClickListener(new View.OnClickListener() {
@@ -1078,6 +1084,7 @@ sex=sp.getSelectedItemPosition()+"";
 
 
     }
+
     @OnClick(R.id.btn_signlist_user_sumbit)
     public void onViewClicked() {
         String Name = etSignlistUserName.getText().toString();
@@ -1091,9 +1098,9 @@ sex=sp.getSelectedItemPosition()+"";
             return;
         }
 
-        json=JSON.toJSONString(jsonMap);
-        ToastUtil.print("json数据"+json);
-        param = "UserName=" + Name + "&Mobile=" + Mobile+ "&ActivityID="+act_id+paramBase;
+        json = JSON.toJSONString(jsonMap);
+        ToastUtil.print("json数据" + json);
+        param = "UserName=" + Name + "&Mobile=" + Mobile + "&ActivityID=" + act_id + paramBase;
 
 //        activityFeeid="0";
         add(setParam(param));
@@ -1113,13 +1120,13 @@ sex=sp.getSelectedItemPosition()+"";
 //        if (etSignlistUserUnit.getText().toString()!=null){
 //            param=param+"&Company="+etSignlistUserUnit.getText().toString();
 //        }
-        if (sex!="0"){
-            param=param+"&Sex="+sex;
+        if (sex != "0") {
+            param = param + "&Sex=" + sex;
         }
-        if(jsonMap.size()!=0){
-            json=JSON.toJSONString(jsonMap);
+        if (jsonMap.size() != 0) {
+            json = JSON.toJSONString(jsonMap);
 
-            param=param+"&ExtraInfo="+json;
+            param = param + "&ExtraInfo=" + json;
 
         }
 //        if (etSignlistUserDep.getText().toString()!=null){
@@ -1136,8 +1143,8 @@ sex=sp.getSelectedItemPosition()+"";
 //        }
 
 
-        if (FaceImg!=null){
-            param=param+"&FaceImg="+FaceImg;
+        if (FaceImg != null) {
+            param = param + "&FaceImg=" + FaceImg;
 
         }
 

@@ -44,6 +44,7 @@ public class CustomActivity extends Activity implements Toolbar.OnMenuItemClickL
         initHandler();
         initView();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -55,7 +56,7 @@ public class CustomActivity extends Activity implements Toolbar.OnMenuItemClickL
         adapter = new CustomAdapter(this);
         lv_custom.setAdapter(adapter);
         lv_custom.setOnItemClickListener(this);
-        tv_custom_suggest= (TextView) findViewById(R.id.tv_custom_suggest);
+        tv_custom_suggest = (TextView) findViewById(R.id.tv_custom_suggest);
 
     }
 
@@ -89,12 +90,11 @@ public class CustomActivity extends Activity implements Toolbar.OnMenuItemClickL
     }
 
     private void getCustomAll() {
-       {
-      if (NetworkUtils.checkNetState(this)) {
+        {
+            if (NetworkUtils.checkNetState(this)) {
                 AsyncCustomAll async = new AsyncCustomAll(this, mHandler, MESSAGE_GET_CUSTOM_ALL);
                 async.execute();
-            }
-               else
+            } else
                 return;
         }
     }
@@ -132,6 +132,7 @@ public class CustomActivity extends Activity implements Toolbar.OnMenuItemClickL
         showSuggest(list);
         adapter.refreshData(list);
     }
+
     private void showSuggest(List<CustomBean> list) {
         if (list.size() == 0) {
             lv_custom.setVisibility(GONE);

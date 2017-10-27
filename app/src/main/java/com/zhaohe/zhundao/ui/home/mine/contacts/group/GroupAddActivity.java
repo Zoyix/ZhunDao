@@ -41,16 +41,15 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
 
     private void initIntent() {
 
-            Intent intent = this.getIntent();
-            bean = (MyGroupBean) intent.getSerializableExtra("bean");
-        if (bean!=null){
+        Intent intent = this.getIntent();
+        bean = (MyGroupBean) intent.getSerializableExtra("bean");
+        if (bean != null) {
             initToolBarNew("编辑群组", R.layout.activity_group_add);
             initView();
             et_group_add_num.setText(bean.getSequence());
             et_group_add_name.setText(bean.getName());
 
-        }
-        else{
+        } else {
             initToolBarNew("新建群组", R.layout.activity_group_add);
             initView();
         }
@@ -73,6 +72,7 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
             ToastUtil.makeText(this, R.string.net_error);
         }
     }
+
     public void editGroup(String param) {
         if (NetworkUtils.checkNetState(this)) {
             AsyncUpdateGroup async = new AsyncUpdateGroup(this, mHandler, MESSAGE_UpdateContactGroup, param);
@@ -102,9 +102,9 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
                         }
                         break;
                     case MESSAGE_UpdateContactGroup:
-                         result = (String) msg.obj;
-                         jsonObj = JSON.parseObject(result);
-                         message = jsonObj.getString("Res");
+                        result = (String) msg.obj;
+                        jsonObj = JSON.parseObject(result);
+                        message = jsonObj.getString("Res");
                         System.out.println("group_add_result:" + result);
                         if (message.equals("0"))
                         //添加或修改请求结果
@@ -138,12 +138,11 @@ public class GroupAddActivity extends ToolBarActivity implements View.OnClickLis
                     ToastUtil.makeText(this, "序列不得为空，请重新输入~");
                     return;
                 }
-                if(bean!=null){
-                    param = "GroupName=" + name + "&Sequence=" + num+"&ID="+bean.getID();
+                if (bean != null) {
+                    param = "GroupName=" + name + "&Sequence=" + num + "&ID=" + bean.getID();
                     editGroup(param);
 
-                }
-                else{
+                } else {
                     param = "GroupName=" + name + "&Sequence=" + num;
                     updateGroup(param);
                 }

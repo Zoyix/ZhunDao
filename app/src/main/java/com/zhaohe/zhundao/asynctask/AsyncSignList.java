@@ -35,6 +35,7 @@ public class AsyncSignList extends AsyncTask<String, Integer, String> {
         this.mParam = param;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
+
     public AsyncSignList(Context context, Handler handler, int request, String param) {
         this.mContext = context;
         this.mHandler = handler;
@@ -42,9 +43,10 @@ public class AsyncSignList extends AsyncTask<String, Integer, String> {
         this.mParam = param;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
+
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PostActivityListed;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.PostActivityListed;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         ToastUtil.print(mParam);

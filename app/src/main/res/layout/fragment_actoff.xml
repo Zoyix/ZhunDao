@@ -6,10 +6,9 @@
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/swipe_ly2"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v4.widget.SwipeRefreshLayout>
-    <com.chanven.lib.cptr.PtrClassicFrameLayout
-        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+        android:layout_height="match_parent"></android.support.v4.widget.SwipeRefreshLayout>
+
+    <com.chanven.lib.cptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/test_list_view_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -19,7 +18,8 @@
         cube_ptr:ptr_keep_header_when_refresh="true"
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.8" >
+        cube_ptr:ptr_resistance="1.8">
+
         <ListView
             android:divider="@null"
 
@@ -28,6 +28,7 @@
             android:layout_height="match_parent"></ListView>
 
     </com.chanven.lib.cptr.PtrClassicFrameLayout>
+
     <TextView
         android:id="@+id/tv_actoff_suggest"
         android:layout_width="match_parent"

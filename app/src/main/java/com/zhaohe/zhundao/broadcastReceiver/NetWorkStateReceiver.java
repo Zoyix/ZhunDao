@@ -65,7 +65,7 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
                 Toast.makeText(context, "WIFI已断开,移动数据已断开", Toast.LENGTH_SHORT).show();
             }
 //API大于23时使用下面的方式进行网络监听
-        }else {
+        } else {
 
             System.out.println("API level 大于23");
             //获得ConnectivityManager对象
@@ -76,7 +76,7 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
             //用于存放网络连接信息
             StringBuilder sb = new StringBuilder();
             //通过循环将网络信息逐个取出来
-            for (int i=0; i < networks.length; i++){
+            for (int i = 0; i < networks.length; i++) {
                 //获取ConnectivityManager对象对应的NetworkInfo对象
                 NetworkInfo networkInfo = connMgr.getNetworkInfo(networks[i]);
                 sb.append(networkInfo.getTypeName() + " connect is " + networkInfo.isConnected());
@@ -104,7 +104,9 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
             AsyncUpLoadSignupStatus async = new AsyncUpLoadSignupStatus(context, mHandler, MESSAGE_UPLOAD_SIGNUPSTATUS, jsonString);
             async.execute();
 
-    }}
+        }
+    }
+
     private void initHandler(final Context context) {
         mHandler = new Handler() {
 
@@ -128,6 +130,7 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
             }
         };
     }
+
     private void changeStatus() {
         List<MySignListupBean> list = dao.queryUpdateStatus();
         for (int i = 0; i < list.size(); i++) {

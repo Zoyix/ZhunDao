@@ -28,11 +28,10 @@
                 android:id="@+id/iv_beacon_icon"
                 android:src="@mipmap/ic_launcher"
                 android:layout_alignParentRight="true"
-android:layout_width="60dp"
+                android:layout_width="60dp"
                 android:layout_height="60dp"
-android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                />
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp" />
 
             <include layout="@layout/line_user_act"></include>
 
@@ -52,14 +51,12 @@ android:layout_marginBottom="10dp"
                 android:layout_alignParentRight="true"
                 style="@style/act_user_tv"
                 android:clickable="true"
-                android:text="@string/none"
-                />
+                android:text="@string/none" />
 
             <include layout="@layout/line_user_act"></include>
         </RelativeLayout>
 
-        <RelativeLayout
-            style="@style/act_user_rl">
+        <RelativeLayout style="@style/act_user_rl">
 
             <TextView
                 android:layout_alignParentLeft="true"
@@ -98,6 +95,7 @@ android:layout_marginBottom="10dp"
             <include layout="@layout/line"></include>
 
         </RelativeLayout>
+
         <RelativeLayout
             android:id="@+id/rl_beacon_time"
             style="@style/act_user_rl">
@@ -112,7 +110,7 @@ android:layout_marginBottom="10dp"
                 android:id="@+id/tv_beacon_time"
                 android:layout_alignParentRight="true"
                 style="@style/act_user_tv"
-android:maxLength="10"
+                android:maxLength="10"
                 android:text="@string/none" />
 
             <include layout="@layout/line"></include>
@@ -122,8 +120,7 @@ android:maxLength="10"
         <RelativeLayout
             android:id="@+id/rl_beacon_bind"
             style="@style/act_user_rl"
-            android:descendantFocusability="blocksDescendants"
-            >
+            android:descendantFocusability="blocksDescendants">
 
             <TextView
                 android:layout_alignParentLeft="true"
@@ -134,7 +131,7 @@ android:maxLength="10"
             <TextView
                 android:id="@+id/tv_beacon_nickname"
                 style="@style/act_user_tv"
-android:maxLength="15"
+                android:maxLength="15"
                 android:drawablePadding="5dp"
                 android:drawableRight="@drawable/right"
                 android:text="@string/none"

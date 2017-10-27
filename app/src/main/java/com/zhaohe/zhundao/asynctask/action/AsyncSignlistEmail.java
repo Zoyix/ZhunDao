@@ -30,19 +30,19 @@ public class AsyncSignlistEmail extends AsyncTask<String, Integer, String> {
     private String mActID;
 
 
-    public AsyncSignlistEmail(Context context, Handler handler, Dialog dialog, int request, String param,String mActID) {
+    public AsyncSignlistEmail(Context context, Handler handler, Dialog dialog, int request, String param, String mActID) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
         this.mEmail = param;
-        this.mActID=mActID;
+        this.mActID = mActID;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.SendActivityListByEmail;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.SendActivityListByEmail;
         Map<String, String> map = new HashMap<String, String>();
         map.put("activityId", mActID);
         map.put("email", mEmail);

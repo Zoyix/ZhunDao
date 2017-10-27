@@ -26,24 +26,24 @@ public class AsyncSignDelete extends AsyncTask<String, Integer, String> {
     private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
-    private String mCheckInId,mName,mType,mSignObject;
+    private String mCheckInId, mName, mType, mSignObject;
 
     public AsyncSignDelete(Context context, Handler handler, int request, String checkInId) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.mCheckInId=checkInId;
+        this.mCheckInId = checkInId;
 
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.DeleteCheckIn;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.DeleteCheckIn;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        map.put("checkInId",mCheckInId);
-        map.put("from",Constant.Url.Device);
+        map.put("checkInId", mCheckInId);
+        map.put("from", Constant.Url.Device);
 
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");

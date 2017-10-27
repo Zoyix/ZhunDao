@@ -33,7 +33,7 @@ import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GroupActivity extends ToolBarActivity implements View.OnClickListener,AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener ,AdapterView.OnItemLongClickListener{
+public class GroupActivity extends ToolBarActivity implements View.OnClickListener, AdapterView.OnItemClickListener, Toolbar.OnMenuItemClickListener, AdapterView.OnItemLongClickListener {
     private Handler mHandler;
     private MyGroupDao dao;
     private TextView tv_group_all, tv_group_none;
@@ -42,7 +42,6 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
     private MyGroupBean bean;
     public static final int MESSAGE_GET_GROUP = 94;
     public static final int MESSAGE_DELETE_GROUP = 95;
-
 
 
     @Override
@@ -54,11 +53,13 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
         initView();
         showData();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getData();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -67,6 +68,7 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
 
         return true;
     }
+
     private void showData() {
         adapter.refreshData(dao.queryAll());
 
@@ -80,7 +82,7 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
         tv_group_none.setOnClickListener(this);
         lv_group = (ListView) findViewById(R.id.lv_group);
         adapter = new MyGroupAdapter(this);
-        lv_group.setAdapter(adapter );
+        lv_group.setAdapter(adapter);
         lv_group.setOnItemClickListener(this);
         lv_group.setOnItemLongClickListener(this);
         registerForContextMenu(lv_group);
@@ -103,8 +105,8 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
                         break;
                     case MESSAGE_DELETE_GROUP:
                         result = (String) msg.obj;
-                        JSONObject   jsonObj = JSON.parseObject(result);
-                       String message = jsonObj.getString("Res");
+                        JSONObject jsonObj = JSON.parseObject(result);
+                        String message = jsonObj.getString("Res");
                         System.out.println("group_delete_result:" + result);
                         if (message.equals("0"))
                         //添加或修改请求结果
@@ -129,9 +131,10 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
             async.execute();
         }
     }
+
     public void deletGroup() {
         if (NetworkUtils.checkNetState(this)) {
-            AsyncDeleteGroup async = new AsyncDeleteGroup(this, mHandler, MESSAGE_DELETE_GROUP,bean.getID());
+            AsyncDeleteGroup async = new AsyncDeleteGroup(this, mHandler, MESSAGE_DELETE_GROUP, bean.getID());
             async.execute();
         }
     }
@@ -162,7 +165,7 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_group_all:
-                IntentUtils.startActivity(this,ContactsActivity.class);
+                IntentUtils.startActivity(this, ContactsActivity.class);
                 break;
             case R.id.tv_group_none:
                 Intent intent = new Intent();
@@ -176,7 +179,7 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-       MyGroupBean bean= adapter.getItem(i);
+        MyGroupBean bean = adapter.getItem(i);
         System.out.println(bean.getID());
         Intent intent = new Intent();
         intent.setClass(this, ContactsActivity.class);
@@ -187,7 +190,7 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_group_add:
                 IntentUtils.startActivity(this, GroupAddActivity.class);
 
@@ -199,10 +202,11 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
 
     @Override
     public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-        bean= adapter.getItem(i);
+        bean = adapter.getItem(i);
 
         return false;
     }
+
     @Override
     public void onCreateContextMenu(ContextMenu menu, View v,
                                     ContextMenu.ContextMenuInfo menuInfo) {
@@ -211,6 +215,7 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
 
 
     }
+
     public void deleteDialog() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -253,7 +258,7 @@ public class GroupActivity extends ToolBarActivity implements View.OnClickListen
                 this.startActivity(intent);
                 break;
             case 2:
-deleteDialog();
+                deleteDialog();
                 break;
         }
         return true;

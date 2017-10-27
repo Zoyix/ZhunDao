@@ -75,10 +75,12 @@ public abstract class ToolBarActivity extends SwipeBackActivity {
         }
         return super.onOptionsItemSelected(item);
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(this);
     }
+
     public void initToolBarNew(String text, int layoutResID) {
         ToolBarHelper mToolBarHelper;
         mToolBarHelper = new ToolBarHelper(this, layoutResID);

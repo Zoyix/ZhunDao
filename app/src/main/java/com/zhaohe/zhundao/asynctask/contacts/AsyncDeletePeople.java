@@ -22,7 +22,7 @@ import static com.zhaohe.zhundao.constant.Constant.Url.Device;
  * @Author:邹苏隆
  * @Since:2017/5/31 9:17
  */
-public class AsyncDeletePeople  extends AsyncTask<String, Integer, String> {
+public class AsyncDeletePeople extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
     private int mRequest;
@@ -35,16 +35,16 @@ public class AsyncDeletePeople  extends AsyncTask<String, Integer, String> {
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.mParam=Param;
+        this.mParam = Param;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.DeleteContact;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.DeleteContact;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        map.put("id",mParam);
-        map.put("from",Device);
+        map.put("id", mParam);
+        map.put("from", Device);
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

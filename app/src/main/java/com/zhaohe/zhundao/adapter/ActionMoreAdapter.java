@@ -22,44 +22,43 @@ public class ActionMoreAdapter extends AdapterBase<ActionMoreBean, ActionMoreHol
 
     private LayoutInflater inflater;
 
-    public  ActionMoreAdapter(Context context) {
-        inflater = LayoutInflater.from (context);
+    public ActionMoreAdapter(Context context) {
+        inflater = LayoutInflater.from(context);
     }
 
 
     @Override
-    protected void handlerData(List< ActionMoreBean> mList2, int position,  ActionMoreHolder itemView){
-        ActionMoreBean bean = mList2.get (position);
+    protected void handlerData(List<ActionMoreBean> mList2, int position, ActionMoreHolder itemView) {
+        ActionMoreBean bean = mList2.get(position);
 
         //空白
-        if(StringUtils.isEmpty (bean.name)&&bean.imageRes==-1){
-            itemView.image.setVisibility (View.INVISIBLE);
-            itemView.tvName.setVisibility (View.INVISIBLE);
+        if (StringUtils.isEmpty(bean.name) && bean.imageRes == -1) {
+            itemView.image.setVisibility(View.INVISIBLE);
+            itemView.tvName.setVisibility(View.INVISIBLE);
             return;
         }
 
-        itemView.image.setImageResource (bean.imageRes);
-        itemView.tvName.setText (bean.name);
-
+        itemView.image.setImageResource(bean.imageRes);
+        itemView.tvName.setText(bean.name);
 
 
     }
 
     @Override
-    protected  ActionMoreHolder getItemViewHolder(){
-        return new  ActionMoreHolder ();
+    protected ActionMoreHolder getItemViewHolder() {
+        return new ActionMoreHolder();
     }
 
     @Override
-    protected View initConvertView(View convertView, ActionMoreHolder v){
-        convertView = inflater.inflate (R.layout.gridview_item, null);
-        v.image = (ImageView) convertView.findViewById (R.id.iv_gridview);
-        v.tvName = (TextView) convertView.findViewById (R.id.tv_nameGridview);
+    protected View initConvertView(View convertView, ActionMoreHolder v) {
+        convertView = inflater.inflate(R.layout.gridview_item, null);
+        v.image = (ImageView) convertView.findViewById(R.id.iv_gridview);
+        v.tvName = (TextView) convertView.findViewById(R.id.tv_nameGridview);
         return convertView;
     }
 
     @Override
-    protected void onReachBottom(){
+    protected void onReachBottom() {
 
     }
 

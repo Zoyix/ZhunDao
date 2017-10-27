@@ -68,12 +68,14 @@
 
                 <requestFocus />
             </EditText>
+
             <LinearLayout
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/editText1">
+
                 <TextView
                     android:layout_marginLeft="30dp"
                     android:id="@+id/tv_find_multi_add"
@@ -86,6 +88,7 @@
                     android:textColor="@color/white"
 
                     />
+
                 <TextView
                     android:layout_marginLeft="30dp"
                     android:drawableLeft="@mipmap/multi_name"
@@ -96,15 +99,15 @@
                     android:text="@string/tv_sign_status"
                     android:textColor="@color/white"
 
-                    android:layout_gravity="center_horizontal|center_vertical"
-                    />
+                    android:layout_gravity="center_horizontal|center_vertical" />
+
                 <TextView
                     android:layout_marginLeft="30dp"
                     android:drawableLeft="@mipmap/multi_status"
                     android:id="@+id/tv_find_multi_status"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:text="@string/tv_sign_status"
                     android:textColor="@color/white"
                     android:layout_gravity="center_horizontal|center_vertical"
@@ -114,50 +117,49 @@
             </LinearLayout>
         </RelativeLayout>
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/umeng_socialize_divider"
-    android:paddingTop="5dp"
-    android:paddingBottom="5dp"
-    >
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/tv_sign_status"
-        android:gravity="center"
-        android:layout_marginLeft="25dp"
-        android:id="@+id/tv_multi_sum"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/umeng_socialize_divider"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
 
-        />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_sign_status"
+                android:gravity="center"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/tv_multi_sum"
 
-    <TextView
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/tv_sign_status"
-        android:gravity="center"
-        android:layout_marginLeft="25dp"
-        android:id="@+id/tv_multi_on"
+                />
 
-        />
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_sign_status"
+                android:gravity="center"
+                android:layout_marginLeft="25dp"
+                android:id="@+id/tv_multi_on"
 
-    <TextView
-        android:layout_marginLeft="25dp"
+                />
 
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="@string/tv_sign_status"
-android:gravity="center"
-        android:id="@+id/tv_multi_off"
+            <TextView
+                android:layout_marginLeft="25dp"
 
-        />
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/tv_sign_status"
+                android:gravity="center"
+                android:id="@+id/tv_multi_off"
+
+                />
 
 
-</LinearLayout>
-
+        </LinearLayout>
 
 
         <TextView
@@ -198,8 +200,7 @@ android:gravity="center"
             android:layout_marginLeft="30dp"
             android:layout_marginRight="30dp"
             android:layout_marginTop="30dp"
-            android:text="@string/btn_find_multi_sign"
-            />
+            android:text="@string/btn_find_multi_sign" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -208,15 +209,15 @@ android:gravity="center"
             android:layout_height="fill_parent">
 
             <!--<TextView-->
-                <!--android:id="@+id/tv_sign_name"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
+            <!--android:id="@+id/tv_sign_name"-->
+            <!--android:layout_width="wrap_content"-->
+            <!--android:layout_height="wrap_content"-->
 
-                <!--android:layout_alignParentBottom="true"-->
-                <!--android:layout_alignParentLeft="true"-->
-                <!--android:layout_marginBottom="10dp"-->
-                <!--android:layout_marginLeft="10dp"-->
-                <!--android:text="@string/tv_sign_name" />-->
+            <!--android:layout_alignParentBottom="true"-->
+            <!--android:layout_alignParentLeft="true"-->
+            <!--android:layout_marginBottom="10dp"-->
+            <!--android:layout_marginLeft="10dp"-->
+            <!--android:text="@string/tv_sign_name" />-->
 
             <TextView
                 android:id="@+id/tv_sign_support"

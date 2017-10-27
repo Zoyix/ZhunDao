@@ -30,25 +30,24 @@ public class AsyncSignScanPhone extends AsyncTask<String, Integer, String> {
     private String mcheckInId;
 
 
-
-    public AsyncSignScanPhone(Context context, Handler handler, int request, String mobile,String checkId) {
+    public AsyncSignScanPhone(Context context, Handler handler, int request, String mobile, String checkId) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mmobile = mobile;
-        this.mcheckInId=checkId;
+        this.mcheckInId = checkId;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
 
     }
 
     @Override
     protected String doInBackground(String... params) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.AddCheckInListByPhone;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.AddCheckInListByPhone;
         Map<String, String> map = new HashMap<String, String>();
         map.put("phone", mmobile);
         map.put("accessKey", mAccesskey);
         map.put("checkInId", mcheckInId);
-        map.put("checkInWay","12");
+        map.put("checkInWay", "12");
 
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");

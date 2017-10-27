@@ -10,7 +10,9 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_sign_edit" />
-    <include layout="@layout/line"/>
+
+    <include layout="@layout/line" />
+
     <TextView
         android:layout_marginLeft="10dp"
 
@@ -18,7 +20,8 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_sign_delete" />
-    <include layout="@layout/line"/>
+
+    <include layout="@layout/line" />
 
     <TextView
         android:layout_marginLeft="10dp"
@@ -27,7 +30,9 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_sign_qcode" />
-    <include layout="@layout/line"/>
+
+    <include layout="@layout/line" />
+
     <TextView
         android:layout_marginLeft="10dp"
 

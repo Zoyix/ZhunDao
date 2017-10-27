@@ -11,13 +11,13 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2017/5/22 13:34
  */
-public class MyContactsBean implements Comparable<MyContactsBean>,Serializable {
+public class MyContactsBean implements Comparable<MyContactsBean>, Serializable {
     private static final long serialVersionUID = -5700383370917985503L;
     private String name; // 姓名
     private String pinyin; // 姓名对应的拼音
     private String firstLetter; // 拼音的首字母
     private String Phone;//电话
-    private String Address ;//地址
+    private String Address;//地址
     private String Email; //邮箱
     private String GroupName; //分组名称
     private String GroupID; //分组ID
@@ -86,7 +86,7 @@ public class MyContactsBean implements Comparable<MyContactsBean>,Serializable {
         SerialNo = serialNo;
     }
 
-    private String UpdateStatus="false";
+    private String UpdateStatus = "false";
 
     public void setPinyin(String pinyin) {
         this.pinyin = pinyin;
@@ -95,8 +95,10 @@ public class MyContactsBean implements Comparable<MyContactsBean>,Serializable {
     public void setFirstLetter(String firstLetter) {
         this.firstLetter = firstLetter;
     }
-    public MyContactsBean(){
+
+    public MyContactsBean() {
     }
+
     public MyContactsBean(String name) {
         this.name = name;
         pinyin = Cn2Spell.getPinYin(name); // 根据姓名获取拼音
@@ -105,6 +107,7 @@ public class MyContactsBean implements Comparable<MyContactsBean>,Serializable {
             firstLetter = "#";
         }
     }
+
     public String getPhone() {
         return Phone;
     }
@@ -112,6 +115,7 @@ public class MyContactsBean implements Comparable<MyContactsBean>,Serializable {
     public void setPhone(String phone) {
         Phone = phone;
     }
+
     public String getUpdateStatus() {
         return UpdateStatus;
     }
@@ -187,7 +191,7 @@ public class MyContactsBean implements Comparable<MyContactsBean>,Serializable {
     public int compareTo(@NonNull MyContactsBean another) {
         if (firstLetter.equals("#") && !another.getFirstLetter().equals("#")) {
             return 1;
-        } else if (!firstLetter.equals("#") && another.getFirstLetter().equals("#")){
+        } else if (!firstLetter.equals("#") && another.getFirstLetter().equals("#")) {
             return -1;
         } else {
             return pinyin.compareToIgnoreCase(another.getPinyin());

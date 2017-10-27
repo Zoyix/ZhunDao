@@ -59,14 +59,14 @@ public class ActionConsultActivity extends ToolBarActivity {
 
     private void initView() {
         Intent intent = getIntent();
-       String act_id = intent.getStringExtra("act_id");
+        String act_id = intent.getStringExtra("act_id");
         webView = (WebView) findViewById(R.id.wv_act_consult);
         String accesskey = (String) SPUtils.get(this, "accessKey", "");
         webView.getSettings().setJavaScriptEnabled(true);
         webView.getSettings().setBlockNetworkImage(false);
         WebSettings webSettings = webView.getSettings();
         webSettings.setBuiltInZoomControls(true);
-        webView.loadUrl(url +act_id+"&accesskey=" + accesskey );
+        webView.loadUrl(url + act_id + "&accesskey=" + accesskey);
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {

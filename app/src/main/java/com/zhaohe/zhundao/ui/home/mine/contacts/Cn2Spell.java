@@ -1,4 +1,5 @@
 package com.zhaohe.zhundao.ui.home.mine.contacts;
+
 import net.sourceforge.pinyin4j.PinyinHelper;
 import net.sourceforge.pinyin4j.format.HanyuPinyinCaseType;
 import net.sourceforge.pinyin4j.format.HanyuPinyinOutputFormat;

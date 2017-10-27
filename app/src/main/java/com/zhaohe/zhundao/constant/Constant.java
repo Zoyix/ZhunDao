@@ -29,8 +29,8 @@ public class Constant {
         public static final String LoginMulti = "/api/PerBase/VerifyCheckInAdmin";
         //        获取微信登录权限
         public static final String GetAccessToken = "/oauth/appcallback";
-//发送微信信息给服务器
-public static final String SentWxUserInf = "/oauth/CreateUserFromAndroid";
+        //发送微信信息给服务器
+        public static final String SentWxUserInf = "/oauth/CreateUserFromAndroid";
 
         //        获取活动列表
         public static final String GetActivityList = "/api/PerActivity/PostActivityList";
@@ -60,26 +60,26 @@ public static final String SentWxUserInf = "/oauth/CreateUserFromAndroid";
         public static final String UpdateOrAddOption = "/api/PerActivity/UpdateOrAddOption";//修改增加选项
         public static final String GetMybeaconList = "/api/Game/GetMybeaconList";//获取beacon列表
         public static final String UpdateBeacon = "/api/Game/UpdateBeacon";//更新Beacon
-        public static final String DeteleActivity="/api/PerActivity/DeteleActivity";//删除活动
-//        终止活动
-        public static final String UnDueActivity="/api/PerActivity/UnDueActivity";
+        public static final String DeteleActivity = "/api/PerActivity/DeteleActivity";//删除活动
+        //        终止活动
+        public static final String UnDueActivity = "/api/PerActivity/UnDueActivity";
 
-//邀请函
+        //邀请函
         public static final String InvitationUrl = "/api/GetInvitation";
 //        管理员手机代签
 
-        public static final String AddCheckInListByPhone= "/api/CheckIn/AddCheckInListByPhone";
-//分享活动
+        public static final String AddCheckInListByPhone = "/api/CheckIn/AddCheckInListByPhone";
+        //分享活动
         public static final String ShareUrl = "m.zhundao.net/event/";
-//        绑定摇一摇设备
+        //        绑定摇一摇设备
         public static final String AddBeacon = "/api/Game/UpdateBeacon";
-//        添加签到
+        //        添加签到
         public static final String AddCheckIn = "/api/CheckIn/AddCheckIn";
-//        修改签到
-public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTypeName";
+        //        修改签到
+        public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTypeName";
         public static final String DeleteCheckIn = "/api/CheckIn/DeleteCheckIn";
         public static final String PostContact = "/api/Contact/PostContact";//获取全部联系人
-        public static final String PostContactGroup="/api/Contact/PostContactGroup";//获取全部群组
+        public static final String PostContactGroup = "/api/Contact/PostContactGroup";//获取全部群组
         public static final String UpdateOrAddContact = "/api/Contact/UpdateOrAddContact";//添加或修改联系人
         public static final String UpdateOrAddContactGroup = "/api/Contact/UpdateOrAddContactGroup";//添加或修改分组
         public static final String DeleteContactGroup = "/api/Contact/DeleteContactGroup";//删除分组
@@ -102,15 +102,7 @@ public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTy
         public static final String UpdateUserInfo = "/api/PerBase/UpdateUserInfo";//修改用户信息
 
 
-
-
-
-
         public static final String Device = "Android";
-
-
-
-
 
 
         public static final String IMG_DOWNLOAD = "";

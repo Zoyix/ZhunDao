@@ -110,7 +110,7 @@
             android:onClick="addClick"
             android:paddingLeft="90dp"
             android:paddingRight="10dp"
-android:layout_marginBottom="10dp"
+            android:layout_marginBottom="10dp"
             android:src="@mipmap/select_add"
             android:text="添加" />
 

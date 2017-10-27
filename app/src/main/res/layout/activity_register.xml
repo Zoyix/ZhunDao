@@ -7,7 +7,6 @@
     tools:context="com.zhaohe.zhundao.ui.login.RegisterActivity">
 
 
-
     <EditText
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
@@ -29,28 +28,28 @@
         android:drawablePadding="5dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 
     <Button
         android:id="@+id/btn_login"
         android:text="@string/btn_next"
         android:layout_below="@id/et_code"
         style="@style/btn_login" />
+
     <Button
         android:id="@+id/btn_send"
         android:text="@string/btn_sent_code"
         android:layout_below="@id/et_code"
         style="@style/btn_login"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/btn_submit"
         android:text="@string/ok"
         android:layout_below="@id/btn_send"
         style="@style/btn_login"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
+
     <EditText
         android:layout_marginTop="10dp"
         android:layout_centerHorizontal="true"
@@ -73,13 +72,12 @@
         android:drawablePadding="5dp"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
+
     <Button
         android:id="@+id/btn_register"
         android:text="@string/ok"
         android:layout_below="@id/et_password"
         style="@style/btn_login"
-        android:visibility="gone"
-        />
+        android:visibility="gone" />
 </RelativeLayout>

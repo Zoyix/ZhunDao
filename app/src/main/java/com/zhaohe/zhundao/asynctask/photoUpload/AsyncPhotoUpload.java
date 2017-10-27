@@ -30,12 +30,12 @@ public class AsyncPhotoUpload extends AsyncTask<String, Integer, String> {
     private String mParam;
     FormFile[] mflies;
 
-    public AsyncPhotoUpload(Context context, Handler handler, int request,FormFile[] flies) {
+    public AsyncPhotoUpload(Context context, Handler handler, int request, FormFile[] flies) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.mflies=flies;
+        this.mflies = flies;
     }
 
     @Override
@@ -43,7 +43,7 @@ public class AsyncPhotoUpload extends AsyncTask<String, Integer, String> {
         String path = Constant.HOST_MOBLIE + Constant.Url.UploadFile;
         Map<String, String> map = new HashMap<String, String>();
 
-        String result = HttpUtil.photoUpload(path, map,mflies);
+        String result = HttpUtil.photoUpload(path, map, mflies);
         return result;
     }
 

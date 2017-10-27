@@ -21,7 +21,7 @@ import java.util.Map;
 public class AsyncMultiLogin extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
-    private int     mRequest;
+    private int mRequest;
     private Dialog mDialog;
     private String mmobile;
     private String mpassWord;
@@ -31,32 +31,34 @@ public class AsyncMultiLogin extends AsyncTask<String, Integer, String> {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
-        this.mSignId=signId;
-        this.mmobile=mobile;
-        this.mpassWord=passWord;
+        this.mSignId = signId;
+        this.mmobile = mobile;
+        this.mpassWord = passWord;
     }
+
     @Override
-    protected String doInBackground(String... params){
+    protected String doInBackground(String... params) {
 //        修改
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.LoginMulti;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.LoginMulti;
         Map<String, String> map = new HashMap<String, String>();
 //        需要修改
-        map.put("checkInId",mSignId);
-        map.put("pwd",mpassWord);
-        map.put ("phone", mmobile);
+        map.put("checkInId", mSignId);
+        map.put("pwd", mpassWord);
+        map.put("phone", mmobile);
 
-        String result = HttpUtil.sendGETRequest(path,map,"utf-8");
+        String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;
     }
+
     @Override
-    protected void onPostExecute(String result){
+    protected void onPostExecute(String result) {
 
         if (result != null) {
-            Message msg = mHandler.obtainMessage (mRequest);
+            Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
             System.out.println("登录获取多点签到Accesskey" + result);
 
-            mHandler.sendMessage (msg);
+            mHandler.sendMessage(msg);
         } else {
 //            DialogUtils.showDialog (mContext, R.string.app_serviceError);
         }

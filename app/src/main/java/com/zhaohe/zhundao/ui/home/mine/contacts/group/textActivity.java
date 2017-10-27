@@ -26,6 +26,6 @@ public class textActivity extends AppCompatActivity {
 
     @OnClick(R.id.tv_teset)
     public void onViewClicked() {
-        ToastUtil.makeText(this,"5");
+        ToastUtil.makeText(this, "5");
     }
 }

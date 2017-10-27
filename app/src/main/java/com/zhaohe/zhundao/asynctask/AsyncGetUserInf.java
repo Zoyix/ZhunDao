@@ -35,7 +35,7 @@ public class AsyncGetUserInf extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.GetUserInf;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.GetUserInf;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");

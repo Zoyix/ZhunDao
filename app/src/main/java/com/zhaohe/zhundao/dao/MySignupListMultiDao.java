@@ -20,37 +20,40 @@ public class MySignupListMultiDao {
 
     private SQLiteOpenHelperDao dbOpenHelper;
     private final String TABLE_NAME = "MySignupListMulti";
+
     public MySignupListMultiDao(Context context) {
         this.dbOpenHelper = new SQLiteOpenHelperDao(context);
 
     }
 
-    public long replace(MySignListupBean bean){
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
+    public long replace(MySignListupBean bean) {
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         // db.beginTransaction ();// 开启事务
         try {
             ContentValues values = new ContentValues();
-            setContentValues (values, bean);
-            return db.replace (TABLE_NAME, null, values);
+            setContentValues(values, bean);
+            return db.replace(TABLE_NAME, null, values);
             // db.setTransactionSuccessful ();// 设置事务的标志为True
         } finally {
             // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
-            db.close ();
+            db.close();
         }
     }
+
     public void save(List<MySignListupBean> list) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-        db.beginTransaction ();// 开启事务
+        db.beginTransaction();// 开启事务
         try {
-            for(int i=0;i<list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 ContentValues values = new ContentValues();
-                MySignListupBean bean=list.get(i);
+                MySignListupBean bean = list.get(i);
                 setContentValues(values, bean);
 
-                db.replace(TABLE_NAME, null, values);}
-            db.setTransactionSuccessful ();// 设置事务的标志为True
+                db.replace(TABLE_NAME, null, values);
+            }
+            db.setTransactionSuccessful();// 设置事务的标志为True
         } finally {
-            db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.endTransaction();// 结束事务,有两种情况：commit,rollback,
             db.close();
         }
     }
@@ -66,75 +69,77 @@ public class MySignupListMultiDao {
         values.put("AdminRemark", bean.getAdminRemark());
         values.put("FeeName", bean.getFeeName());
         values.put("Fee", bean.getFee());
-        values.put("CheckInTime",bean.getCheckInTime());
+        values.put("CheckInTime", bean.getCheckInTime());
 
     }
-    public void deleteTable(){
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
 
-        db.execSQL("delete from "+TABLE_NAME);
+    public void deleteTable() {
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+
+        db.execSQL("delete from " + TABLE_NAME);
         db.close();
     }
 
-    public List<MySignListupBean> queryAll(){
-        SQLiteDatabase db = dbOpenHelper.getReadableDatabase ();
+    public List<MySignListupBean> queryAll() {
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
         List<MySignListupBean> list = new ArrayList<MySignListupBean>();
         try {
-            Cursor cursor = db.query (TABLE_NAME, null, null, null, null, null, null);
-            while (cursor.moveToNext ()) {
-                MySignListupBean bean = new MySignListupBean() ;
-                setBean (cursor, bean);
-                list.add (bean);
+            Cursor cursor = db.query(TABLE_NAME, null, null, null, null, null, null);
+            while (cursor.moveToNext()) {
+                MySignListupBean bean = new MySignListupBean();
+                setBean(cursor, bean);
+                list.add(bean);
             }
-            cursor.close ();
+            cursor.close();
             // db.setTransactionSuccessful ();// 设置事务的标志为True
         } finally {
             // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
-            db.close ();
+            db.close();
         }
         return list;
     }
 
 
-
-//根据Vcode更新数据
-public int update(MySignListupBean bean){
-    SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
-    // db.beginTransaction ();// 开启事务
-    try {
-        ContentValues values = new ContentValues();
-        values.put("CheckInTime",bean.getCheckInTime());
-        values.put("Status", bean.getStatus());
-        values.put("UpdateStatus", bean.getUpdateStatus());
-        return db.update (TABLE_NAME, values, "VCode = ? and CheckInID = ?", new String[] { bean.getVCode(),bean.getCheckInID()});
-        // db.setTransactionSuccessful ();// 设置事务的标志为True
-    } finally {
-        // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
-        db.close ();
-    }
-}
-//    查找VCode是否存在
-public List<MySignListupBean> queryListByVCode(String VCode) {
-    SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-    // db.beginTransaction ();// 开启事务
-    List<MySignListupBean> list = new ArrayList<MySignListupBean>();
-    try {
-        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                + " where VCode like ?", new String[] { VCode });
-        while (cursor.moveToNext()) {
-            MySignListupBean bean = new MySignListupBean();
-            setBean(cursor, bean);
-            list.add(bean);
+    //根据Vcode更新数据
+    public int update(MySignListupBean bean) {
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+        // db.beginTransaction ();// 开启事务
+        try {
+            ContentValues values = new ContentValues();
+            values.put("CheckInTime", bean.getCheckInTime());
+            values.put("Status", bean.getStatus());
+            values.put("UpdateStatus", bean.getUpdateStatus());
+            return db.update(TABLE_NAME, values, "VCode = ? and CheckInID = ?", new String[]{bean.getVCode(), bean.getCheckInID()});
+            // db.setTransactionSuccessful ();// 设置事务的标志为True
+        } finally {
+            // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.close();
         }
-        cursor.close();
-        // db.setTransactionSuccessful ();// 设置事务的标志为True
-    } finally {
-        // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
-        db.close();
     }
-    return list;
-}
+
+    //    查找VCode是否存在
+    public List<MySignListupBean> queryListByVCode(String VCode) {
+        SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
+        // db.beginTransaction ();// 开启事务
+        List<MySignListupBean> list = new ArrayList<MySignListupBean>();
+        try {
+            Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
+                    + " where VCode like ?", new String[]{VCode});
+            while (cursor.moveToNext()) {
+                MySignListupBean bean = new MySignListupBean();
+                setBean(cursor, bean);
+                list.add(bean);
+            }
+            cursor.close();
+            // db.setTransactionSuccessful ();// 设置事务的标志为True
+        } finally {
+            // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.close();
+        }
+        return list;
+    }
+
     //    查找是否已经扫码
     public List<MySignListupBean> queryListByVCodeAndCheckInID(String VCode, String CheckInID) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
@@ -142,7 +147,7 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
         List<MySignListupBean> list = new ArrayList<MySignListupBean>();
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where VCode = ? and CheckInID = ?", new String[] { VCode,CheckInID });
+                    + " where VCode = ? and CheckInID = ?", new String[]{VCode, CheckInID});
             while (cursor.moveToNext()) {
                 MySignListupBean bean = new MySignListupBean();
                 setBean(cursor, bean);
@@ -156,14 +161,15 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
         }
         return list;
     }
-//    查询用户扫码状态
+
+    //    查询用户扫码状态
     public List<MySignListupBean> queryListStatus(String VCode, String CheckInID, String Status) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
         List<MySignListupBean> list = new ArrayList<MySignListupBean>();
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where VCode = ? and CheckInID = ? and Status = ?", new String[] { VCode,CheckInID,Status });
+                    + " where VCode = ? and CheckInID = ? and Status = ?", new String[]{VCode, CheckInID, Status});
             while (cursor.moveToNext()) {
                 MySignListupBean bean = new MySignListupBean();
                 setBean(cursor, bean);
@@ -179,14 +185,14 @@ public List<MySignListupBean> queryListByVCode(String VCode) {
     }
 
 
-//查找需要更新上传服务器的数据
+    //查找需要更新上传服务器的数据
     public List<MySignListupBean> queryUpdateStatus() {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
         List<MySignListupBean> list = new ArrayList<MySignListupBean>();
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where UpdateStatus like ?", new String[] { "true" });
+                    + " where UpdateStatus like ?", new String[]{"true"});
             while (cursor.moveToNext()) {
                 MySignListupBean bean = new MySignListupBean();
                 setBean(cursor, bean);

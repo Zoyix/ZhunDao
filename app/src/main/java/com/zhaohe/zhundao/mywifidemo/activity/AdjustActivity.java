@@ -19,7 +19,7 @@ public class AdjustActivity extends ToolBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolBarNew("选择连接的网络种类",R.layout.activity_adjust);
+        initToolBarNew("选择连接的网络种类", R.layout.activity_adjust);
         initViews();
         initListener();
     }

@@ -30,7 +30,7 @@ public class AsyncSignuplistEmail extends AsyncTask<String, Integer, String> {
     private String mAccesskey;
     private String mEmail;
     private String mSignID;
-private LoadToast lt;
+    private LoadToast lt;
 
 
     public AsyncSignuplistEmail(Context context, Handler handler, Dialog dialog, int request, String param, String mSignID) {
@@ -39,22 +39,23 @@ private LoadToast lt;
         this.mRequest = request;
         this.mDialog = dialog;
         this.mEmail = param;
-        this.mSignID =mSignID;
+        this.mSignID = mSignID;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
+
     public AsyncSignuplistEmail(Context context, Handler handler, LoadToast lt, int request, String param, String mSignID) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mEmail = param;
-        this.mSignID =mSignID;
+        this.mSignID = mSignID;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.lt=lt;
+        this.lt = lt;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.SendCheckInListByEmail;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.SendCheckInListByEmail;
         Map<String, String> map = new HashMap<String, String>();
         map.put("checkInId", mSignID);
         map.put("email", mEmail);

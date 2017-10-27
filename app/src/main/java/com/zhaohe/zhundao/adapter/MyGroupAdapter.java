@@ -16,7 +16,7 @@ import java.util.List;
  * @Author:邹苏隆
  * @Since:2017/5/23 15:04
  */
-public class MyGroupAdapter  extends AdapterBase<MyGroupBean, MyGroupHolder>{
+public class MyGroupAdapter extends AdapterBase<MyGroupBean, MyGroupHolder> {
     private LayoutInflater inflater;
     private Context mContext;
 

@@ -348,7 +348,6 @@ public class PeopleActivity extends ToolBarActivity implements Toolbar.OnMenuIte
     };
 
 
-
     @OnClick(R.id.tv_contacts_head)
     public void onViewClicked() {
         ToastUtil.makeText(this, "头像");

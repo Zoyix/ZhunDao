@@ -46,7 +46,9 @@ public abstract class WebViewBase extends ToolBarActivity {
         setContentView(R.layout.web_view_base);
         init(setUrl());
     }
+
     public abstract String setUrl();
+
     protected void init(String url) {
         webView = (WebView) findViewById(R.id.wv_base);
 
@@ -57,7 +59,7 @@ public abstract class WebViewBase extends ToolBarActivity {
         webSettings.setBuiltInZoomControls(true);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             CookieManager cookieManager = CookieManager.getInstance();
-            cookieManager.setAcceptThirdPartyCookies(webView,true);
+            cookieManager.setAcceptThirdPartyCookies(webView, true);
         }
         webView.loadUrl(url);
         webView.setWebViewClient(new WebViewClient() {

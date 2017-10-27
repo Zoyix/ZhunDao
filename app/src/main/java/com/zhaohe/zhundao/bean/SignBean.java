@@ -17,7 +17,7 @@ public class SignBean implements Serializable {
     }
 
     private String sign_id;
-    private String  signObject;
+    private String signObject;
 
     public String getSignObject() {
         return signObject;
@@ -78,7 +78,7 @@ public class SignBean implements Serializable {
 
     private String signup_num;
 
-    private String list_status="false";
+    private String list_status = "false";
 
     public String getSign_title() {
         return sign_title;

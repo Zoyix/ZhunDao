@@ -4,14 +4,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity">
+
     <EditText
         android:id="@+id/et_contacts_search"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:drawableLeft="@mipmap/search"
         android:drawablePadding="5dp"
-        android:hint="@string/et_contacts_search"
-        />
+        android:hint="@string/et_contacts_search" />
+
     <ListView
         android:layout_below="@id/et_contacts_search"
         android:id="@+id/lv_contacts"
@@ -26,6 +27,7 @@
         android:paddingRight="10dp"
         android:textColor="@color/colorAccent"
         android:textSize="15sp" />
+
     <TextView
         android:id="@+id/tv_group_suggest"
         android:layout_width="match_parent"

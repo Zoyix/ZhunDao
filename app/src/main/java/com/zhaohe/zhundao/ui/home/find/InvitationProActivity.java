@@ -31,12 +31,12 @@ public class InvitationProActivity extends ToolBarActivity implements RadioGroup
 
     private void initView() {
         rgInvitation.setOnCheckedChangeListener(this);
-        setcheck( (int)SPUtils.get(this,"invitation_type",1));
+        setcheck((int) SPUtils.get(this, "invitation_type", 1));
     }
 
 
     private void setcheck(int invitation_type) {
-        switch (invitation_type){
+        switch (invitation_type) {
             case 1:
                 rbInvitationType1.setChecked(true);
                 break;
@@ -50,14 +50,14 @@ public class InvitationProActivity extends ToolBarActivity implements RadioGroup
 
     @Override
     public void onCheckedChanged(RadioGroup group, @IdRes int checkedId) {
-  switch (checkedId){
-      case R.id.rb_invitation_type1:
-          SPUtils.put(this,"invitation_type",1);
-          break;
-      case R.id.rb_invitation_type2:
-          SPUtils.put(this,"invitation_type",2);
+        switch (checkedId) {
+            case R.id.rb_invitation_type1:
+                SPUtils.put(this, "invitation_type", 1);
+                break;
+            case R.id.rb_invitation_type2:
+                SPUtils.put(this, "invitation_type", 2);
 
-          break;
-  }
+                break;
+        }
     }
 }

@@ -41,7 +41,7 @@ import me.shaohui.bottomdialog.BottomDialog;
 
 import static com.zhaohe.app.utils.ZXingUtil.createQrBitmap;
 
-public class InvitationPersonActivity extends AppCompatActivity implements View.OnLongClickListener{
+public class InvitationPersonActivity extends AppCompatActivity implements View.OnLongClickListener {
     SignListBean bean;
     @BindView(R.id.tv_dialog_title)
     TextView tvDialogTitle;
@@ -57,12 +57,13 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
     RelativeLayout rlInvitationPerson;
     NormalSelectionDialog dialog1;
     private static final int REQUEST_IMAGE = 2000;
-private Bitmap bitmap;
+    private Bitmap bitmap;
     private UMShareListener mShareListener;
 
     private static final int REQUEST_CODE_PERMISSION = 100;
 
     private static final int REQUEST_CODE_SETTING = 300;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,18 +78,19 @@ private Bitmap bitmap;
 
     private void initView() {
         tvName.setText(bean.getSign_list_name());
-        tvTime.setText((String)SPUtils.get(this, "act_time", ""));
+        tvTime.setText((String) SPUtils.get(this, "act_time", ""));
         tvDialogTitle.setText((String) (SPUtils.get(this, "act_title", "")));
         tvAdd.setText("活动地点：" + SPUtils.get(this, "act_add", ""));
-        setPhoto((int) SPUtils.get(this, "invitation_type", 1),ivVcodeInvitation);
+        setPhoto((int) SPUtils.get(this, "invitation_type", 1), ivVcodeInvitation);
 
         rlInvitationPerson.setOnLongClickListener(this);
         LayoutInflater factory = LayoutInflater.from(this);
-         View v = factory.inflate(R.layout.dialog_invitation_person0, null);
-        ImageView iv_vcode_invitation=(ImageView) v.findViewById(R.id.iv_vcode_invitation);;
-        setPhoto((int) SPUtils.get(this, "invitation_type", 1),iv_vcode_invitation);
+        View v = factory.inflate(R.layout.dialog_invitation_person0, null);
+        ImageView iv_vcode_invitation = (ImageView) v.findViewById(R.id.iv_vcode_invitation);
+        ;
+        setPhoto((int) SPUtils.get(this, "invitation_type", 1), iv_vcode_invitation);
         TextView title = (TextView) v.findViewById(R.id.tv_dialog_title);
-        TextView name= (TextView) v.findViewById(R.id.tv_name);
+        TextView name = (TextView) v.findViewById(R.id.tv_name);
         name.setText(bean.getSign_list_name());
 
         title.setText((String) (SPUtils.get(this, "act_title", "")));
@@ -96,15 +98,13 @@ private Bitmap bitmap;
         TextView add = (TextView) v.findViewById(R.id.tv_add);
 
 
-
-
         time.setText("" + SPUtils.get(this, "act_time", ""));
         add.setText("活动地点：" + SPUtils.get(this, "act_add", ""));
 
         ;
-        bitmap=  ZXingUtil.createViewBitmap(v);
+        bitmap = ZXingUtil.createViewBitmap(v);
 
-        ToastUtil.print(bitmap+"");
+        ToastUtil.print(bitmap + "");
         mShareListener = new UMShareListener() {
             @Override
             public void onStart(SHARE_MEDIA platform) {
@@ -143,7 +143,7 @@ private Bitmap bitmap;
                 .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
                     @Override
                     public void onItemClick(NormalSelectionDialog dialog, View button, int position) {
-                        switch (position){
+                        switch (position) {
                             case 0:
                                 AndPermission.with(getApplicationContext())
                                         .requestCode(REQUEST_CODE_PERMISSION)
@@ -174,11 +174,9 @@ private Bitmap bitmap;
         dialog1.setDatas(s);
 
 
-
-
     }
 
-    private void setPhoto(int invitation_type,ImageView view) {
+    private void setPhoto(int invitation_type, ImageView view) {
         switch (invitation_type) {
             case 1:
                 final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/event/" + bean.getAct_id(), 500, 500);
@@ -197,6 +195,7 @@ private Bitmap bitmap;
         Intent intent = this.getIntent();
         bean = (SignListBean) intent.getSerializableExtra("bean");
     }
+
     private void showDialog() {
         BottomDialog.create(getSupportFragmentManager())
                 .setViewListener(new BottomDialog.ViewListener() {
@@ -211,16 +210,16 @@ private Bitmap bitmap;
                                         UmengShare(SHARE_MEDIA.WEIXIN);
                                         break;
                                     case R.id.iv_share_weixin_friends_solid:
-                                        UmengShare( SHARE_MEDIA.WEIXIN_CIRCLE);
+                                        UmengShare(SHARE_MEDIA.WEIXIN_CIRCLE);
                                         break;
                                     case R.id.iv_share_weibo_solid:
-                                        UmengShare( SHARE_MEDIA.SINA);
+                                        UmengShare(SHARE_MEDIA.SINA);
                                         break;
                                     case R.id.iv_share_qq_solid:
-                                        UmengShare( SHARE_MEDIA.QQ);
+                                        UmengShare(SHARE_MEDIA.QQ);
                                         break;
                                     case R.id.iv_share_qqzone_solid:
-                                        UmengShare( SHARE_MEDIA.QZONE);
+                                        UmengShare(SHARE_MEDIA.QZONE);
 
                                         break;
                                 }
@@ -244,7 +243,8 @@ private Bitmap bitmap;
                 .setTag("BottomDialog")
                 .show();
     }
-    private void UmengShare( SHARE_MEDIA type) {
+
+    private void UmengShare(SHARE_MEDIA type) {
 //        UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
 //        UMImage image = new UMImage(this, bean.getUrl());
 //        web.setTitle( bean.getAct_title());//标题
@@ -255,7 +255,7 @@ private Bitmap bitmap;
         image.setThumb(thumb);
 
         new ShareAction(this).setPlatform(type)
-                .withText( bean.getSign_list_name() + "邀请函")
+                .withText(bean.getSign_list_name() + "邀请函")
                 .withMedia(image)
                 .setCallback(mShareListener)
                 .share();
@@ -263,33 +263,35 @@ private Bitmap bitmap;
 
     @Override
     public boolean onLongClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.rl_invitation_person:
                 dialog1.show();
                 break;
         }
         return false;
     }
+
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_IMAGE) {
             if (resultCode == Activity.RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-                if (path.size()!=0){
-                    ToastUtil.print("图片地址"+path.get(0));
+                if (path.size() != 0) {
+                    ToastUtil.print("图片地址" + path.get(0));
                     Intent intent = new Intent();
-                    intent.putExtra("imgpath",path.get(0));
+                    intent.putExtra("imgpath", path.get(0));
                     intent.setClass(this, PreviewImgActivity.class);
                     this.startActivity(intent);
 
                 }
             }
         }
-        if(requestCode==REQUEST_CODE_SETTING){
+        if (requestCode == REQUEST_CODE_SETTING) {
             Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
         }
 
     }
+
     private PermissionListener permissionListener = new PermissionListener() {
         @Override
         public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {

@@ -19,6 +19,7 @@ public class MySignListupBean implements Serializable {
     private String FeeName;
     private String Fee;
     private String CheckInTime;
+
     public String getCheckInTime() {
         return CheckInTime;
     }
@@ -26,7 +27,6 @@ public class MySignListupBean implements Serializable {
     public void setCheckInTime(String checkInTime) {
         CheckInTime = checkInTime;
     }
-
 
 
     public String getName() {

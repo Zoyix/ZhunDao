@@ -87,16 +87,16 @@ public class UpdateUserInfoActivity extends ToolBarActivity {
 //        camera.showInternet((String) SPUtils.get(this, "HeadImgurl", ""));
         etNickname.setText((String) SPUtils.get(this, "NickName", ""));
         etName.setText((String) SPUtils.get(this, "TrueName", ""));
-        if (etName.getText().length()>0){
+        if (etName.getText().length() > 0) {
             etName.setInputType(View.TEXT_ALIGNMENT_INHERIT);
         }
         etDuty.setText((String) SPUtils.get(this, "Duty", ""));
         etIndustry.setText((String) SPUtils.get(this, "Industry", ""));
         etUnit.setText((String) SPUtils.get(this, "Company", ""));
         etEmail.setText((String) SPUtils.get(this, "Email", ""));
-tvPhone.setText((String) SPUtils.get(this, "Mobile", ""));
+        tvPhone.setText((String) SPUtils.get(this, "Mobile", ""));
         HeadImgurl = (String) SPUtils.get(this, "HeadImgurl", "");
-        int sex= Integer.parseInt((String) SPUtils.get(this, "Sex", "0"));
+        int sex = Integer.parseInt((String) SPUtils.get(this, "Sex", "0"));
         spSex.setSelection(sex);
 
         if (HeadImgurl == "") {
@@ -167,7 +167,7 @@ tvPhone.setText((String) SPUtils.get(this, "Mobile", ""));
         String name = etNickname.getText().toString();
         mParam = "NickName=" + name + "&HeadImgurl=" + HeadImgurl;
         setParam();
-ToastUtil.print(mParam);
+        ToastUtil.print(mParam);
         AsyncUpdateUserInfo async = new AsyncUpdateUserInfo(this, mHandler, dialog, MESSAGE_SUBMIT, mParam);
         async.execute();
     }
@@ -188,19 +188,23 @@ ToastUtil.print(mParam);
     }
 
     private String setParam() {
-        if (etName.getText().length()>0){
-            mParam=mParam+"&TrueName="+etName.getText().toString();
+        if (etName.getText().length() > 0) {
+            mParam = mParam + "&TrueName=" + etName.getText().toString();
         }
-        if (etEmail.getText().length()>0){
-            mParam=mParam+"&Email="+etEmail.getText().toString();
-        }      if (etUnit.getText().length()>0){
-            mParam=mParam+"&Company="+etUnit.getText().toString();
-        }      if (etDuty.getText().length()>0){
-            mParam=mParam+"&Duty="+etDuty.getText().toString();
-        }      if (etIndustry.getText().length()>0){
-            mParam=mParam+"&Industry="+etIndustry.getText().toString();
-        }      if (spSex.getSelectedItemPosition()!=0){
-            mParam=mParam+"&Sex="+spSex.getSelectedItemPosition();
+        if (etEmail.getText().length() > 0) {
+            mParam = mParam + "&Email=" + etEmail.getText().toString();
+        }
+        if (etUnit.getText().length() > 0) {
+            mParam = mParam + "&Company=" + etUnit.getText().toString();
+        }
+        if (etDuty.getText().length() > 0) {
+            mParam = mParam + "&Duty=" + etDuty.getText().toString();
+        }
+        if (etIndustry.getText().length() > 0) {
+            mParam = mParam + "&Industry=" + etIndustry.getText().toString();
+        }
+        if (spSex.getSelectedItemPosition() != 0) {
+            mParam = mParam + "&Sex=" + spSex.getSelectedItemPosition();
         }
 
 

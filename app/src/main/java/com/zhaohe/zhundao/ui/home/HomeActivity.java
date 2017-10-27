@@ -99,6 +99,7 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
         }
         return super.onKeyDown(keyCode, event);
     }
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -127,7 +128,6 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
             case R.id.menu_add_action:
                 IntentUtils.startActivity(this, ActionAddActivity.class);
                 break;
-
 
 
         }

@@ -39,6 +39,7 @@ public class SignListBean implements Serializable {
     private String act_id;
     //    和用户详细信息对应的jasonBean
     private int mIndex;
+
     public String getNickname() {
         return nickname;
     }
@@ -46,8 +47,6 @@ public class SignListBean implements Serializable {
     public void setNickname(String nickname) {
         this.nickname = nickname;
     }
-
-
 
 
     public int getmIndex() {
@@ -65,7 +64,6 @@ public class SignListBean implements Serializable {
     public void setAct_id(String act_id) {
         this.act_id = act_id;
     }
-
 
 
     public String getSign_list_id() {

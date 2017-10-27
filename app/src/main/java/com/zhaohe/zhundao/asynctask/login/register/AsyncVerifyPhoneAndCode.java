@@ -28,13 +28,13 @@ public class AsyncVerifyPhoneAndCode extends AsyncTask<String, Integer, String> 
     private String mmobile;
     private String mvcode;
 
-    public AsyncVerifyPhoneAndCode(Context context, Handler handler, Dialog dialog, int request, String mobile,String vcode) {
+    public AsyncVerifyPhoneAndCode(Context context, Handler handler, Dialog dialog, int request, String mobile, String vcode) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
         this.mmobile = mobile;
-        this.mvcode=vcode;
+        this.mvcode = vcode;
     }
 
     @Override

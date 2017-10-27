@@ -39,10 +39,10 @@ public class AsyncPayOffLine extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PayOffLine;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.PayOffLine;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        map.put("activityListId",mParam);
+        map.put("activityListId", mParam);
         String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }

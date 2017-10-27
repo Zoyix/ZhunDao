@@ -36,7 +36,7 @@ public class AsyncCustomAll extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PostActivityOptions;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.PostActivityOptions;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
 

@@ -18,10 +18,11 @@ import java.util.List;
  * @Author:邹苏隆
  * @Since:2016/12/21 10:18
  */
-public class SignupListAdapter extends AdapterBase<MySignListupBean, SignupListHolder>implements View.OnClickListener {
-    public interface SignupListClickListener{
-     public void   signupClick(MySignListupBean bean);
+public class SignupListAdapter extends AdapterBase<MySignListupBean, SignupListHolder> implements View.OnClickListener {
+    public interface SignupListClickListener {
+        public void signupClick(MySignListupBean bean);
     }
+
     private LayoutInflater inflater;
     private Context mContext;
     private SignupListClickListener signupListClickListener;
@@ -30,9 +31,10 @@ public class SignupListAdapter extends AdapterBase<MySignListupBean, SignupListH
         inflater = LayoutInflater.from(context);
         mContext = context;
     }
-  public void setSignupListClickListener(SignupListClickListener l){
-      signupListClickListener=l;
-  }
+
+    public void setSignupListClickListener(SignupListClickListener l) {
+        signupListClickListener = l;
+    }
 
     @Override
     protected void handlerData(List<MySignListupBean> mList2, int position, SignupListHolder itemView) {

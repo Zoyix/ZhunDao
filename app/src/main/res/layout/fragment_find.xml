@@ -18,6 +18,7 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/btn_find_custon" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
@@ -29,6 +30,7 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_find_shake" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
@@ -40,12 +42,14 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_find_multipoint" />
+
     <View
         android:visibility="gone"
 
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <TextView
 
         android:visibility="gone"
@@ -55,6 +59,7 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_find_print" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
@@ -68,6 +73,7 @@
         android:clickable="true"
         style="@style/list_txt_Style"
         android:text="@string/tv_find_face_wifi" />
+
     <View
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
@@ -86,6 +92,7 @@
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
+
     <com.coorchice.library.SuperTextView
         android:visibility="gone"
         android:layout_width="300dp"
@@ -97,14 +104,11 @@
         app:isShowState="true"
         app:state_drawable_padding_left="5dp"
         app:state_drawable_height="100dp"
-    app:state_drawable_width="100dp"
+        app:state_drawable_width="100dp"
         app:text_fill_color="@color/blue"
         app:text_stroke_color="@color/black"
         app:solid="@color/red"
-        app:state_drawable="@drawable/btn_style_alert_dialog_button"
-        />
-
-
+        app:state_drawable="@drawable/btn_style_alert_dialog_button" />
 
 
 </LinearLayout>

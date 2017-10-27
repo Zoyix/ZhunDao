@@ -26,7 +26,7 @@ public class AsyncInf extends AsyncTask<String, Integer, String> {
     private String mmobile;
     private String mpassWord;
 
-    public AsyncInf(Context context, Handler handler, int request ){
+    public AsyncInf(Context context, Handler handler, int request) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
@@ -35,13 +35,13 @@ public class AsyncInf extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... params) {
-        String path = (String) SPUtils.get(mContext,"HOST",(String) SPUtils.get(mContext,"HOST",Constant.HOST))+ Constant.Url.GetNoticeList;
+        String path = (String) SPUtils.get(mContext, "HOST", (String) SPUtils.get(mContext, "HOST", Constant.HOST)) + Constant.Url.GetNoticeList;
 
         Map<String, String> map = new HashMap<String, String>();
 
 
-     String   mParam = "pageSize=" + "2000";
-        String result = HttpUtil.sendPostNew2request(path, map, "utf-8",mParam);
+        String mParam = "pageSize=" + "2000";
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }
 

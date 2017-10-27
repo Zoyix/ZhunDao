@@ -9,15 +9,15 @@ import android.widget.LinearLayout;
 
 public class InterceptScrollContainer extends LinearLayout {
 
-	public InterceptScrollContainer(Context context, AttributeSet attrs) {
-		super(context, attrs);
-		// TODO Auto-generated constructor stub
-	}
+    public InterceptScrollContainer(Context context, AttributeSet attrs) {
+        super(context, attrs);
+        // TODO Auto-generated constructor stub
+    }
 
-	public InterceptScrollContainer(Context context) {
-		super(context);
-		// TODO Auto-generated constructor stub
-	}
+    public InterceptScrollContainer(Context context) {
+        super(context);
+        // TODO Auto-generated constructor stub
+    }
 //	
 //	@Override
 //	public boolean dispatchTouchEvent(MotionEvent ev) {
@@ -27,16 +27,16 @@ public class InterceptScrollContainer extends LinearLayout {
 //		return true;
 //	}
 
-	@Override
-	public boolean onInterceptTouchEvent(MotionEvent ev) {
-		// TODO Auto-generated method stub
-		//return super.onInterceptTouchEvent(ev);
-		Log.i("pdwy","ScrollContainer onInterceptTouchEvent");
-		return true;
-		
-		//return super.onInterceptTouchEvent(ev);
-	}
-	
+    @Override
+    public boolean onInterceptTouchEvent(MotionEvent ev) {
+        // TODO Auto-generated method stub
+        //return super.onInterceptTouchEvent(ev);
+        Log.i("pdwy", "ScrollContainer onInterceptTouchEvent");
+        return true;
+
+        //return super.onInterceptTouchEvent(ev);
+    }
+
 //	@Override
 //	public boolean onTouchEvent(MotionEvent event) {
 //		// TODO Auto-generated method stub

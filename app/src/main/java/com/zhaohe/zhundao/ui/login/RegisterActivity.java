@@ -85,10 +85,9 @@ public class RegisterActivity extends ToolBarActivity {
                         if (bean.isSucess()) {
                             Toast.makeText(getApplicationContext(), bean.getMsg(), Toast.LENGTH_LONG).show();
 
-                            phone_exit=false;
-                        }
-                        else {
-                            phone_exit=true;
+                            phone_exit = false;
+                        } else {
+                            phone_exit = true;
                             Toast.makeText(getApplicationContext(), "请发送验证码，找回密码", Toast.LENGTH_LONG).show();
 
                         }
@@ -115,8 +114,9 @@ public class RegisterActivity extends ToolBarActivity {
                             etCode.setVisibility(View.GONE);
                             etPhone.setVisibility(View.GONE);
                             etPassword.setVisibility(View.VISIBLE);
-                            if (!phone_exit){
-                            etName.setVisibility(View.VISIBLE);}
+                            if (!phone_exit) {
+                                etName.setVisibility(View.VISIBLE);
+                            }
 
                         }
                         break;
@@ -125,7 +125,7 @@ public class RegisterActivity extends ToolBarActivity {
                         bean = (ToolUserBean) JSON.parseObject(result2, ToolUserBean.class);
                         Toast.makeText(getApplicationContext(), bean.getMsg(), Toast.LENGTH_LONG).show();
                         if (bean.isSucess()) {
-                   finish();
+                            finish();
 
                         }
                         break;
@@ -178,6 +178,7 @@ public class RegisterActivity extends ToolBarActivity {
         }
 
     }
+
     private void registe() {
         String name = etName.getText().toString();
         if (name.length() == 0) {
@@ -190,7 +191,7 @@ public class RegisterActivity extends ToolBarActivity {
             Toast.makeText(getApplicationContext(), "密码至少6位", Toast.LENGTH_SHORT).show();
             return;
         }
-        String param="Name=" + name + "&Phone=" + mPhone+"&PassWord="+password;
+        String param = "Name=" + name + "&Phone=" + mPhone + "&PassWord=" + password;
         if (NetworkUtils.checkNetState(this)) {
             Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
             AsyncRegisterByPhone getCode = new AsyncRegisterByPhone(this, mHandler, dialog, MESSAGE_REGISTER, param);
@@ -202,7 +203,8 @@ public class RegisterActivity extends ToolBarActivity {
         }
 
     }
-    @OnClick({R.id.btn_login, R.id.btn_send, R.id.btn_submit,R.id.btn_register})
+
+    @OnClick({R.id.btn_login, R.id.btn_send, R.id.btn_submit, R.id.btn_register})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.btn_login:
@@ -225,8 +227,9 @@ public class RegisterActivity extends ToolBarActivity {
                 verifyCode();
                 break;
             case R.id.btn_register:
-                if(!phone_exit){registe();}
-                else{
+                if (!phone_exit) {
+                    registe();
+                } else {
                     findback();
                 }
                 break;
@@ -242,7 +245,7 @@ public class RegisterActivity extends ToolBarActivity {
         }
         if (NetworkUtils.checkNetState(this)) {
             Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
-            AysncUpdatePassWordByPhone getCode = new AysncUpdatePassWordByPhone(this, mHandler, dialog, MESSAGE_FIND_BACK, mPhone,password);
+            AysncUpdatePassWordByPhone getCode = new AysncUpdatePassWordByPhone(this, mHandler, dialog, MESSAGE_FIND_BACK, mPhone, password);
             getCode.execute();
 
 

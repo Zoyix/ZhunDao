@@ -51,7 +51,7 @@
 
     <TextView
         android:layout_marginTop="10dp"
-android:layout_marginLeft="30dp"
+        android:layout_marginLeft="30dp"
         android:id="@+id/tv_back"
         android:layout_below="@id/btn_login"
         android:text="找回密码"
@@ -59,6 +59,7 @@ android:layout_marginLeft="30dp"
         android:textColor="@color/green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <TextView
         android:layout_marginTop="10dp"
         android:layout_marginRight="30dp"
@@ -69,6 +70,7 @@ android:layout_marginLeft="30dp"
         android:textColor="@color/status_color_green"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+
     <ImageView
         android:layout_marginTop="80dp"
         android:scaleType="matrix"

@@ -20,10 +20,12 @@
             android:gravity="center"
             android:checked="true"
             android:text="@string/invitation_type1" />
+
         <View
             android:layout_width="fill_parent"
             android:layout_height="0.3dp"
             android:background="@color/black3" />
+
         <RadioButton
             android:gravity="center"
             android:id="@+id/rb_invitation_type2"

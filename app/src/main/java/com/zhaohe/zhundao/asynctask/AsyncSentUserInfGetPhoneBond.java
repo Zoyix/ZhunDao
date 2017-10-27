@@ -26,21 +26,23 @@ public class AsyncSentUserInfGetPhoneBond extends AsyncTask<String, Integer, Str
     private Dialog mDialog;
     private String access_token;
     private String openid;
-    public AsyncSentUserInfGetPhoneBond(Context context, Handler handler, int request, String Param,String openid) {
+
+    public AsyncSentUserInfGetPhoneBond(Context context, Handler handler, int request, String Param, String openid) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
 //        this.mDialog = dialog;
         this.access_token = Param;
-this.openid=openid;
+        this.openid = openid;
 
     }
+
     @Override
     protected String doInBackground(String... params) {
         String path = Constant.HOST_MOBLIE + Constant.Url.SentWxUserInf;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("access_token",access_token);
-        map.put("openid",openid);
+        map.put("access_token", access_token);
+        map.put("openid", openid);
         String result = HttpUtil.sendGET2Request(path, map, "utf-8");
         return result;
     }

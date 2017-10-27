@@ -35,7 +35,7 @@ public class WifiConfigActivity extends ToolBarActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolBarNew("Wifi配置",R.layout.activity_wifi_config);
+        initToolBarNew("Wifi配置", R.layout.activity_wifi_config);
         initViews();
         initListener();
     }

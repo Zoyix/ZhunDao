@@ -88,13 +88,10 @@ public class CustomSelectMutiAdapter extends BaseAdapter {
         ibDel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (mDatas.size()<=2)
-                {
+                if (mDatas.size() <= 2) {
 //                    ibDel.setImageResource(R.mipmap.select_delete_off);
-                    ToastUtil.makeText(mContext,"至少有2个选项！");
-                }
-
-                 else {
+                    ToastUtil.makeText(mContext, "至少有2个选项！");
+                } else {
                     mDatas.remove(position);
                     CustomSelectMutiAdapter.this.notifyDataSetChanged();
                 }

@@ -29,21 +29,21 @@ public class AysncUpdatePassWordByPhone extends AsyncTask<String, Integer, Strin
     private String mPassword;
 
 
-    public AysncUpdatePassWordByPhone(Context context, Handler handler, Dialog dialog, int request, String phone,String password) {
+    public AysncUpdatePassWordByPhone(Context context, Handler handler, Dialog dialog, int request, String phone, String password) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
-        this.mPassword =password;
+        this.mPassword = password;
         this.mDialog = dialog;
-        this.mPhone=phone;
+        this.mPhone = phone;
     }
 
     @Override
     protected String doInBackground(String... strings) {
         String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.UpdatePassWordByPhone;
         Map<String, String> map = new HashMap<String, String>();
-map.put("passWord",mPassword);
-        map.put("phone",mPhone);
+        map.put("passWord", mPassword);
+        map.put("phone", mPhone);
 
         String result = HttpUtil.sendPostNewrequest(path, map, "utf-8");
         return result;

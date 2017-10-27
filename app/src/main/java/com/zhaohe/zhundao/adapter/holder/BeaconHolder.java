@@ -11,5 +11,5 @@ import android.widget.TextView;
 public class BeaconHolder {
     public ImageView iv_find_beacon_icon;
     public TextView tv_find_beacon_title;
-    public TextView  tv_find_beacon_name;
+    public TextView tv_find_beacon_name;
 }

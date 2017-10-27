@@ -20,7 +20,7 @@ import java.util.Map;
  * @Author:邹苏隆
  * @Since:2017/6/23 15:ic_launcher
  */
-public class AsyncSignListPeopleDelete  extends AsyncTask<String, Integer, String> {
+public class AsyncSignListPeopleDelete extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
     private int mRequest;
@@ -41,9 +41,9 @@ public class AsyncSignListPeopleDelete  extends AsyncTask<String, Integer, Strin
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.DeleteActivityList;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.DeleteActivityList;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("id",mID);
+        map.put("id", mID);
         map.put("accessKey", mAccesskey);
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

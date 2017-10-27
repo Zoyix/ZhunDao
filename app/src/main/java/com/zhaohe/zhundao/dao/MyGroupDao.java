@@ -18,29 +18,33 @@ import java.util.List;
 public class MyGroupDao {
     private SQLiteOpenHelperDao dbOpenHelper;
     private final String TABLE_NAME = "MyGroup";
+
     public MyGroupDao(Context context) {
         this.dbOpenHelper = new SQLiteOpenHelperDao(context);
     }
+
     public void save(List<MyGroupBean> list) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-        db.beginTransaction ();// 开启事务
+        db.beginTransaction();// 开启事务
         try {
-            for(int i=0;i<list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 ContentValues values = new ContentValues();
-                MyGroupBean bean=list.get(i);
+                MyGroupBean bean = list.get(i);
                 setContentValues(values, bean);
 
-                db.replace(TABLE_NAME, null, values);}
-            db.setTransactionSuccessful ();// 设置事务的标志为True
+                db.replace(TABLE_NAME, null, values);
+            }
+            db.setTransactionSuccessful();// 设置事务的标志为True
         } finally {
-            db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.endTransaction();// 结束事务,有两种情况：commit,rollback,
             db.close();
         }
     }
-    public void deleteTable(){
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
 
-        db.execSQL("delete from "+TABLE_NAME);
+    public void deleteTable() {
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+
+        db.execSQL("delete from " + TABLE_NAME);
         db.close();
     }
 
@@ -63,9 +67,10 @@ public class MyGroupDao {
         }
         return list;
     }
-    public void deleteGroupByID(String ID){
+
+    public void deleteGroupByID(String ID) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
-        db.delete(TABLE_NAME,"ID=?", new String[] {ID});
+        db.delete(TABLE_NAME, "ID=?", new String[]{ID});
         db.close();
 
     }
@@ -82,6 +87,7 @@ public class MyGroupDao {
 
 
     }
+
     private void setBean(Cursor cursor, MyGroupBean bean) {
         bean.setName(cursor.getString(cursor.getColumnIndex("Name")));
         bean.setSequence(cursor.getString(cursor.getColumnIndex("Sequence")));
@@ -89,7 +95,6 @@ public class MyGroupDao {
         bean.setID(cursor.getString(cursor.getColumnIndex("ID")));
         bean.setAdminUserID(cursor.getString(cursor.getColumnIndex("AdminUserID")));
         bean.setUpdateStatus(cursor.getString(cursor.getColumnIndex("UpdateStatus")));
-
 
 
     }

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -16,6 +17,7 @@
             android:orientation="vertical"
             android:id="@+id/ll_signlist_add_user"
             tools:context="com.zhaohe.zhundao.ui.home.action.SignListUserAddActivity">
+
             <RelativeLayout
                 android:id="@+id/rl_user_name"
                 android:layout_width="match_parent"
@@ -35,16 +37,14 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_name"
                     android:layout_toRightOf="@id/tv_signlist_user_name"
-                    android:hint="@string/name"
-                    />
+                    android:hint="@string/name" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_user_phone"
 
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                >
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/tv_signlist_user_phone"
@@ -62,15 +62,15 @@
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_phone"
                     android:layout_toRightOf="@id/tv_signlist_user_phone"
-                    android:hint="@string/phone"
-                    />
+                    android:hint="@string/phone" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:id="@+id/rl_user_sex"
-android:visibility="gone"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/tv_signlist_user_sex"
                     android:layout_width="wrap_content"
@@ -78,14 +78,14 @@ android:visibility="gone"
                     android:layout_margin="10dp"
                     android:text="@string/sex"
                     android:textSize="18sp" />
+
                 <Spinner
                     android:id="@+id/sp_signlist_user_sex"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignBottom="@id/tv_signlist_user_sex"
                     android:layout_toRightOf="@id/tv_signlist_user_sex"
-                    android:entries="@array/sex"
-                    ></Spinner>
+                    android:entries="@array/sex"></Spinner>
 
 
             </RelativeLayout>
@@ -111,9 +111,9 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_email"
                     android:layout_toRightOf="@id/tv_signlist_user_email"
-                    android:hint="@string/email"
-                    />
+                    android:hint="@string/email" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_user_unit"
                 android:visibility="gone"
@@ -135,9 +135,9 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_unit"
                     android:layout_toRightOf="@id/tv_signlist_user_unit"
-                    android:hint="@string/unit"
-                    />
+                    android:hint="@string/unit" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_user_dep"
                 android:visibility="gone"
@@ -159,9 +159,9 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_dep"
                     android:layout_toRightOf="@id/tv_signlist_user_dep"
-                    android:hint="@string/dep"
-                    />
+                    android:hint="@string/dep" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_user_duty"
                 android:visibility="gone"
@@ -183,9 +183,9 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_duty"
                     android:layout_toRightOf="@id/tv_signlist_user_duty"
-                    android:hint="@string/duty"
-                    />
+                    android:hint="@string/duty" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_user_industry"
                 android:visibility="gone"
@@ -207,9 +207,9 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_industry"
                     android:layout_toRightOf="@id/tv_signlist_user_industry"
-                    android:hint="@string/industry"
-                    />
+                    android:hint="@string/industry" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_user_join_num"
                 android:visibility="gone"
@@ -231,9 +231,9 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_join_num"
                     android:layout_toRightOf="@id/tv_signlist_user_join_num"
-                    android:hint="@string/join_num"
-                    />
+                    android:hint="@string/join_num" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_user_id_card"
                 android:visibility="gone"
@@ -255,9 +255,9 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_id_card"
                     android:layout_toRightOf="@id/tv_signlist_user_id_card"
-                    android:hint="@string/id_card"
-                    />
+                    android:hint="@string/id_card" />
             </RelativeLayout>
+
             <RelativeLayout
                 android:id="@+id/rl_user_add"
                 android:visibility="gone"
@@ -279,8 +279,7 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_add"
                     android:layout_toRightOf="@id/tv_signlist_user_add"
-                    android:hint="@string/add"
-                    />
+                    android:hint="@string/add" />
             </RelativeLayout>
 
             <RelativeLayout
@@ -304,22 +303,17 @@ android:visibility="gone"
                     android:layout_height="wrap_content"
                     android:layout_alignBaseline="@id/tv_signlist_user_remark"
                     android:layout_toRightOf="@id/tv_signlist_user_remark"
-                    android:hint="@string/remark"
-                    />
+                    android:hint="@string/remark" />
             </RelativeLayout>
 
 
-
-
-
-
         </LinearLayout>
+
         <Button
             android:id="@+id/btn_signlist_user_sumbit"
             android:layout_gravity="center_horizontal"
             android:text="@string/ok"
             style="@style/btn_login"
-            android:layout_marginBottom="30dp"
-            />
+            android:layout_marginBottom="30dp" />
     </LinearLayout>
 </ScrollView>

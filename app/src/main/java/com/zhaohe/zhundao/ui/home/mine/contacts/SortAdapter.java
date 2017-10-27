@@ -51,10 +51,10 @@ public class SortAdapter extends BaseAdapter {
         String catalog = list.get(position).getFirstLetter();
 
         //如果当前位置等于该分类首字母的Char的位置 ，则认为是第一次出现
-        if(position == getPositionForSection(catalog)){
+        if (position == getPositionForSection(catalog)) {
             viewHolder.catalog.setVisibility(View.VISIBLE);
             viewHolder.catalog.setText(user.getFirstLetter().toUpperCase());
-        }else{
+        } else {
             viewHolder.catalog.setVisibility(View.GONE);
         }
 
@@ -63,6 +63,7 @@ public class SortAdapter extends BaseAdapter {
         return view;
 
     }
+
     public void refresh(List<MyContactsBean> list) {
         this.list = list;//传入list，然后调用notifyDataSetChanged方法
         notifyDataSetChanged();

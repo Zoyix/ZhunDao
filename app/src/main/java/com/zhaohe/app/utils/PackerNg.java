@@ -423,7 +423,7 @@ public final class PackerNg {
         try {
             for (final String market : markets) {
                 String channel = market.split(",")[0];
-                channel = channel.equals("1")?"yt":channel;
+                channel = channel.equals("1") ? "yt" : channel;
                 final String apkName = "app-" + channel + "-release." + extName;
                 File destFile = new File(outputDir, apkName);
                 Helper.copyFile(apkFile, destFile);
@@ -447,4 +447,5 @@ public final class PackerNg {
             Helper.printErr("" + ex);
             System.exit(1);
         }
-    }}
+    }
+}

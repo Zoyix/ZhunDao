@@ -38,26 +38,29 @@ public class MySignupListDao {
             db.close();
         }
     }
+
     public void save(List<MySignListupBean> list) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-        db.beginTransaction ();// 开启事务
+        db.beginTransaction();// 开启事务
         try {
-            for(int i=0;i<list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 ContentValues values = new ContentValues();
-                MySignListupBean bean=list.get(i);
+                MySignListupBean bean = list.get(i);
                 setContentValues(values, bean);
 
-                db.replace(TABLE_NAME, null, values);}
-            db.setTransactionSuccessful ();// 设置事务的标志为True
+                db.replace(TABLE_NAME, null, values);
+            }
+            db.setTransactionSuccessful();// 设置事务的标志为True
         } finally {
-            db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.endTransaction();// 结束事务,有两种情况：commit,rollback,
             db.close();
         }
     }
-    public void deleteTable(){
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
 
-        db.execSQL("delete from "+TABLE_NAME);
+    public void deleteTable() {
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+
+        db.execSQL("delete from " + TABLE_NAME);
         db.close();
     }
 
@@ -72,31 +75,33 @@ public class MySignupListDao {
         values.put("AdminRemark", bean.getAdminRemark());
         values.put("FeeName", bean.getFeeName());
         values.put("Fee", bean.getFee());
-        values.put("CheckInTime",bean.getCheckInTime());
+        values.put("CheckInTime", bean.getCheckInTime());
 
     }
-    public int queryListSize( String CheckInID) {
+
+    public int queryListSize(String CheckInID) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
         List<MySignListupBean> list = new ArrayList<MySignListupBean>();
 
-            Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where  CheckInID = ?", new String[]{ CheckInID});
-        int num=cursor.getCount();
-            cursor.close();
-            // db.setTransactionSuccessful ();// 设置事务的标志为True
+        Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
+                + " where  CheckInID = ?", new String[]{CheckInID});
+        int num = cursor.getCount();
+        cursor.close();
+        // db.setTransactionSuccessful ();// 设置事务的标志为True
 
-            // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
-            db.close();
+        // db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+        db.close();
 
         return num;
     }
 
-    public void close( ) {
+    public void close() {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
-    db.close();
+        db.close();
     }
+
     public List<MySignListupBean> queryAll() {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
@@ -124,7 +129,7 @@ public class MySignupListDao {
         // db.beginTransaction ();// 开启事务
         try {
             ContentValues values = new ContentValues();
-            values.put("CheckInTime",bean.getCheckInTime());
+            values.put("CheckInTime", bean.getCheckInTime());
             values.put("Status", bean.getStatus());
             values.put("UpdateStatus", bean.getUpdateStatus());
             return db.update(TABLE_NAME, values, "VCode = ? and CheckInID = ?", new String[]{bean.getVCode(), bean.getCheckInID()});
@@ -134,13 +139,14 @@ public class MySignupListDao {
             db.close();
         }
     }
+
     //根据Phone更新数据
     public int updateByPhone(MySignListupBean bean) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
         // db.beginTransaction ();// 开启事务
         try {
             ContentValues values = new ContentValues();
-            values.put("CheckInTime",bean.getCheckInTime());
+            values.put("CheckInTime", bean.getCheckInTime());
             values.put("Status", bean.getStatus());
             values.put("UpdateStatus", bean.getUpdateStatus());
 //            values.put("SignTime",bean.getCheckInTime());
@@ -195,6 +201,7 @@ public class MySignupListDao {
         }
         return list;
     }
+
     public List<MySignListupBean> queryListByPhoneAndCheckInID(String Phone, String CheckInID) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
@@ -216,13 +223,14 @@ public class MySignupListDao {
         }
         return list;
     }
-    public List<MySignListupBean> queryListByPhoneNameAndCheckInID( String CheckInID,String param) {
+
+    public List<MySignListupBean> queryListByPhoneNameAndCheckInID(String CheckInID, String param) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
         List<MySignListupBean> list = new ArrayList<MySignListupBean>();
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where  CheckInID = ? and(Phone||Name)like ?", new String[]{CheckInID,"%"+param+"%"});
+                    + " where  CheckInID = ? and(Phone||Name)like ?", new String[]{CheckInID, "%" + param + "%"});
             while (cursor.moveToNext()) {
                 MySignListupBean bean = new MySignListupBean();
                 setBean(cursor, bean);
@@ -281,14 +289,15 @@ public class MySignupListDao {
         }
         return list;
     }
-//    根据签到状态查询列表
+
+    //    根据签到状态查询列表
     public List<MySignListupBean> queryListByCheckinIDAndStatus(String CheckInID, String Status) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
         List<MySignListupBean> list = new ArrayList<MySignListupBean>();
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where  CheckInID = ? and Status like ?", new String[]{ CheckInID, Status});
+                    + " where  CheckInID = ? and Status like ?", new String[]{CheckInID, Status});
             while (cursor.moveToNext()) {
                 MySignListupBean bean = new MySignListupBean();
                 setBean(cursor, bean);

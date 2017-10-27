@@ -36,7 +36,7 @@ import java.util.Collections;
 import java.util.List;
 
 
-public class ContactsActivity extends ToolBarActivity implements AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener {
+public class ContactsActivity extends ToolBarActivity implements AdapterView.OnItemClickListener, Toolbar.OnMenuItemClickListener {
     private Handler mHandler;
 
     private ListView listView;
@@ -44,7 +44,7 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
     private String GroupID;
     private TextView tv_group_suggest;
     private EditText et_contacts_search;
-//    private ArrayList<MyContactsBean> list;
+    //    private ArrayList<MyContactsBean> list;
     List<MyContactsBean> list = new ArrayList<MyContactsBean>();
 
     private MyContactsDao dao;
@@ -58,20 +58,21 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_contacts);
-        initToolBarNew("我的通讯录",R.layout.activity_contacts);
+        initToolBarNew("我的通讯录", R.layout.activity_contacts);
         initHandler();
         initIntent();
         initView();
         initData();
         initGroup();
     }
-    public void initGroup(){
-         if ((boolean) SPUtils.get(this, "initGroup", false) == false) {
 
-                 if (NetworkUtils.checkNetState(this)) {
-                     AsyncGetGroup async = new AsyncGetGroup(this, mHandler, MESSAGE_GET_GROUP);
-                     async.execute();
-                 }
+    public void initGroup() {
+        if ((boolean) SPUtils.get(this, "initGroup", false) == false) {
+
+            if (NetworkUtils.checkNetState(this)) {
+                AsyncGetGroup async = new AsyncGetGroup(this, mHandler, MESSAGE_GET_GROUP);
+                async.execute();
+            }
 
         }
     }
@@ -99,10 +100,11 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
 
         return true;
     }
+
     private void initView() {
-        tv_group_suggest= (TextView) findViewById(R.id.tv_group_suggest);
-        dao=new MyContactsDao(this);
-        dao_group= new MyGroupDao(this);
+        tv_group_suggest = (TextView) findViewById(R.id.tv_group_suggest);
+        dao = new MyContactsDao(this);
+        dao_group = new MyGroupDao(this);
         listView = (ListView) findViewById(R.id.lv_contacts);
         sideBar = (SideBar) findViewById(R.id.contacts_sidebar);
         sideBar.setOnStrSelectCallBack(new SideBar.ISideBarSelectCallBack() {
@@ -116,7 +118,7 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
                 }
             }
         });
-        et_contacts_search= (EditText) findViewById(R.id.et_contacts_search);
+        et_contacts_search = (EditText) findViewById(R.id.et_contacts_search);
         et_contacts_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -125,10 +127,11 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if(GroupID==null){
-                    list=dao.queryListdPhoneOrName(et_contacts_search.getText().toString());
-                }else{
-                list=  dao.queryListGroupIDAndPhoneOrName(GroupID,et_contacts_search.getText().toString());}
+                if (GroupID == null) {
+                    list = dao.queryListdPhoneOrName(et_contacts_search.getText().toString());
+                } else {
+                    list = dao.queryListGroupIDAndPhoneOrName(GroupID, et_contacts_search.getText().toString());
+                }
                 refreshData();
             }
 
@@ -136,7 +139,9 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
             public void afterTextChanged(Editable s) {
                 //TODO:
             }
-        });    }
+        });
+    }
+
     private void initHandler() {
         mHandler = new Handler() {
 
@@ -151,7 +156,7 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
                         break;
 
                     case MESSAGE_GET_GROUP:
-                       result = (String) msg.obj;
+                        result = (String) msg.obj;
                         insertGroupData(result);
                         SPUtils.put(getApplicationContext(), "initGroup", true);
 
@@ -160,37 +165,36 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
                         break;
                 }
             }
-        };     }
+        };
+    }
 
     private void ShowData() {
-        if (GroupID==null){
-            list=dao.queryAll();}
-        else{
-            list=dao.queryGroupID(GroupID);
+        if (GroupID == null) {
+            list = dao.queryAll();
+        } else {
+            list = dao.queryGroupID(GroupID);
         }
-        if (list.size()==0){
+        if (list.size() == 0) {
             tv_group_suggest.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             tv_group_suggest.setVisibility(View.GONE);
 
         }
         Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
         adapter.refresh(list);
 
-        et_contacts_search.setHint("搜索"+list.size()+"位联系人");
+        et_contacts_search.setHint("搜索" + list.size() + "位联系人");
     }
 
     private void initData() {
-        if (GroupID==null){
-            list=dao.queryAll();}
-        else{
-            list=dao.queryGroupID(GroupID);
+        if (GroupID == null) {
+            list = dao.queryAll();
+        } else {
+            list = dao.queryGroupID(GroupID);
         }
-        if (list.size()==0){
+        if (list.size() == 0) {
             tv_group_suggest.setVisibility(View.VISIBLE);
-        }
-        else{
+        } else {
             tv_group_suggest.setVisibility(View.GONE);
 
         }
@@ -200,8 +204,9 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
         adapter = new SortAdapter(getApplicationContext(), list);
         listView.setAdapter(adapter);
         listView.setOnItemClickListener(this);
-        et_contacts_search.setHint("搜索"+list.size()+"位联系人");
+        et_contacts_search.setHint("搜索" + list.size() + "位联系人");
     }
+
     private void refreshData() {
         Collections.sort(list); // 对list进行排序，需要让User实现Comparable接口重写compareTo方法
 
@@ -212,7 +217,7 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
     }
 
 
-//    private void initData() {
+    //    private void initData() {
 //        list = new ArrayList<>();
 //        list.add(new MyContactsBean("亳州")); // 亳[bó]属于不常见的二级汉字
 //        list.add(new MyContactsBean("大娃"));
@@ -269,20 +274,18 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
         }
         for (int i = 0; i < jsonArray.size(); i++) {
             MyContactsBean bean = new MyContactsBean();
-            if(jsonArray.getJSONObject(i).getString("TrueName")==null||jsonArray.getJSONObject(i).getString("TrueName").equals("")){
+            if (jsonArray.getJSONObject(i).getString("TrueName") == null || jsonArray.getJSONObject(i).getString("TrueName").equals("")) {
                 bean.setName("未知");
+            } else {
+                bean.setName(jsonArray.getJSONObject(i).getString("TrueName"));
             }
-            else
-            {
-            bean.setName(jsonArray.getJSONObject(i).getString("TrueName"));}
             bean.setAddress(jsonArray.getJSONObject(i).getString("Address"));
             bean.setEmail(jsonArray.getJSONObject(i).getString("Email"));
             bean.setGroupName(jsonArray.getJSONObject(i).getString("GroupName"));
             //分组ID若为null则替换成0，方便后面未分组的查询
-            if (jsonArray.getJSONObject(i).getString("ContactGroupID")==null){
+            if (jsonArray.getJSONObject(i).getString("ContactGroupID") == null) {
                 bean.setGroupID("0");
-            }
-            else {
+            } else {
                 bean.setGroupID(jsonArray.getJSONObject(i).getString("ContactGroupID"));
             }
             bean.setSex(jsonArray.getJSONObject(i).getString("Sex"));
@@ -328,11 +331,12 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
         if (NetworkUtils.checkNetState(this)) {
             AsyncGetContact async = new AsyncGetContact(this, mHandler, MESSAGE_GET_CONSTACTS);
             async.execute();
-        }    }
+        }
+    }
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        MyContactsBean bean= (MyContactsBean) adapter.getItem(i);
+        MyContactsBean bean = (MyContactsBean) adapter.getItem(i);
         Intent intent = new Intent();
         intent.setClass(this, PeopleActivity.class);
         Bundle bundle = new Bundle();
@@ -344,9 +348,9 @@ public class ContactsActivity extends ToolBarActivity implements AdapterView.OnI
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_contacts_add:
-                    IntentUtils.startActivity(this, PeopleAddActivity.class);
+                IntentUtils.startActivity(this, PeopleAddActivity.class);
 
                 break;
             case R.id.menu_contacts_group:

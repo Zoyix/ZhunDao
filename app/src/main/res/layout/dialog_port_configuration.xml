@@ -2,15 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" 
+    android:orientation="vertical"
     android:background="@color/black90">
+
     <RadioGroup
         android:id="@+id/rgPort"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal" 
+        android:orientation="horizontal"
         android:paddingLeft="10sp"
         android:paddingRight="10sp">
+
         <RadioButton
             android:id="@+id/rbBluetooth"
             android:layout_width="wrap_content"
@@ -18,8 +20,7 @@
             android:checked="true"
             android:textSize="15sp"
             android:textColor="@color/white"
-            android:text="@string/bluetooth" >
-        </RadioButton>
+            android:text="@string/bluetooth"></RadioButton>
 
         <RadioButton
             android:visibility="gone"
@@ -28,8 +29,7 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@color/white"
-            android:text="@string/usb" >
-        </RadioButton>
+            android:text="@string/usb"></RadioButton>
 
         <RadioButton
             android:visibility="gone"
@@ -38,10 +38,10 @@
             android:layout_height="wrap_content"
             android:textSize="15sp"
             android:textColor="@color/white"
-            android:text="@string/ethernet" >
-        </RadioButton>
-    </RadioGroup>   
-    <TextView 
+            android:text="@string/ethernet"></RadioButton>
+    </RadioGroup>
+
+    <TextView
         android:id="@+id/tvPortInfo"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -49,47 +49,52 @@
         android:singleLine="false"
         android:textSize="15sp"
         android:paddingLeft="10sp"
-        android:textColor="@color/white"
-        />
-    <LinearLayout 
+        android:textColor="@color/white" />
+
+    <LinearLayout
         android:id="@+id/llEthernet"
         android:layout_width="match_parent"
-    	android:layout_height="wrap_content"
-    	android:orientation="vertical" 
-    	android:background="@color/black90"
-    	android:visibility="gone"
-    	android:paddingLeft="10sp"
-    	android:paddingRight="10sp"
-    	android:paddingBottom="10sp">
-        <TextView 
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@color/black90"
+        android:visibility="gone"
+        android:paddingLeft="10sp"
+        android:paddingRight="10sp"
+        android:paddingBottom="10sp">
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/ip_address"
-    	    android:textColor="@color/white"
-    	    android:padding="0sp"/> 
-        <EditText 
+            android:textColor="@color/white"
+            android:padding="0sp" />
+
+        <EditText
             android:id="@+id/etIpAddress"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/default_ip_address"
-    	     android:background="@drawable/edittext_style"
-    	     android:textColor="@color/white"
-            android:hint=""/>
-         <TextView 
+            android:background="@drawable/edittext_style"
+            android:textColor="@color/white"
+            android:hint="" />
+
+        <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/port_number"
-            android:textColor="@color/white"/>
-        <EditText 
+            android:textColor="@color/white" />
+
+        <EditText
             android:id="@+id/etPortNumber"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="number"
             android:textColor="@color/white"
             android:background="@drawable/edittext_style"
-            android:text="@string/default_port_number"/>      
+            android:text="@string/default_port_number" />
     </LinearLayout>
-    <Button 
+
+    <Button
         android:id="@+id/btOk"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -100,9 +105,8 @@
         android:textColor="@color/black"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
-        android:background="@drawable/button_style"           
+        android:background="@drawable/button_style"
         android:text="@string/ok"
         android:layout_margin="5sp"
-        android:onClick="okButtonClicked"
-        />   
+        android:onClick="okButtonClicked" />
 </LinearLayout>

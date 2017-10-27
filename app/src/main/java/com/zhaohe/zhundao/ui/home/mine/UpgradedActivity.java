@@ -20,7 +20,7 @@ public class UpgradedActivity extends WebViewBase {
     public String setUrl() {
         String accesskey = (String) SPUtils.get(this, "accessKey", "");
 
-        String url="http://m.zhundao.net/Activity/Upgraded?accesskey="+accesskey;
-return    url;
+        String url = "http://m.zhundao.net/Activity/Upgraded?accesskey=" + accesskey;
+        return url;
     }
 }

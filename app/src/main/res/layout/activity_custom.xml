@@ -34,11 +34,12 @@
         </android.support.v7.widget.Toolbar>
 
         <ListView
-android:layout_below="@id/toolbar_act_custom"
+            android:layout_below="@id/toolbar_act_custom"
             android:id="@+id/lv_custom"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"></ListView>
     </RelativeLayout>
+
     <TextView
         android:id="@+id/tv_custom_suggest"
         android:layout_width="match_parent"

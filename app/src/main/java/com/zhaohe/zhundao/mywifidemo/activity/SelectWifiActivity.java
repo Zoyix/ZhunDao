@@ -27,7 +27,7 @@ public class SelectWifiActivity extends ToolBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        initToolBarNew("wifi选择",R.layout.activity_select_wifi);
+        initToolBarNew("wifi选择", R.layout.activity_select_wifi);
         initViews();
     }
 

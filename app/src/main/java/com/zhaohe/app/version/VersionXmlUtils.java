@@ -111,7 +111,7 @@ public class VersionXmlUtils {
     public static void startUpdateApp(Activity activity, VersionBean bean) {
         // 更新App
         Intent updateIntent = new Intent(activity, com.zhaohe.zhundao.service.UpdateAppService.class);
-        if (bean.getApkName()==null){
+        if (bean.getApkName() == null) {
             return;
         }
         updateIntent.putExtra("app_name", bean.getApkName());

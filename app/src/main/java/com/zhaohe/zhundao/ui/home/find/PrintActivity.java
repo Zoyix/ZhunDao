@@ -69,12 +69,13 @@ public class PrintActivity extends ToolBarActivity {
     private static final int MAIN_QUERY_PRINTER_STATUS = 0xfe;
     private static final int REQUEST_PRINT_LABEL = 0xfd;
     private static final int REQUEST_PRINT_RECEIPT = 0xfc;
-    private String Vcode="q298387",name="测试",Remark="无";
+    private String Vcode = "q298387", name = "测试", Remark = "无";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_print);
-        initToolBarNew("打印配置",R.layout.activity_print);
+        initToolBarNew("打印配置", R.layout.activity_print);
         ButterKnife.bind(this);
 //        initActionBar();
         initView();
@@ -88,6 +89,7 @@ public class PrintActivity extends ToolBarActivity {
 
         print();
     }
+
     private void print() {
         try {
 
@@ -97,6 +99,7 @@ public class PrintActivity extends ToolBarActivity {
             e1.printStackTrace();
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -127,8 +130,8 @@ public class PrintActivity extends ToolBarActivity {
         spType.setSelection((Integer) SPUtils.get(this, "type", 0));
         spSize.setSelection((Integer) SPUtils.get(this, "size", 0));
         spModel.setSelection((Integer) SPUtils.get(this, "model", 0));
-        etX.setText(SPUtils.get(this, "x", 0)+"");
-        etY.setText(SPUtils.get(this, "y", 0)+"");
+        etX.setText(SPUtils.get(this, "x", 0) + "");
+        etY.setText(SPUtils.get(this, "y", 0) + "");
 
     }
 
@@ -169,17 +172,16 @@ public class PrintActivity extends ToolBarActivity {
                 System.out.println(SPUtils.get(this, "model", 0));
                 System.out.println(SPUtils.get(this, "type", 0));
                 System.out.println(SPUtils.get(this, "is_print", false));
-                if(!isNumeric(etX.getText().toString()))
-                {
+                if (!isNumeric(etX.getText().toString())) {
                     ToastUtil.makeText(this, "x坐标有误，请重新输入");
                     return;
 
-                }if(!isNumeric(etY.getText().toString()))
-            {
-                ToastUtil.makeText(this, "y坐标有误，请重新输入");
-                return;
+                }
+                if (!isNumeric(etY.getText().toString())) {
+                    ToastUtil.makeText(this, "y坐标有误，请重新输入");
+                    return;
 
-            }
+                }
 
                 SPUtils.put(this, "x", Integer.parseInt(etX.getText().toString()));
                 SPUtils.put(this, "y", Integer.parseInt(etY.getText().toString()));
@@ -196,18 +198,19 @@ public class PrintActivity extends ToolBarActivity {
                 break;
         }
     }
-    public boolean isNumeric(String str){
+
+    public boolean isNumeric(String str) {
 //        Pattern pattern = Pattern.compile("-?[0-9]+.?[0-9]+");
 //        Matcher isNum = pattern.matcher(str);
 //        if( !isNum.matches() ){
 //            return false;
 //        }
 //        return true;
-        if (str.equals("")||str.equals("-")){
+        if (str.equals("") || str.equals("-")) {
             return false;
-        }
-        else return true;
+        } else return true;
     }
+
     private void registerReceriver() {
         registerReceiver(mBroadcastReceiver, new IntentFilter(GpCom.ACTION_DEVICE_REAL_STATUS));
         /**
@@ -223,6 +226,7 @@ public class PrintActivity extends ToolBarActivity {
          **/
         registerReceiver(mBroadcastReceiver, new IntentFilter(GpCom.ACTION_LABEL_RESPONSE));
     }
+
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -264,7 +268,7 @@ public class PrintActivity extends ToolBarActivity {
                 } else if (requestCode == REQUEST_PRINT_LABEL) {
                     int status = intent.getIntExtra(GpCom.EXTRA_PRINTER_REAL_STATUS, 16);
                     if (status == GpCom.STATE_NO_ERR) {
-                        switch (SPUtils.get(getApplicationContext(),"model",0)+""){
+                        switch (SPUtils.get(getApplicationContext(), "model", 0) + "") {
                             case "0":
                                 sendLabelVocde();
                                 break;
@@ -309,6 +313,7 @@ public class PrintActivity extends ToolBarActivity {
             }
         }
     };
+
     void sendReceipt() {
 
         EscCommand esc = new EscCommand();
@@ -355,7 +360,7 @@ public class PrintActivity extends ToolBarActivity {
         esc.addPrintAndLineFeed();
 
 		/*
-		 * QRCode命令打印 此命令只在支持QRCode命令打印的机型才能使用。 在不支持二维码指令打印的机型上，则需要发送二维条码图片
+         * QRCode命令打印 此命令只在支持QRCode命令打印的机型才能使用。 在不支持二维码指令打印的机型上，则需要发送二维条码图片
 		 */
         esc.addText("Print QRcode\n"); // 打印文字
         esc.addSelectErrorCorrectionLevelForQRCode((byte) 0x31); // 设置纠错等级
@@ -478,22 +483,22 @@ public class PrintActivity extends ToolBarActivity {
         tsc.addCls();// 清除打印缓冲区
 
 
-        switch (SPUtils.get(this,"size",0)+""){
-            case"0":
-                tsc.addQRCode(55, 60, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
-                tsc.addText(55,160 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        (String) SPUtils.get(this,"print_name","测试"));
+        switch (SPUtils.get(this, "size", 0) + "") {
+            case "0":
+                tsc.addQRCode(55, 60, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
+                tsc.addText(55, 160, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        (String) SPUtils.get(this, "print_name", "测试"));
                 break;
             case "1":
-                tsc.addQRCode(35, 40, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
-                tsc.addText(55,180 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        (String) SPUtils.get(this,"print_name","测试"));
+                tsc.addQRCode(35, 40, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
+                tsc.addText(55, 180, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        (String) SPUtils.get(this, "print_name", "测试"));
                 break;
             case "2":
 
-                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
-                tsc.addText(55,210 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        (String) SPUtils.get(this,"print_name","测试"));
+                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
+                tsc.addText(55, 210, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        (String) SPUtils.get(this, "print_name", "测试"));
                 break;
 
         }
@@ -543,24 +548,24 @@ public class PrintActivity extends ToolBarActivity {
         tsc.addCls();// 清除打印缓冲区
 
 
-        switch (SPUtils.get(this,"size",0)+""){
-            case"0":
-                tsc.addText(30,40 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1, "姓名："+ (String) SPUtils.get(this,"print_name","测试"));
-                tsc.addText(30,100 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        "备注："+(String) SPUtils.get(this,"print_AdminRemark","无"));
+        switch (SPUtils.get(this, "size", 0) + "") {
+            case "0":
+                tsc.addText(30, 40, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1, "姓名：" + (String) SPUtils.get(this, "print_name", "测试"));
+                tsc.addText(30, 100, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        "备注：" + (String) SPUtils.get(this, "print_AdminRemark", "无"));
                 break;
             case "1":
-                tsc.addText(20,30 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
-                        (String) SPUtils.get(this,"print_name","测试"));
-                tsc.addText(20,110 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
-                        (String) SPUtils.get(this,"print_AdminRemark","无"));
+                tsc.addText(20, 30, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
+                        (String) SPUtils.get(this, "print_name", "测试"));
+                tsc.addText(20, 110, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
+                        (String) SPUtils.get(this, "print_AdminRemark", "无"));
                 break;
             case "2":
 
-                tsc.addText(10,20 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
-                        (String) SPUtils.get(this,"print_name","测试"));
-                tsc.addText(10,130 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
-                        (String) SPUtils.get(this,"print_AdminRemark","无"));
+                tsc.addText(10, 20, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
+                        (String) SPUtils.get(this, "print_name", "测试"));
+                tsc.addText(10, 130, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
+                        (String) SPUtils.get(this, "print_AdminRemark", "无"));
                 break;
 
         }
@@ -599,6 +604,7 @@ public class PrintActivity extends ToolBarActivity {
             e.printStackTrace();
         }
     }
+
     void sendLabelVocde() {
         LabelCommand tsc = new LabelCommand();
 //        tsc.addSize(60, 60); // 设置标签尺寸，按照实际尺寸设置
@@ -607,22 +613,21 @@ public class PrintActivity extends ToolBarActivity {
         tsc.addReference((Integer) SPUtils.get(this, "x", 0), (Integer) SPUtils.get(this, "y", 0));// 设置原点坐标
         tsc.addTear(EscCommand.ENABLE.ON); // 撕纸模式开启
         tsc.addCls();// 清除打印缓冲区
-        switch (SPUtils.get(this,"size",0)+""){
-            case"0":
-                tsc.addQRCode(55, 80, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
+        switch (SPUtils.get(this, "size", 0) + "") {
+            case "0":
+                tsc.addQRCode(55, 80, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
 
                 break;
             case "1":
-                tsc.addQRCode(35, 50, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
+                tsc.addQRCode(35, 50, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
 
                 break;
             case "2":
-                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
+                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
 
                 break;
 
         }
-
 
 
 //		tsc.addQRCode(17, 20, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, " 55555");
@@ -658,6 +663,7 @@ public class PrintActivity extends ToolBarActivity {
             e.printStackTrace();
         }
     }
+
     void sendLabelWithResponse() {
         LabelCommand tsc = new LabelCommand();
         tsc.addSize(60, 60); // 设置标签尺寸，按照实际尺寸设置
@@ -697,6 +703,7 @@ public class PrintActivity extends ToolBarActivity {
             e.printStackTrace();
         }
     }
+
     public boolean[] getConnectState() {
         boolean[] state = new boolean[GpPrintService.MAX_PRINTER_CNT];
         for (int i = 0; i < GpPrintService.MAX_PRINTER_CNT; i++) {

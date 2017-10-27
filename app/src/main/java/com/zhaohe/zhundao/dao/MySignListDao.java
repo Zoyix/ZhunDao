@@ -36,31 +36,34 @@ public class MySignListDao {
             db.close();
         }
     }
+
     public void save(List<SignListBean> list) {
         SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
-         db.beginTransaction ();// 开启事务
+        db.beginTransaction();// 开启事务
         try {
-            for(int i=0;i<list.size();i++){
+            for (int i = 0; i < list.size(); i++) {
                 ContentValues values = new ContentValues();
-                SignListBean bean=list.get(i);
-            setContentValues(values, bean);
+                SignListBean bean = list.get(i);
+                setContentValues(values, bean);
 
-             db.replace(TABLE_NAME, null, values);}
-             db.setTransactionSuccessful ();// 设置事务的标志为True
+                db.replace(TABLE_NAME, null, values);
+            }
+            db.setTransactionSuccessful();// 设置事务的标志为True
         } finally {
-             db.endTransaction ();// 结束事务,有两种情况：commit,rollback,
+            db.endTransaction();// 结束事务,有两种情况：commit,rollback,
             db.close();
         }
     }
-    public void deleteTable(){
-        SQLiteDatabase db = dbOpenHelper.getWritableDatabase ();
 
-        db.execSQL("delete from "+TABLE_NAME);
+    public void deleteTable() {
+        SQLiteDatabase db = dbOpenHelper.getWritableDatabase();
+
+        db.execSQL("delete from " + TABLE_NAME);
         db.close();
     }
 
     private void setContentValues(ContentValues values,
-                                 SignListBean bean) {
+                                  SignListBean bean) {
         values.put("sign_list_id", bean.getSign_list_id());
         values.put("sign_list_name", bean.getSign_list_name());
         values.put("sign_list_time", bean.getSign_list_time());
@@ -69,7 +72,6 @@ public class MySignListDao {
         values.put("mIndex", bean.getmIndex());
         values.put("act_id", bean.getAct_id());
         values.put("nickname", bean.getNickname());
-
 
 
     }
@@ -101,7 +103,7 @@ public class MySignListDao {
         List<SignListBean> list = new ArrayList<SignListBean>();
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where act_id = ? "+"ORDER BY sign_list_time DESC", new String[]{act_id});
+                    + " where act_id = ? " + "ORDER BY sign_list_time DESC", new String[]{act_id});
             while (cursor.moveToNext()) {
                 SignListBean bean = new SignListBean();
                 setBean(cursor, bean);
@@ -115,13 +117,14 @@ public class MySignListDao {
         }
         return list;
     }
-    public List<SignListBean> queryListActIDAndPhoneOrName(String act_id,String param) {
+
+    public List<SignListBean> queryListActIDAndPhoneOrName(String act_id, String param) {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         // db.beginTransaction ();// 开启事务
         List<SignListBean> list = new ArrayList<SignListBean>();
         try {
             Cursor cursor = db.rawQuery("select * from " + TABLE_NAME
-                    + " where act_id = ? and (sign_list_name||nickname||sign_list_phone) like ?", new String[]{act_id,"%"+param+"%"});
+                    + " where act_id = ? and (sign_list_name||nickname||sign_list_phone) like ?", new String[]{act_id, "%" + param + "%"});
             while (cursor.moveToNext()) {
                 SignListBean bean = new SignListBean();
                 setBean(cursor, bean);
@@ -135,11 +138,6 @@ public class MySignListDao {
         }
         return list;
     }
-
-
-
-
-
 
 
     private void setBean(Cursor cursor, SignListBean bean) {
@@ -151,7 +149,7 @@ public class MySignListDao {
         String sign_list_status = cursor.getString(cursor.getColumnIndex("sign_list_status"));
         String act_id = cursor.getString(cursor.getColumnIndex("act_id"));
         int mIndex = cursor.getInt(cursor.getColumnIndex("mIndex"));
-        String nickname=cursor.getString(cursor.getColumnIndex("nickname"));
+        String nickname = cursor.getString(cursor.getColumnIndex("nickname"));
         bean.setSign_list_id(sign_list_id);
         bean.setSign_list_name(sign_list_name);
         bean.setSign_list_phone(sign_list_phone);

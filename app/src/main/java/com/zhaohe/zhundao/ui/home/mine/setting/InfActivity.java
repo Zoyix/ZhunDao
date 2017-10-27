@@ -27,13 +27,14 @@ import java.util.Map;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class InfActivity extends ToolBarActivity implements AdapterView.OnItemClickListener{
+public class InfActivity extends ToolBarActivity implements AdapterView.OnItemClickListener {
     @BindView(R.id.lv_inf)
     ListView lvInf;
     private Handler mHandler;
     private InfAdapter adapter;
     public static final int MESSAGE_INF_LIST = 100;
-private Map<String,String> map=new HashMap<>();
+    private Map<String, String> map = new HashMap<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,28 +43,29 @@ private Map<String,String> map=new HashMap<>();
         ButterKnife.bind(this);
         initView();
         initHandler();
-getList();
+        getList();
 
     }
+
     @Override
     public void onResume() {
         super.onResume();
-        if (SPUtils.contains(this,"inf_result")){
-            init((String) SPUtils.get(this,"inf_result",""));
+        if (SPUtils.contains(this, "inf_result")) {
+            init((String) SPUtils.get(this, "inf_result", ""));
         }
     }
 
-    private void getList(){
-        AsyncInf async=new AsyncInf(this,mHandler,MESSAGE_INF_LIST);
+    private void getList() {
+        AsyncInf async = new AsyncInf(this, mHandler, MESSAGE_INF_LIST);
         async.execute();
     }
 
     private void initView() {
-adapter= new InfAdapter(this);
-lvInf.setAdapter(adapter);
+        adapter = new InfAdapter(this);
+        lvInf.setAdapter(adapter);
         lvInf.setOnItemClickListener(this);
 
-        map=getMap();
+        map = getMap();
 
     }
 
@@ -78,7 +80,7 @@ lvInf.setAdapter(adapter);
                         JSONObject jsonObj = JSON.parseObject(result);
                         if (jsonObj.getString("Res") == "0") {
                             init(result);
-                            SPUtils.put(getApplicationContext(),"inf_result",result);
+                            SPUtils.put(getApplicationContext(), "inf_result", result);
                         }
 
 
@@ -99,16 +101,16 @@ lvInf.setAdapter(adapter);
             JSONArray jsonArray = jsonObj.getJSONArray("Data");
             List<InfBean> list = new ArrayList<InfBean>();
             for (int i = 0; i < jsonArray.size(); i++) {
-                InfBean bean=new InfBean();
+                InfBean bean = new InfBean();
                 bean.setTitle(jsonArray.getJSONObject(i).getString("Title"));
-                String time=jsonArray.getJSONObject(i).getString("AddTime");
-               String newtime = time.replace("T", " ");
-             String   newtime1 = newtime.substring(2, newtime.length() - 7);
+                String time = jsonArray.getJSONObject(i).getString("AddTime");
+                String newtime = time.replace("T", " ");
+                String newtime1 = newtime.substring(2, newtime.length() - 7);
                 bean.setAddTime(newtime1);
                 bean.setSortName(jsonArray.getJSONObject(i).getString("SortName"));
                 bean.setDetail(jsonArray.getJSONObject(i).getString("Detail"));
                 bean.setmID(jsonArray.getJSONObject(i).getString("ID"));
-                if (getMap().containsKey(jsonArray.getJSONObject(i).getString("ID"))){
+                if (getMap().containsKey(jsonArray.getJSONObject(i).getString("ID"))) {
                     bean.setRead(true);
                 }
                 list.add(bean);
@@ -119,15 +121,15 @@ lvInf.setAdapter(adapter);
         ;
     }
 
-    private void saveMap(Map<String,String> map){
-        String result=JSONObject.toJSONString(map);
-        ToastUtil.print("map"+result);
-        SPUtils.put(this,"map_inf",result);
+    private void saveMap(Map<String, String> map) {
+        String result = JSONObject.toJSONString(map);
+        ToastUtil.print("map" + result);
+        SPUtils.put(this, "map_inf", result);
     }
 
-    private Map<String,String> getMap(){
-        String result= (String) SPUtils.get(this,"map_inf","{\"x\":\"y\"}");
-        map=JSONObject.parseObject(result,Map.class);
+    private Map<String, String> getMap() {
+        String result = (String) SPUtils.get(this, "map_inf", "{\"x\":\"y\"}");
+        map = JSONObject.parseObject(result, Map.class);
 
         return map;
     }
@@ -136,8 +138,8 @@ lvInf.setAdapter(adapter);
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 
-       InfBean bean= adapter.getItem(position);
-        map.put(bean.getmID(),"1");
+        InfBean bean = adapter.getItem(position);
+        map.put(bean.getmID(), "1");
         saveMap(map);
         Intent intent = new Intent();
         intent.setClass(this, NewsActivity.class);

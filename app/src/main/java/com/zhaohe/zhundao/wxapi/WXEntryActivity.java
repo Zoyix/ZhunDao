@@ -3,7 +3,7 @@ package com.zhaohe.zhundao.wxapi;
 import com.umeng.weixin.callback.WXCallbackActivity;
 
 
-public class WXEntryActivity extends WXCallbackActivity  {
+public class WXEntryActivity extends WXCallbackActivity {
 //   implements View.OnClickListener  ,IWXAPIEventHandler
 //    private IWXAPI api;
 //    public static final int MESSAGE_GET_ACCESS_TOKE = 100;

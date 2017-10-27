@@ -31,7 +31,7 @@ import java.util.List;
 
 import static android.view.View.GONE;
 
-public class BeaconListActivity extends Activity implements AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener {
+public class BeaconListActivity extends Activity implements AdapterView.OnItemClickListener, Toolbar.OnMenuItemClickListener {
 
     public static final int MESSAGE_GET_BEACONLIST = 99;
     public static final int SCANNIN_GREQUEST_CODE = 89;
@@ -59,11 +59,13 @@ public class BeaconListActivity extends Activity implements AdapterView.OnItemCl
         init();
 //        test();
     }
+
     @Override
     public void onResume() {
         super.onResume();
         getBenconList();
     }
+
     protected void initToolBar() {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_act_beacon_list);
         toolbar.inflateMenu(R.menu.toolbar_beacon_list);
@@ -80,23 +82,24 @@ public class BeaconListActivity extends Activity implements AdapterView.OnItemCl
         });//        返回
         toolbar.setTitleTextColor(getResources().getColor(android.R.color.white));
     }
-private void getBenconList(){
-    if (NetworkUtils.checkNetState(this)) {
-        if (SPUtils.contains(this, "beacon_result")) {
-            jsonconver((String) SPUtils.get(getApplicationContext(), "beacon_result", ""));
 
+    private void getBenconList() {
+        if (NetworkUtils.checkNetState(this)) {
+            if (SPUtils.contains(this, "beacon_result")) {
+                jsonconver((String) SPUtils.get(getApplicationContext(), "beacon_result", ""));
+
+            }
+            AsyncGetBeaconList asyncActivity = new AsyncGetBeaconList(this, mHandler, MESSAGE_GET_BEACONLIST);
+            asyncActivity.execute();
+        } else {
+            if (SPUtils.contains(this, "beacon_result")) {
+                jsonconver((String) SPUtils.get(getApplicationContext(), "beacon_result", ""));
+
+            } else
+                return;
         }
-        AsyncGetBeaconList asyncActivity = new AsyncGetBeaconList(this, mHandler, MESSAGE_GET_BEACONLIST);
-        asyncActivity.execute();
-    } else {
-        if (SPUtils.contains(this, "beacon_result")) {
-            jsonconver((String) SPUtils.get(getApplicationContext(), "beacon_result", ""));
 
-        } else
-            return;
     }
-
-}
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -107,7 +110,7 @@ private void getBenconList(){
                     Bundle bundle = data.getExtras();
                     // 显示扫描到的内容
                     String result = bundle.getString("result");
-                    beaconBond(result,"0");
+                    beaconBond(result, "0");
 
                 }
                 if (requestCode == RESULT_CANCELED) {
@@ -117,9 +120,10 @@ private void getBenconList(){
                 break;
         }
     }
+
     private void jsonconver(String result) {
         jsonObj = JSON.parseObject(result);
-         jsonArray = jsonObj.getJSONArray("Data");
+        jsonArray = jsonObj.getJSONArray("Data");
         List<BeaconBean> list = new ArrayList<BeaconBean>();
         for (int i = 0; i < jsonArray.size(); i++) {
             BeaconBean bean = new BeaconBean();
@@ -136,12 +140,14 @@ private void getBenconList(){
         showSuggest(list);
         adapter.refreshData(list);
     }
+
     private void init() {
-        if ((NetworkUtils.checkNetState(this))&&(SPUtils.contains(this, "sign_result")==false)){
+        if ((NetworkUtils.checkNetState(this)) && (SPUtils.contains(this, "sign_result") == false)) {
             AsyncSign asyncSign = new AsyncSign(this, mHandler, MESSAGE_SIGN_ALL);
             asyncSign.execute();
         }
     }
+
     private void showSuggest(List list) {
         if (list.size() == 0) {
             lv_beacon.setVisibility(GONE);
@@ -157,9 +163,9 @@ private void getBenconList(){
         List<BeaconBean> list = new ArrayList<BeaconBean>();
         for (int i = 1; i <= 20; i++) {
             BeaconBean bean = new BeaconBean();
-          bean.setTitle("标题"+i);
-            bean.setBeaconName("BeaconName"+i);
-            bean.setDeviceID("Device"+i);
+            bean.setTitle("标题" + i);
+            bean.setBeaconName("BeaconName" + i);
+            bean.setDeviceID("Device" + i);
             bean.setUrl("www");
             list.add(bean);
         }
@@ -171,8 +177,9 @@ private void getBenconList(){
         adapter = new BeaconAdapter(this);
         lv_beacon.setAdapter(adapter);
         lv_beacon.setOnItemClickListener(this);
-        tv_suggest= (TextView) findViewById(R.id.tv_shake_suggest);
+        tv_suggest = (TextView) findViewById(R.id.tv_shake_suggest);
     }
+
     private void initHandler() {
         mHandler = new Handler() {
 
@@ -200,10 +207,10 @@ private void getBenconList(){
                         String result3 = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result3);
                         String message = jsonObj.getString("Msg");
-                        if (jsonObj.getString("Res").equals("0")){
+                        if (jsonObj.getString("Res").equals("0")) {
                             getBenconList();
                         }
-                        ToastUtil.makeText(getApplicationContext(),message);
+                        ToastUtil.makeText(getApplicationContext(), message);
 
                         break;
 
@@ -232,8 +239,8 @@ private void getBenconList(){
 
 
     }
-    private void beaconBond(String result,String type)
-    {
+
+    private void beaconBond(String result, String type) {
 //     type   0绑定摇一摇设备 1解除绑定摇一摇  result deviceID
         AsyncBeaconBond Async = new AsyncBeaconBond(this, mHandler, MESSAGE_ADD_BEACON, result, type);
         Async.execute();
@@ -246,11 +253,10 @@ private void getBenconList(){
                 Intent intent = new Intent();
                 intent.setClass(this, MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("view_show","false" );
+                intent.putExtra("view_show", "false");
                 startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
                 startActivity(intent);
                 break;
-
 
 
         }

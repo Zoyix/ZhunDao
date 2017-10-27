@@ -34,7 +34,7 @@ import java.util.regex.Pattern;
 
 final class CameraConfigurationManager {
 
-//    private static final String TAG = CameraConfigurationManager.class.getSimpleName();
+    //    private static final String TAG = CameraConfigurationManager.class.getSimpleName();
 //
 //    private static final int TEN_DESIRED_ZOOM = 27;
 //    private static final int DESIRED_SHARPNESS = 30;
@@ -287,7 +287,7 @@ final class CameraConfigurationManager {
 //        } catch (Exception e1) {
 //        }
 //    }
-private static final String TAG = CameraConfigurationManager.class.getSimpleName();
+    private static final String TAG = CameraConfigurationManager.class.getSimpleName();
 
     private static final int TEN_DESIRED_ZOOM = 27;
     private static final int DESIRED_SHARPNESS = 30;
@@ -340,14 +340,13 @@ private static final String TAG = CameraConfigurationManager.class.getSimpleName
         setDisplayOrientation(camera, 90);
         camera.setParameters(parameters);
 
-        Size pic=getPicSize(parameters.getSupportedPictureSizes(),1.0*cameraResolution.x/cameraResolution.y);
+        Size pic = getPicSize(parameters.getSupportedPictureSizes(), 1.0 * cameraResolution.x / cameraResolution.y);
         parameters.setPictureSize(pic.width, pic.height);
 
-        pic=parameters.getPictureSize();
-        Size pre=parameters.getPreviewSize();
+        pic = parameters.getPictureSize();
+        Size pre = parameters.getPreviewSize();
 //        Toast.showText(context, "pic "+pic.width+"  "+pic.height+"\n pre "+pre.width+" "+pre.height, 1);
     }
-
 
 
     private Size getPicSize(List<Size> list, double d) {
@@ -358,16 +357,16 @@ private static final String TAG = CameraConfigurationManager.class.getSimpleName
             @Override
             public int compare(Size lhs, Size rhs) {
                 // TODO Auto-generated method stub
-                if (lhs.width-rhs.width==0) {
-                    return lhs.height-rhs.height;
+                if (lhs.width - rhs.width == 0) {
+                    return lhs.height - rhs.height;
 
                 }
 
-                return lhs.width-rhs.width;
+                return lhs.width - rhs.width;
             }
         });
         for (Size size : list) {
-            if (Math.abs(size.width*1.0/size.height-d)<0.03) {
+            if (Math.abs(size.width * 1.0 / size.height - d) < 0.03) {
 
                 return size;
             }
@@ -393,24 +392,24 @@ private static final String TAG = CameraConfigurationManager.class.getSimpleName
 
     private static Point getCameraResolution(Camera.Parameters parameters, Point screenResolution) {
 
-        System.out.println("pingmu  "+screenResolution.x+"  "+screenResolution.y);
-        List<Size>list= parameters.getSupportedPreviewSizes();
+        System.out.println("pingmu  " + screenResolution.x + "  " + screenResolution.y);
+        List<Size> list = parameters.getSupportedPreviewSizes();
         Collections.sort(list, new Comparator<Size>() {
 
             @Override
             public int compare(Size lhs, Size rhs) {
                 // TODO Auto-generated method stub
-                if (lhs.width-rhs.width==0) {
-                    return lhs.height-rhs.height;
+                if (lhs.width - rhs.width == 0) {
+                    return lhs.height - rhs.height;
 
                 }
 
-                return lhs.width-rhs.width;
+                return lhs.width - rhs.width;
             }
         });
         for (Size size : list) {
-            System.out.println(size.width+"   "+size.height);
-            if (Math.abs(   size.width*1.0/size.height   -   1.0*screenResolution.y/screenResolution.x  )<0.1) {
+            System.out.println(size.width + "   " + size.height);
+            if (Math.abs(size.width * 1.0 / size.height - 1.0 * screenResolution.y / screenResolution.x) < 0.1) {
 
                 return new Point(size.width, size.height);
             }
@@ -585,19 +584,17 @@ private static final String TAG = CameraConfigurationManager.class.getSimpleName
 
     /**
      * compatible  1.6
+     *
      * @param camera
      * @param angle
      */
-    protected void setDisplayOrientation(Camera camera, int angle){
+    protected void setDisplayOrientation(Camera camera, int angle) {
         Method downPolymorphic;
-        try
-        {
-            downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[] { int.class });
+        try {
+            downPolymorphic = camera.getClass().getMethod("setDisplayOrientation", new Class[]{int.class});
             if (downPolymorphic != null)
-                downPolymorphic.invoke(camera, new Object[] { angle });
-        }
-        catch (Exception e1)
-        {
+                downPolymorphic.invoke(camera, new Object[]{angle});
+        } catch (Exception e1) {
         }
     }
 

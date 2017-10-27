@@ -21,7 +21,8 @@ import java.util.List;
  */
 public class SignAdapter extends AdapterBase<SignBean, SignHolder> implements View.OnClickListener {
 
-private ImageView ImageView;
+    private ImageView ImageView;
+
     public interface SignClickListener {
         public void onSignscanClick(SignBean bean);
 
@@ -59,20 +60,19 @@ private ImageView ImageView;
         itemView.tv_sign_num.setText(bean.getSign_num());
         itemView.tv_signup_num.setText(bean.getSignup_num());
         double NumShould = Integer.parseInt(bean.getSign_num());
-        double NubFact= Integer.parseInt(bean.getSignup_num());
+        double NubFact = Integer.parseInt(bean.getSignup_num());
 
-        int NumUnsign= (int) (NumShould-NubFact);
-if (NumUnsign<0){
-    NumUnsign=0;
-}
-        double result;
-        itemView.tv_unsignup_num.setText(NumUnsign+"");
-        if(NumShould!=0){
-         result=NubFact/NumShould;
-
+        int NumUnsign = (int) (NumShould - NubFact);
+        if (NumUnsign < 0) {
+            NumUnsign = 0;
         }
-        else {
-            result=0;
+        double result;
+        itemView.tv_unsignup_num.setText(NumUnsign + "");
+        if (NumShould != 0) {
+            result = NubFact / NumShould;
+
+        } else {
+            result = 0;
         }
 
         DecimalFormat df = new DecimalFormat("0.0%");
@@ -91,13 +91,12 @@ if (NumUnsign<0){
 //        itemView.tv_sign_scan.setTag(position);
         itemView.sw_sign_status.setOnClickListener(this);
         itemView.sw_sign_status.setTag(position);
-        ImageView=  itemView.iv_list_status;
+        ImageView = itemView.iv_list_status;
 //        if(bean.getList_status()!=null){
-        if (bean.getList_status().equals("true")){
-                itemView.iv_list_status.setVisibility(View.GONE);
-            }
-        else{
-                itemView.iv_list_status.setVisibility(View.VISIBLE);
+        if (bean.getList_status().equals("true")) {
+            itemView.iv_list_status.setVisibility(View.GONE);
+        } else {
+            itemView.iv_list_status.setVisibility(View.VISIBLE);
 
         }
 //        }
@@ -122,11 +121,11 @@ if (NumUnsign<0){
 
             }
         });
-        if (bean.getSign_status() .equals("false") ) {
+        if (bean.getSign_status().equals("false")) {
             itemView.sw_sign_status.setChecked(false);
         }
 
-        if (bean.getSign_status() .equals("true") ) {
+        if (bean.getSign_status().equals("true")) {
             itemView.sw_sign_status.setChecked(true);
         }
 
@@ -151,7 +150,7 @@ if (NumUnsign<0){
         v.tv_sign_type = (TextView) convertView.findViewById(R.id.tv_sign_type);
         v.sw_sign_status = (Switch) convertView.findViewById(R.id.sw_sign_status);
         v.tv_sign_scan = (TextView) convertView.findViewById(R.id.tv_sign_scan);
-        v.iv_list_status= (ImageView) convertView.findViewById(R.id.iv_list_status);
+        v.iv_list_status = (ImageView) convertView.findViewById(R.id.iv_list_status);
         v.tv_unsignup_num = (TextView) convertView.findViewById(R.id.tv_unsignup_num);
         v.tv_signed_percent = (TextView) convertView.findViewById(R.id.tv_signed_percent);
 

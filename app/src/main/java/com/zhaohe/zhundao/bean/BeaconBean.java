@@ -7,7 +7,7 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2017/2/15 10:34
  */
-public class BeaconBean implements Serializable{
+public class BeaconBean implements Serializable {
     private static final long serialVersionUID = 2164018431591873323L;
     private String Title;
     private String BeaconID;
@@ -26,7 +26,6 @@ public class BeaconBean implements Serializable{
     private String Url;
     private String NickName;
     private String ID;
-
 
 
     private String AddTime;

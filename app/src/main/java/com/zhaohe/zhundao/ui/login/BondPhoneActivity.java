@@ -43,16 +43,17 @@ public class BondPhoneActivity extends ToolBarActivity implements View.OnClickLi
     private String mParam;
     //倒计时按钮工具类
     private CountDownTimerUtils mCountDownTimerUtils;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wxentry);
-        initToolBarNew("绑定手机",R.layout.activity_wxentry);
+        initToolBarNew("绑定手机", R.layout.activity_wxentry);
         initView();
         initHandler();
     }
 
-        private void initHandler() {
+    private void initHandler() {
         mHandler = new Handler() {
 
             @Override
@@ -80,54 +81,54 @@ public class BondPhoneActivity extends ToolBarActivity implements View.OnClickLi
                         }
 
 
-
                     default:
                         break;
                 }
             }
-        };     }
-        public void initView() {
-                Button btn_get_access_token = (Button) findViewById(R.id.btn_get_access_token);
-                btn_get_access_token.setOnClickListener(this);
-                btn_bond_phone = (Button) findViewById(R.id.btn_bond_phone);
-                btn_bond_phone.setOnClickListener(this);
-                btn_send_code = (Button) findViewById(R.id.btn_send_code);
-                btn_send_code.setOnClickListener(this);
-                et_code = (EditText) findViewById(R.id.et_code);
-                et_code.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        };
+    }
 
-                et_phone_bond = (EditText) findViewById(R.id.et_phone_bond);
-                et_phone_bond.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-                mCountDownTimerUtils = new CountDownTimerUtils(btn_send_code, 60000, 1000);
-                img_ico1 = (ImageView) findViewById(R.id.img_ico1);
-                Resources res = getResources();
-                Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_login);
+    public void initView() {
+        Button btn_get_access_token = (Button) findViewById(R.id.btn_get_access_token);
+        btn_get_access_token.setOnClickListener(this);
+        btn_bond_phone = (Button) findViewById(R.id.btn_bond_phone);
+        btn_bond_phone.setOnClickListener(this);
+        btn_send_code = (Button) findViewById(R.id.btn_send_code);
+        btn_send_code.setOnClickListener(this);
+        et_code = (EditText) findViewById(R.id.et_code);
+        et_code.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+
+        et_phone_bond = (EditText) findViewById(R.id.et_phone_bond);
+        et_phone_bond.setInputType(EditorInfo.TYPE_CLASS_PHONE);
+        mCountDownTimerUtils = new CountDownTimerUtils(btn_send_code, 60000, 1000);
+        img_ico1 = (ImageView) findViewById(R.id.img_ico1);
+        Resources res = getResources();
+        Bitmap bmp = BitmapFactory.decodeResource(res, R.mipmap.logo_login);
 //        img_ico.setImageBitmap(toRoundBitmap(bmp));
-                img_ico1.setImageBitmap(MakeRoundUntils.makeRoundCorner(bmp));
-            }
+        img_ico1.setImageBitmap(MakeRoundUntils.makeRoundCorner(bmp));
+    }
 
 
+    private void sendCode() {
+        String mPhone = et_phone_bond.getText().toString();
+
+        if (((mPhone == null)) || (mPhone.length() != 11)) {
+            Toast.makeText(BondPhoneActivity.this, "您输入的手机号码有误，请确认后重新输入~", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        if (NetworkUtils.checkNetState(this)) {
+            Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
+            AsyncGetCode getCode = new AsyncGetCode(this, mHandler, dialog, MESSAGE_GET_CODE, mPhone);
+            getCode.execute();
 
 
-            private void sendCode() {
-                String mPhone = et_phone_bond.getText().toString();
+        } else {
+            ToastUtil.makeText(this, R.string.app_serviceError);
+        }
 
-                if (((mPhone == null)) || (mPhone.length() != 11)) {
-                    Toast.makeText(BondPhoneActivity.this, "您输入的手机号码有误，请确认后重新输入~", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                if (NetworkUtils.checkNetState(this)) {
-                    Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
-                    AsyncGetCode getCode = new AsyncGetCode(this, mHandler,dialog, MESSAGE_GET_CODE, mPhone);
-                    getCode.execute();
+    }
 
-
-                } else {
-                    ToastUtil.makeText(this, R.string.app_serviceError);
-                }
-
-            }
-        private void bondPhone() {
+    private void bondPhone() {
         //手机号
         String mPhone = et_phone_bond.getText().toString();
         //验证码
@@ -153,7 +154,7 @@ public class BondPhoneActivity extends ToolBarActivity implements View.OnClickLi
         }
     }
 
-   public void onClick(View v) {
+    public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_send_code:
                 String mPhone = et_phone_bond.getText().toString();

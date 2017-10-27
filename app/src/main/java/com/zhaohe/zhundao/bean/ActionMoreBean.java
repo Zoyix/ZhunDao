@@ -8,6 +8,7 @@ package com.zhaohe.zhundao.bean;
 public class ActionMoreBean {
     public int imageRes;
     public String name;
+
     public ActionMoreBean(int imageRes, String name) {
         this.imageRes = imageRes;
         this.name = name;

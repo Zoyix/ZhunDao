@@ -7,6 +7,7 @@
     tools:context="com.zhaohe.zhundao.ui.home.action.more.InvitationActivity">
 
     >
+
     <TextView
         android:id="@+id/tv_dialog_title"
         android:maxLength="20"
@@ -29,12 +30,11 @@
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@mipmap/ic_launcher"
-        android:layout_below="@+id/tv_dialog_title"
-      />
+        android:layout_below="@+id/tv_dialog_title" />
 
     <TextView
         android:textColor="@color/white"
-android:layout_marginTop="30dp"
+        android:layout_marginTop="30dp"
         android:layout_marginLeft="20dp"
         android:layout_below="@id/iv_vcode_invitation"
         android:id="@+id/tv_time"
@@ -50,6 +50,5 @@ android:layout_marginTop="30dp"
         android:maxLength="20"
         android:text="@string/add"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 </RelativeLayout>

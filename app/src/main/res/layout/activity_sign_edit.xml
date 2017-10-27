@@ -20,8 +20,8 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@id/tv_sign_add_name2"
         android:layout_toRightOf="@id/tv_sign_add_name2"
-        android:hint="@string/et_sign_add_name"
-        />
+        android:hint="@string/et_sign_add_name" />
+
     <TextView
         android:id="@+id/tv_sign_add_type2"
         android:layout_below="@id/tv_sign_add_name2"
@@ -30,6 +30,7 @@
         android:layout_margin="10dp"
         android:text="@string/tv_sign_add_type"
         android:textSize="18sp" />
+
     <Spinner
         android:id="@+id/sp_sign_add_type2"
         android:layout_width="200dp"
@@ -40,6 +41,7 @@
         android:layout_marginTop="10dp"
 
         ></Spinner>
+
     <TextView
         android:id="@+id/tv_sign_add_object2"
         android:layout_below="@id/tv_sign_add_type2"
@@ -48,6 +50,7 @@
         android:layout_margin="10dp"
         android:text="@string/tv_sign_add_object"
         android:textSize="18sp" />
+
     <Spinner
         android:id="@+id/sp_sign_add_object2"
         android:layout_width="200dp"
@@ -58,6 +61,7 @@
         android:layout_marginTop="10dp"
 
         ></Spinner>
+
     <TextView
         android:id="@+id/tv_sign_add_actname3"
         android:layout_below="@id/tv_sign_add_object2"
@@ -66,6 +70,7 @@
         android:layout_margin="10dp"
         android:text="@string/tv_sign_add_actname"
         android:textSize="18sp" />
+
     <TextView
         android:id="@+id/tv_sign_add_actname4"
         android:layout_below="@id/tv_sign_add_object2"

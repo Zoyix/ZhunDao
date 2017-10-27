@@ -41,9 +41,7 @@
             android:id="@+id/iv_sign_right2"
             android:src="@drawable/right"
             style="@style/sign_right"
-            android:paddingLeft="280dp"
-             />
-
+            android:paddingLeft="280dp" />
 
 
         <View
@@ -66,7 +64,7 @@
             android:layout_height="wrap_content" />
         <!--活动标题sign-->
         <TextView
-android:layout_marginLeft="10dp"
+            android:layout_marginLeft="10dp"
             android:id="@+id/tv_sign_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -116,20 +114,20 @@ android:layout_marginLeft="10dp"
             style="@style/sign_right"
             android:id="@+id/iv_sign_right"
             android:src="@drawable/right"
-android:paddingLeft="150dp"
+            android:paddingLeft="150dp"
             android:layout_below="@+id/line6"
             android:layout_alignParentRight="true"
             android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_marginTop="10dp"
-android:visibility="invisible"
+            android:visibility="invisible"
             android:layout_marginRight="30dp"
             android:id="@+id/tv_sign_find"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="查看"
-android:layout_alignParentRight="true"
+            android:layout_alignParentRight="true"
             android:layout_below="@id/tv_act_name"
             android:textSize="14sp"
 
@@ -138,7 +136,7 @@ android:layout_alignParentRight="true"
 
 
         <TextView
-android:textColor="@color/status_color_green"
+            android:textColor="@color/status_color_green"
             android:id="@+id/tv_signup_num"
             android:text="@string/tv_signup"
             android:layout_width="wrap_content"
@@ -161,6 +159,7 @@ android:textColor="@color/status_color_green"
             android:layout_alignBottom="@+id/tv_sign_num"
             android:layout_alignLeft="@+id/tv_sign_title"
             android:layout_alignStart="@+id/tv_sign_title" />
+
         <TextView
 
             android:id="@+id/tv_unsigned"
@@ -175,6 +174,7 @@ android:textColor="@color/status_color_green"
             android:layout_toEndOf="@+id/tv_signup_num"
             android:layout_marginLeft="24dp"
             android:layout_marginStart="24dp" />
+
         <TextView
 
             android:id="@+id/tv_unsignup_num"
@@ -199,6 +199,7 @@ android:textColor="@color/status_color_green"
             android:layout_above="@+id/line6"
             android:layout_toLeftOf="@+id/tv_sign_find"
             android:layout_toStartOf="@+id/tv_sign_find" />
+
         <TextView
 
             android:id="@+id/tv_signed_percent"
@@ -210,8 +211,7 @@ android:textColor="@color/status_color_green"
 
             android:layout_alignBaseline="@+id/tv_sign_find"
             android:layout_alignBottom="@+id/tv_sign_find"
-            android:layout_toRightOf="@id/tv_signed_percent_name"
-            />
+            android:layout_toRightOf="@id/tv_signed_percent_name" />
 
         <View
             android:id="@+id/line6"
@@ -258,19 +258,19 @@ android:textColor="@color/status_color_green"
 
         <!--<ImageView-->
 
-            <!--android:paddingTop="8dp"-->
-            <!--android:paddingRight="10dp"-->
-            <!--android:paddingLeft="200dp"-->
-            <!--android:id="@+id/img_sign_scan"-->
-            <!--android:clickable="true"-->
-            <!--android:layout_width="230dp"-->
-            <!--android:layout_height="36dp"-->
-            <!--android:src="@drawable/scan"-->
-            <!--android:focusable="false"-->
-            <!--android:layout_below="@id/line6"-->
-            <!--android:layout_alignParentRight="true"-->
+        <!--android:paddingTop="8dp"-->
+        <!--android:paddingRight="10dp"-->
+        <!--android:paddingLeft="200dp"-->
+        <!--android:id="@+id/img_sign_scan"-->
+        <!--android:clickable="true"-->
+        <!--android:layout_width="230dp"-->
+        <!--android:layout_height="36dp"-->
+        <!--android:src="@drawable/scan"-->
+        <!--android:focusable="false"-->
+        <!--android:layout_below="@id/line6"-->
+        <!--android:layout_alignParentRight="true"-->
 
-            <!--/>-->
+        <!--/>-->
 
         <TextView
             android:id="@+id/tv_sign_scan"
@@ -283,12 +283,13 @@ android:textColor="@color/status_color_green"
             android:layout_below="@+id/line6"
             android:layout_alignLeft="@+id/tv_sign_find"
             android:layout_alignStart="@+id/tv_sign_find" />
+
         <ImageView
             style="@style/sign_right"
             android:id="@+id/iv_sign_scan_right"
             android:src="@drawable/right"
             android:paddingLeft="150dp"
-android:layout_toRightOf="@id/tv_sign_scan"            />
+            android:layout_toRightOf="@id/tv_sign_scan" />
 
         <View
             android:layout_width="match_parent"
@@ -297,6 +298,7 @@ android:layout_toRightOf="@id/tv_sign_scan"            />
             android:layout_alignParentBottom="true"
             android:layout_below="@+id/sw_sign_status"
             android:id="@+id/view" />
+
         <ImageView
             android:visibility="visible"
             android:id="@+id/iv_list_status"

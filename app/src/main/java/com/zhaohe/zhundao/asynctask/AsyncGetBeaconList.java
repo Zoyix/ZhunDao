@@ -36,7 +36,7 @@ public class AsyncGetBeaconList extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.GetMybeaconList;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.GetMybeaconList;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
 

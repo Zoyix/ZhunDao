@@ -29,7 +29,7 @@ public class AsyncSignAdd extends AsyncTask<String, Integer, String> {
     private String mParam;//添加签到的各项参数
 
 
-    public AsyncSignAdd(Context context, Handler handler,  int request, String param) {
+    public AsyncSignAdd(Context context, Handler handler, int request, String param) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
@@ -41,7 +41,7 @@ public class AsyncSignAdd extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.AddCheckIn;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.AddCheckIn;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);

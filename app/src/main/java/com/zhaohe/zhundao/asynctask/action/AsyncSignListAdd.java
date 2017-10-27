@@ -29,23 +29,23 @@ public class AsyncSignListAdd extends AsyncTask<String, Integer, String> {
     private String mParam;
     private String activityFeeid;
 
-    public AsyncSignListAdd(Context context, Handler handler, int request, String activityFeeid,String Param) {
+    public AsyncSignListAdd(Context context, Handler handler, int request, String activityFeeid, String Param) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.mParam=Param;
-        this.activityFeeid=activityFeeid;
+        this.mParam = Param;
+        this.activityFeeid = activityFeeid;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.AddActivityList;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.AddActivityList;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         map.put("activityFeeid", activityFeeid);
 
-        String result = HttpUtil.sendPostNew2request(path, map, "utf-8",mParam);
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }
 

@@ -32,9 +32,9 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
     public static final int MESSAGE_AddContact = 94;
     public static final int MESSAGE_UpdateContact = 95;
 
-    private EditText et_people_add_name, et_people_add_phone,et_people_add_company,et_people_add_duty,et_people_add_IDcard,et_people_add_SerialNo,et_people_add_remark,et_people_add_add,et_people_add_email;
+    private EditText et_people_add_name, et_people_add_phone, et_people_add_company, et_people_add_duty, et_people_add_IDcard, et_people_add_SerialNo, et_people_add_remark, et_people_add_add, et_people_add_email;
     private Button btn_people_add;
-    private Spinner sp_people_add_group,sp_people_add_sex;
+    private Spinner sp_people_add_group, sp_people_add_sex;
     private MyGroupDao dao;
     private List<String> list_group = new ArrayList<String>();
     private List<String> list_id = new ArrayList<String>();
@@ -91,7 +91,7 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
         et_people_add_SerialNo = (EditText) findViewById(R.id.et_people_add_SerialNo);
         et_people_add_remark = (EditText) findViewById(R.id.et_people_add_remark);
         et_people_add_add = (EditText) findViewById(R.id.et_people_add_add);
-        et_people_add_email=(EditText) findViewById(R.id.et_people_add_email);
+        et_people_add_email = (EditText) findViewById(R.id.et_people_add_email);
 
         btn_people_add = (Button) findViewById(R.id.btn_people_add);
         btn_people_add.setOnClickListener(this);
@@ -111,10 +111,10 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
             et_people_add_remark.setText(bean.getRemark());
             et_people_add_add.setText(bean.getAddress());
             et_people_add_email.setText(bean.getEmail());
-            if (bean.getSex().equals("1")){
-              sp_people_add_sex.setSelection(1);
+            if (bean.getSex().equals("1")) {
+                sp_people_add_sex.setSelection(1);
             }
-            if (bean.getSex().equals("2")){
+            if (bean.getSex().equals("2")) {
                 sp_people_add_sex.setSelection(2);
             }
 
@@ -150,6 +150,7 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
             ToastUtil.makeText(this, R.string.net_error);
         }
     }
+
     private void initHandler() {
         mHandler = new Handler() {
 
@@ -170,16 +171,16 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
                         }
                         break;
                     case MESSAGE_UpdateContact:
-                         result = (String) msg.obj;
-                         jsonObj = JSON.parseObject(result);
-                         message = jsonObj.getString("Res");
+                        result = (String) msg.obj;
+                        jsonObj = JSON.parseObject(result);
+                        message = jsonObj.getString("Res");
                         System.out.println("people_add_result:" + result);
                         if (message.equals("0"))
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "修改联系人成功！");
-                            Intent data=new Intent();
-                            String name =et_people_add_name.getText().toString();
+                            Intent data = new Intent();
+                            String name = et_people_add_name.getText().toString();
                             bean.setName(name);
                             bean.setPhone(et_people_add_phone.getText().toString());
                             bean.setIDcard(et_people_add_IDcard.getText().toString());
@@ -187,13 +188,13 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
                             bean.setCompany(et_people_add_company.getText().toString());
                             bean.setDuty(et_people_add_duty.getText().toString());
                             bean.setEmail(et_people_add_email.getText().toString());
-                            bean.setSex(sp_people_add_sex.getSelectedItemPosition()+"");
+                            bean.setSex(sp_people_add_sex.getSelectedItemPosition() + "");
                             bean.setRemark(et_people_add_remark.getText().toString());
-                            bean.setGroupName(sp_people_add_group.getSelectedItem()+"");
+                            bean.setGroupName(sp_people_add_group.getSelectedItem() + "");
                             Bundle bundle = new Bundle();
                             bundle.putSerializable("bean", bean);
                             data.putExtras(bundle);
-                            setResult(20,data);
+                            setResult(20, data);
                             finish();
                         }
                         break;
@@ -227,17 +228,16 @@ public class PeopleAddActivity extends ToolBarActivity implements OnClickListene
                 if (ContactGroupID == null) {
                     ContactGroupID = "0";
                 }
-                if(bean!=null){
-                    param = "TrueName=" + Name + "&Mobile=" + Mobile + "&ContactGroupID=" + ContactGroupID+"&ID="+bean.getID()+"&Address="+et_people_add_add.getText().toString()
-                    +"&Company="+et_people_add_company.getText().toString()+"&Duty="+et_people_add_duty.getText().toString()+"&SerialNo="+et_people_add_SerialNo.getText().toString()
-                    +"&IDcard="+et_people_add_IDcard.getText().toString()+"&Remark="+et_people_add_remark.getText().toString()+"&Email="+et_people_add_email.getText().toString()+"&Sex="+sp_people_add_sex.getSelectedItemPosition();
-updatePeople(param);
-                }
-                else{
-                param = "TrueName=" + Name + "&Mobile=" + Mobile + "&ContactGroupID=" + ContactGroupID+"&Address="+et_people_add_add.getText().toString()
-                        +"&Company="+et_people_add_company.getText().toString()+"&Duty="+et_people_add_duty.getText().toString()+"&SerialNo="+et_people_add_SerialNo.getText().toString()
-                        +"&IDcard="+et_people_add_IDcard.getText().toString()+"&Remark="+et_people_add_remark.getText().toString()+"&Email="+et_people_add_email.getText().toString()+"&Sex="+sp_people_add_sex.getSelectedItemPosition();
-                addPeople(param);
+                if (bean != null) {
+                    param = "TrueName=" + Name + "&Mobile=" + Mobile + "&ContactGroupID=" + ContactGroupID + "&ID=" + bean.getID() + "&Address=" + et_people_add_add.getText().toString()
+                            + "&Company=" + et_people_add_company.getText().toString() + "&Duty=" + et_people_add_duty.getText().toString() + "&SerialNo=" + et_people_add_SerialNo.getText().toString()
+                            + "&IDcard=" + et_people_add_IDcard.getText().toString() + "&Remark=" + et_people_add_remark.getText().toString() + "&Email=" + et_people_add_email.getText().toString() + "&Sex=" + sp_people_add_sex.getSelectedItemPosition();
+                    updatePeople(param);
+                } else {
+                    param = "TrueName=" + Name + "&Mobile=" + Mobile + "&ContactGroupID=" + ContactGroupID + "&Address=" + et_people_add_add.getText().toString()
+                            + "&Company=" + et_people_add_company.getText().toString() + "&Duty=" + et_people_add_duty.getText().toString() + "&SerialNo=" + et_people_add_SerialNo.getText().toString()
+                            + "&IDcard=" + et_people_add_IDcard.getText().toString() + "&Remark=" + et_people_add_remark.getText().toString() + "&Email=" + et_people_add_email.getText().toString() + "&Sex=" + sp_people_add_sex.getSelectedItemPosition();
+                    addPeople(param);
                 }
                 break;
         }

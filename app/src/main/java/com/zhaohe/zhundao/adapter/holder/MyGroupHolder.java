@@ -8,5 +8,5 @@ import android.widget.TextView;
  * @Since:2017/5/23 15:02
  */
 public class MyGroupHolder {
-    public TextView tv_group_item ;
+    public TextView tv_group_item;
 }

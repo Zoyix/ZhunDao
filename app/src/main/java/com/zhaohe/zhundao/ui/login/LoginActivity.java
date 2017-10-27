@@ -304,7 +304,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.tv_back:
                 break;
             case R.id.tv_reg:
-                IntentUtils.startActivity(this,RegisterActivity.class);
+                IntentUtils.startActivity(this, RegisterActivity.class);
                 break;
         }
     }

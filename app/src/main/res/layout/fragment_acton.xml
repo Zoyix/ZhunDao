@@ -19,8 +19,8 @@
         android:layout_height="0dp">
 
     </android.support.v4.widget.SwipeRefreshLayout>
-    <com.chanven.lib.cptr.PtrClassicFrameLayout
-        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+
+    <com.chanven.lib.cptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/test_list_view_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -30,13 +30,13 @@
         cube_ptr:ptr_keep_header_when_refresh="true"
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-        cube_ptr:ptr_resistance="1.8" >
+        cube_ptr:ptr_resistance="1.8">
 
         <!--将你的内容放在这里-->
         <ListView
             android:divider="@null"
 
-        android:id="@+id/lv_act"
+            android:id="@+id/lv_act"
             android:layout_width="match_parent"
             android:layout_height="match_parent"></ListView>
     </com.chanven.lib.cptr.PtrClassicFrameLayout>

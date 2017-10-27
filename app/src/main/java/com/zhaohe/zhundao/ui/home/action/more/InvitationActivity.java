@@ -73,12 +73,13 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
 
     private static final int REQUEST_CODE_SETTING = 300;
     NormalSelectionDialog dialog1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
 //        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        setContentView( R.layout.activity_invitation);
+        setContentView(R.layout.activity_invitation);
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);//去掉Activity上面的状态栏
 
         ButterKnife.bind(this);
@@ -100,7 +101,7 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
         Indicator indicator = (Indicator) findViewById(R.id.guide_indicator);
         btnInvitationSave.setAlpha((float) 0.2);
         // 将viewPager和indicator使用
-        indicatorViewPager = new IndicatorViewPager(indicator, viewPager,true);
+        indicatorViewPager = new IndicatorViewPager(indicator, viewPager, true);
 
         inflate = LayoutInflater.from(getApplicationContext());
         // 设置indicatorViewPager的适配器
@@ -143,7 +144,7 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
                 .setOnItemListener(new DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
                     @Override
                     public void onItemClick(NormalSelectionDialog dialog, View button, int position) {
-                        switch (position){
+                        switch (position) {
                             case 0:
                                 AndPermission.with(getApplicationContext())
                                         .requestCode(REQUEST_CODE_PERMISSION)
@@ -174,6 +175,7 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
         dialog1.setDatas(s);
 
     }
+
     private void initIntent() {
         Intent intent = this.getIntent();
         bean = (ActionBean) intent.getSerializableExtra("bean");
@@ -193,27 +195,31 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
             add.setTextSize(8);
             String newadd = bean.getAddress();
             if (i == 0 || i == 2) {
-                if (bean.getAct_starttime().contains("活动开始")){
-                newtime = bean.getAct_starttime().replace("活动开始", "时间");}
-                if (bean.getAct_starttime().contains("活动结束")){
-                    newtime = bean.getAct_starttime().replace("活动结束", "时间");}
-
+                if (bean.getAct_starttime().contains("活动开始")) {
+                    newtime = bean.getAct_starttime().replace("活动开始", "时间");
+                }
+                if (bean.getAct_starttime().contains("活动结束")) {
+                    newtime = bean.getAct_starttime().replace("活动结束", "时间");
+                }
 
 
                 newadd = "地点：" + newadd;
             }
 
             if (i == 1) {
-                if (bean.getAct_starttime().contains("活动开始")){
-                newtime = bean.getAct_starttime().replace("活动开始：", "");}
-                if (bean.getAct_starttime().contains("活动结束")){
-                    newtime = bean.getAct_starttime().replace("活动结束：", "");}            }
+                if (bean.getAct_starttime().contains("活动开始")) {
+                    newtime = bean.getAct_starttime().replace("活动开始：", "");
+                }
+                if (bean.getAct_starttime().contains("活动结束")) {
+                    newtime = bean.getAct_starttime().replace("活动结束：", "");
+                }
+            }
             time.setText(newtime);
             add.setText(newadd);
 
 
             bitmaps[i] = ZXingUtil.convertViewToBitmap(v);
-            ToastUtil.print(bitmaps[i]+"");
+            ToastUtil.print(bitmaps[i] + "");
         }
     }
 
@@ -308,7 +314,6 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
             }
         }
     };
-
 
 
     private void showDialog(final ActionBean bean) {
@@ -413,7 +418,7 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
             // 设置模式 (支持 单选/MultiImageSelectorActivity.MODE_SINGLE 或者 多选/MultiImageSelectorActivity.MODE_MULTI)
             intent.putExtra(MultiImageSelectorActivity.EXTRA_SELECT_MODE, MultiImageSelectorActivity.MODE_MULTI);
 
-                this.startActivityForResult(intent, REQUEST_IMAGE);
+            this.startActivityForResult(intent, REQUEST_IMAGE);
 
 
         } else {
@@ -427,17 +432,17 @@ public class InvitationActivity extends AppCompatActivity implements Toolbar.OnM
             if (resultCode == Activity.RESULT_OK) {
                 // 获取返回的图片列表
                 List<String> path = data.getStringArrayListExtra(MultiImageSelectorActivity.EXTRA_RESULT);
-             if (path.size()!=0){
-                 ToastUtil.print("图片地址"+path.get(0));
-                 Intent intent = new Intent();
-                 intent.putExtra("imgpath",path.get(0));
-                 intent.setClass(this, PreviewImgActivity.class);
-                 this.startActivity(intent);
+                if (path.size() != 0) {
+                    ToastUtil.print("图片地址" + path.get(0));
+                    Intent intent = new Intent();
+                    intent.putExtra("imgpath", path.get(0));
+                    intent.setClass(this, PreviewImgActivity.class);
+                    this.startActivity(intent);
 
-             }
+                }
             }
         }
-        if(requestCode==REQUEST_CODE_SETTING){
+        if (requestCode == REQUEST_CODE_SETTING) {
             Toast.makeText(this, R.string.message_setting_back, Toast.LENGTH_LONG).show();
         }
 

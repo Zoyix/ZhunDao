@@ -20,12 +20,13 @@ import java.util.Map;
  * @Author:邹苏隆
  * @Since:2017/5/23 13:56
  */
-public class AsyncGetGroup  extends AsyncTask<String, Integer, String> {
+public class AsyncGetGroup extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
     private int mRequest;
     private Dialog mDialog;
     private String mAccesskey;
+
     public AsyncGetGroup(Context context, Handler handler, int request) {
         this.mContext = context;
         this.mHandler = handler;
@@ -35,7 +36,7 @@ public class AsyncGetGroup  extends AsyncTask<String, Integer, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.PostContactGroup;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.PostContactGroup;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String result = HttpUtil.sendPostNewrequest(path, map, "utf-8");

@@ -24,234 +24,239 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SignListMoreActivity extends Activity {
-	TextView tv1;
-	ListView mListView1;
-	MyAdapter myAdapter;
-	SignListMoreAdapter adapter;
-	RelativeLayout mHead;
-	LinearLayout main;
-	List<SignListMoreBean> list =new ArrayList<>();
+    TextView tv1;
+    ListView mListView1;
+    MyAdapter myAdapter;
+    SignListMoreAdapter adapter;
+    RelativeLayout mHead;
+    LinearLayout main;
+    List<SignListMoreBean> list = new ArrayList<>();
 
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_sign_list_more);
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_list_more);
 
-		mHead = (RelativeLayout) findViewById(R.id.head);
-		mHead.setFocusable(true);
-		mHead.setClickable(true);
-		mHead.setBackgroundColor(Color.parseColor("#b2d235"));
-		mHead.setOnTouchListener(new ListViewAndHeadViewTouchLinstener());
+        mHead = (RelativeLayout) findViewById(R.id.head);
+        mHead.setFocusable(true);
+        mHead.setClickable(true);
+        mHead.setBackgroundColor(Color.parseColor("#b2d235"));
+        mHead.setOnTouchListener(new ListViewAndHeadViewTouchLinstener());
 
-		mListView1 = (ListView) findViewById(R.id.listView1);
-		mListView1.setOnTouchListener(new ListViewAndHeadViewTouchLinstener());
-        adapter =new SignListMoreAdapter(this);
-		myAdapter = new MyAdapter(this, R.layout.list_item_sign_list_more);
-		mListView1.setAdapter(adapter);
-		initData();
-	}
+        mListView1 = (ListView) findViewById(R.id.listView1);
+        mListView1.setOnTouchListener(new ListViewAndHeadViewTouchLinstener());
+        adapter = new SignListMoreAdapter(this);
+        myAdapter = new MyAdapter(this, R.layout.list_item_sign_list_more);
+        mListView1.setAdapter(adapter);
+        initData();
+    }
 
-	private void initData() {
-		SignListMoreBean bean= new SignListMoreBean();
-		for (int i=0;i<30;i++){
-			bean.setSex("1");
-			list.add(bean);
-		}
-		adapter.refreshData(list);
+    private void initData() {
+        SignListMoreBean bean = new SignListMoreBean();
+        for (int i = 0; i < 30; i++) {
+            bean.setSex("1");
+            list.add(bean);
+        }
+        adapter.refreshData(list);
 
-	}
+    }
 
-	class ListViewAndHeadViewTouchLinstener implements View.OnTouchListener {
+    class ListViewAndHeadViewTouchLinstener implements View.OnTouchListener {
 
-		@Override
-		public boolean onTouch(View arg0, MotionEvent arg1) {
-			HorizontalScrollView headSrcrollView = (HorizontalScrollView) mHead
-					.findViewById(R.id.horizontalScrollView1);
-			headSrcrollView.onTouchEvent(arg1);
-			return false;
-		}
-	}
-	public class SignListMoreAdapter  extends AdapterBase<SignListMoreBean, SignListMoreHolder> implements  View.OnTouchListener {
-		private LayoutInflater inflater;
-		private Context mContext;
+        @Override
+        public boolean onTouch(View arg0, MotionEvent arg1) {
+            HorizontalScrollView headSrcrollView = (HorizontalScrollView) mHead
+                    .findViewById(R.id.horizontalScrollView1);
+            headSrcrollView.onTouchEvent(arg1);
+            return false;
+        }
+    }
 
-
-		public SignListMoreAdapter(Context context) {
-			inflater = LayoutInflater.from(context);
-			mContext = context;
-		}
-
-		@Override
-		protected void handlerData(List<SignListMoreBean> mList2, int position, SignListMoreHolder itemView) {
-			SignListMoreBean bean=mList2.get(position);
-			itemView.txt1.setText(bean.getSex());
-			tv1.setText(bean.getRemark());
+    public class SignListMoreAdapter extends AdapterBase<SignListMoreBean, SignListMoreHolder> implements View.OnTouchListener {
+        private LayoutInflater inflater;
+        private Context mContext;
 
 
+        public SignListMoreAdapter(Context context) {
+            inflater = LayoutInflater.from(context);
+            mContext = context;
+        }
 
-		}
+        @Override
+        protected void handlerData(List<SignListMoreBean> mList2, int position, SignListMoreHolder itemView) {
+            SignListMoreBean bean = mList2.get(position);
+            itemView.txt1.setText(bean.getSex());
+            tv1.setText(bean.getRemark());
 
-		@Override
-		protected SignListMoreHolder getItemViewHolder() {
-			return new SignListMoreHolder();    }
 
-		@Override
-		protected View initConvertView(View convertView, SignListMoreHolder holder) {
-			LinearLayout ll= (LinearLayout) findViewById(R.id.ll_signlist_item);
-			 tv1 = new TextView(getApplicationContext());
-			LinearLayout.LayoutParams tvParam=
-					new LinearLayout.LayoutParams(80, ViewGroup.LayoutParams.WRAP_CONTENT);
-			ll.addView(tv1,tvParam);
+        }
 
-			convertView = inflater.inflate(R.layout.list_item_sign_list_more, null);
+        @Override
+        protected SignListMoreHolder getItemViewHolder() {
+            return new SignListMoreHolder();
+        }
 
-			MyHScrollView scrollView1 = (MyHScrollView) convertView
-					.findViewById(R.id.horizontalScrollView1);
+        @Override
+        protected View initConvertView(View convertView, SignListMoreHolder holder) {
+            LinearLayout ll = (LinearLayout) findViewById(R.id.ll_signlist_item);
+            tv1 = new TextView(getApplicationContext());
+            LinearLayout.LayoutParams tvParam =
+                    new LinearLayout.LayoutParams(80, ViewGroup.LayoutParams.WRAP_CONTENT);
+            ll.addView(tv1, tvParam);
 
-			holder.scrollView = scrollView1;
-			holder.txt1 = (TextView) convertView
-					.findViewById(R.id.textView1);
-			holder.txt2 = (TextView) convertView
-					.findViewById(R.id.textView2);
-			holder.txt3 = (TextView) convertView
-					.findViewById(R.id.textView3);
-			holder.txt4 = (TextView) convertView
-					.findViewById(R.id.textView4);
-			holder.txt5 = (TextView) convertView
-					.findViewById(R.id.textView5);
+            convertView = inflater.inflate(R.layout.list_item_sign_list_more, null);
 
-			MyHScrollView headSrcrollView = (MyHScrollView) mHead
-					.findViewById(R.id.horizontalScrollView1);
-			headSrcrollView
-					.AddOnScrollChangedListener(new OnScrollChangedListenerImp(
-							scrollView1));
+            MyHScrollView scrollView1 = (MyHScrollView) convertView
+                    .findViewById(R.id.horizontalScrollView1);
 
-			convertView.setTag(holder);
-			return convertView;
+            holder.scrollView = scrollView1;
+            holder.txt1 = (TextView) convertView
+                    .findViewById(R.id.textView1);
+            holder.txt2 = (TextView) convertView
+                    .findViewById(R.id.textView2);
+            holder.txt3 = (TextView) convertView
+                    .findViewById(R.id.textView3);
+            holder.txt4 = (TextView) convertView
+                    .findViewById(R.id.textView4);
+            holder.txt5 = (TextView) convertView
+                    .findViewById(R.id.textView5);
 
-		}
+            MyHScrollView headSrcrollView = (MyHScrollView) mHead
+                    .findViewById(R.id.horizontalScrollView1);
+            headSrcrollView
+                    .AddOnScrollChangedListener(new OnScrollChangedListenerImp(
+                            scrollView1));
 
-		@Override
-		protected void onReachBottom() {
+            convertView.setTag(holder);
+            return convertView;
 
-		}
+        }
 
-		@Override
-		public boolean onTouch(View view, MotionEvent motionEvent) {
-			HorizontalScrollView headSrcrollView = (HorizontalScrollView) mHead
-					.findViewById(R.id.horizontalScrollView1);
-			headSrcrollView.onTouchEvent(motionEvent);
-			return false;
-		}
-	}
+        @Override
+        protected void onReachBottom() {
 
-	class OnScrollChangedListenerImp implements MyHScrollView.OnScrollChangedListener {
-		MyHScrollView mScrollViewArg;
+        }
 
-		public OnScrollChangedListenerImp(MyHScrollView scrollViewar) {
-			mScrollViewArg = scrollViewar;
-		}
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            HorizontalScrollView headSrcrollView = (HorizontalScrollView) mHead
+                    .findViewById(R.id.horizontalScrollView1);
+            headSrcrollView.onTouchEvent(motionEvent);
+            return false;
+        }
+    }
 
-		@Override
-		public void onScrollChanged(int l, int t, int oldl, int oldt) {
-			mScrollViewArg.smoothScrollTo(l, t);
-		}
-	};
+    class OnScrollChangedListenerImp implements MyHScrollView.OnScrollChangedListener {
+        MyHScrollView mScrollViewArg;
 
-	public class MyAdapter extends BaseAdapter {
-		public List<ViewHolder> mHolderList = new ArrayList<ViewHolder>();
+        public OnScrollChangedListenerImp(MyHScrollView scrollViewar) {
+            mScrollViewArg = scrollViewar;
+        }
 
-		int id_row_layout;
-		LayoutInflater mInflater;
+        @Override
+        public void onScrollChanged(int l, int t, int oldl, int oldt) {
+            mScrollViewArg.smoothScrollTo(l, t);
+        }
+    }
 
-		public MyAdapter(Context context, int id_row_layout) {
-			super();
-			this.id_row_layout = id_row_layout;
-			mInflater = LayoutInflater.from(context);
-		}
+    ;
 
-		@Override
-		public int getCount() {
-			// TODO Auto-generated method stub
-			return 250;
-		}
+    public class MyAdapter extends BaseAdapter {
+        public List<ViewHolder> mHolderList = new ArrayList<ViewHolder>();
 
-		@Override
-		public Object getItem(int arg0) {
-			// TODO Auto-generated method stub
-			return null;
-		}
+        int id_row_layout;
+        LayoutInflater mInflater;
 
-		@Override
-		public long getItemId(int arg0) {
-			// TODO Auto-generated method stub
-			return 0;
-		}
+        public MyAdapter(Context context, int id_row_layout) {
+            super();
+            this.id_row_layout = id_row_layout;
+            mInflater = LayoutInflater.from(context);
+        }
 
-		@Override
-		public View getView(int position, View convertView, ViewGroup parentView) {
-			ViewHolder holder = null;
-			if (convertView == null) {
-				synchronized (SignListMoreActivity.this) {
-					convertView = mInflater.inflate(id_row_layout, null);
-					holder = new ViewHolder();
+        @Override
+        public int getCount() {
+            // TODO Auto-generated method stub
+            return 250;
+        }
 
-					MyHScrollView scrollView1 = (MyHScrollView) convertView
-							.findViewById(R.id.horizontalScrollView1);
+        @Override
+        public Object getItem(int arg0) {
+            // TODO Auto-generated method stub
+            return null;
+        }
 
-					holder.scrollView = scrollView1;
-					holder.txt1 = (TextView) convertView
-							.findViewById(R.id.textView1);
-					holder.txt2 = (TextView) convertView
-							.findViewById(R.id.textView2);
-					holder.txt3 = (TextView) convertView
-							.findViewById(R.id.textView3);
-					holder.txt4 = (TextView) convertView
-							.findViewById(R.id.textView4);
-					holder.txt5 = (TextView) convertView
-							.findViewById(R.id.textView5);
+        @Override
+        public long getItemId(int arg0) {
+            // TODO Auto-generated method stub
+            return 0;
+        }
 
-					MyHScrollView headSrcrollView = (MyHScrollView) mHead
-							.findViewById(R.id.horizontalScrollView1);
-					headSrcrollView
-							.AddOnScrollChangedListener(new OnScrollChangedListenerImp(
-									scrollView1));
+        @Override
+        public View getView(int position, View convertView, ViewGroup parentView) {
+            ViewHolder holder = null;
+            if (convertView == null) {
+                synchronized (SignListMoreActivity.this) {
+                    convertView = mInflater.inflate(id_row_layout, null);
+                    holder = new ViewHolder();
 
-					convertView.setTag(holder);
-					mHolderList.add(holder);
-				}
-			} else {
-				holder = (ViewHolder) convertView.getTag();
-			}
-			holder.txt1.setText(position + "" + 1);
-			holder.txt2.setText(position + "" + 2);
-			holder.txt3.setText(position + "" + 3);
-			holder.txt4.setText(position + "" + 4);
-			holder.txt5.setText(position + "" + 5);
+                    MyHScrollView scrollView1 = (MyHScrollView) convertView
+                            .findViewById(R.id.horizontalScrollView1);
 
-			return convertView;
-		}
+                    holder.scrollView = scrollView1;
+                    holder.txt1 = (TextView) convertView
+                            .findViewById(R.id.textView1);
+                    holder.txt2 = (TextView) convertView
+                            .findViewById(R.id.textView2);
+                    holder.txt3 = (TextView) convertView
+                            .findViewById(R.id.textView3);
+                    holder.txt4 = (TextView) convertView
+                            .findViewById(R.id.textView4);
+                    holder.txt5 = (TextView) convertView
+                            .findViewById(R.id.textView5);
 
-		class OnScrollChangedListenerImp implements MyHScrollView.OnScrollChangedListener {
-			MyHScrollView mScrollViewArg;
+                    MyHScrollView headSrcrollView = (MyHScrollView) mHead
+                            .findViewById(R.id.horizontalScrollView1);
+                    headSrcrollView
+                            .AddOnScrollChangedListener(new OnScrollChangedListenerImp(
+                                    scrollView1));
 
-			public OnScrollChangedListenerImp(MyHScrollView scrollViewar) {
-				mScrollViewArg = scrollViewar;
-			}
+                    convertView.setTag(holder);
+                    mHolderList.add(holder);
+                }
+            } else {
+                holder = (ViewHolder) convertView.getTag();
+            }
+            holder.txt1.setText(position + "" + 1);
+            holder.txt2.setText(position + "" + 2);
+            holder.txt3.setText(position + "" + 3);
+            holder.txt4.setText(position + "" + 4);
+            holder.txt5.setText(position + "" + 5);
 
-			@Override
-			public void onScrollChanged(int l, int t, int oldl, int oldt) {
-				mScrollViewArg.smoothScrollTo(l, t);
-			}
-		};
+            return convertView;
+        }
 
-		class ViewHolder {
-			TextView txt1;
-			TextView txt2;
-			TextView txt3;
-			TextView txt4;
-			TextView txt5;
-			HorizontalScrollView scrollView;
-		}
-	}// end class my
+        class OnScrollChangedListenerImp implements MyHScrollView.OnScrollChangedListener {
+            MyHScrollView mScrollViewArg;
+
+            public OnScrollChangedListenerImp(MyHScrollView scrollViewar) {
+                mScrollViewArg = scrollViewar;
+            }
+
+            @Override
+            public void onScrollChanged(int l, int t, int oldl, int oldt) {
+                mScrollViewArg.smoothScrollTo(l, t);
+            }
+        }
+
+        ;
+
+        class ViewHolder {
+            TextView txt1;
+            TextView txt2;
+            TextView txt3;
+            TextView txt4;
+            TextView txt5;
+            HorizontalScrollView scrollView;
+        }
+    }// end class my
 
 }

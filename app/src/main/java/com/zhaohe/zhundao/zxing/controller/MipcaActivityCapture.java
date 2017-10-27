@@ -52,7 +52,7 @@ import java.util.Vector;
  * @Author:杨攀
  * @Since:2014年5月30日下午2:45:30
  */
-public class MipcaActivityCapture extends Activity implements Callback,OnClickListener {
+public class MipcaActivityCapture extends Activity implements Callback, OnClickListener {
 
     private CaptureActivityHandler handler;
     private ViewfinderView viewfinderView;
@@ -65,15 +65,15 @@ public class MipcaActivityCapture extends Activity implements Callback,OnClickLi
     private static final float BEEP_VOLUME = 0.10f;
     private boolean vibrate;
     private String CheckInID;
-    private TextView tv_sign_scan_phone,tv_sign_scan_scan;
-    private ImageView iv_sign_scan_scan,    iv_sign_scan_phone;
+    private TextView tv_sign_scan_phone, tv_sign_scan_scan;
+    private ImageView iv_sign_scan_scan, iv_sign_scan_phone;
     private LinearLayout ll_sign_scan;
     private EditText et_sign_scan;
     private Button btn_sign_scan_scan;
     private Handler mHandler;
-    public static final int MESSAGE_SIGN_SCAN_PHONE=100;
+    public static final int MESSAGE_SIGN_SCAN_PHONE = 100;
     private MySignupListDao dao;
-    private LinearLayout ll_camera_text_group,ll_camera_button_group;
+    private LinearLayout ll_camera_text_group, ll_camera_button_group;
 
     /**
      * Called when the activity is first created.
@@ -104,41 +104,41 @@ public class MipcaActivityCapture extends Activity implements Callback,OnClickLi
     private void initIntent() {
         Intent intent = getIntent();
         CheckInID = intent.getStringExtra("CheckInID");
-        String view_show=intent.getStringExtra("view_show");
-        if(view_show==null){
-            view_show="";
+        String view_show = intent.getStringExtra("view_show");
+        if (view_show == null) {
+            view_show = "";
         }
-        if (view_show.equals("false")){
+        if (view_show.equals("false")) {
             ll_camera_button_group.setVisibility(View.GONE);
             ll_camera_text_group.setVisibility(View.GONE);
-        }
-        else{
+        } else {
             ll_camera_button_group.setVisibility(View.VISIBLE);
             ll_camera_text_group.setVisibility(View.VISIBLE);
         }
     }
 
     private void initView() {
-        tv_sign_scan_phone= (TextView) findViewById(R.id.tv_sign_scan_phone);
-        tv_sign_scan_scan= (TextView) findViewById(R.id.tv_sign_scan_scan);
+        tv_sign_scan_phone = (TextView) findViewById(R.id.tv_sign_scan_phone);
+        tv_sign_scan_scan = (TextView) findViewById(R.id.tv_sign_scan_scan);
         tv_sign_scan_scan.setTextColor(getResources().getColor(R.color.status_color_green));
 
-        iv_sign_scan_phone= (ImageView) findViewById(R.id.iv_sign_scan_phone);
+        iv_sign_scan_phone = (ImageView) findViewById(R.id.iv_sign_scan_phone);
         iv_sign_scan_phone.setOnClickListener(this);
-        iv_sign_scan_scan= (ImageView) findViewById(R.id.iv_sign_scan_scan);
+        iv_sign_scan_scan = (ImageView) findViewById(R.id.iv_sign_scan_scan);
         iv_sign_scan_scan.setOnClickListener(this);
         iv_sign_scan_scan.setImageResource(R.mipmap.sign_scan_scan_pressed);
-        ll_sign_scan= (LinearLayout) findViewById(R.id.ll_sign_scan);
-        et_sign_scan= (EditText) findViewById(R.id.et_sign_scan);
+        ll_sign_scan = (LinearLayout) findViewById(R.id.ll_sign_scan);
+        et_sign_scan = (EditText) findViewById(R.id.et_sign_scan);
         et_sign_scan.setInputType(EditorInfo.TYPE_CLASS_PHONE);
-        btn_sign_scan_scan= (Button) findViewById(R.id.btn_sign_scan_scan);
+        btn_sign_scan_scan = (Button) findViewById(R.id.btn_sign_scan_scan);
         btn_sign_scan_scan.setOnClickListener(this);
-        dao=new MySignupListDao(this);
-        ll_camera_button_group= (LinearLayout) findViewById(R.id.ll_camera_button_group);
-        ll_camera_text_group= (LinearLayout) findViewById(R.id.ll_camera_text_group);
+        dao = new MySignupListDao(this);
+        ll_camera_button_group = (LinearLayout) findViewById(R.id.ll_camera_button_group);
+        ll_camera_text_group = (LinearLayout) findViewById(R.id.ll_camera_text_group);
     }
-    private  void SignScanPhone(String phone){
-        AsyncSignScanPhone async = new AsyncSignScanPhone(this, mHandler, MESSAGE_SIGN_SCAN_PHONE, phone,CheckInID);
+
+    private void SignScanPhone(String phone) {
+        AsyncSignScanPhone async = new AsyncSignScanPhone(this, mHandler, MESSAGE_SIGN_SCAN_PHONE, phone, CheckInID);
         async.execute();
     }
 
@@ -327,43 +327,43 @@ public class MipcaActivityCapture extends Activity implements Callback,OnClickLi
 
     @Override
     public void onClick(View view) {
-switch (view.getId()){
+        switch (view.getId()) {
 
-    case R.id.iv_sign_scan_scan:
-        iv_sign_scan_scan.setImageResource(R.mipmap.sign_scan_scan_pressed);
-        iv_sign_scan_phone.setImageResource(R.mipmap.sign_scan_phone);
-        viewfinderView.setVisibility(View.VISIBLE);
-        ll_sign_scan.setVisibility(View.GONE);
-        tv_sign_scan_scan.setTextColor(getResources().getColor(R.color.status_color_green));
-        tv_sign_scan_phone.setTextColor(getResources().getColor(R.color.white));
+            case R.id.iv_sign_scan_scan:
+                iv_sign_scan_scan.setImageResource(R.mipmap.sign_scan_scan_pressed);
+                iv_sign_scan_phone.setImageResource(R.mipmap.sign_scan_phone);
+                viewfinderView.setVisibility(View.VISIBLE);
+                ll_sign_scan.setVisibility(View.GONE);
+                tv_sign_scan_scan.setTextColor(getResources().getColor(R.color.status_color_green));
+                tv_sign_scan_phone.setTextColor(getResources().getColor(R.color.white));
 
 
-        break;
-    case R.id.iv_sign_scan_phone:
-        iv_sign_scan_scan.setImageResource(R.mipmap.sign_scan_scan);
-        iv_sign_scan_phone.setImageResource(R.mipmap.sign_scan_phone_pressed);
-        viewfinderView.setVisibility(View.GONE);
-        ll_sign_scan.setVisibility(View.VISIBLE);
-        tv_sign_scan_scan.setTextColor(getResources().getColor(R.color.white));
-        tv_sign_scan_phone.setTextColor(getResources().getColor(R.color.status_color_green));
-        break;
+                break;
+            case R.id.iv_sign_scan_phone:
+                iv_sign_scan_scan.setImageResource(R.mipmap.sign_scan_scan);
+                iv_sign_scan_phone.setImageResource(R.mipmap.sign_scan_phone_pressed);
+                viewfinderView.setVisibility(View.GONE);
+                ll_sign_scan.setVisibility(View.VISIBLE);
+                tv_sign_scan_scan.setTextColor(getResources().getColor(R.color.white));
+                tv_sign_scan_phone.setTextColor(getResources().getColor(R.color.status_color_green));
+                break;
 
-    case R.id.btn_sign_scan_scan:
-String mPhone=et_sign_scan.getText().toString();
-        if (mPhone.length()!=11){
-            ToastUtil.makeText(this,"手机号不正确,请检查后重试");
-            return;
+            case R.id.btn_sign_scan_scan:
+                String mPhone = et_sign_scan.getText().toString();
+                if (mPhone.length() != 11) {
+                    ToastUtil.makeText(this, "手机号不正确,请检查后重试");
+                    return;
+                }
+                if (NetworkUtils.checkNetState(this)) {
+                    SignScanPhone(mPhone);
+                } else {
+                    SignScanPhoneOffLine(mPhone);
+                }
+                break;
         }
-        if (NetworkUtils.checkNetState(this)) {
-            SignScanPhone(mPhone);
-        }
-        else{
-SignScanPhoneOffLine(mPhone);
-        }
-        break;
-}
     }
-    public void resultDialog(String status,String message){
+
+    public void resultDialog(String status, String message) {
         new AlertDialog.Builder(this)
                 .setIcon(R.mipmap.ic_launcher)
                 .setTitle(status)
@@ -372,7 +372,6 @@ SignScanPhoneOffLine(mPhone);
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-
 
 
                     }
@@ -387,7 +386,7 @@ SignScanPhoneOffLine(mPhone);
         List<MySignListupBean> list2 = dao.queryListStatusByPhone(result, CheckInID, "true");
         if (list.size() == 0) {
 //                            ToastUtil.makeText(getActivity(), "扫码失败，该凭证码有误");
-            resultDialog("签到失败！","该手机号不存在报名记录！");
+            resultDialog("签到失败！", "该手机号不存在报名记录！");
         } else if (list2.size() == 1) {
             MySignListupBean bean = (MySignListupBean) list.get(0);
             String Name = bean.getName();
@@ -402,7 +401,7 @@ SignScanPhoneOffLine(mPhone);
             String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
 //                            ToastUtil.makeText(getActivity(), "该用户已经签到！" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-            resultDialog("该用户已经签到！","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+            resultDialog("该用户已经签到！", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                     "备注：" + AdminRemark + "\n" + FeeStr);
         } else {
             MySignListupBean bean = new MySignListupBean();
@@ -424,7 +423,7 @@ SignScanPhoneOffLine(mPhone);
             String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
 //                            ToastUtil.makeText(getActivity(), "扫码成功" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-            resultDialog("扫码成功！","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+            resultDialog("扫码成功！", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                     "备注：" + AdminRemark + "\n" + FeeStr);
 
         }
@@ -457,7 +456,7 @@ SignScanPhoneOffLine(mPhone);
                             }
 //                            ToastUtil.makeText(getActivity(), message + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog(message,"姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog(message, "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
 
                         }
@@ -482,24 +481,22 @@ SignScanPhoneOffLine(mPhone);
 //                            resultDialog(message,"姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
 //                        }
-                    else
-                        {
-                            resultDialog("签到失败！",message);
+                        else {
+                            resultDialog("签到失败！", message);
 //                            ToastUtil.makeText(getActivity(), message);
                         }
 
 
+                        break;
 
-                break;
-
-                default:
-                break;
+                    default:
+                        break;
+                }
             }
-        }
-    };
+        };
 
 
-}
+    }
 
 }
 

@@ -67,7 +67,7 @@ import me.shaohui.bottomdialog.BottomDialog;
 import static com.zhaohe.app.utils.ZXingUtil.createQrBitmap;
 import static com.zhaohe.zhundao.constant.Constant.Url.ShareUrl;
 
-public class ActionMoreActivity extends ToolBarActivity implements AdapterView.OnItemClickListener ,View.OnClickListener{
+public class ActionMoreActivity extends ToolBarActivity implements AdapterView.OnItemClickListener, View.OnClickListener {
     public static final int POSITION_EDIT = 0;                                       // 编辑活动
     public static final int POSITION_LIST = 1;                                  // 报名名单
     public static final int POSITION_CONSULT = 2;                                // 活动咨询
@@ -100,7 +100,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
     private RelativeLayout rl_act_more_details;
     private UMShareListener mShareListener;
     private static final int REQUEST_CODE_PERMISSION = 105;
-int j=0;
+    int j = 0;
     private static final int REQUEST_CODE_SETTING = 300;
     Bitmap bitmap;
 
@@ -108,10 +108,10 @@ int j=0;
     private ActionMoreAdapter adapter;
     private int[] gridStrings = {R.string.act_more_edit, R.string.act_more_list,
             R.string.act_more_consult, R.string.act_more_url, R.string.act_more_stop, R.string.act_more_delete,
-            R.string.act_more_share, R.string.act_more_invitation, R.string.act_more_qrcode,R.string.act_more_sign_add,R.string.act_more_signup};
+            R.string.act_more_share, R.string.act_more_invitation, R.string.act_more_qrcode, R.string.act_more_sign_add, R.string.act_more_signup};
     private int[] gridImages = {R.mipmap.act_more_edit, R.mipmap.act_more_list,
             R.mipmap.act_more_consult, R.mipmap.act_more_url, R.mipmap.act_more_stop, R.mipmap.act_more_delete,
-            R.mipmap.act_more_share, R.mipmap.act_more_invitation, R.mipmap.act_more_qrcode,R.mipmap.act_more_sign_add,R.mipmap.act_more_sign};
+            R.mipmap.act_more_share, R.mipmap.act_more_invitation, R.mipmap.act_more_qrcode, R.mipmap.act_more_sign_add, R.mipmap.act_more_sign};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -141,7 +141,7 @@ int j=0;
     }
 
     private void initView() {
-        rl_act_more_details= (RelativeLayout) findViewById(R.id.rl_act_more_details);
+        rl_act_more_details = (RelativeLayout) findViewById(R.id.rl_act_more_details);
         rl_act_more_details.setOnClickListener(this);
         iv_act_more_icon = (ImageView) findViewById(R.id.iv_act_more_icon);
         if (bean.getUrl() != null) {
@@ -179,9 +179,10 @@ int j=0;
             public void onStart(SHARE_MEDIA platform) {
                 //分享开始的回调
             }
+
             @Override
             public void onResult(SHARE_MEDIA platform) {
-                Log.d("plat","platform"+platform);
+                Log.d("plat", "platform" + platform);
 
 //                Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
@@ -190,8 +191,8 @@ int j=0;
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
 //                Toast.makeText(getApplicationContext(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                if(t!=null){
-                    Log.d("throw","throw:"+t.getMessage());
+                if (t != null) {
+                    Log.d("throw", "throw:" + t.getMessage());
                 }
             }
 
@@ -223,17 +224,17 @@ int j=0;
                 this.startActivity(intent);
                 break;
             case POSITION_LIST:
-                SPUtils.put(this,"act_title",bean.getAct_title());
-                SPUtils.put(this,"act_time",bean.getAct_starttime());
-                SPUtils.put(this,"act_add",bean.getAddress());
-                SPUtils.put(this,"act_url",bean.getUrl());
+                SPUtils.put(this, "act_title", bean.getAct_title());
+                SPUtils.put(this, "act_time", bean.getAct_starttime());
+                SPUtils.put(this, "act_add", bean.getAddress());
+                SPUtils.put(this, "act_url", bean.getUrl());
                 if (SPUtils.contains(this, "listup_" + bean.getAct_id()) == true) {
                     intent = new
                             Intent(this, SignListActivity.class);
                     //在Intent对象当中添加一个键值对
                     intent.putExtra("act_id", bean.getAct_id());
-                    intent.putExtra("UserInfo",bean.getBaseItem());
-                    intent.putExtra("ActivityFees",bean.getActivityFees());
+                    intent.putExtra("UserInfo", bean.getBaseItem());
+                    intent.putExtra("ActivityFees", bean.getActivityFees());
                     startActivity(intent);
 
                 } else if (NetworkUtils.checkNetState(this)) {
@@ -252,7 +253,8 @@ int j=0;
                         Intent(this, ActionConsultActivity.class);
                 //在Intent对象当中添加一个键值对
                 intent.putExtra("act_id", bean.getAct_id());
-                startActivity(intent);                break;
+                startActivity(intent);
+                break;
             case POSITION_URL:
                 ClipboardManager cmb = (ClipboardManager) this.getSystemService(Context.CLIPBOARD_SERVICE);
 
@@ -295,13 +297,13 @@ int j=0;
                 this.startActivity(intent);
                 break;
             case POSITION_SIGNUP:
-               intent = new Intent(this, ActionSignActivity.class);
-                  bundle = new Bundle();
+                intent = new Intent(this, ActionSignActivity.class);
+                bundle = new Bundle();
                 bundle.putString("act_id", bean.getAct_id());
                 bundle.putString("act_title", bean.getAct_title());
                 intent.putExtras(bundle);
-                if (SPUtils.contains(this,"sign_result")==false) {
-                    if (NetworkUtils.checkNetState(this)==false) {
+                if (SPUtils.contains(this, "sign_result") == false) {
+                    if (NetworkUtils.checkNetState(this) == false) {
                         ToastUtil.makeText(this, R.string.net_error);
                         return;
                     }
@@ -392,17 +394,18 @@ int j=0;
             String act_id = jsonArray.getJSONObject(0).getString("ActivityID");
             SPUtils.put(this, "listup_" + act_id, result);
             //在Intent对象当中添加一个键值对
-            intent.putExtra("UserInfo",bean.getBaseItem());
-            intent.putExtra("ActivityFees",bean.getActivityFees());
+            intent.putExtra("UserInfo", bean.getBaseItem());
+            intent.putExtra("ActivityFees", bean.getActivityFees());
             intent.putExtra("act_id", act_id);
             startActivity(intent);
         }
     }
-    private void UmengShare(ActionBean bean,SHARE_MEDIA type ) {
-        UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
+
+    private void UmengShare(ActionBean bean, SHARE_MEDIA type) {
+        UMWeb web = new UMWeb("https://" + ShareUrl + bean.getAct_id());
         UMImage image = new UMImage(this, bean.getUrl());
-        web.setTitle( bean.getAct_title());//标题
-        web.setDescription(bean.getAct_starttime()+"\n活动地点： "+bean.getAddress());//描述
+        web.setTitle(bean.getAct_title());//标题
+        web.setDescription(bean.getAct_starttime() + "\n活动地点： " + bean.getAddress());//描述
         web.setThumb(image);
 //        new ShareAction(getActivity())
 //                .withMedia(web)
@@ -434,10 +437,10 @@ int j=0;
                                         UmengShare(bean, SHARE_MEDIA.SINA);
                                         break;
                                     case R.id.iv_share_qq_solid:
-                                        UmengShare(bean,SHARE_MEDIA.QQ);
+                                        UmengShare(bean, SHARE_MEDIA.QQ);
                                         break;
                                     case R.id.iv_share_qqzone_solid:
-                                        UmengShare(bean,SHARE_MEDIA.QZONE);
+                                        UmengShare(bean, SHARE_MEDIA.QZONE);
 
                                         break;
                                 }
@@ -445,7 +448,7 @@ int j=0;
                         });
                         ImageView iv_share_wechat_solid = (ImageView) v.findViewById(R.id.iv_share_wechat_solid);
                         ImageView iv_share_weixin_friends_solid = (ImageView) v.findViewById(R.id.iv_share_weixin_friends_solid);
-                        ImageView iv_share_weibo_solid= (ImageView) v.findViewById(R.id.iv_share_weibo_solid);
+                        ImageView iv_share_weibo_solid = (ImageView) v.findViewById(R.id.iv_share_weibo_solid);
                         ImageView iv_share_qq_solid = (ImageView) v.findViewById(R.id.iv_share_qq_solid);
                         ImageView iv_share_qqzone_solid = (ImageView) v.findViewById(R.id.iv_share_qqzone_solid);
 
@@ -461,7 +464,6 @@ int j=0;
                 .setTag("BottomDialog")
                 .show();
     }
-
 
 
     private void actionDelete() {
@@ -607,28 +609,29 @@ int j=0;
         final View v = factory.inflate(R.layout.dialog_invitation, null);
         ImageView iv_dialog_invitation;
         iv_dialog_invitation = (ImageView) v.findViewById(R.id.iv_dialog_invitation);
-        for(int i=0;i<100;i++){
-        Picasso.with(this).load(result).error(R.mipmap.ic_launcher).into(iv_dialog_invitation);
+        for (int i = 0; i < 100; i++) {
+            Picasso.with(this).load(result).error(R.mipmap.ic_launcher).into(iv_dialog_invitation);
 
-        Picasso.with(getApplicationContext())
-                .load(result)
-                .into(new Target() {
-                    @Override
-                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+            Picasso.with(getApplicationContext())
+                    .load(result)
+                    .into(new Target() {
+                        @Override
+                        public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                        ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title()+j);
-                        j++;
-                    }
+                            ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title() + j);
+                            j++;
+                        }
 
-                    @Override
-                    public void onBitmapFailed(Drawable errorDrawable) {
-                    }
+                        @Override
+                        public void onBitmapFailed(Drawable errorDrawable) {
+                        }
 
-                    @Override
-                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+                        @Override
+                        public void onPrepareLoad(Drawable placeHolderDrawable) {
 
-                    }
-                });}
+                        }
+                    });
+        }
         ToastUtil.makeText(getApplicationContext(), "保存成功！");
 
 //        new AlertDialog.Builder(this)
@@ -678,6 +681,7 @@ int j=0;
 //                .create().show();
 
     }
+
     public void invitationDialogLocal() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -688,7 +692,7 @@ int j=0;
         iv_vcode_invitation = (ImageView) v.findViewById(R.id.iv_vcode_invitation);
         final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/event/" + bean.getAct_id(), 500, 500);
         iv_vcode_invitation.setImageBitmap(bitmap);
-TextView title= (TextView) v.findViewById(R.id.tv_dialog_title);
+        TextView title = (TextView) v.findViewById(R.id.tv_dialog_title);
         title.setText(bean.getAct_title());
         new AlertDialog.Builder(this)
                 //对话框的标题
@@ -699,8 +703,8 @@ TextView title= (TextView) v.findViewById(R.id.tv_dialog_title);
                 .setPositiveButton("保存", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                                        ZXingUtil.saveImageToGallery(getApplicationContext(), ZXingUtil.convertViewToBitmap(v), bean.getAct_title());
-                                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
+                        ZXingUtil.saveImageToGallery(getApplicationContext(), ZXingUtil.convertViewToBitmap(v), bean.getAct_title());
+                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
 
 
                     }
@@ -762,9 +766,10 @@ TextView title= (TextView) v.findViewById(R.id.tv_dialog_title);
             }
         }
     }
+
     @Override
     public void onClick(View view) {
-        switch(view.getId()){
+        switch (view.getId()) {
             case R.id.rl_act_more_details:
                 Intent intent = new Intent(this, ActionDetailsActivity.class);
 

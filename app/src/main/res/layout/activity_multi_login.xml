@@ -4,8 +4,7 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e6e6e6"
-    >
+    android:background="#e6e6e6">
 
     <ImageView
         android:id="@+id/img_ico_multi"
@@ -13,7 +12,8 @@
         android:layout_width="match_parent"
         android:layout_height="80dp"
         android:layout_gravity="center"
-        android:layout_marginTop="50dp"/>
+        android:layout_marginTop="50dp" />
+
     <EditText
         android:layout_marginTop="40dp"
         android:layout_below="@id/img_ico_multi"
@@ -21,8 +21,7 @@
         android:id="@+id/et_sign_id_multi"
         android:hint="@string/et_sign_id"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
 
     <EditText
         android:layout_below="@id/et_sign_id_multi"
@@ -30,8 +29,8 @@
         android:id="@+id/et_phone_multi"
         android:hint="@string/et_phone"
         android:layout_width="300dp"
-        android:layout_height="wrap_content"
-        />
+        android:layout_height="wrap_content" />
+
     <EditText
         android:id="@+id/et_password_multi"
         android:layout_centerHorizontal="true"
@@ -52,15 +51,15 @@
         android:layout_height="wrap_content"
         style="@style/btn_login"
         android:text="登录"
-        android:textColor="@color/white"
-        />
+        android:textColor="@color/white" />
+
     <TextView
         android:padding="5dp"
         android:id="@+id/tv_multi_introduce"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/tv_multi_introduce"
-android:clickable="true"
+        android:clickable="true"
         android:layout_below="@+id/btn_login_multi"
         android:layout_alignRight="@+id/btn_login_multi"
         android:layout_alignEnd="@+id/btn_login_multi"

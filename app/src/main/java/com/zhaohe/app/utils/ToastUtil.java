@@ -32,7 +32,7 @@ public class ToastUtil {
         Toast.makeText(context, content, Toast.LENGTH_SHORT).show();
     }
 
-    public static void print(String a){
+    public static void print(String a) {
         System.out.println(a);
     }
 }

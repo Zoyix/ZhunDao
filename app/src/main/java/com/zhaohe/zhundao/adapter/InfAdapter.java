@@ -20,6 +20,7 @@ import java.util.List;
 public class InfAdapter extends AdapterBase<InfBean, InfHolder> {
     private LayoutInflater inflater;
     private Context mContext;
+
     public InfAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         mContext = context;
@@ -31,10 +32,10 @@ public class InfAdapter extends AdapterBase<InfBean, InfHolder> {
         itemView.tv_inf_id.setText(bean.getmID());
         itemView.tv_inf_title.setText(bean.getTitle());
         itemView.tv_inf_time.setText(bean.getAddTime());
-        itemView.tv_inf_type.setText(bean.getSortName()+" | ");
-if (bean.isRead()){
-    itemView.iv_inf_read.setVisibility(View.INVISIBLE);
-}
+        itemView.tv_inf_type.setText(bean.getSortName() + " | ");
+        if (bean.isRead()) {
+            itemView.iv_inf_read.setVisibility(View.INVISIBLE);
+        }
     }
 
     @Override

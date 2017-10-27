@@ -7,14 +7,14 @@ import java.io.Serializable;
  * @Author:邹苏隆
  * @Since:2017/5/23 14:00
  */
-public class MyGroupBean    implements Serializable{
+public class MyGroupBean implements Serializable {
     private static final long serialVersionUID = -2827325796947416176L;
     private String Name;//群组名称
     private String Sequence;//序列
     private String TotalCount;//人数
     private String ID;//群组ID
     private String AdminUserID;//用户ID
-    private String UpdateStatus="false";
+    private String UpdateStatus = "false";
 
     public String getName() {
         return Name;

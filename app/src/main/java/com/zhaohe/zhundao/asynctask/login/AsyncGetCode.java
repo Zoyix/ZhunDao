@@ -35,11 +35,11 @@ public class AsyncGetCode extends AsyncTask<String, Integer, String> {
         this.mDialog = dialog;
         this.mParam = param;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-}
+    }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.GetCode;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.GetCode;
         Map<String, String> map = new HashMap<String, String>();
         map.put("phone", mParam);
         map.put("accessKey", mAccesskey);

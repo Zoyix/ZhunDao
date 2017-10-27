@@ -21,10 +21,10 @@ import java.util.List;
  * @Author:邹苏隆
  * @Since:2017/6/16 15:06
  */
-public class SignListMoreAdapter  extends AdapterBase<SignListMoreBean, SignListMoreHolder> implements  View.OnTouchListener {
+public class SignListMoreAdapter extends AdapterBase<SignListMoreBean, SignListMoreHolder> implements View.OnTouchListener {
     private LayoutInflater inflater;
     private Context mContext;
-   public RelativeLayout mHead;
+    public RelativeLayout mHead;
 
     public SignListMoreAdapter(Context context) {
         inflater = LayoutInflater.from(context);
@@ -33,14 +33,15 @@ public class SignListMoreAdapter  extends AdapterBase<SignListMoreBean, SignList
 
     @Override
     protected void handlerData(List<SignListMoreBean> mList2, int position, SignListMoreHolder itemView) {
-        SignListMoreBean bean=mList2.get(position);
+        SignListMoreBean bean = mList2.get(position);
         itemView.txt1.setText(bean.getSex());
 
     }
 
     @Override
     protected SignListMoreHolder getItemViewHolder() {
-        return new SignListMoreHolder();    }
+        return new SignListMoreHolder();
+    }
 
     @Override
     protected View initConvertView(View convertView, SignListMoreHolder holder) {

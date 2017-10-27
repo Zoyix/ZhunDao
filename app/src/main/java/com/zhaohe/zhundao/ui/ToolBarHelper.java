@@ -74,7 +74,6 @@ public class ToolBarHelper {
     }
 
 
-
     @SuppressWarnings("ResourceType")
     private void initUserView(int id) {
         mUserView = mInflater.inflate(id, null);

@@ -33,15 +33,15 @@ public class AsyncSignListEdit extends AsyncTask<String, Integer, String> {
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.mParam=Param;
+        this.mParam = Param;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.UpdateActivityList;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.UpdateActivityList;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        String result = HttpUtil.sendPostNew2request(path, map, "utf-8",mParam);
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }
 

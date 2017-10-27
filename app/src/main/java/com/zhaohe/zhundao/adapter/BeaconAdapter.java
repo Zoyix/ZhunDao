@@ -20,7 +20,7 @@ import static com.zhaohe.zhundao.R.id.iv_find_beacon_icon;
  * @Author:邹苏隆
  * @Since:2017/2/15 10:47
  */
-public class BeaconAdapter extends AdapterBase<BeaconBean, BeaconHolder>{
+public class BeaconAdapter extends AdapterBase<BeaconBean, BeaconHolder> {
     private LayoutInflater inflater;
     private Context mContext;
 
@@ -33,14 +33,12 @@ public class BeaconAdapter extends AdapterBase<BeaconBean, BeaconHolder>{
     protected void handlerData(List<BeaconBean> mList2, int position, BeaconHolder itemView) {
         BeaconBean bean = mList2.get(position);
         itemView.tv_find_beacon_title.setText(bean.getTitle());
-        itemView.tv_find_beacon_name.setText(bean.getBeaconName()+"("+bean.getDeviceID()+")");
-        if (bean.getUrl().equals("")){
+        itemView.tv_find_beacon_name.setText(bean.getBeaconName() + "(" + bean.getDeviceID() + ")");
+        if (bean.getUrl().equals("")) {
             itemView.iv_find_beacon_icon.setImageResource(R.mipmap.ic_launcher);
-        }
-       else {
+        } else {
             Picasso.with(mContext).load(bean.getUrl()).error(R.mipmap.ic_launcher).into(itemView.iv_find_beacon_icon);
         }
-
 
 
     }

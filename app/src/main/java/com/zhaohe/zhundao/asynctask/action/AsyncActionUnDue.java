@@ -27,20 +27,20 @@ public class AsyncActionUnDue extends AsyncTask<String, Integer, String> {
     private String mAccesskey;
 
 
-    public AsyncActionUnDue(Context context, Handler handler, int request,String act_id) {
+    public AsyncActionUnDue(Context context, Handler handler, int request, String act_id) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-        this.act_id=act_id;
+        this.act_id = act_id;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.UnDueActivity;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.UnDueActivity;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
-        map.put("activityId",act_id);
+        map.put("activityId", act_id);
 
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;

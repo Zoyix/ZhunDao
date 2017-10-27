@@ -38,7 +38,7 @@ public class AsyncBeaconUpdateAction extends AsyncTask<String, Integer, String> 
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.UpdateBeacon;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.UpdateBeacon;
         Map<String, String> map = new HashMap<String, String>();
         map.put("accessKey", mAccesskey);
         String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);

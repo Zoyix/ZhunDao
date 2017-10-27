@@ -32,13 +32,14 @@ public class TimeUtil {
         String monthDay = thanTen(time.monthDay);
         String hour = thanTen(time.hour);
         String minute = thanTen(time.minute);
-        String second=thanTen(time.second);
+        String second = thanTen(time.second);
 
         timeString = year + "-" + month + "-" + monthDay + " " + hour + ":"
-                + minute+":"+second;
+                + minute + ":" + second;
         // System.out.println("-------timeString----------" + timeString);
         return timeString;
     }
+
     public static String getNowTimeNew() {
         String timeString = null;
         Time time = new Time();
@@ -48,7 +49,7 @@ public class TimeUtil {
         String monthDay = thanTen(time.monthDay);
         String hour = thanTen(time.hour);
         String minute = thanTen(time.minute);
-        String second=thanTen(time.second);
+        String second = thanTen(time.second);
 
         timeString = year + "-" + month + "-" + monthDay;
         // System.out.println("-------timeString----------" + timeString);

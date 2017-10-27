@@ -23,10 +23,10 @@ public class FormFile {
     /* 请求参数名称 */
     private String parameterName;
     /* 内容类型 */
-    private String name="imgFile";
-    private String fileName= TimeUtil.getNowTime();
-//    private String contentType = "application/octet-stream";
-private String contentType = "image/jpeg";
+    private String name = "imgFile";
+    private String fileName = TimeUtil.getNowTime();
+    //    private String contentType = "application/octet-stream";
+    private String contentType = "image/jpeg";
 
     public FormFile(String filname, byte[] data, String parameterName, String contentType) {
         this.data = data;

@@ -27,17 +27,17 @@ public class AsyncRegisterByPhone extends AsyncTask<String, Integer, String> {
     private String mParam;
 
 
-    public AsyncRegisterByPhone(Context context, Handler handler,Dialog dialog, int request, String param) {
+    public AsyncRegisterByPhone(Context context, Handler handler, Dialog dialog, int request, String param) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mParam = param;
-        this.mDialog=dialog;
+        this.mDialog = dialog;
     }
 
     @Override
     protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST", Constant.HOST) + Constant.Url.RegisterByPhone;
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.RegisterByPhone;
         Map<String, String> map = new HashMap<String, String>();
 
 
