@@ -154,7 +154,6 @@ public class SignListUserAddActivity extends ToolBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_list_user_add);
         initToolBarNew("新增报名", R.layout.activity_sign_list_user_add);
         ButterKnife.bind(this);
 

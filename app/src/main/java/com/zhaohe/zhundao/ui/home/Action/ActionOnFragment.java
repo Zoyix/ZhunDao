@@ -30,7 +30,6 @@ import com.umeng.socialize.UMShareListener;
 import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
-import com.zhaohe.app.utils.JSONUtils;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
@@ -43,7 +42,6 @@ import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.asynctask.AsyncUpLoadSignupStatus;
 import com.zhaohe.zhundao.asynctask.action.AsyncAction;
 import com.zhaohe.zhundao.bean.ActionBean;
-import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
 import com.zhaohe.zhundao.bean.updateBean;
 import com.zhaohe.zhundao.constant.Constant;
@@ -240,7 +238,7 @@ load=false;
                 String newtime1 = newtime.substring(2, newtime.length() - 3);
                 bean.setAct_endtime("报名截止：" + newtime1);
                 String comparetime = TimeUtil.getTimeDifference(TimeUtil.getNowTime(), newtime);
-                if(comparetime.indexOf("-")!=-1){
+                if(comparetime.contains("-")){
                     String newtime3=comparetime.replace("-","");
                     bean.setAct_resttime("(进行" + newtime3 + ")");
 
@@ -251,7 +249,7 @@ load=false;
                 newtime1 = newtime.substring(2, newtime.length() - 3);
                 bean.setAct_starttime("活动开始：" + newtime1);
                 comparetime = TimeUtil.getTimeDifference(TimeUtil.getNowTime(), newtime);
-                if(comparetime.indexOf("-")!=-1){
+                if(comparetime.contains("-")){
                     String newtime3=comparetime.replace("-","");
                     bean.setAct_resttime2("(进行" + newtime3 + ")");
                 }
@@ -374,16 +372,19 @@ load=false;
     }
 
     private void savaUserInf(String result) {
+        JSONObject jsonObj = JSON.parseObject(result);
+        JSONObject jsonObject2 = JSON.parseObject(jsonObj.getString("Data"));
 
-        ToolUserBean bean = JSONUtils.parseObject(result, ToolUserBean.class);
-        SPUtils.put(getActivity(), "NickName", bean.getData().getNickName());
-        SPUtils.put(getActivity(), "HeadImgurl", bean.getData().getHeadImgurl());
-        SPUtils.put(getActivity(), "Sex", bean.getData().getSex());
-        SPUtils.put(getActivity(), "vip", bean.getData().getGradeId());
+
+
+        SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
+        SPUtils.put(getActivity(), "HeadImgurl", jsonObject2.getString("HeadImgurl"));
+//        SPUtils.put(getActivity(), "Sex", jsonObject2.getInteger("Sex"));
+        SPUtils.put(getActivity(), "vip",jsonObject2.getInteger("GradeId"));
         int vip = (int) SPUtils.get(getActivity(), "vip", 0);
-        if( null==bean.getData().getMobile()){}
+        if( null==jsonObject2.getString("Mobile")){}
         else{
-        SPUtils.put(getActivity(), "Mobile", bean.getData().getMobile());}
+        SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));}
         System.out.println("VIP等级"+vip);
 
 
@@ -596,6 +597,10 @@ load=false;
         ActivityFees=bean.getActivityFees();
         UserInfo=bean.getBaseItem();
 //       这里开始写 判断网络状况
+        SPUtils.put(getActivity(),"act_title",bean.getAct_title());
+        SPUtils.put(getActivity(),"act_time",bean.getAct_starttime());
+        SPUtils.put(getActivity(),"act_add",bean.getAddress());
+        SPUtils.put(getActivity(),"act_url",bean.getUrl());
         if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
             Intent intent = new
                     Intent(getActivity(), SignListActivity.class);

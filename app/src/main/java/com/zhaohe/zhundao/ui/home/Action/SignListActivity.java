@@ -22,6 +22,7 @@ import android.widget.Toast;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.wevey.selector.dialog.NormalSelectionDialog;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
@@ -35,6 +36,7 @@ import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.dao.MySignListDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
+import com.zhaohe.zhundao.ui.home.action.signlist.InvitationPersonActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +48,7 @@ import static com.zhaohe.zhundao.ui.login.BondPhoneActivity.MESSAGE_GET_CODE;
  * @Author:邹苏隆
  * @Since:2016/12/14 10:52
  */
-public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener{
+public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener,AdapterView.OnItemLongClickListener{
     private SignListAdapter adapter;
     private List<SignListBean> list_act;
     private ListView lv_signlist;
@@ -62,7 +64,8 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     public static final int MESSAGE_GET_SIGNLIST = 93;
     public static final int MESSAGE_GET_SIGNLIST_NO_DIALOG = 92;
 
-
+    NormalSelectionDialog dialog1;//底部对话框
+    SignListBean bean;
     public static final int PAGE_SIZE = 200000;
   private String  ActivityFees;
     private String    UserInfo;
@@ -132,6 +135,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             bean.setNickname(jsonArray.getJSONObject(i).getString("NickName"));
             bean.setAdminRemark(jsonArray.getJSONObject(i).getString("AdminRemark"));
             bean.setVCode(jsonArray.getJSONObject(i).getString("VCode"));
+
             bean.setmIndex(i);
             bean.setAct_id(act_id);
 //          Status  -1取消报名，0报名成功，1待缴费
@@ -202,6 +206,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         adapter = new SignListAdapter(this);
         lv_signlist.setAdapter(adapter);
         lv_signlist.setOnItemClickListener(this);
+        lv_signlist.setOnItemLongClickListener(this);
         et_signlist_search= (EditText) findViewById(R.id.et_signlist_search);
 et_signlist_search.addTextChangedListener(new TextWatcher() {
     @Override
@@ -220,6 +225,45 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         //TODO:
     }
 });
+
+        dialog1 = new NormalSelectionDialog.Builder(this)
+                .setlTitleVisible(true)   //设置是否显示标题
+                .setTitleHeight(65)   //设置标题高度
+                .setTitleText("选项")  //设置标题提示文本
+                .setTitleTextSize(14) //设置标题字体大小 sp
+                .setTitleTextColor(R.color.colorPrimary) //设置标题文本颜色
+                .setItemHeight(40)  //设置item的高度
+                .setItemWidth(0.9f)  //屏幕宽度*0.9
+                .setItemTextColor(R.color.colorPrimaryDark)  //设置item字体颜色
+                .setItemTextSize(14)  //设置item字体大小
+                .setCancleButtonText("取消")  //设置最底部“取消”按钮文本
+                .setOnItemListener(new com.wevey.selector.dialog.DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
+                    @Override
+                    public void onItemClick(NormalSelectionDialog dialog, View button, int position) {
+                        switch (position){
+                            case 0:
+                                Intent intent = new Intent();
+                                intent.setClass(getApplicationContext(), InvitationPersonActivity.class);
+//                intent.setClass(this, InvitationUserActivity.class);
+
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("bean", bean);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                              dialog1.dismiss();
+
+                            break;
+
+                        }
+                    }  //监听item点击事件
+
+                })
+                .setCanceledOnTouchOutside(true)  //设置是否可点击其他地方取消dialog
+                .build();
+
+        ArrayList<String> s = new ArrayList<>();
+        s.add("专属邀请函");
+        dialog1.setDatas(s);
     }
 
         @Override
@@ -429,5 +473,17 @@ else{
         }
         String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
         getSignListNoDialog(mParam);
+    }
+
+    @Override
+    public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+         bean= adapter.getItem(position);
+        int m=  bean.getmIndex();
+        bean.setVCode(jsonArray.getJSONObject(m).getString("VCode"));
+        ToastUtil.print("vcode"+bean.getVCode());
+
+        dialog1.show();
+
+        return true;
     }
 }

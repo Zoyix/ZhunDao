@@ -1,9 +1,11 @@
 package com.zhaohe.app.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Rect;
 import android.net.Uri;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -114,7 +116,7 @@ public class ZXingUtil {
         // 其次把文件插入到系统图库
         try {
             MediaStore.Images.Media.insertImage(context.getContentResolver(),
-                    file.getAbsolutePath(), name, null);
+                    file.getAbsolutePath(), name+".jpg", null);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
@@ -130,7 +132,49 @@ public class ZXingUtil {
 
         return bitmap;
     }
+    public static Bitmap createViewBitmap(View view) {
+        view.setDrawingCacheEnabled(true);
+        /**
+         * 这里要注意，在用View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+         * 来测量view 的时候,（如果你的布局中包含有 RelativeLayout ）API 为17 或者 低于17 会包空指针异常
+         * 解决方法:
+         * 1 布局中不要包含RelativeLayout
+         * 2 用 View.MeasureSpec.makeMeasureSpec(256, View.MeasureSpec.EXACTLY) 好像也可以
+         *
+         */
+        view.measure(View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+                View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED));
+        view.layout(0, 0, view.getMeasuredWidth(), view.getMeasuredHeight());
+        view.buildDrawingCache();
+        Bitmap bitmap = view.getDrawingCache();
+        return bitmap;
+    }
 
+
+    public static Bitmap takeScreenShot(Activity activity) {
+    // View是你需要截图的View
+    View view = activity.getWindow().getDecorView();
+    view.setDrawingCacheEnabled(true);
+    view.buildDrawingCache();
+    Bitmap b1 = view.getDrawingCache();
+
+    // 获取状态栏高度
+    Rect frame = new Rect();
+    activity.getWindow().getDecorView().getWindowVisibleDisplayFrame(frame);
+    int statusBarHeight = frame.top;
+    System.out.println(statusBarHeight);
+
+    // 获取屏幕长和高
+    int width = activity.getWindowManager().getDefaultDisplay().getWidth();
+    int height = activity.getWindowManager().getDefaultDisplay()
+            .getHeight();
+    // 去掉标题栏
+    // Bitmap b = Bitmap.createBitmap(b1, 0, 25, 320, 455);
+    Bitmap b = Bitmap.createBitmap(b1, 0, statusBarHeight, width, height
+            - statusBarHeight);
+    view.destroyDrawingCache();
+    return b;
+}
     public static Bitmap getLoacalBitmap(String url) {
 
         if (url != null) {

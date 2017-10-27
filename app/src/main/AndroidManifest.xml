@@ -302,26 +302,30 @@
         <activity
             android:name=".ui.home.action.signlist.InvitationUserActivity"
             android:label="@string/title_activity_invitation_user"
-            android:theme="@style/AppTheme"></activity>
-        <!--人脸WIFI-->
-
+            android:theme="@style/AppTheme" />
+        <!-- 人脸WIFI -->
 
         <activity
             android:name=".mywifidemo.activity.MainFaceActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mywifidemo.activity.SelectWifiActivity"
-            android:screenOrientation="portrait">
-
-        </activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mywifidemo.activity.WifiConfigActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
         <activity
             android:name=".mywifidemo.activity.AdjustActivity"
-            android:screenOrientation="portrait"></activity>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.login.RegisterActivity"
+            android:label="@string/title_activity_register"
+            android:theme="@style/AppTheme" />
+        <activity android:name=".ui.home.find.InvitationProActivity" />
+        <activity android:name=".ui.home.action.signlist.InvitationPersonActivity" />
+        <activity android:name=".ui.home.mine.UpdateUserInfoActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden"
+            ></activity>
     </application>
 
 </manifest>

@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -20,12 +19,13 @@ import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.mywifidemo.adapter.DeviceAdapter;
 import com.zhaohe.zhundao.mywifidemo.utils.WifiUtils;
+import com.zhaohe.zhundao.ui.ToolBarActivity;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class MainFaceActivity extends AppCompatActivity {
+public class MainFaceActivity extends ToolBarActivity {
     private LinearLayout ll_header;
     private RecyclerView rlv;
     private DeviceAdapter mDeviceAdapter;
@@ -38,7 +38,7 @@ public class MainFaceActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main_face);
+        initToolBarNew("连接设备",R.layout.activity_main_face);
         initPm();
         initViews();
 
@@ -119,7 +119,7 @@ public class MainFaceActivity extends AppCompatActivity {
         public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
             switch (requestCode) {
                 case REQUEST_CODE_PERMISSION: {
-                    ToastUtil.makeText(getApplicationContext(), "授权成功！");
+//                    ToastUtil.makeText(getApplicationContext(), "授权成功！");
                     break;
                 }
             }
@@ -129,7 +129,7 @@ public class MainFaceActivity extends AppCompatActivity {
         public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
             switch (requestCode) {
                 case REQUEST_CODE_PERMISSION: {
-                    ToastUtil.makeText(getApplicationContext(), "授权失败！");
+                    ToastUtil.makeText(getApplicationContext(), "授权失败！请去授权管理软件，开启软件的位置和存储权限");
 
                     break;
                 }

@@ -299,7 +299,7 @@ netChange();
                 break;
                 case R.id.tv_setting_version:
 //                    ToastUtil.makeText(this,"APP版本号："+getVersion(this));
-                    if(bean.getSynccode()==null)
+                    if(null==bean.getSynccode())
                     {return;}
                     else if (bean.getSynccode().equals("0")) {
 return;

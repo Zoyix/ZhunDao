@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhaohe.zhundao.ui.home.find.InvitationProActivity">
+
+    <RadioGroup
+        android:id="@+id/rg_invitation"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_invitation_type1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:checked="true"
+            android:text="@string/invitation_type1" />
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/black3" />
+        <RadioButton
+            android:gravity="center"
+            android:id="@+id/rb_invitation_type2"
+            android:text="@string/invitation_type2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+</LinearLayout>

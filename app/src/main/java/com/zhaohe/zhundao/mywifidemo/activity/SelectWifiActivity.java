@@ -2,7 +2,6 @@ package com.zhaohe.zhundao.mywifidemo.activity;
 
 import android.net.wifi.ScanResult;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -12,13 +11,14 @@ import android.widget.LinearLayout;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.mywifidemo.adapter.WifiAdapter;
 import com.zhaohe.zhundao.mywifidemo.utils.WifiUtils;
+import com.zhaohe.zhundao.ui.ToolBarActivity;
 
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
 
-public class SelectWifiActivity extends AppCompatActivity {
+public class SelectWifiActivity extends ToolBarActivity {
     private LinearLayout ll_header;
     private RecyclerView rlv;
     private WifiAdapter mWifiAdapter;
@@ -27,7 +27,7 @@ public class SelectWifiActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_select_wifi);
+        initToolBarNew("wifi选择",R.layout.activity_select_wifi);
         initViews();
     }
 

@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.asynctask;
+package com.zhaohe.zhundao.asynctask.login.register;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,31 +18,34 @@ import java.util.Map;
 /**
  * @Description:
  * @Author:邹苏隆
- * @Since:2016/12/13 9:51
+ * @Since:2017/10/23 16:22
  */
-public class AsyncGetCode extends AsyncTask<String, Integer, String> {
+public class AsyncVerifyPhoneAndCode extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
     private int mRequest;
     private Dialog mDialog;
-    private String mAccesskey;
-    private String mParam;
+    private String mmobile;
+    private String mvcode;
 
-    public AsyncGetCode(Context context, Handler handler, Dialog dialog, int request, String param) {
+    public AsyncVerifyPhoneAndCode(Context context, Handler handler, Dialog dialog, int request, String mobile,String vcode) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
-        this.mParam = param;
-        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-}
+        this.mmobile = mobile;
+        this.mvcode=vcode;
+    }
 
     @Override
-    protected String doInBackground(String... strings) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.GetCode;
+    protected String doInBackground(String... params) {
+        String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.VerifyPhoneAndCode;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("phone", mParam);
-        map.put("accessKey", mAccesskey);
+        map.put("Vcode", mvcode);
+
+        map.put("phone", mmobile);
+        map.put("from", "Android");
+
         String result = HttpUtil.sendGETRequest(path, map, "utf-8");
         return result;
     }
@@ -55,7 +58,8 @@ public class AsyncGetCode extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("获取验证码" + result);
+            System.out.println("登录获取Accesskey" + result);
+
             mHandler.sendMessage(msg);
         } else {
             DialogUtils.showDialog(mContext, R.string.app_serviceError);

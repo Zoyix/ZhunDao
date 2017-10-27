@@ -100,7 +100,7 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
     private RelativeLayout rl_act_more_details;
     private UMShareListener mShareListener;
     private static final int REQUEST_CODE_PERMISSION = 105;
-
+int j=0;
     private static final int REQUEST_CODE_SETTING = 300;
     Bitmap bitmap;
 
@@ -223,6 +223,10 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
                 this.startActivity(intent);
                 break;
             case POSITION_LIST:
+                SPUtils.put(this,"act_title",bean.getAct_title());
+                SPUtils.put(this,"act_time",bean.getAct_starttime());
+                SPUtils.put(this,"act_add",bean.getAddress());
+                SPUtils.put(this,"act_url",bean.getUrl());
                 if (SPUtils.contains(this, "listup_" + bean.getAct_id()) == true) {
                     intent = new
                             Intent(this, SignListActivity.class);
@@ -603,62 +607,75 @@ public class ActionMoreActivity extends ToolBarActivity implements AdapterView.O
         final View v = factory.inflate(R.layout.dialog_invitation, null);
         ImageView iv_dialog_invitation;
         iv_dialog_invitation = (ImageView) v.findViewById(R.id.iv_dialog_invitation);
+        for(int i=0;i<100;i++){
         Picasso.with(this).load(result).error(R.mipmap.ic_launcher).into(iv_dialog_invitation);
-//        iv_dialog_invitation.setDrawingCacheEnabled(true);
-//        final Bitmap bitmap = ((BitmapDrawable)iv_dialog_invitation.getDrawable()).getBitmap();
-//        iv_dialog_invitation.setDrawingCacheEnabled(false);
 
-        new AlertDialog.Builder(this)
-                //对话框的标题
-                .setTitle(bean.getAct_title() + "邀请函")
-                .setView(v)
-                //设定显示的View
-                //对话框中的“登陆”按钮的点击事件
-                .setPositiveButton("保存", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int whichButton) {
-//                     由于用了帕斯卡的xml加载图片，imageview转换bitmap会失效，所以使用帕斯卡自带的方法
-                        Picasso.with(getApplicationContext())
-                                .load(result)
-                                .into(new Target() {
-                                    @Override
-                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
-                                        ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title());
-                                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
-                                    }
+        Picasso.with(getApplicationContext())
+                .load(result)
+                .into(new Target() {
+                    @Override
+                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
 
-                                    @Override
-                                    public void onBitmapFailed(Drawable errorDrawable) {
-                                    }
-
-                                    @Override
-                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
-
-                                    }
-                                });
-
+                        ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title()+j);
+                        j++;
                     }
-
-                })
-                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
 
                     @Override
-                    public void onClick(DialogInterface dialog, int which) {
+                    public void onBitmapFailed(Drawable errorDrawable) {
+                    }
+
+                    @Override
+                    public void onPrepareLoad(Drawable placeHolderDrawable) {
 
                     }
-                })
-//                .setNeutralButton("分享", new DialogInterface.OnClickListener() {
+                });}
+        ToastUtil.makeText(getApplicationContext(), "保存成功！");
+
+//        new AlertDialog.Builder(this)
+//                //对话框的标题
+//                .setTitle(bean.getAct_title() + "邀请函")
+//                .setView(v)
+//                //设定显示的View
+//                //对话框中的“登陆”按钮的点击事件
+//                .setPositiveButton("保存", new DialogInterface.OnClickListener() {
+//                    public void onClick(DialogInterface dialog, int whichButton) {
+////                     由于用了帕斯卡的xml加载图片，imageview转换bitmap会失效，所以使用帕斯卡自带的方法
+//                        Picasso.with(getApplicationContext())
+//                                .load(result)
+//                                .into(new Target() {
+//                                    @Override
+//                                    public void onBitmapLoaded(Bitmap bitmap, Picasso.LoadedFrom from) {
+//                                        ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getAct_title());
+//                                        ToastUtil.makeText(getApplicationContext(), "保存成功！");
+//                                    }
+//
+//                                    @Override
+//                                    public void onBitmapFailed(Drawable errorDrawable) {
+//                                    }
+//
+//                                    @Override
+//                                    public void onPrepareLoad(Drawable placeHolderDrawable) {
+//
+//                                    }
+//                                });
+//
+//                    }
+//
+//                })
+//                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
 //
 //                    @Override
 //                    public void onClick(DialogInterface dialog, int which) {
 //
 //                    }
 //                })
-
-
-                // 设置dialog是否为模态，false表示模态，true表示非模态
-                .setCancelable(true)
-                //对话框的创建、显示
-                .create().show();
+//
+//
+//
+//                // 设置dialog是否为模态，false表示模态，true表示非模态
+//                .setCancelable(true)
+//                //对话框的创建、显示
+//                .create().show();
 
     }
     public void invitationDialogLocal() {

@@ -318,7 +318,53 @@ public class HttpUtil {
         }
         return null;
     }
+    //带url参数和body参数体的post方法
+    public static String sendPostNew2request(String path, Map<String, String> params, String ecoding, Map<String, String> bodys) {
+        InputStream inputStream = null;
+        // http://192.168.1.100:8080/web/ManageServlet?name=yangpan&age=28
+        HttpURLConnection conn = null;
+        try {
+            StringBuilder url = new StringBuilder(path);
+            url.append("?");
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                url.append(entry.getKey()).append("=");
+                url.append(URLEncoder.encode(entry.getValue(), ecoding));
+                url.append("&");
+            }
+            url.deleteCharAt(url.length() - 1);
+            conn = (HttpURLConnection) new URL(url.toString()).openConnection();
+            conn.setConnectTimeout(5000);
+            conn.setRequestMethod("POST");
+            // conn.setRequestProperty ("User-Agent", AppContext.getHandSetInfo ());
+            conn.setRequestProperty("AppKey", Constant.AppKey);
+            conn.setRequestProperty("Connection", "Keep-Alive");
+            OutputStream os = conn.getOutputStream();
+            StringBuilder body = new StringBuilder();
+            for (Map.Entry<String, String> entry : bodys.entrySet()) {
+                body.append(entry.getKey()).append("=");
+                body.append(URLEncoder.encode(entry.getValue(), ecoding));
+                body.append("&");
+            }
+String ok=body.toString();
+            os.write(ok.getBytes());
 
+            if (conn.getResponseCode() == 200) {
+                inputStream = conn.getInputStream();
+                byte[] dateStream = readStream(inputStream);
+                return new String(dateStream);
+            } else {
+                Log.i(TAG, "请求返回状态码：" + conn.getResponseCode());
+            }
+        } catch (Exception e) {
+            Log.e(TAG, "HttpUtil.sendGETRequest:" + e.getMessage());
+            e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                conn.disconnect();
+            }
+        }
+        return null;
+    }
 
     /**
      * @param path

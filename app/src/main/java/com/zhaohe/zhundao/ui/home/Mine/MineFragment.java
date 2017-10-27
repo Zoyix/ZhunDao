@@ -13,6 +13,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -22,12 +23,10 @@ import com.squareup.picasso.Picasso;
 import com.umeng.analytics.MobclickAgent;
 import com.zhaohe.app.utils.CircleTransform;
 import com.zhaohe.app.utils.IntentUtils;
-import com.zhaohe.app.utils.JSONUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncInf;
-import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
 import com.zhaohe.zhundao.ui.home.mine.setting.InfActivity;
 import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
@@ -47,7 +46,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private Handler mHandler;
     private AlertDialog dialog;
     private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback,tv_min_phone,tv_min_vip,tv_contacts,tv_my_inf;
-
+private RelativeLayout view_user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -96,7 +95,8 @@ initHandler();
         tv_contacts.setOnClickListener(this);
         tv_my_inf= (TextView) rootView.findViewById(R.id.tv_my_inf);
         tv_my_inf.setOnClickListener(this);
-
+        view_user= (RelativeLayout) rootView.findViewById(R.id.view_user);
+        view_user.setOnClickListener(this);
     }
 
     private void initUserInfo() {
@@ -113,7 +113,7 @@ initHandler();
         { newPhone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");}
         int vip = (int) SPUtils.get(getActivity(), "vip", 0);
 
-        int sex = (int) SPUtils.get(getActivity(), "Sex", 2);
+//        int sex = (int) SPUtils.get(getActivity(), "Sex", 2);
 //        if (sex == 1) {
 //            Picasso.with(getActivity()).load(R.drawable.ic_sex_male).error(R.drawable.ic_sex_female).into(img_sex);
 //        }
@@ -127,12 +127,12 @@ initHandler();
         tv_min_vip.setText("V"+vip);
         TextPaint tp = tv_min_vip.getPaint();
         tp.setFakeBoldText(true);
-        if (url==null){
+        if (url==""){
             Picasso.with(getActivity()).load(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
 
         }
        else {
-            Picasso.with(getActivity()).load(url.toString()).error(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
+            Picasso.with(getActivity()).load(url).error(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
         }
 
     }
@@ -222,6 +222,9 @@ initHandler();
                 if (jsonArray.size()>jsonArray2.size()){
                     setUnread();
                 }
+                else{
+                    setRead();
+                }
             }
 
         }
@@ -246,15 +249,26 @@ initHandler();
     }
     private void savaUserInf(String result) {
 
-        ToolUserBean bean = JSONUtils.parseObject(result, ToolUserBean.class);
-        SPUtils.put(getActivity(), "NickName", bean.getData().getNickName());
-        SPUtils.put(getActivity(), "HeadImgurl", bean.getData().getHeadImgurl());
-        SPUtils.put(getActivity(), "Sex", bean.getData().getSex());
-        SPUtils.put(getActivity(), "vip", bean.getData().getGradeId());
-        int vip = (int) SPUtils.get(getActivity(), "vip", 2);
-        if( null==bean.getData().getMobile()){}
+        JSONObject jsonObj = JSON.parseObject(result);
+        JSONObject jsonObject2 = JSON.parseObject(jsonObj.getString("Data"));
+
+
+        SPUtils.put(getActivity(), "TrueName", jsonObject2.getString("TrueName"));
+        SPUtils.put(getActivity(), "Company", jsonObject2.getString("Company"));
+        SPUtils.put(getActivity(), "Industry", jsonObject2.getString("Industry"));
+        SPUtils.put(getActivity(), "Duty", jsonObject2.getString("Duty"));
+        SPUtils.put(getActivity(), "Email", jsonObject2.getString("Email"));
+        SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
+
+        SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
+        SPUtils.put(getActivity(), "HeadImgurl", jsonObject2.getString("HeadImgurl"));
+        SPUtils.put(getActivity(), "Sex", jsonObject2.getString("Sex"));
+
+        SPUtils.put(getActivity(), "vip",jsonObject2.getInteger("GradeId"));
+        int vip = (int) SPUtils.get(getActivity(), "vip", 0);
+        if( null==jsonObject2.getString("Mobile")){}
         else{
-            SPUtils.put(getActivity(), "Mobile", bean.getData().getMobile());}        System.out.println("VIP等级"+vip);
+            SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));}
         initUserInfo();
 
     }
@@ -289,6 +303,10 @@ initHandler();
             case R.id.    tv_my_inf:
                 IntentUtils.startActivity(getActivity(), InfActivity.class);
                 setRead();
+                break;
+            case R.id.view_user:
+                IntentUtils.startActivity(getActivity(), UpdateUserInfoActivity.class);
+
                 break;
 
 

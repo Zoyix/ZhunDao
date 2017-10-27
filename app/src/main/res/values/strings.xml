@@ -83,6 +83,9 @@
     <string name="et_sign_id">签到ID：</string>
     <string name="tv_multi_introduce">什么是多点签到？</string>
 
+    <!--注册界面-->
+    <string name="btn_next">下一步</string>
+
 
     <!--多点签到-->
     <string name="tv_sign_title">签到标题</string>
@@ -98,6 +101,7 @@
     <string name="tv_find_multipoint">多点签到</string>
     <string name="tv_find_print">打印设置</string>
     <string name="tv_find_face_wifi">人脸wifi</string>
+    <string name="tv_find_invitation">专属邀请函</string>
 
 
     <string name="tv_custom_title">111111111111111111111111111111111111111111111111</string>
@@ -274,6 +278,7 @@
     <string name="multi_introduce">多点签到是准到科技研发的面向部分大型活动需要多个子签到员帮忙进行电子签到的一款插件。\n\n
 
 主办方通过超级管理员账户进入准到PC平台配置好多点签到子管理员，并将系统设置的签到ID、手机、密码发放给签到专员。 签到专员在此处进行登录。签到专员只能对来宾进行电子签到，可查看来宾的姓名和预设的管理员备注信息（如给来宾发放什么证件或者来宾座位是多少号等）,无法查询来宾完整手机和导出数据功能，从而确保了用户隐私安全。</string>
+    <string name="face_wifi">操作步骤：\n 1:</string>
 
 
     <string name="title_activity_beancon_list">BeanconListActivity</string>
@@ -382,4 +387,10 @@
     <string name="successfully">成功</string>
     <string name="failure">失败</string>
     <string name="title_activity_invitation_user">InvitationUserActivity</string>
+    <string name="title_activity_register">RegisterActivity</string>
+    <string name="invitation_type1">星空模板（报名二维码）</string>
+    <string name="invitation_type2">星空模板（签到二维码）</string>
+    <string name="tv_head">头像</string>
+    <string name="tv_nickname">昵称</string>
+
 </resources>

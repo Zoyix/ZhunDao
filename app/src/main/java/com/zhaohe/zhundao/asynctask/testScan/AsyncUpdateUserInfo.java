@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.asynctask;
+package com.zhaohe.zhundao.asynctask.testScan;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -18,34 +18,32 @@ import java.util.Map;
 /**
  * @Description:
  * @Author:邹苏隆
- * @Since:2016/11/30 10:52
+ * @Since:2017/10/26 15:23
  */
-public class AsyncLogin extends AsyncTask<String, Integer, String> {
+
+public class AsyncUpdateUserInfo extends AsyncTask<String, Integer, String> {
     private Context mContext;
     private Handler mHandler;
     private int mRequest;
     private Dialog mDialog;
-    private String mmobile;
-    private String mpassWord;
+    private String mAccesskey;
+    private String mParam;
 
-    public AsyncLogin(Context context, Handler handler, Dialog dialog, int request, String mobile, String passWord) {
+    public AsyncUpdateUserInfo(Context context, Handler handler, Dialog dialog, int request, String param) {
         this.mContext = context;
         this.mHandler = handler;
         this.mRequest = request;
         this.mDialog = dialog;
-        this.mmobile = mobile;
-        this.mpassWord = passWord;
+        this.mParam = param;
+        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
 
     @Override
-    protected String doInBackground(String... params) {
-        String path = (String) SPUtils.get(mContext,"HOST",Constant.HOST) + Constant.Url.Login;
+    protected String doInBackground(String... strings) {
+        String path = (String) SPUtils.get(mContext,"HOST", Constant.HOST) + Constant.Url.UpdateUserInfo;
         Map<String, String> map = new HashMap<String, String>();
-        map.put("passWord", mpassWord);
-        map.put("mobile", mmobile);
-        map.put("from","Android");
-
-        String result = HttpUtil.sendGETRequest(path, map, "utf-8");
+        map.put("accessKey", mAccesskey);
+        String result = HttpUtil.sendPostNew2request(path, map, "utf-8", mParam);
         return result;
     }
 
@@ -57,12 +55,12 @@ public class AsyncLogin extends AsyncTask<String, Integer, String> {
         if (result != null) {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
-            System.out.println("登录获取Accesskey" + result);
-
+            System.out.println("修改用户信息\n" + result);
             mHandler.sendMessage(msg);
         } else {
             DialogUtils.showDialog(mContext, R.string.app_serviceError);
         }
 
     }
+
 }

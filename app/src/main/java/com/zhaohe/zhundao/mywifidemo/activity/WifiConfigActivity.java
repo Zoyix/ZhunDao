@@ -2,7 +2,6 @@ package com.zhaohe.zhundao.mywifidemo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -18,9 +17,10 @@ import com.zhaohe.zhundao.mywifidemo.utils.SocketUtils;
 import com.zhaohe.zhundao.mywifidemo.utils.StringUtils;
 import com.zhaohe.zhundao.mywifidemo.utils.ToastUtis;
 import com.zhaohe.zhundao.mywifidemo.utils.WifiUtils;
+import com.zhaohe.zhundao.ui.ToolBarActivity;
 
 
-public class WifiConfigActivity extends AppCompatActivity {
+public class WifiConfigActivity extends ToolBarActivity {
     private LinearLayout ll_high_set;
     private TextView tv_wifi_name, tv_high;
     private EditText et_wifi_pd, et_wifi_ip, et_wifi_gateway, et_wifi_dns;
@@ -35,7 +35,7 @@ public class WifiConfigActivity extends AppCompatActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_wifi_config);
+        initToolBarNew("Wifi配置",R.layout.activity_wifi_config);
         initViews();
         initListener();
     }

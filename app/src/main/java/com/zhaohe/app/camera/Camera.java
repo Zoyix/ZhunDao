@@ -58,7 +58,7 @@ private int uploadSize=-1;
     private GridLayout gl_camera;
     //图片标题
     private String title;
-
+private boolean isshow;
 
     /**
      * @Fields saveDir : 存放照片的文件夹
@@ -114,7 +114,7 @@ private Handler uploadHandler;
 
 
                 // 显示图片
-                showImage2View(path, (Bitmap) msg.obj);
+                if(!isshow){showImage2View(path, (Bitmap) msg.obj);}
 
             }
 //            else {
@@ -135,8 +135,9 @@ private Handler uploadHandler;
 //                    ToastUtil.makeText(mActivity,"上传图片成功");
 //                }
                 ToastUtil.print("还需上传数量"+--uploadSize);
-                if (uploadSize==0){
-                    dialog.dismiss();
+                if (uploadSize<=0){
+                    if (dialog!=null){
+                    dialog.dismiss();}
                      msg = uploadHandler.obtainMessage(1000);
                     uploadHandler.sendMessage(msg);
 
@@ -197,6 +198,19 @@ private Handler uploadHandler;
         uploadHandler=handler;
         this.title=title;
     }
+
+    public Camera(Activity activity  ,Handler handler,String path) {
+        this.mActivity = activity;
+
+        uploadHandler=handler;
+        CompressionRunnable runnable = new CompressionRunnable(path);
+        new Thread(runnable).start();
+        isshow=true;
+        dialog= ProgressDialogUtils.showProgressDialog(mActivity,"正在上传中","请稍后");
+        uploadSize=1;
+    }
+
+
     public   ArrayList<String> getUploadUrl() {
         // 照片上传
         return upload;
@@ -435,6 +449,11 @@ private Handler uploadHandler;
                 });
     }
     public void showInternet(String path){
+        if ((path==null)||path.equals(""))
+        {
+            ToastUtil.print("头像路径为空");
+            return;
+        }
         String[] imgurl = path.split("\\|");
         for (int i=0;i<imgurl.length;i++)
         {showImageInternetView(imgurl[i]);

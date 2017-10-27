@@ -40,6 +40,7 @@ import com.umeng.socialize.bean.SHARE_MEDIA;
 import com.umeng.socialize.media.UMImage;
 import com.umeng.socialize.media.UMWeb;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.constant.Constant;
@@ -291,20 +292,20 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
                             public void onClick(View v) {
                                 switch (v.getId()) {
                                     case R.id.iv_share_wechat_solid:
-                                        UmengShare(bean,SHARE_MEDIA.WEIXIN);
+                                        UmengShare(SHARE_MEDIA.WEIXIN);
                                         break;
                                     case R.id.iv_share_weixin_friends_solid:
-                                        UmengShare(bean,SHARE_MEDIA.WEIXIN_CIRCLE);
+                                        UmengShare(SHARE_MEDIA.WEIXIN_CIRCLE);
 
                                         break;
                                     case R.id.iv_share_weibo_solid:
-                                        UmengShare(bean, SHARE_MEDIA.SINA);
+                                        UmengShare( SHARE_MEDIA.SINA);
                                         break;
                                     case R.id.iv_share_qq_solid:
-                                        UmengShare(bean,SHARE_MEDIA.QQ);
+                                        UmengShare(SHARE_MEDIA.QQ);
                                         break;
                                     case R.id.iv_share_qqzone_solid:
-                                        UmengShare(bean,SHARE_MEDIA.QZONE);
+                                        UmengShare(SHARE_MEDIA.QZONE);
 
                                         break;
                                 }
@@ -328,7 +329,8 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
                 .setTag("BottomDialog")
                 .show();
     }
-    private void UmengShare(ActionBean bean,SHARE_MEDIA type ) {
+    private void UmengShare(SHARE_MEDIA type ) {
+        ToastUtil.print("actid"+bean.getAct_id());
         UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
         UMImage image = new UMImage(this, bean.getUrl());
         web.setTitle( bean.getAct_title());//标题

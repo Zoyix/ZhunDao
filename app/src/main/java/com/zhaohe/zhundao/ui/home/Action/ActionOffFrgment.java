@@ -14,7 +14,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
@@ -380,13 +379,13 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             public void onResult(SHARE_MEDIA platform) {
                 Log.d("plat","platform"+platform);
 
-                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
             }
 
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
-                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
                 if(t!=null){
                     Log.d("throw","throw:"+t.getMessage());
                 }
@@ -394,7 +393,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
 
             @Override
             public void onCancel(SHARE_MEDIA platform) {
-                Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+//                Toast.makeText(getActivity(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
             }
         };
     }
@@ -446,6 +445,11 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     public void onListClick(ActionBean bean) {
         ActivityFees=bean.getActivityFees();
         UserInfo=bean.getBaseItem();
+        SPUtils.put(getActivity(),"act_title",bean.getAct_title());
+        SPUtils.put(getActivity(),"act_time",bean.getAct_starttime());
+        SPUtils.put(getActivity(),"act_add",bean.getAddress());
+        SPUtils.put(getActivity(),"act_url",bean.getUrl());
+
 //       这里开始写 判断网络状况
         if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
             Intent intent = new
@@ -563,6 +567,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         Bundle bundle = new Bundle();
         bundle.putString("act_id", bean.getAct_id());
         bundle.putString("act_title", bean.getAct_title());
+        bundle.putSerializable("bean", bean);
         intent.putExtras(bundle);
         getActivity().startActivity(intent);
     }

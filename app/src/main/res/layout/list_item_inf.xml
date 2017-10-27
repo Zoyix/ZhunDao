@@ -64,25 +64,23 @@ android:layout_alignBaseline="@id/tv_inf_type"
 
 
     <ImageView
-        android:layout_marginTop="5dp"
         android:id="@+id/iv_inf_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/iv_inf_read"
         android:layout_alignParentRight="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
         android:src="@drawable/right"
+        android:layout_alignBottom="@+id/iv_inf_read"
         android:layout_alignTop="@+id/iv_inf_read" />
 
     <ImageView
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="15dp"
 
         android:id="@+id/iv_inf_read"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@mipmap/unread60"
-        android:layout_alignBottom="@+id/tv_inf_title"
         android:layout_toLeftOf="@+id/iv_inf_right"
          />
     <!--<LinearLayout-->

@@ -94,6 +94,15 @@ public static final String UpdateCheckInTypeName = "/api/CheckIn/UpdateCheckInTy
         public static final String GetNoticeList = "/api/ZDInfo/GetNoticeList";//准到通知
         public static final String PayOffLine = "/api/PerActivity/PayOffLine";//修改报名为线下支付
 
+        public static final String VerifyPhone = "/api/PerBase/VerifyPhone";//验证手机号码是否已经被注册
+        public static final String SendVcode = "/api/PerBase/SendVcode";//发送手机注册验证码
+        public static final String VerifyPhoneAndCode = "/api/PerBase/VerifyPhoneAndCode";//验证手机号码和验证码是否匹配正确
+        public static final String RegisterByPhone = "/api/PerBase/RegisterByPhone";//手机注册账号
+        public static final String UpdatePassWordByPhone = "/api/PerBase/UpdatePassWordByPhone";//修改密码
+        public static final String UpdateUserInfo = "/api/PerBase/UpdateUserInfo";//修改用户信息
+
+
+
 
 
 

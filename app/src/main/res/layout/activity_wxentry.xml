@@ -38,7 +38,9 @@
 
         android:layout_alignTop="@+id/et_phone_bond"
         android:layout_alignRight="@+id/btn_bond_phone"
-        android:layout_alignEnd="@+id/btn_bond_phone" />
+        android:layout_alignEnd="@+id/btn_bond_phone"
+        android:layout_toRightOf="@+id/et_phone_bond"
+        android:layout_toEndOf="@+id/et_phone_bond" />
 
     <EditText
         android:layout_marginLeft="15dp"

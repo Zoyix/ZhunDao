@@ -13,6 +13,7 @@ import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.alibaba.fastjson.JSON;
@@ -29,8 +30,8 @@ import com.zhaohe.app.utils.ProgressDialogUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
-import com.zhaohe.zhundao.asynctask.AsyncLogin;
 import com.zhaohe.zhundao.asynctask.AsyncSentUserInfGetPhoneBond;
+import com.zhaohe.zhundao.asynctask.login.AsyncLogin;
 import com.zhaohe.zhundao.bean.AccessKeyBean;
 import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.constant.Constant;
@@ -38,12 +39,20 @@ import com.zhaohe.zhundao.ui.home.HomeActivity;
 
 import java.util.Map;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
     //登录动作（暂时）
     public static final int MESSAGE_PHONE_ENTY = 100;
     public static final int MESSAGE_WX_ENTY = 99;
 
     public static String uuid = null;
+    @BindView(R.id.tv_back)
+    TextView tvBack;
+    @BindView(R.id.tv_reg)
+    TextView tvReg;
     private IWXAPI api;
     private Button btn_login;
     private ImageView btn_login_wechat;
@@ -53,13 +62,14 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText et_phone;
     private EditText et_password;
     private ImageView img_ico;
-    private UMShareAPI mShareAPI=null;
+    private UMShareAPI mShareAPI = null;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        ButterKnife.bind(this);
         isLogin();
         initHandler();
         initView();
@@ -88,11 +98,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         //向微信发送请求
         api.sendReq(req);
     }
-private void checkUser(String access_token,String openid){
-    AsyncSentUserInfGetPhoneBond asyncLogin = new AsyncSentUserInfGetPhoneBond(this, mHandler, MESSAGE_WX_ENTY, access_token, openid);
-    asyncLogin.execute();
 
-}
+    private void checkUser(String access_token, String openid) {
+        AsyncSentUserInfGetPhoneBond asyncLogin = new AsyncSentUserInfGetPhoneBond(this, mHandler, MESSAGE_WX_ENTY, access_token, openid);
+        asyncLogin.execute();
+
+    }
+
     //执行异步耗时信息
     private void init() {
 
@@ -154,7 +166,7 @@ private void checkUser(String access_token,String openid){
 
                         break;
                     case MESSAGE_WX_ENTY:
-                         result = (String) msg.obj;
+                        result = (String) msg.obj;
 //                        Toast.makeText(WXEntryActivity.this, result, Toast.LENGTH_LONG).show();
                         System.out.println("user message" + result);
                         ToolUserBean bean = (ToolUserBean) JSON.parseObject(result, ToolUserBean.class);
@@ -190,6 +202,7 @@ private void checkUser(String access_token,String openid){
         public void onStart(SHARE_MEDIA platform) {
             //授权开始的回调
         }
+
         @Override
         public void onComplete(SHARE_MEDIA platform, int action, Map<String, String> data) {
             Toast.makeText(getApplicationContext(), "微信登录成功！", Toast.LENGTH_SHORT).show();
@@ -208,7 +221,7 @@ private void checkUser(String access_token,String openid){
 //            else{
 //                sex=0;
 //            }
-            checkUser(data.get("accessToken"),data.get("openid"));
+            checkUser(data.get("accessToken"), data.get("openid"));
 //            ToastUtil.makeText(getApplicationContext(),name);
 //            Set set = data.entrySet();
 //
@@ -225,30 +238,32 @@ private void checkUser(String access_token,String openid){
 
         @Override
         public void onError(SHARE_MEDIA platform, int action, Throwable t) {
-            Toast.makeText( getApplicationContext(), "微信授权失败！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "微信授权失败！", Toast.LENGTH_SHORT).show();
         }
 
         @Override
         public void onCancel(SHARE_MEDIA platform, int action) {
-            Toast.makeText( getApplicationContext(), "取消微信授权！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getApplicationContext(), "取消微信授权！", Toast.LENGTH_SHORT).show();
         }
     };
+
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
 
     }
+
     //判断是否绑定过手机
     private void isBondPhone(ToolUserBean bean) {
 //    JSONObject jsonObj = JSON.parseObject(result);
 //    JSONArray jsonArray = jsonObj.getJSONArray("Data");
-System.out.println("手机号码"+bean.getData().getMobile());
+        System.out.println("手机号码" + bean.getData().getMobile());
 //        if (null==(bean.getData().getMobile()) ) {
 //            IntentUtils.startActivity(this, BondPhoneActivity.class);
 //
 //        } else
-            SPUtils.put(this, "accessKey", bean.getData().getUnionid());
+        SPUtils.put(this, "accessKey", bean.getData().getUnionid());
         SPUtils.put(getApplicationContext(), "islogin", true);
         IntentUtils.startActivity(this, HomeActivity.class);
 
@@ -283,4 +298,14 @@ System.out.println("手机号码"+bean.getData().getMobile());
         }
     }
 
+    @OnClick({R.id.tv_back, R.id.tv_reg})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.tv_back:
+                break;
+            case R.id.tv_reg:
+                IntentUtils.startActivity(this,RegisterActivity.class);
+                break;
+        }
+    }
 }

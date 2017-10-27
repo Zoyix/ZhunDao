@@ -2,24 +2,24 @@ package com.zhaohe.zhundao.mywifidemo.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.TextView;
 
 import com.zhaohe.zhundao.R;
+import com.zhaohe.zhundao.ui.ToolBarActivity;
 
 
 /**
  * 有线无线选择界面
  */
-public class AdjustActivity extends AppCompatActivity {
+public class AdjustActivity extends ToolBarActivity {
     private TextView tv_wired, tv_wireless;
     private String wifiName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_adjust);
+        initToolBarNew("选择连接的网络种类",R.layout.activity_adjust);
         initViews();
         initListener();
     }

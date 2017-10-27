@@ -153,7 +153,12 @@ public class CustomActivity extends Activity implements Toolbar.OnMenuItemClickL
                         //自定义选项列表结果
                         if (NetworkUtils.checkNetState(getApplicationContext())) {
                             SPUtils.put(getApplicationContext(), "custom_result", result);
-                            jsonconver((String) SPUtils.get(getApplicationContext(), "custom_result", ""));
+
+                            try {
+                                jsonconver((String) SPUtils.get(getApplicationContext(), "custom_result", ""));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         }
 
 
