@@ -23,7 +23,8 @@ public class FindFragment extends Fragment implements View.OnClickListener {
     protected View rootView;
     private TextView tv_find_custom;
     private TextView tv_find_shake;
-    private TextView tv_find_multipoint, tv_find_print, tv_find_face_wifi,tv_find_invitation;
+    private TextView tv_find_multipoint, tv_find_print, tv_find_face_wifi, tv_find_invitation;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,10 +34,12 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         initView(rootView);
 //        test();
     }
+
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(getActivity());
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());
@@ -47,9 +50,9 @@ public class FindFragment extends Fragment implements View.OnClickListener {
         tv_find_custom.setOnClickListener(this);
         tv_find_shake = (TextView) rootView.findViewById(R.id.tv_find_shake);
         tv_find_shake.setOnClickListener(this);
-        tv_find_multipoint= (TextView) rootView.findViewById(R.id.tv_find_multipoint);
+        tv_find_multipoint = (TextView) rootView.findViewById(R.id.tv_find_multipoint);
         tv_find_multipoint.setOnClickListener(this);
-        tv_find_print= (TextView) rootView.findViewById(R.id.tv_find_print);
+        tv_find_print = (TextView) rootView.findViewById(R.id.tv_find_print);
         tv_find_print.setOnClickListener(this);
         tv_find_face_wifi = (TextView) rootView.findViewById(R.id.tv_find_face_wifi);
         tv_find_face_wifi.setOnClickListener(this);
@@ -82,10 +85,10 @@ public class FindFragment extends Fragment implements View.OnClickListener {
                 IntentUtils.startActivity(getActivity(), BeaconListActivity.class);
                 break;
             case R.id.tv_find_multipoint:
-                IntentUtils.startActivity(getActivity(),MultiLoginActivity.class);
+                IntentUtils.startActivity(getActivity(), MultiLoginActivity.class);
                 break;
             case R.id.tv_find_print:
-                IntentUtils.startActivity(getActivity(),PrintActivity.class);
+                IntentUtils.startActivity(getActivity(), PrintActivity.class);
                 break;
             case R.id.tv_find_face_wifi:
                 IntentUtils.startActivity(getActivity(), MainFaceActivity.class);

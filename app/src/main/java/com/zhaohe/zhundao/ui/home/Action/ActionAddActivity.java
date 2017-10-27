@@ -74,9 +74,9 @@ public class ActionAddActivity extends ToolBarActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
-                if(url.contains("MangeActivity")){
-                    ToastUtil.makeText(getApplication(),"活动发布成功！");
-                    SPUtils.put(getApplicationContext(),"updateAction",true);
+                if (url.contains("MangeActivity")) {
+                    ToastUtil.makeText(getApplication(), "活动发布成功！");
+                    SPUtils.put(getApplicationContext(), "updateAction", true);
                     finish();
                 }
                 view.loadUrl(url);

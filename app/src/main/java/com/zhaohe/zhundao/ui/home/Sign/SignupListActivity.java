@@ -50,23 +50,23 @@ import java.util.List;
 import static com.zhaohe.zhundao.ui.home.action.ActionOnFragment.MESSAGE_GET_SIGNLIST;
 
 
-public class SignupListActivity extends ToolBarActivity implements View.OnClickListener,SwipeRefreshLayout.OnRefreshListener,SignupListAdapter.SignupListClickListener,Toolbar.OnMenuItemClickListener,AdapterView.OnItemClickListener {
+public class SignupListActivity extends ToolBarActivity implements View.OnClickListener, SwipeRefreshLayout.OnRefreshListener, SignupListAdapter.SignupListClickListener, Toolbar.OnMenuItemClickListener, AdapterView.OnItemClickListener {
     private String sign_id;
     private String act_id;
     private SignupListAdapter adapter, adapter2, adapter3;
     private ListView lv_signup, lv_signon, lv_signoff;
-    private String signup_list,result_list;
+    private String signup_list, result_list;
     private TextView tv_signup_all, tv_signup_on, tv_signup_off;
     private JSONObject jsonObj;
     private JSONArray jsonArray;
     private SwipeRefreshLayout mSwipeLayout;
     private int numShould, numFact, numRest;
     private String phone;//当前选择的手机
-    private List all,on,off;
+    private List all, on, off;
 
     private MySignupListDao dao;
     public static final int PAGE_SIZE = 100000;
-    public static final int MESSAGE_SIGN_SCAN_PHONE=100;
+    public static final int MESSAGE_SIGN_SCAN_PHONE = 100;
     public static final int SCANNIN_GREQUEST_CODE = 89;
     public static final int MESSAGE_SCAN_CODE = 90;
     private static final int REQUEST_CODE_PERMISSION = 105;
@@ -74,11 +74,11 @@ public class SignupListActivity extends ToolBarActivity implements View.OnClickL
     private static final int REQUEST_CODE_SETTING = 300;
     public static final int MESSAGE_GET_SIGNUPLIST = 92;
     public static final int REFRESH_COMPLETE = 98;
-    private String status="%%";
-private EditText et_signuplist_search;
+    private String status = "%%";
+    private EditText et_signuplist_search;
     private Handler mHandler;
     private MySignListupBean mbean;
-private String title;
+    private String title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +101,7 @@ private String title;
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
@@ -124,14 +125,14 @@ private String title;
         tv_signup_on.setOnClickListener(this);
         tv_signup_off = (TextView) findViewById(R.id.tv_signup_off);
         tv_signup_off.setOnClickListener(this);
-        mSwipeLayout = (SwipeRefreshLayout)findViewById(R.id.swipe_signup_list);
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_signup_list);
         mSwipeLayout.setOnRefreshListener(this);
         mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         dao = new MySignupListDao(this);
-        all=dao.queryListByCheckinIDAndStatus(sign_id,"%%");
-        on=dao.queryListByCheckinIDAndStatus(sign_id,"true");
-        off=dao.queryListByCheckinIDAndStatus(sign_id,"false");
-        et_signuplist_search= (EditText) findViewById(R.id.et_signuplist_search);
+        all = dao.queryListByCheckinIDAndStatus(sign_id, "%%");
+        on = dao.queryListByCheckinIDAndStatus(sign_id, "true");
+        off = dao.queryListByCheckinIDAndStatus(sign_id, "false");
+        et_signuplist_search = (EditText) findViewById(R.id.et_signuplist_search);
         et_signuplist_search.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -140,7 +141,7 @@ private String title;
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                adapter.refreshData(dao.queryListByPhoneNameAndCheckInID(sign_id,et_signuplist_search.getText().toString()));
+                adapter.refreshData(dao.queryListByPhoneNameAndCheckInID(sign_id, et_signuplist_search.getText().toString()));
             }
 
             @Override
@@ -153,7 +154,7 @@ private String title;
 
     public void init() {
 
-        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,"%%"));
+        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id, "%%"));
         tv_signup_all.setText("全部（" + all.size() + "）");
         tv_signup_on.setText("已签（" + on.size() + "）");
         tv_signup_off.setText("未签（" + off.size() + "）");
@@ -171,7 +172,7 @@ private String title;
         sign_id = intent.getStringExtra("sign_id");
         act_id = intent.getStringExtra("act_id");
 
-        title=intent.getStringExtra("title");
+        title = intent.getStringExtra("title");
 
         ToastUtil.print(title);
 
@@ -191,49 +192,53 @@ private String title;
                 resetColor();
                 tv_signup_all.setTextColor(Color.rgb(87, 153, 8));
                 signall();
-                status="%%";
+                status = "%%";
                 break;
 
             case R.id.tv_signup_on:
                 resetColor();
                 tv_signup_on.setTextColor(Color.rgb(87, 153, 8));
                 signon();
-                status="true";
+                status = "true";
                 break;
             case R.id.tv_signup_off:
                 resetColor();
                 signoff();
                 tv_signup_off.setTextColor(Color.rgb(87, 153, 8));
-                status="false";
+                status = "false";
                 break;
 
         }
     }
 
     private void signon() {
-        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,"true"));
+        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id, "true"));
 
     }
+
     private void signoff() {
-        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,"false"));
+        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id, "false"));
     }
+
     private void signall() {
-        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,"%%"));
+        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id, "%%"));
     }
 
     @Override
     public void onRefresh() {
-        String mParam = "ID=" +sign_id + "&pageSize=" + PAGE_SIZE;
+        String mParam = "ID=" + sign_id + "&pageSize=" + PAGE_SIZE;
         getSignupList(mParam);
         mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE + "&position=4";
         getSignList(mParam);
         mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
 
     }
+
     private void getSignupList(String sign_id) {
         AsyncSignupList asyncSignupList = new AsyncSignupList(this, mHandler, MESSAGE_GET_SIGNUPLIST, sign_id);
         asyncSignupList.execute();
     }
+
     //有网时插入数据库
     private void insertSignupList(String result) {
         JSONObject jsonObj = JSON.parseObject(result);
@@ -278,33 +283,29 @@ private String title;
 
                         break;
                     case MESSAGE_SIGN_SCAN_PHONE:
-                    String result3 = (String) msg.obj;
-                    JSONObject jsonObj = JSON.parseObject(result3);
-                    String message = jsonObj.getString("Msg");
-                    if (jsonObj.getString("Res").equals("0")) {
-                        mbean.setStatus("true");
-                        mbean.setCheckInTime(TimeUtil.getNowTime());
-                        dao.updateByPhone(mbean);
-                        updateList();
-                        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,status));
+                        String result3 = (String) msg.obj;
+                        JSONObject jsonObj = JSON.parseObject(result3);
+                        String message = jsonObj.getString("Msg");
+                        if (jsonObj.getString("Res").equals("0")) {
+                            mbean.setStatus("true");
+                            mbean.setCheckInTime(TimeUtil.getNowTime());
+                            dao.updateByPhone(mbean);
+                            updateList();
+                            adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id, status));
 
 //                            ToastUtil.makeText(getActivity(), message + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
 
-                      ToastUtil.makeText(getApplicationContext(),message);
+                            ToastUtil.makeText(getApplicationContext(), message);
 
-                    }
-
-
-                    else
-                    {
-                        ToastUtil.makeText(getApplicationContext(),message);
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), message);
 //                            ToastUtil.makeText(getActivity(), message);
-                    }
-                    break;
+                        }
+                        break;
 
                     case MESSAGE_SCAN_CODE:
-                         result3 = (String) msg.obj;
+                        result3 = (String) msg.obj;
                         jsonObj = JSON.parseObject(result3);
                         message = jsonObj.getString("Msg");
                         if (jsonObj.getString("Res").equals("0")) {
@@ -328,27 +329,26 @@ private String title;
                             mbean.setCheckInTime(TimeUtil.getNowTime());
                             dao.update(mbean);
                             updateList();
-                            resultDialog(message,"姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog(message, "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
 
                         } else {
-                            resultDialog("扫码失败！",message);
+                            resultDialog("扫码失败！", message);
 //                            ToastUtil.makeText(getActivity(), message);
                         }
                         break;
 
                     case MESSAGE_GET_SIGNLIST:
-                         result2 = (String) msg.obj;
+                        result2 = (String) msg.obj;
                         jsonObj = JSON.parseObject(result2);
                         message = jsonObj.getString("Msg");
 
-                        if (jsonObj.getString("Res").equals("0") ){
+                        if (jsonObj.getString("Res").equals("0")) {
 
                             SPUtils.put(getApplicationContext(), "listup_" + act_id, result2);
 //                        GoToList();
-                    }
-                    else{
-                                                        ToastUtil.makeText(getApplicationContext(), message);
+                        } else {
+                            ToastUtil.makeText(getApplicationContext(), message);
 
                         }
 
@@ -361,6 +361,7 @@ private String title;
 
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -375,7 +376,7 @@ private String title;
                     System.out.println(result);
                     if (NetworkUtils.checkNetState(this)) {
 //                    有网时与服务器上的VCode进行比对
-                        mbean=new MySignListupBean();
+                        mbean = new MySignListupBean();
                         mbean.setVCode(result);
                         mbean.setCheckInID(sign_id);
                         mbean.setUpdateStatus("false");
@@ -386,7 +387,7 @@ private String title;
                         List<MySignListupBean> list = dao.queryListByVCodeAndCheckInID(result, CheckInID);
                         List<MySignListupBean> list2 = dao.queryListStatus(result, CheckInID, "true");
                         if (list.size() == 0) {
-                            resultDialog("扫码失败","凭证码无效！");
+                            resultDialog("扫码失败", "凭证码无效！");
                         } else if (list2.size() == 1) {
                             MySignListupBean bean = (MySignListupBean) list.get(0);
                             String Name = bean.getName();
@@ -401,7 +402,7 @@ private String title;
                             String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
 //                            ToastUtil.makeText(getActivity(), "该用户已经签到！" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog("该用户已经签到","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog("该用户已经签到", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
                         } else {
                             MySignListupBean bean = new MySignListupBean();
@@ -425,7 +426,7 @@ private String title;
 //                            ToastUtil.makeText(getActivity(), "扫码成功" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
                             updateList();
-                            resultDialog("扫码成功","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog("扫码成功", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
 
                         }
@@ -443,7 +444,8 @@ private String title;
                 ;
         }
     }
-//    public void resultDialog(String status,String message){
+
+    //    public void resultDialog(String status,String message){
 //        new AlertDialog.Builder(this)
 //                .setIcon(R.mipmap.ic_launcher)
 //                .setTitle(status)
@@ -458,35 +460,35 @@ private String title;
 //                .setCancelable(true)
 //                .show();
 //    }
-public void resultDialog(String status,String message){
-    new AlertDialog.Builder(this)
-            .setIcon(R.mipmap.ic_launcher)
-            .setTitle(status)
-            .setMessage(message)
-            .setPositiveButton("继续扫码", new DialogInterface.OnClickListener() {
+    public void resultDialog(String status, String message) {
+        new AlertDialog.Builder(this)
+                .setIcon(R.mipmap.ic_launcher)
+                .setTitle(status)
+                .setMessage(message)
+                .setPositiveButton("继续扫码", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Intent intent = new Intent();
-                    intent.setClass(getApplication(), MipcaActivityCapture.class);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    intent.putExtra("CheckInID", sign_id);
-                    startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Intent intent = new Intent();
+                        intent.setClass(getApplication(), MipcaActivityCapture.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.putExtra("CheckInID", sign_id);
+                        startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
 
 
-                }
-            })
+                    }
+                })
 
-            .setNeutralButton("取消", new DialogInterface.OnClickListener() {
+                .setNeutralButton("取消", new DialogInterface.OnClickListener() {
 
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    init();
-                }
-            })
-            .setCancelable(true)
-            .show();
-}
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        init();
+                    }
+                })
+                .setCancelable(true)
+                .show();
+    }
 
     private void updateList(String result2) {
         JSONObject jsonObj = JSON.parseObject(result2);
@@ -506,62 +508,64 @@ public void resultDialog(String status,String message){
     }
 
     private void updateList() {
-        tv_signup_all.setText("全部（" + dao.queryListByCheckinIDAndStatus(sign_id,"%%").size()
-        + "）");
-        tv_signup_on.setText("已签（" + dao.queryListByCheckinIDAndStatus(sign_id,"true").size() + "）");
-        tv_signup_off.setText("未签（" + dao.queryListByCheckinIDAndStatus(sign_id,"false").size() + "）");
-        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id,status));
+        tv_signup_all.setText("全部（" + dao.queryListByCheckinIDAndStatus(sign_id, "%%").size()
+                + "）");
+        tv_signup_on.setText("已签（" + dao.queryListByCheckinIDAndStatus(sign_id, "true").size() + "）");
+        tv_signup_off.setText("未签（" + dao.queryListByCheckinIDAndStatus(sign_id, "false").size() + "）");
+        adapter.refreshData(dao.queryListByCheckinIDAndStatus(sign_id, status));
     }
 
-    private  void SignScanPhone(String phone){
-        AsyncSignScanPhone async = new AsyncSignScanPhone(this, mHandler, MESSAGE_SIGN_SCAN_PHONE, phone,sign_id);
+    private void SignScanPhone(String phone) {
+        AsyncSignScanPhone async = new AsyncSignScanPhone(this, mHandler, MESSAGE_SIGN_SCAN_PHONE, phone, sign_id);
         async.execute();
     }
+
     public void cancelDialog(final MySignListupBean bean) {
 
         mbean = bean;
 
 
-            String Name = bean.getName();
-            String Phone = bean.getPhone();
-            String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
-            String AdminRemark = bean.getAdminRemark();
-            if (AdminRemark == null) {
-                AdminRemark = "无";
-            }
-            String FeeName = bean.getFeeName();
-            String Fee = bean.getFee();
-            String FeeStr = FeeName + "：" + Fee;
-            if (FeeName == null) {
-                FeeStr = "";
-            }
-            new AlertDialog.Builder(this)
-                    //对话框的标题
-                    .setTitle("是否代签")
-                    //设定显示的View
-                    //对话框中的“登陆”按钮的点击事件
-                    .setMessage("姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
-                            "备注：" + AdminRemark + "\n" + FeeStr)
-                    .setPositiveButton("确认", new DialogInterface.OnClickListener() {
-                        public void onClick(DialogInterface dialog, int whichButton) {
-                            signup(bean);
-
-                        }
-
-                    })
-                    .setNegativeButton("取消", new DialogInterface.OnClickListener() {
-
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                        }
-                    })
-                    // 设置dialog是否为模态，false表示模态，true表示非模态
-                    .setCancelable(true)
-                    //对话框的创建、显示
-                    .create().show();
-
+        String Name = bean.getName();
+        String Phone = bean.getPhone();
+        String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+        String AdminRemark = bean.getAdminRemark();
+        if (AdminRemark == null) {
+            AdminRemark = "无";
         }
+        String FeeName = bean.getFeeName();
+        String Fee = bean.getFee();
+        String FeeStr = FeeName + "：" + Fee;
+        if (FeeName == null) {
+            FeeStr = "";
+        }
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("是否代签")
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setMessage("姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                        "备注：" + AdminRemark + "\n" + FeeStr)
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+                        signup(bean);
+
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
+
     public void scanCode(String result) {
 
         AsyncScanCode asyncScanCode = new AsyncScanCode(this, mHandler, MESSAGE_SCAN_CODE, result, sign_id);
@@ -574,17 +578,16 @@ public void resultDialog(String status,String message){
     }
 
     private void signup(MySignListupBean bean) {
-        mbean=bean;
+        mbean = bean;
         if (NetworkUtils.checkNetState(this)) {
             SignScanPhone(bean.getPhone());
-        }
-        else{
+        } else {
             bean.setStatus("true");
             bean.setUpdateStatus("true");
             bean.setCheckInTime(TimeUtil.getNowTime());
             dao.updateByPhone(bean);
             updateList();
-            ToastUtil.makeText(getApplicationContext(),"代签成功");
+            ToastUtil.makeText(getApplicationContext(), "代签成功");
 
         }
     }
@@ -593,9 +596,10 @@ public void resultDialog(String status,String message){
         AsyncSignList asyncSignList = new AsyncSignList(this, mHandler, MESSAGE_GET_SIGNLIST, mParam);
         asyncSignList.execute();
     }
+
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_sign_list_scan:
 //                String a="0";
 //                String b ="0";
@@ -638,8 +642,8 @@ public void resultDialog(String status,String message){
 
     @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-        MySignListupBean bean= adapter.getItem(i);
-        phone=bean.getPhone();
+        MySignListupBean bean = adapter.getItem(i);
+        phone = bean.getPhone();
 
 
         if (SPUtils.contains(this, "listup_" + act_id)) {
@@ -656,7 +660,7 @@ public void resultDialog(String status,String message){
         Intent intent = new
                 Intent(this, SignListActivity.class);
         intent.putExtra("act_id", act_id);
-        intent.putExtra("phone",phone);
+        intent.putExtra("phone", phone);
         startActivity(intent);
     }
 

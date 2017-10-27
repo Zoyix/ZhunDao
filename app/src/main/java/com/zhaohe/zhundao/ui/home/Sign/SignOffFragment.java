@@ -69,7 +69,7 @@ import static com.zhaohe.zhundao.ui.home.sign.SignOnFragment.MESSAGE_SEND_SIGNUP
  * @Author:邹苏隆
  * @Since:2016/12/12 14:29
  */
-public class SignOffFragment extends Fragment implements View.OnClickListener, SignAdapter.SignClickListener, SwipeRefreshLayout.OnRefreshListener{
+public class SignOffFragment extends Fragment implements View.OnClickListener, SignAdapter.SignClickListener, SwipeRefreshLayout.OnRefreshListener {
     //            单页显示的数据数目
     public static final int PAGE_SIZE = 100000;
     public static final int MESSAGE_SIGN_ALL = 94;
@@ -114,11 +114,13 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
 
 
     }
+
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(getActivity());
         upload();
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());
@@ -139,20 +141,18 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         return rootView;
 
     }
+
     private void init() {
         if (SPUtils.contains(getActivity(), "sign_result_off")) {
             jsonconver((String) SPUtils.get(getActivity(), "sign_result_off", ""));
             getSignAllNoneDialog();
-        }
-        else if(NetworkUtils.checkNetState(getActivity()))
-        {
+        } else if (NetworkUtils.checkNetState(getActivity())) {
 //            getSignAll();
             upload();
             getSignAllNoneDialog();
 
-        }
-        else{
-            ToastUtil.makeText(getActivity(),R.string.net_error);
+        } else {
+            ToastUtil.makeText(getActivity(), R.string.net_error);
         }
 
 
@@ -163,10 +163,12 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, dialog, MESSAGE_SIGN_ALL, 2);
         asyncSign.execute();
     }
+
     private void getSignAllNoneDialog() {
         AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, MESSAGE_SIGN_ALL, 2);
         asyncSign.execute();
     }
+
     private void jsonconver(String result) {
 
         if (!load) {
@@ -203,49 +205,47 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         ToastUtil.print("\n当前页码" + m);
 
 
-
-        if ((result == null)||(result=="")) {
+        if ((result == null) || (result == "")) {
             ToastUtil.makeText(getActivity(), "请联网后再试");
-        }
-        else{
+        } else {
 
             for (int i = i2; i < m; i++) {
-            SignBean bean = new SignBean();
-            bean.setSign_title(jsonArray.getJSONObject(i).getString("ActivityName"));
-            bean.setAct_title(jsonArray.getJSONObject(i).getString("Name"));
-            bean.setStoptime(jsonArray.getJSONObject(i).getString("AddTime"));
-            bean.setSign_num(jsonArray.getJSONObject(i).getString("NumShould"));
-            bean.setSignup_num(jsonArray.getJSONObject(i).getString("NumFact"));
-            bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
-            bean.setSign_id(jsonArray.getJSONObject(i).getString("ID"));
-            bean.setSign_status(jsonArray.getJSONObject(i).getString("Status"));
-            bean.setSignObject(jsonArray.getJSONObject(i).getString("SignObject"));
+                SignBean bean = new SignBean();
+                bean.setSign_title(jsonArray.getJSONObject(i).getString("ActivityName"));
+                bean.setAct_title(jsonArray.getJSONObject(i).getString("Name"));
+                bean.setStoptime(jsonArray.getJSONObject(i).getString("AddTime"));
+                bean.setSign_num(jsonArray.getJSONObject(i).getString("NumShould"));
+                bean.setSignup_num(jsonArray.getJSONObject(i).getString("NumFact"));
+                bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
+                bean.setSign_id(jsonArray.getJSONObject(i).getString("ID"));
+                bean.setSign_status(jsonArray.getJSONObject(i).getString("Status"));
+                bean.setSignObject(jsonArray.getJSONObject(i).getString("SignObject"));
 
-            //签到类型  默认0 到场签到   1离场签退  2 集合签到"
-            if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("0")) {
-                bean.setSign_type("到场签到：");
-            }
-            if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("1")) {
-                bean.setSign_type("离场签退：");
-            }
-            if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("2")) {
-                bean.setSign_type("集合签到：");
-            }
-            bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
+                //签到类型  默认0 到场签到   1离场签退  2 集合签到"
+                if (jsonArray.getJSONObject(i).getString("CheckInType").equals("0")) {
+                    bean.setSign_type("到场签到：");
+                }
+                if (jsonArray.getJSONObject(i).getString("CheckInType").equals("1")) {
+                    bean.setSign_type("离场签退：");
+                }
+                if (jsonArray.getJSONObject(i).getString("CheckInType").equals("2")) {
+                    bean.setSign_type("集合签到：");
+                }
+                bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
                 int NumShould = Integer.parseInt(bean.getSign_num());
                 int NubFact = Integer.parseInt(bean.getSignup_num());
                 if (NumShould == dao.queryListSize(bean.getSign_id())) {
                     bean.setList_status("true");
                 }
-            if (jsonArray.getJSONObject(i).getString("Status") .equals("false")) {
-                list.add(bean);
-            } else {
+                if (jsonArray.getJSONObject(i).getString("Status").equals("false")) {
+                    list.add(bean);
+                } else {
 
+                }
             }
+            showSuggest(list);
+            adapter.refreshData(list);
         }
-        showSuggest(list);
-        adapter.refreshData(list);
-    }
     }
 
 
@@ -361,6 +361,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             }
         });
     }
+
     private void gotoSignupList(String result) {
         Intent intent = new
                 Intent(getActivity(), SignupListActivity.class);
@@ -385,7 +386,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
             intent.putExtra("sign_id", sign_id);
             intent.putExtra("result", result);
-            intent.putExtra("title",title);
+            intent.putExtra("title", title);
             intent.putExtra("act_id", act_id);
 
 //            intent.putExtra("result", result);
@@ -417,7 +418,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                     case MESSAGE_GET_SIGNUPLIST:
                         String result2 = (String) msg.obj;
                         JSONObject jsonObj2 = JSON.parseObject(result2);
-                        if ("201".equals(jsonObj2.getString("Url"))){
+                        if ("201".equals(jsonObj2.getString("Url"))) {
                             UpgradedDialog(getActivity());
                             return;
                         }
@@ -445,27 +446,26 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                             }
 //                            ToastUtil.makeText(getActivity(), message + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog(message,"姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog(message, "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
 
                         } else {
-                            resultDialog("扫码失败！",message);
+                            resultDialog("扫码失败！", message);
 //                            ToastUtil.makeText(getActivity(), message);
                         }
-                    case   MESSAGE_SIGN_DELETE :
+                    case MESSAGE_SIGN_DELETE:
                         result = (String) msg.obj;
                         jsonObj = JSON.parseObject(result);
                         message = jsonObj.getString("Msg");
-                        System.out.println("sign_add_result:"+result);
+                        System.out.println("sign_add_result:" + result);
                         if (jsonObj.getString("Res").equals("0"))
                         //添加或修改请求结果
                         {
                             init();
                             ToastUtil.makeText(getActivity(), "删除成功！");
 
-                        }
-                        else{
-                            ToastUtil.makeText(getActivity(),message);
+                        } else {
+                            ToastUtil.makeText(getActivity(), message);
                         }
                         break;
                     case MESSAGE_SEND_SIGNUPLIST_EMAIL:
@@ -490,6 +490,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
 
 
     }
+
     //    上传成功后 修改已上传数据更新状态
     private void changeStatus() {
         List<MySignListupBean> list = dao.queryUpdateStatus();
@@ -505,6 +506,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         }
 
     }
+
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -553,7 +555,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 intent.setClass(getActivity(), MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("CheckInID", bean.getSign_id());
-                intent.putExtra("view_show","true" );
+                intent.putExtra("view_show", "true");
                 startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
             } else if (NetworkUtils.checkNetState(getActivity())) {
                 String mParam = "ID=" + bean.getSign_id();
@@ -573,9 +575,10 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onSignSwitch(SignBean bean) {
         updateSignStatus(bean.getSign_id());
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             public void run() {
-                init();            }
+                init();
+            }
         }, 2000);
     }
 
@@ -583,10 +586,11 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     public void onEditTitle(SignBean bean) {
         signItem(bean);
     }
-    public void signItem(final SignBean bean) {
-        mSignID=bean.getSign_id();
 
-        final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+    public void signItem(final SignBean bean) {
+        mSignID = bean.getSign_id();
+
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater factory = LayoutInflater.from(getActivity());
         //把activity_login中的控件定义在View中
         final View textEntryView = factory.inflate(R.layout.dialog_sign_item, null);
@@ -601,10 +605,6 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                         //获取用户输入的“用户名”，“密码”
 
 
-
-
-
-
                     }
                 })
                 //对话框的“退出”单击事件
@@ -616,13 +616,12 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 .setCancelable(true)
                 //对话框的创建、显示
                 .create();
-        final AlertDialog  dialog  = builder.show();
+        final AlertDialog dialog = builder.show();
 
-        View.OnClickListener onClickListener=new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId())
-                {
+                switch (view.getId()) {
                     case R.id.tv_sign_edit:
                         dialog.dismiss();
                         signEdit(bean);
@@ -669,10 +668,6 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                         //获取用户输入的“用户名”，“密码”
 
 
-
-
-
-
                     }
                 })
                 //对话框的“退出”单击事件
@@ -686,6 +681,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 .create();
 
     }
+
     public void deleteDialog(final SignBean bean) {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -715,6 +711,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 .create().show();
 
     }
+
     public void QrCodeDialog(final SignBean bean) {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -723,10 +720,10 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         final View v = factory.inflate(R.layout.dialog_qrcode_sign, null);
         ImageView iv_dialog_qrcode;
         iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode_sign);
-        TextView title= (TextView) v.findViewById(R.id.tv_qr_title);
+        TextView title = (TextView) v.findViewById(R.id.tv_qr_title);
         title.setText(bean.getAct_title());
 
-        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/ck/" + bean.getSign_id()+"/"+bean.getAct_id()+"/3", 600, 600);
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/ck/" + bean.getSign_id() + "/" + bean.getAct_id() + "/3", 600, 600);
         iv_dialog_qrcode.setImageBitmap(bitmap);
 
         ;
@@ -757,10 +754,12 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 .create().show();
 
     }
-    private void deleteSign(String checkInId){
-        AsyncSignDelete async =new AsyncSignDelete(getActivity(),mHandler,MESSAGE_SIGN_DELETE,checkInId);
+
+    private void deleteSign(String checkInId) {
+        AsyncSignDelete async = new AsyncSignDelete(getActivity(), mHandler, MESSAGE_SIGN_DELETE, checkInId);
         async.execute();
     }
+
     private void signEdit(SignBean bean) {
         Intent intent = new Intent();
         intent.setClass(getActivity(), SignEditActivity.class);
@@ -769,6 +768,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         intent.putExtras(bundle);
         this.startActivity(intent);
     }
+
     private void upload() {
         if (NetworkUtils.checkNetState(getActivity())) {
             List<updateBean> list = dao.queryUpdateStatusNew();
@@ -782,11 +782,12 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             async.execute();
         }
     }
-    @Override
-    public void onGetList(SignBean bean){
-        act_id= bean.getAct_id();
 
-        title=bean.getAct_title();
+    @Override
+    public void onGetList(SignBean bean) {
+        act_id = bean.getAct_id();
+
+        title = bean.getAct_title();
         mSignID = bean.getSign_id();
         if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
             Intent intent = new
@@ -795,7 +796,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
             String result = (String) SPUtils.get(getActivity(), "signup_" + bean.getSign_id(), "");
             intent.putExtra("result", result);
             intent.putExtra("sign_id", bean.getSign_id());
-            intent.putExtra("title",title);
+            intent.putExtra("title", title);
             intent.putExtra("act_id", act_id);
 
             startActivity(intent);
@@ -818,6 +819,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         }
 
     }
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -838,7 +840,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                         List<MySignListupBean> list2 = dao.queryListStatus(result, CheckInID, "true");
                         if (list.size() == 0) {
 //                            ToastUtil.makeText(getActivity(), "扫码失败，该凭证码有误");
-                            resultDialog("扫码失败","该凭证码无效！");
+                            resultDialog("扫码失败", "该凭证码无效！");
                         } else if (list2.size() == 1) {
                             MySignListupBean bean = (MySignListupBean) list.get(0);
                             String Name = bean.getName();
@@ -853,7 +855,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                             String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
 //                            ToastUtil.makeText(getActivity(), "该用户已经签到！" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog("该用户已经签到！","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog("该用户已经签到！", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
                         } else {
                             MySignListupBean bean = new MySignListupBean();
@@ -875,7 +877,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                             String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
 //                            ToastUtil.makeText(getActivity(), "扫码成功" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog("扫码成功！","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog("扫码成功！", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
 
                         }
@@ -918,7 +920,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         AsyncSignupList asyncSignupList = new AsyncSignupList(getActivity(), mHandler, dialog, MESSAGE_GET_SIGNUPLIST, sign_id);
         asyncSignupList.execute();
     }
-    public void resultDialog(String status,String message){
+
+    public void resultDialog(String status, String message) {
         new AlertDialog.Builder(getActivity())
                 .setIcon(R.mipmap.ic_launcher)
                 .setTitle(status)
@@ -947,12 +950,14 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                 .setCancelable(true)
                 .show();
     }
-    private void sendSignListByEmail(String email,String mSignID ){
+
+    private void sendSignListByEmail(String email, String mSignID) {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncSignuplistEmail async = new AsyncSignuplistEmail(getActivity(), mHandler,dialog, MESSAGE_SEND_SIGNUPLIST_EMAIL, email,mSignID);
+        AsyncSignuplistEmail async = new AsyncSignuplistEmail(getActivity(), mHandler, dialog, MESSAGE_SEND_SIGNUPLIST_EMAIL, email, mSignID);
         async.execute();
 
     }
+
     public void sendEmail() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -976,12 +981,11 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
 
                         //将页面输入框中获得的“用户名”，“密码”转为字符串
                         String email = etPassword.getText().toString();
-                        if (email==null||email.equals("")){
-                            ToastUtil.makeText(getActivity(),"邮箱不得为空！");
+                        if (email == null || email.equals("")) {
+                            ToastUtil.makeText(getActivity(), "邮箱不得为空！");
                             return;
-                        }
-                        else{
-                            sendSignListByEmail(email,mSignID);
+                        } else {
+                            sendSignListByEmail(email, mSignID);
                         }
                         //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
                         //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）

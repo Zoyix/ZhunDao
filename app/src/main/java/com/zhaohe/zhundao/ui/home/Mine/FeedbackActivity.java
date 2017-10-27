@@ -13,7 +13,7 @@ public class FeedbackActivity extends WebViewBase {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.web_view_base);
-        initToolBarNew("在线客服",R.layout.web_view_base);
+        initToolBarNew("在线客服", R.layout.web_view_base);
         init(setUrl());
 
 
@@ -21,8 +21,9 @@ public class FeedbackActivity extends WebViewBase {
 
     @Override
     public String setUrl() {
-        String url="http://p.qiao.baidu.com/cps/chat?siteId=9902661&userId=22227709";
-        return    url;    }
+        String url = "http://p.qiao.baidu.com/cps/chat?siteId=9902661&userId=22227709";
+        return url;
+    }
 
 
 }

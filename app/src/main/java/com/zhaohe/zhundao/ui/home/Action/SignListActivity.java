@@ -48,7 +48,7 @@ import static com.zhaohe.zhundao.ui.login.BondPhoneActivity.MESSAGE_GET_CODE;
  * @Author:邹苏隆
  * @Since:2016/12/14 10:52
  */
-public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener,Toolbar.OnMenuItemClickListener,AdapterView.OnItemLongClickListener{
+public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener, Toolbar.OnMenuItemClickListener, AdapterView.OnItemLongClickListener {
     private SignListAdapter adapter;
     private List<SignListBean> list_act;
     private ListView lv_signlist;
@@ -56,7 +56,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     private String act_id;
     private JSONObject jsonObj;
     private JSONArray jsonArray;
-    private int count=0;
+    private int count = 0;
     private MySignListDao dao;
     private EditText et_signlist_search;
     private Handler mHandler;
@@ -67,8 +67,8 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     NormalSelectionDialog dialog1;//底部对话框
     SignListBean bean;
     public static final int PAGE_SIZE = 200000;
-  private String  ActivityFees;
-    private String    UserInfo;
+    private String ActivityFees;
+    private String UserInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -100,6 +100,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
 
         return true;
     }
+
     private void initToolBar(String text, int layoutResID) {
         ToolBarHelper mToolBarHelper;
         mToolBarHelper = new ToolBarHelper(this, layoutResID);
@@ -118,8 +119,8 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         //从Intent当中根据key取得value
         if (intent != null) {
             act_id = intent.getStringExtra("act_id");
-            UserInfo=intent.getStringExtra("UserInfo");
-            ActivityFees=intent.getStringExtra("ActivityFees");
+            UserInfo = intent.getStringExtra("UserInfo");
+            ActivityFees = intent.getStringExtra("ActivityFees");
             signup_list = (String) SPUtils.get(this, "listup_" + act_id, "");
 
         }
@@ -139,10 +140,10 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             bean.setmIndex(i);
             bean.setAct_id(act_id);
 //          Status  -1取消报名，0报名成功，1待缴费
-            if (jsonArray.getJSONObject(i).getString("Status") .equals("0") ) {
+            if (jsonArray.getJSONObject(i).getString("Status").equals("0")) {
                 bean.setSign_list_status("报名成功");
             }
-            if (jsonArray.getJSONObject(i).getString("Status") .equals("1")) {
+            if (jsonArray.getJSONObject(i).getString("Status").equals("1")) {
                 bean.setSign_list_status("待缴费");
             }
             if (jsonArray.getJSONObject(i).getString("Status").equals("-1")) {
@@ -160,27 +161,29 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         }
 //        count=jsonArray.size()-1;
         dao.save(list);
-        if (intent.getStringExtra("phone")!=null){
+        if (intent.getStringExtra("phone") != null) {
 //            et_signlist_search.setText(intent.getStringExtra("phone"));
-            list_act=  dao.queryListActIDAndPhoneOrName(act_id,intent.getStringExtra("phone"));
-           SignListBean bean_act= list_act.get(0);
+            list_act = dao.queryListActIDAndPhoneOrName(act_id, intent.getStringExtra("phone"));
+            SignListBean bean_act = list_act.get(0);
             StartList(bean_act);
             finish();
 
+        } else {
+            list_act = dao.queryListActID(act_id);
+            adapter.refreshData(list_act);
         }
-        else{
-        list_act=dao.queryListActID(act_id);
-        adapter.refreshData(list_act);}
 
 
     }
+
     private void getSignList(String param) {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
         AsyncSignList asyncSignList = new AsyncSignList(this, mHandler, dialog, MESSAGE_GET_SIGNLIST, param);
         asyncSignList.execute();
     }
+
     private void getSignListNoDialog(String param) {
-        AsyncSignList asyncSignList = new AsyncSignList(this, mHandler,  MESSAGE_GET_SIGNLIST_NO_DIALOG, param);
+        AsyncSignList asyncSignList = new AsyncSignList(this, mHandler, MESSAGE_GET_SIGNLIST_NO_DIALOG, param);
         asyncSignList.execute();
     }
 
@@ -207,24 +210,24 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         lv_signlist.setAdapter(adapter);
         lv_signlist.setOnItemClickListener(this);
         lv_signlist.setOnItemLongClickListener(this);
-        et_signlist_search= (EditText) findViewById(R.id.et_signlist_search);
-et_signlist_search.addTextChangedListener(new TextWatcher() {
-    @Override
-    public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-        //TODO:
-    }
+        et_signlist_search = (EditText) findViewById(R.id.et_signlist_search);
+        et_signlist_search.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                //TODO:
+            }
 
-    @Override
-    public void onTextChanged(CharSequence s, int start, int before, int count) {
-        list_act=  dao.queryListActIDAndPhoneOrName(act_id,et_signlist_search.getText().toString());
-        adapter.refreshData(list_act);
-    }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                list_act = dao.queryListActIDAndPhoneOrName(act_id, et_signlist_search.getText().toString());
+                adapter.refreshData(list_act);
+            }
 
-    @Override
-    public void afterTextChanged(Editable s) {
-        //TODO:
-    }
-});
+            @Override
+            public void afterTextChanged(Editable s) {
+                //TODO:
+            }
+        });
 
         dialog1 = new NormalSelectionDialog.Builder(this)
                 .setlTitleVisible(true)   //设置是否显示标题
@@ -240,7 +243,7 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
                 .setOnItemListener(new com.wevey.selector.dialog.DialogInterface.OnItemClickListener<NormalSelectionDialog>() {
                     @Override
                     public void onItemClick(NormalSelectionDialog dialog, View button, int position) {
-                        switch (position){
+                        switch (position) {
                             case 0:
                                 Intent intent = new Intent();
                                 intent.setClass(getApplicationContext(), InvitationPersonActivity.class);
@@ -250,9 +253,9 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
                                 bundle.putSerializable("bean", bean);
                                 intent.putExtras(bundle);
                                 startActivity(intent);
-                              dialog1.dismiss();
+                                dialog1.dismiss();
 
-                            break;
+                                break;
 
                         }
                     }  //监听item点击事件
@@ -266,16 +269,16 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         dialog1.setDatas(s);
     }
 
-        @Override
+    @Override
     public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-      SignListBean bean= adapter.getItem(i);
-            StartList(bean);
+        SignListBean bean = adapter.getItem(i);
+        StartList(bean);
 
 
     }
 
     private void StartList(SignListBean bean) {
-        int m=  bean.getmIndex();
+        int m = bean.getmIndex();
         String name = jsonArray.getJSONObject(m).getString("UserName");
         String phone = jsonArray.getJSONObject(m).getString("Mobile");
         String unit = jsonArray.getJSONObject(m).getString("Company");
@@ -291,12 +294,12 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         String amount = jsonArray.getJSONObject(m).getString("Amount");
         String title = jsonArray.getJSONObject(m).getString("Title");
         String face_img = jsonArray.getJSONObject(m).getString("FaceImg");
-        String VCode= jsonArray.getJSONObject(m).getString("VCode");
-       String AdminRemark= jsonArray.getJSONObject(m).getString("AdminRemark");
+        String VCode = jsonArray.getJSONObject(m).getString("VCode");
+        String AdminRemark = jsonArray.getJSONObject(m).getString("AdminRemark");
         String Payment = jsonArray.getJSONObject(m).getString("Payment");
 
         Intent intent = new
-            Intent(this, SignListUserActivity.class);
+                Intent(this, SignListUserActivity.class);
         intent.putExtra("name", name);
         intent.putExtra("phone", phone);
         intent.putExtra("unit", unit);
@@ -315,14 +318,15 @@ et_signlist_search.addTextChangedListener(new TextWatcher() {
         intent.putExtra("face_img", face_img);
         intent.putExtra("Payment", Payment);
 
-        if(VCode!=null){
-SPUtils.put(getApplicationContext(),"print_Vcode",VCode);}
-        if(AdminRemark!=null){
+        if (VCode != null) {
+            SPUtils.put(getApplicationContext(), "print_Vcode", VCode);
+        }
+        if (AdminRemark != null) {
             intent.putExtra("AdminRemark", AdminRemark);
 
             SPUtils.put(getApplicationContext(), "print_AdminRemark", AdminRemark);
         }
-        SPUtils.put(getApplicationContext(),"print_name",bean.getSign_list_name());
+        SPUtils.put(getApplicationContext(), "print_name", bean.getSign_list_name());
 
 
         intent.putExtra("id", bean.getSign_list_id());
@@ -330,7 +334,7 @@ SPUtils.put(getApplicationContext(),"print_Vcode",VCode);}
         JSONObject jsonObject2 = null;
         if (JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo")) != null) {
             jsonObject2 = JSON.parseObject(jsonArray.getJSONObject(m).getString("ExtraInfo"));
-            ToastUtil.print(            jsonArray.getJSONObject(m).getString("ExtraInfo"));
+            ToastUtil.print(jsonArray.getJSONObject(m).getString("ExtraInfo"));
 
             String extra = jsonObject2.toString();
             intent.putExtra("extra", jsonArray.getJSONObject(m).getString("ExtraInfo"));
@@ -355,34 +359,38 @@ SPUtils.put(getApplicationContext(),"print_Vcode",VCode);}
                         String result = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result);
                         String message = jsonObj.getString("Res");
-                        if (message.equals("0")){
-    SPUtils.put(getApplicationContext(), "listup_" + act_id, result);
+                        if (message.equals("0")) {
+                            SPUtils.put(getApplicationContext(), "listup_" + act_id, result);
                             dao.deleteTable();
-    init();
-                        ToastUtil.makeText(getApplicationContext(),"刷新成功！");
+                            init();
+                            ToastUtil.makeText(getApplicationContext(), "刷新成功！");
                         }
 
                         break;
 
                     case MESSAGE_GET_SIGNLIST_NO_DIALOG:
-                         result = (String) msg.obj;
-                         jsonObj = JSON.parseObject(result);
-                         message = jsonObj.getString("Res");
-                        if (message.equals("0")){
+                        result = (String) msg.obj;
+                        jsonObj = JSON.parseObject(result);
+                        message = jsonObj.getString("Res");
+                        if (message.equals("0")) {
                             SPUtils.put(getApplicationContext(), "listup_" + act_id, result);
                             dao.deleteTable();
-                            init();}
+                            init();
+                        }
                     default:
                         break;
                 }
             }
-        };     }
-    private void sendSignListByEmail(String email,String act_id ){
+        };
+    }
+
+    private void sendSignListByEmail(String email, String act_id) {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(this, getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncSignlistEmail getCode = new AsyncSignlistEmail(this, mHandler,dialog, MESSAGE_GET_CODE, email,act_id);
+        AsyncSignlistEmail getCode = new AsyncSignlistEmail(this, mHandler, dialog, MESSAGE_GET_CODE, email, act_id);
         getCode.execute();
 
     }
+
     public void sendEmail() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -406,13 +414,12 @@ SPUtils.put(getApplicationContext(),"print_Vcode",VCode);}
 
                         //将页面输入框中获得的“用户名”，“密码”转为字符串
                         String email = etPassword.getText().toString();
-if (email==null||email.equals("")){
-    ToastUtil.makeText(getApplicationContext(),"邮箱不得为空！");
-    return;
-}
-else{
-    sendSignListByEmail(email,act_id);
-}
+                        if (email == null || email.equals("")) {
+                            ToastUtil.makeText(getApplicationContext(), "邮箱不得为空！");
+                            return;
+                        } else {
+                            sendSignListByEmail(email, act_id);
+                        }
                         //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
                         //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）
 
@@ -428,14 +435,15 @@ else{
                 //对话框的创建、显示
                 .create().show();
     }
-    public void addSign(){
+
+    public void addSign() {
 
         Intent intent = new
                 Intent(this, SignListUserAddActivity.class);
 
         intent.putExtra("act_id", act_id);
-        intent.putExtra("UserInfo",UserInfo);
-        intent.putExtra("ActivityFees",ActivityFees);
+        intent.putExtra("UserInfo", UserInfo);
+        intent.putExtra("ActivityFees", ActivityFees);
         JSONObject jsonObject2 = null;
 
         startActivity(intent);
@@ -444,7 +452,7 @@ else{
 
     @Override
     public boolean onMenuItemClick(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.menu_signlist_email:
                 sendEmail();
                 break;
@@ -452,9 +460,9 @@ else{
                 update();
                 break;
             case R.id.menu_signlist_add:
-                if (NetworkUtils.checkNetState(this)){
-                addSign();}
-                else ToastUtil.makeText(this,R.string.net_error);
+                if (NetworkUtils.checkNetState(this)) {
+                    addSign();
+                } else ToastUtil.makeText(this, R.string.net_error);
                 break;
         }
         return false;
@@ -467,6 +475,7 @@ else{
         String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
         getSignList(mParam);
     }
+
     private void updateNoDialog() {
         if (act_id == null) {
             act_id = ((String) SPUtils.get(this, "Act_id_now", ""));
@@ -477,10 +486,10 @@ else{
 
     @Override
     public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-         bean= adapter.getItem(position);
-        int m=  bean.getmIndex();
+        bean = adapter.getItem(position);
+        int m = bean.getmIndex();
         bean.setVCode(jsonArray.getJSONObject(m).getString("VCode"));
-        ToastUtil.print("vcode"+bean.getVCode());
+        ToastUtil.print("vcode" + bean.getVCode());
 
         dialog1.show();
 

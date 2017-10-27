@@ -79,7 +79,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     PtrClassicFrameLayout ptrClassicFrameLayout;
     int page = 0;
     List<ActionBean> list = new ArrayList<ActionBean>();
-    boolean load=true;
+    boolean load = true;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -98,13 +98,14 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         super.onResume();
         MobclickAgent.onResume(getActivity());
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());
     }
 
     private void init() {
-        if (SPUtils.contains(getActivity(),"act_result_off")) {
+        if (SPUtils.contains(getActivity(), "act_result_off")) {
             jsonconver((String) SPUtils.get(getActivity(), "act_result_off", ""));
             getActionListNoneDialog();
 
@@ -114,14 +115,15 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
 
         }
     }
+
     private void getActionList() {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, dialog, MESSAGE_ACT_ALL,"2");
+        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, dialog, MESSAGE_ACT_ALL, "2");
         asyncActivity.execute();
     }
 
     private void getActionListNoneDialog() {
-        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, MESSAGE_ACT_ALL,"2");
+        AsyncAction asyncActivity = new AsyncAction(getActivity(), mHandler, MESSAGE_ACT_ALL, "2");
         asyncActivity.execute();
     }
 
@@ -131,12 +133,12 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     }
 
     private void jsonconver(String result) {
-        if (!load){
+        if (!load) {
             return;
         }
         int i2;
-        int size=20;
-        if (page==0){
+        int size = 20;
+        if (page == 0) {
             list.clear();
             initFrameLayout();
 
@@ -145,27 +147,26 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         }
         ptrClassicFrameLayout.setLoadMoreEnable(true);
 
-        i2=page*size;
-        ToastUtil.print("当前页数"+i2);
+        i2 = page * size;
+        ToastUtil.print("当前页数" + i2);
         JSONObject jsonObj = JSON.parseObject(result);
         JSONArray jsonArray = jsonObj.getJSONArray("Data");
-        int m=0;
-        if((page+1)*size<jsonArray.size()){
-            m=(page+1)*size;
+        int m = 0;
+        if ((page + 1) * size < jsonArray.size()) {
+            m = (page + 1) * size;
 
-        }
-        else{
+        } else {
             page--;
-            m=jsonArray.size();
+            m = jsonArray.size();
 //            ToastUtil.makeText(getActivity(),"已无更多数据");
             ptrClassicFrameLayout.setLoadMoreEnable(false);
-            load=false;
+            load = false;
 
 
         }
-        ToastUtil.print("\n当前页码"+m);
+        ToastUtil.print("\n当前页码" + m);
 
-        for (int i=i2; i<m; i++) {
+        for (int i = i2; i < m; i++) {
             ActionBean bean = new ActionBean();
             bean.setAct_title(jsonArray.getJSONObject(i).getString("Title"));
             bean.setClick_num(jsonArray.getJSONObject(i).getString("ClickNo"));
@@ -179,22 +180,24 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             String newtime1 = newtime.substring(2, newtime.length() - 3);
             bean.setAct_endtime("报名截止：" + newtime1);
             String comparetime = TimeUtil.getTimeDifference(newtime, TimeUtil.getNowTime());
-            if(comparetime.indexOf("-")!=-1){
-                String newtime3=comparetime.replace("-","");
+            if (comparetime.indexOf("-") != -1) {
+                String newtime3 = comparetime.replace("-", "");
                 bean.setAct_resttime("(还剩" + newtime3 + ")");
 
+            } else {
+                bean.setAct_resttime("(结束" + comparetime + ")");
             }
-            else{bean.setAct_resttime("(结束" + comparetime + ")");}
             time = jsonArray.getJSONObject(i).getString("TimeStart");
             newtime = time.replace("T", " ");
             newtime1 = newtime.substring(2, newtime.length() - 3);
             bean.setAct_starttime("活动结束：" + newtime1);
             comparetime = TimeUtil.getTimeDifference(newtime, TimeUtil.getNowTime());
-            if(comparetime.indexOf("-")!=-1){
-                String newtime3=comparetime.replace("-","");
+            if (comparetime.indexOf("-") != -1) {
+                String newtime3 = comparetime.replace("-", "");
                 bean.setAct_resttime2("(还剩" + newtime3 + ")");
+            } else {
+                bean.setAct_resttime2("(结束" + comparetime + ")");
             }
-            else{bean.setAct_resttime2("(结束" + comparetime + ")");}
             bean.setAct_sign_num(jsonArray.getJSONObject(i).getString("HasJoinNum"));
             bean.setAct_sign_income(jsonArray.getJSONObject(i).getString("Amount"));
             bean.setAct_status("  报名截止");
@@ -205,7 +208,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             bean.setActivityFees(jsonArray.getJSONObject(i).getString("ActivityFees"));
 
 
-                list.add(bean);
+            list.add(bean);
 
         }
         showSuggest(list);
@@ -246,8 +249,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             SPUtils.put(getActivity(), "listup_" + act_id, result);
             //在Intent对象当中添加一个键值对
             intent.putExtra("act_id", act_id);
-            intent.putExtra("UserInfo",UserInfo);
-            intent.putExtra("ActivityFees",ActivityFees);
+            intent.putExtra("UserInfo", UserInfo);
+            intent.putExtra("ActivityFees", ActivityFees);
             SPUtils.put(getActivity(), "UserInfo" + act_id, UserInfo);
             SPUtils.put(getActivity(), "ActivityFees" + act_id, ActivityFees);
             startActivity(intent);
@@ -266,8 +269,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                         //活动列表结果
                         if (NetworkUtils.checkNetState(getActivity())) {
                             SPUtils.put(getActivity(), "act_result_off", result);
-                            page=0;
-                            load=true;
+                            page = 0;
+                            load = true;
                             jsonconver((String) SPUtils.get(getActivity(), "act_result_off", ""));
                         }
 
@@ -330,7 +333,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                     @Override
                     public void run() {
                         page = 0;
-                        load=true;
+                        load = true;
                         init();
                         ptrClassicFrameLayout.setLoadMoreEnable(true);
 
@@ -375,9 +378,10 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             public void onStart(SHARE_MEDIA platform) {
                 //分享开始的回调
             }
+
             @Override
             public void onResult(SHARE_MEDIA platform) {
-                Log.d("plat","platform"+platform);
+                Log.d("plat", "platform" + platform);
 
 //                Toast.makeText(getActivity(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
@@ -386,8 +390,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
 //                Toast.makeText(getActivity(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                if(t!=null){
-                    Log.d("throw","throw:"+t.getMessage());
+                if (t != null) {
+                    Log.d("throw", "throw:" + t.getMessage());
                 }
             }
 
@@ -415,7 +419,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     @Override
     public void onRefresh() {
         if (NetworkUtils.checkNetState(getActivity())) {
-            page=0;
+            page = 0;
             init();
             System.out.print("成功刷新");
             mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
@@ -428,12 +432,12 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
     @Override
     public void onSignClick(ActionBean bean) {
         Intent intent = new Intent(getActivity(), ActionSignActivity.class);
-        Bundle  bundle = new Bundle();
+        Bundle bundle = new Bundle();
         bundle.putString("act_id", bean.getAct_id());
         bundle.putString("act_title", bean.getAct_title());
         intent.putExtras(bundle);
-        if (SPUtils.contains(getActivity(),"sign_result")==false) {
-            if (NetworkUtils.checkNetState(getActivity())==false) {
+        if (SPUtils.contains(getActivity(), "sign_result") == false) {
+            if (NetworkUtils.checkNetState(getActivity()) == false) {
                 ToastUtil.makeText(getActivity(), R.string.net_error);
                 return;
             }
@@ -443,12 +447,12 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onListClick(ActionBean bean) {
-        ActivityFees=bean.getActivityFees();
-        UserInfo=bean.getBaseItem();
-        SPUtils.put(getActivity(),"act_title",bean.getAct_title());
-        SPUtils.put(getActivity(),"act_time",bean.getAct_starttime());
-        SPUtils.put(getActivity(),"act_add",bean.getAddress());
-        SPUtils.put(getActivity(),"act_url",bean.getUrl());
+        ActivityFees = bean.getActivityFees();
+        UserInfo = bean.getBaseItem();
+        SPUtils.put(getActivity(), "act_title", bean.getAct_title());
+        SPUtils.put(getActivity(), "act_time", bean.getAct_starttime());
+        SPUtils.put(getActivity(), "act_add", bean.getAddress());
+        SPUtils.put(getActivity(), "act_url", bean.getUrl());
 
 //       这里开始写 判断网络状况
         if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {
@@ -486,19 +490,19 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                             public void onClick(View v) {
                                 switch (v.getId()) {
                                     case R.id.iv_share_wechat_solid:
-                                        UmengShare(bean,SHARE_MEDIA.WEIXIN);
+                                        UmengShare(bean, SHARE_MEDIA.WEIXIN);
                                         break;
                                     case R.id.iv_share_weixin_friends_solid:
-                                        UmengShare(bean,SHARE_MEDIA.WEIXIN_CIRCLE);
+                                        UmengShare(bean, SHARE_MEDIA.WEIXIN_CIRCLE);
                                         break;
                                     case R.id.iv_share_weibo_solid:
                                         UmengShare(bean, SHARE_MEDIA.SINA);
                                         break;
                                     case R.id.iv_share_qq_solid:
-                                        UmengShare(bean,SHARE_MEDIA.QQ);
+                                        UmengShare(bean, SHARE_MEDIA.QQ);
                                         break;
                                     case R.id.iv_share_qqzone_solid:
-                                        UmengShare(bean,SHARE_MEDIA.QZONE);
+                                        UmengShare(bean, SHARE_MEDIA.QZONE);
 
                                         break;
                                 }
@@ -506,7 +510,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                         });
                         ImageView iv_share_wechat_solid = (ImageView) v.findViewById(R.id.iv_share_wechat_solid);
                         ImageView iv_share_weixin_friends_solid = (ImageView) v.findViewById(R.id.iv_share_weixin_friends_solid);
-                        ImageView iv_share_weibo_solid= (ImageView) v.findViewById(R.id.iv_share_weibo_solid);
+                        ImageView iv_share_weibo_solid = (ImageView) v.findViewById(R.id.iv_share_weibo_solid);
                         ImageView iv_share_qq_solid = (ImageView) v.findViewById(R.id.iv_share_qq_solid);
                         ImageView iv_share_qqzone_solid = (ImageView) v.findViewById(R.id.iv_share_qqzone_solid);
 
@@ -522,13 +526,14 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                 .setTag("BottomDialog")
                 .show();
     }
-    private void UmengShare(ActionBean bean,SHARE_MEDIA type ) {
+
+    private void UmengShare(ActionBean bean, SHARE_MEDIA type) {
         try {
 
-            UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
+            UMWeb web = new UMWeb("https://" + ShareUrl + bean.getAct_id());
             UMImage image = new UMImage(getActivity(), bean.getUrl());
-            web.setTitle( bean.getAct_title());//标题
-            web.setDescription(bean.getAct_starttime()+"\n活动地点： "+bean.getAddress());//描述
+            web.setTitle(bean.getAct_title());//标题
+            web.setDescription(bean.getAct_starttime() + "\n活动地点： " + bean.getAddress());//描述
             web.setThumb(image);
 //        new ShareAction(getActivity())
 //                .withMedia(web)
@@ -538,16 +543,16 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
                     .withMedia(web)
                     .setCallback(mShareListener)
                     .share();
-        }
-        catch (Exception e){
-            ToastUtil.makeText(getActivity(),type.toString()+"异常，请暂时先使用更多选项中的复制链接进行手动分享");
+        } catch (Exception e) {
+            ToastUtil.makeText(getActivity(), type.toString() + "异常，请暂时先使用更多选项中的复制链接进行手动分享");
             return;
         }
     }
+
     @Override
     public void onMoreClick(ActionBean bean) {
-        ActivityFees=bean.getActivityFees();
-        UserInfo=bean.getBaseItem();
+        ActivityFees = bean.getActivityFees();
+        UserInfo = bean.getBaseItem();
         SPUtils.put(getActivity(), "UserInfo" + bean.getAct_id(), UserInfo);
         SPUtils.put(getActivity(), "ActivityFees" + bean.getAct_id(), ActivityFees);
         SPUtils.put(getActivity(), "Act_id_now", bean.getAct_id());

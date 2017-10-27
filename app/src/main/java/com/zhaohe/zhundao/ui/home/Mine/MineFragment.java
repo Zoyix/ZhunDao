@@ -45,25 +45,27 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
-    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback,tv_min_phone,tv_min_vip,tv_contacts,tv_my_inf;
-private RelativeLayout view_user;
+    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback, tv_min_phone, tv_min_vip, tv_contacts, tv_my_inf;
+    private RelativeLayout view_user;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        rootView =LayoutInflater.from(getActivity()).inflate(R.layout.fragment_min,
+        rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_min,
                 null);
-initHandler();
+        initHandler();
         initView(rootView);
         getList();
 
     }
+
     public void onResume() {
         super.onResume();
         getUserInf();
         initUserInfo();
         MobclickAgent.onResume(getActivity());
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());
@@ -88,14 +90,14 @@ initHandler();
         tv_min_wallet.setOnClickListener(this);
         tv_min_feedback = (TextView) rootView.findViewById(R.id.tv_feedback);
         tv_min_feedback.setOnClickListener(this);
-        tv_min_phone= (TextView) rootView.findViewById(R.id.tv_min_phone);
-        tv_min_vip= (TextView) rootView.findViewById(R.id.tv_min_vip);
+        tv_min_phone = (TextView) rootView.findViewById(R.id.tv_min_phone);
+        tv_min_vip = (TextView) rootView.findViewById(R.id.tv_min_vip);
         tv_min_vip.setOnClickListener(this);
-        tv_contacts= (TextView) rootView.findViewById(R.id.tv_contacts);
+        tv_contacts = (TextView) rootView.findViewById(R.id.tv_contacts);
         tv_contacts.setOnClickListener(this);
-        tv_my_inf= (TextView) rootView.findViewById(R.id.tv_my_inf);
+        tv_my_inf = (TextView) rootView.findViewById(R.id.tv_my_inf);
         tv_my_inf.setOnClickListener(this);
-        view_user= (RelativeLayout) rootView.findViewById(R.id.view_user);
+        view_user = (RelativeLayout) rootView.findViewById(R.id.view_user);
         view_user.setOnClickListener(this);
     }
 
@@ -103,14 +105,14 @@ initHandler();
         //        帕斯卡 加载头像
         String url = (String) SPUtils.get(getActivity(), "HeadImgurl", "");
         String name = (String) SPUtils.get(getActivity(), "NickName", "");
-        String phone=(String) SPUtils.get(getActivity(), "Mobile", "");
+        String phone = (String) SPUtils.get(getActivity(), "Mobile", "");
         String newPhone;
-        if(phone.equals("")||phone.equals(null)){
-             newPhone="绑定手机";
+        if (phone.equals("") || phone.equals(null)) {
+            newPhone = "绑定手机";
             tv_min_phone.setOnClickListener(this);
+        } else {
+            newPhone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
         }
-        else
-        { newPhone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");}
         int vip = (int) SPUtils.get(getActivity(), "vip", 0);
 
 //        int sex = (int) SPUtils.get(getActivity(), "Sex", 2);
@@ -124,14 +126,13 @@ initHandler();
 //        String url="http://wx.qlogo.cn/mmopen/cdJxMia7edLt0ZywjiaFNQkOH4WXSCiaOkAAfNwaNVCp25IYX3otiaqibNGn8ib4SadtYUfMFoibYT1l5gXG1Kiamv5CVMhibQJpXjt0y/0";
         tv_min_name.setText(name);
         tv_min_phone.setText(newPhone);
-        tv_min_vip.setText("V"+vip);
+        tv_min_vip.setText("V" + vip);
         TextPaint tp = tv_min_vip.getPaint();
         tp.setFakeBoldText(true);
-        if (url==""){
+        if (url == "") {
             Picasso.with(getActivity()).load(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
 
-        }
-       else {
+        } else {
             Picasso.with(getActivity()).load(url).error(R.drawable.unkown_head).transform(new CircleTransform()).into(img_head);
         }
 
@@ -178,6 +179,7 @@ initHandler();
                 .create().show();
 
     }
+
     private void initHandler() {
         mHandler = new Handler() {
 
@@ -202,27 +204,24 @@ initHandler();
             }
         };
     }
-    private void infRead(String result){
+
+    private void infRead(String result) {
         if ((result == null) || (result == "")) {
-        }
-        else{
+        } else {
             JSONObject jsonObj = JSON.parseObject(result);
             JSONArray jsonArray = jsonObj.getJSONArray("Data");
-            if (jsonArray.size()<=0){
+            if (jsonArray.size() <= 0) {
                 return;
-            }
-            else if (!SPUtils.contains(getActivity(),"inf_result")){
+            } else if (!SPUtils.contains(getActivity(), "inf_result")) {
 
                 setUnread();
-            }
-            else{
-                String result2= (String) SPUtils.get(getActivity(),"inf_result","");
+            } else {
+                String result2 = (String) SPUtils.get(getActivity(), "inf_result", "");
                 JSONObject jsonObj2 = JSON.parseObject(result2);
                 JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
-                if (jsonArray.size()>jsonArray2.size()){
+                if (jsonArray.size() > jsonArray2.size()) {
                     setUnread();
-                }
-                else{
+                } else {
                     setRead();
                 }
             }
@@ -232,21 +231,23 @@ initHandler();
     }
 
     private void setUnread() {
-        Drawable drawable= getResources().getDrawable(R.mipmap.unread);
+        Drawable drawable = getResources().getDrawable(R.mipmap.unread);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        Drawable drawable2= getResources().getDrawable(R.mipmap.inf108);
+        Drawable drawable2 = getResources().getDrawable(R.mipmap.inf108);
         drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());
 
-        tv_my_inf .setCompoundDrawables(drawable2,null,drawable,null);
+        tv_my_inf.setCompoundDrawables(drawable2, null, drawable, null);
     }
+
     private void setRead() {
-        Drawable drawable= getResources().getDrawable(R.drawable.right);
+        Drawable drawable = getResources().getDrawable(R.drawable.right);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-        Drawable drawable2= getResources().getDrawable(R.mipmap.inf108);
+        Drawable drawable2 = getResources().getDrawable(R.mipmap.inf108);
         drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());
 
-        tv_my_inf .setCompoundDrawables(drawable2,null,drawable,null);
+        tv_my_inf.setCompoundDrawables(drawable2, null, drawable, null);
     }
+
     private void savaUserInf(String result) {
 
         JSONObject jsonObj = JSON.parseObject(result);
@@ -264,16 +265,18 @@ initHandler();
         SPUtils.put(getActivity(), "HeadImgurl", jsonObject2.getString("HeadImgurl"));
         SPUtils.put(getActivity(), "Sex", jsonObject2.getString("Sex"));
 
-        SPUtils.put(getActivity(), "vip",jsonObject2.getInteger("GradeId"));
+        SPUtils.put(getActivity(), "vip", jsonObject2.getInteger("GradeId"));
         int vip = (int) SPUtils.get(getActivity(), "vip", 0);
-        if( null==jsonObject2.getString("Mobile")){}
-        else{
-            SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));}
+        if (null == jsonObject2.getString("Mobile")) {
+        } else {
+            SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));
+        }
         initUserInfo();
 
     }
-    private void getList(){
-        AsyncInf async=new AsyncInf(getActivity(),mHandler,MESSAGE_GET_INF);
+
+    private void getList() {
+        AsyncInf async = new AsyncInf(getActivity(), mHandler, MESSAGE_GET_INF);
         async.execute();
     }
 
@@ -292,7 +295,7 @@ initHandler();
                 showWaiterAuthorizationDialog();
                 break;
             case R.id.tv_min_vip:
-                IntentUtils.startActivity(getActivity(),UpgradedActivity.class);
+                IntentUtils.startActivity(getActivity(), UpgradedActivity.class);
                 break;
             case R.id.tv_min_phone:
                 IntentUtils.startActivity(getActivity(), BondPhoneActivity.class);
@@ -300,7 +303,7 @@ initHandler();
             case R.id.tv_contacts:
                 IntentUtils.startActivity(getActivity(), ContactsActivity.class);
                 break;
-            case R.id.    tv_my_inf:
+            case R.id.tv_my_inf:
                 IntentUtils.startActivity(getActivity(), InfActivity.class);
                 setRead();
                 break;

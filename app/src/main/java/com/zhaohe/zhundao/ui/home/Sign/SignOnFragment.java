@@ -98,10 +98,11 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
 
     public static final int SCANNIN_GREQUEST_CODE = 89;
     private boolean isGotoList;//true不跳转 false跳转签到名单
-String title;
+    String title;
     String act_id;
     boolean load = true;
     int page = 0;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -119,18 +120,18 @@ String title;
         super.onResume();
         MobclickAgent.onResume(getActivity());
         upload();
-        if((boolean)SPUtils.get(getActivity(),"updateSign",false)){
-init();
-            SPUtils.put(getActivity(),"updateSign",false);
+        if ((boolean) SPUtils.get(getActivity(), "updateSign", false)) {
+            init();
+            SPUtils.put(getActivity(), "updateSign", false);
 
         }
 
     }
+
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());
     }
-
 
 
     @Override
@@ -151,21 +152,16 @@ init();
         if (SPUtils.contains(getActivity(), "sign_result_on")) {
             jsonconver((String) SPUtils.get(getActivity(), "sign_result_on", ""));
             getSignAllNoneDialog();
-        }
-        else if(NetworkUtils.checkNetState(getActivity()))
-        {
+        } else if (NetworkUtils.checkNetState(getActivity())) {
             upload();
-        getSignAll();
+            getSignAll();
 //            getSignAllNoneDialog();
+        } else {
+            ToastUtil.makeText(getActivity(), R.string.net_error);
         }
-        else{
-            ToastUtil.makeText(getActivity(),R.string.net_error);
-        }
 
 
-}
-
-
+    }
 
 
     private void getSignAll() {
@@ -173,6 +169,7 @@ init();
         AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, dialog, MESSAGE_SIGN_ALL, 1);
         asyncSign.execute();
     }
+
     private void getSignAllNoneDialog() {
         AsyncSign asyncSign = new AsyncSign(getActivity(), mHandler, MESSAGE_SIGN_ALL, 1);
         asyncSign.execute();
@@ -226,9 +223,9 @@ init();
         ToastUtil.print("总数量" + jsonArray.size());
         ToastUtil.print("\n当前页码" + m);
 
-        String starttime=TimeUtil.getNowTime();
-String endtime;
-        if ((result == null)||(result=="")) {
+        String starttime = TimeUtil.getNowTime();
+        String endtime;
+        if ((result == null) || (result == "")) {
             ToastUtil.makeText(getActivity(), "请联网后再试");
         } else {
 
@@ -236,7 +233,7 @@ String endtime;
                 SignBean bean = new SignBean();
 
 
-                if (jsonArray.getJSONObject(i).getString("Status") .equals("true") ) {
+                if (jsonArray.getJSONObject(i).getString("Status").equals("true")) {
                     bean.setSign_title(jsonArray.getJSONObject(i).getString("ActivityName"));
                     bean.setAct_title(jsonArray.getJSONObject(i).getString("Name"));
                     bean.setStoptime(jsonArray.getJSONObject(i).getString("AddTime"));
@@ -249,36 +246,36 @@ String endtime;
                     bean.setList_status("false");
 
                     //签到类型  默认0 到场签到   1离场签退  2 集合签到"
-                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("0")) {
+                    if (jsonArray.getJSONObject(i).getString("CheckInType").equals("0")) {
                         bean.setSign_type("到场签到：");
                     }
-                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("1")) {
+                    if (jsonArray.getJSONObject(i).getString("CheckInType").equals("1")) {
                         bean.setSign_type("离场签退：");
                     }
-                    if (jsonArray.getJSONObject(i).getString("CheckInType") .equals("2")) {
+                    if (jsonArray.getJSONObject(i).getString("CheckInType").equals("2")) {
                         bean.setSign_type("集合签到：");
                     }
                     bean.setAct_id(jsonArray.getJSONObject(i).getString("ActivityID"));
 
-                        ToastUtil.print("数据"+i);
-                        int NumShould = Integer.parseInt(bean.getSign_num());
-                        int NubFact= Integer.parseInt(bean.getSignup_num());
+                    ToastUtil.print("数据" + i);
+                    int NumShould = Integer.parseInt(bean.getSign_num());
+                    int NubFact = Integer.parseInt(bean.getSignup_num());
                     if (NumShould == dao.queryListSize(bean.getSign_id())) {
-                    bean.setList_status("true");
-                }
+                        bean.setList_status("true");
+                    }
 
 
 //                        if(NumShould!=NubFact){
 //                            bean.setList_status("false");
 //                        }
 
-                    }
-                    list.add(bean);
+                }
+                list.add(bean);
 
 
             }
-            endtime=TimeUtil.getNowTime();
-            ToastUtil.print("开始时间"+starttime+"结束时间"+endtime);
+            endtime = TimeUtil.getNowTime();
+            ToastUtil.print("开始时间" + starttime + "结束时间" + endtime);
             showSuggest(list);
             adapter.refreshData(list);
         }
@@ -395,6 +392,7 @@ String endtime;
             }
         });
     }
+
     private void gotoSignupList(String result) {
 
 
@@ -420,16 +418,18 @@ String endtime;
             String result2 = (String) SPUtils.get(getActivity(), "sign_result_on", "");
             JSONObject jsonObj2 = JSON.parseObject(result2);
             JSONArray jsonArray2 = jsonObj2.getJSONArray("Data");
-            intent.putExtra("title",title);
+            intent.putExtra("title", title);
             intent.putExtra("act_id", act_id);
 
 
             intent.putExtra("sign_id", sign_id);
 //            intent.putExtra("result", result);
 //            如果是相机第一次拿名单，则不跳转
-if (isGotoList){return;}
-            else
-{startActivity(intent);}
+            if (isGotoList) {
+                return;
+            } else {
+                startActivity(intent);
+            }
         }
     }
 
@@ -457,7 +457,7 @@ if (isGotoList){return;}
                     case MESSAGE_GET_SIGNUPLIST:
                         String result2 = (String) msg.obj;
                         JSONObject jsonObj2 = JSON.parseObject(result2);
-                        if ("201".equals(jsonObj2.getString("Url"))){
+                        if ("201".equals(jsonObj2.getString("Url"))) {
                             UpgradedDialog(getActivity());
                             return;
                         }
@@ -485,10 +485,10 @@ if (isGotoList){return;}
                             }
 //                            ToastUtil.makeText(getActivity(), message + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog(message,"姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog(message, "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
                         } else {
-                            resultDialog("扫码失败！",message);
+                            resultDialog("扫码失败！", message);
 //                            ToastUtil.makeText(getActivity(), message);
                         }
                         break;
@@ -500,24 +500,23 @@ if (isGotoList){return;}
                             ToastUtil.makeText(getActivity(), "数据上传成功");
                         }
                         break;
-                    case   MESSAGE_SIGN_DELETE :
-                    result = (String) msg.obj;
-                    jsonObj = JSON.parseObject(result);
-                    message = jsonObj.getString("Msg");
-                    if (jsonObj.getString("Res").equals("0"))
-                    //添加或修改请求结果
-                    {
-                        init();
-                        ToastUtil.makeText(getActivity(), "删除成功！");
+                    case MESSAGE_SIGN_DELETE:
+                        result = (String) msg.obj;
+                        jsonObj = JSON.parseObject(result);
+                        message = jsonObj.getString("Msg");
+                        if (jsonObj.getString("Res").equals("0"))
+                        //添加或修改请求结果
+                        {
+                            init();
+                            ToastUtil.makeText(getActivity(), "删除成功！");
 
-                    }
-                    else{
-                        ToastUtil.makeText(getActivity(),message);
-                    }
-                    break;
+                        } else {
+                            ToastUtil.makeText(getActivity(), message);
+                        }
+                        break;
 
                     case MESSAGE_SEND_SIGNUPLIST_EMAIL:
-                       result2 = (String) msg.obj;
+                        result2 = (String) msg.obj;
                         ToolUserBean bean = (ToolUserBean) JSON.parseObject(result2, ToolUserBean.class);
                         Toast.makeText(getActivity(), bean.getMsg(), Toast.LENGTH_LONG).show();
                         break;
@@ -557,9 +556,10 @@ if (isGotoList){return;}
     @Override
     public void onSignSwitch(SignBean bean) {
         updateSignStatus(bean.getSign_id());
-        new Handler().postDelayed(new Runnable(){
+        new Handler().postDelayed(new Runnable() {
             public void run() {
-                init();            }
+                init();
+            }
         }, 2000);
 
     }
@@ -582,9 +582,9 @@ if (isGotoList){return;}
     @Override
     public void onGetList(SignBean bean) {
 
-       act_id= bean.getAct_id();
-title=bean.getAct_title();
-        isGotoList=false;
+        act_id = bean.getAct_id();
+        title = bean.getAct_title();
+        isGotoList = false;
         mSignID = bean.getSign_id();
         if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
             Intent intent = new
@@ -592,7 +592,7 @@ title=bean.getAct_title();
             //在Intent对象当中添加一个键值对
             String result = (String) SPUtils.get(getActivity(), "signup_" + bean.getSign_id(), "");
             intent.putExtra("result", result);
-            intent.putExtra("title",title);
+            intent.putExtra("title", title);
             intent.putExtra("sign_id", bean.getSign_id());
             intent.putExtra("act_id", act_id);
 
@@ -615,9 +615,10 @@ title=bean.getAct_title();
         }
 
     }
+
     public void signItem(final SignBean bean) {
-        mSignID=bean.getSign_id();
-        final AlertDialog.Builder builder= new AlertDialog.Builder(getActivity());
+        mSignID = bean.getSign_id();
+        final AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         LayoutInflater factory = LayoutInflater.from(getActivity());
         //把activity_login中的控件定义在View中
         final View textEntryView = factory.inflate(R.layout.dialog_sign_item, null);
@@ -632,10 +633,6 @@ title=bean.getAct_title();
                         //获取用户输入的“用户名”，“密码”
 
 
-
-
-
-
                     }
                 })
                 //对话框的“退出”单击事件
@@ -647,13 +644,12 @@ title=bean.getAct_title();
                 .setCancelable(true)
                 //对话框的创建、显示
                 .create();
-        final AlertDialog  dialog  = builder.show();
+        final AlertDialog dialog = builder.show();
 
-        View.OnClickListener onClickListener=new View.OnClickListener() {
+        View.OnClickListener onClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                switch (view.getId())
-                {
+                switch (view.getId()) {
                     case R.id.tv_sign_edit:
                         dialog.dismiss();
                         signEdit(bean);
@@ -669,7 +665,7 @@ title=bean.getAct_title();
                         break;
                     case R.id.tv_sign_email:
                         dialog.dismiss();
-sendEmail();
+                        sendEmail();
                         break;
 
                 }
@@ -689,7 +685,7 @@ sendEmail();
         final TextView tv_sign_email = (TextView) textEntryView.findViewById(R.id.tv_sign_email);
         tv_sign_email.setOnClickListener(onClickListener);
         //将LoginActivity中的控件显示在对话框中
-                 builder                //对话框的标题
+        builder                //对话框的标题
                 .setTitle("签到操作")
                 //设定显示的View
                 .setView(textEntryView)
@@ -698,10 +694,6 @@ sendEmail();
                     public void onClick(DialogInterface dialog, int whichButton) {
 
                         //获取用户输入的“用户名”，“密码”
-
-
-
-
 
 
                     }
@@ -717,12 +709,14 @@ sendEmail();
                 .create();
 
     }
-    private void sendSignListByEmail(String email,String mSignID ){
+
+    private void sendSignListByEmail(String email, String mSignID) {
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
-        AsyncSignuplistEmail async = new AsyncSignuplistEmail(getActivity(), mHandler,dialog, MESSAGE_SEND_SIGNUPLIST_EMAIL, email,mSignID);
+        AsyncSignuplistEmail async = new AsyncSignuplistEmail(getActivity(), mHandler, dialog, MESSAGE_SEND_SIGNUPLIST_EMAIL, email, mSignID);
         async.execute();
 
     }
+
     public void QrCodeDialog(final SignBean bean) {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -731,11 +725,11 @@ sendEmail();
         final View v = factory.inflate(R.layout.dialog_qrcode_sign, null);
         ImageView iv_dialog_qrcode;
         iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode_sign);
-        TextView title= (TextView) v.findViewById(R.id.tv_qr_title);
+        TextView title = (TextView) v.findViewById(R.id.tv_qr_title);
         title.setText(bean.getAct_title());
 
 //        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
-        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/ck/" + bean.getSign_id()+"/"+bean.getAct_id()+"/3", 600, 600);
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/ck/" + bean.getSign_id() + "/" + bean.getAct_id() + "/3", 600, 600);
 
         iv_dialog_qrcode.setImageBitmap(bitmap);
 
@@ -767,6 +761,7 @@ sendEmail();
                 .create().show();
 
     }
+
     public void deleteDialog(final SignBean bean) {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -796,8 +791,9 @@ sendEmail();
                 .create().show();
 
     }
-    private void deleteSign(String checkInId){
-        AsyncSignDelete async =new AsyncSignDelete(getActivity(),mHandler,MESSAGE_SIGN_DELETE,checkInId);
+
+    private void deleteSign(String checkInId) {
+        AsyncSignDelete async = new AsyncSignDelete(getActivity(), mHandler, MESSAGE_SIGN_DELETE, checkInId);
         async.execute();
     }
 
@@ -820,7 +816,7 @@ sendEmail();
                         List<MySignListupBean> list = dao.queryListByVCodeAndCheckInID(result, CheckInID);
                         List<MySignListupBean> list2 = dao.queryListStatus(result, CheckInID, "true");
                         if (list.size() == 0) {
-                           resultDialog("扫码失败","凭证码无效！");
+                            resultDialog("扫码失败", "凭证码无效！");
                         } else if (list2.size() == 1) {
                             MySignListupBean bean = (MySignListupBean) list.get(0);
                             String Name = bean.getName();
@@ -835,7 +831,7 @@ sendEmail();
                             String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
 //                            ToastUtil.makeText(getActivity(), "该用户已经签到！" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog("该用户已经签到","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog("该用户已经签到", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
                         } else {
                             MySignListupBean bean = new MySignListupBean();
@@ -858,7 +854,7 @@ sendEmail();
                             String newPhone = Phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
 //                            ToastUtil.makeText(getActivity(), "扫码成功" + "\n" + "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
 //                                    "备注：" + AdminRemark + "\n" + FeeStr);
-                            resultDialog("扫码成功","姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
+                            resultDialog("扫码成功", "姓名：" + Name + "\n" + "电话：" + newPhone + "\n" +
                                     "备注：" + AdminRemark + "\n" + FeeStr);
 
                         }
@@ -897,7 +893,7 @@ sendEmail();
 
 
     private void getSignupList(String sign_id) {
-        ToastUtil.print("签到列表请求"+sign_id);
+        ToastUtil.print("签到列表请求" + sign_id);
         Dialog dialog = ProgressDialogUtils.showProgressDialog(getActivity(), getString(R.string.progress_title), getString(R.string.progress_message));
         AsyncSignupList asyncSignupList = new AsyncSignupList(getActivity(), mHandler, dialog, MESSAGE_GET_SIGNUPLIST, sign_id);
         asyncSignupList.execute();
@@ -928,7 +924,7 @@ sendEmail();
 
     @Override
     public void onSignscanClick(SignBean bean) {
-        isGotoList=true;
+        isGotoList = true;
         mSignID = bean.getSign_id();
         if (cameraIsCanUse()) {
             if (SPUtils.contains(getActivity(), "signup_" + bean.getSign_id()) == true) {
@@ -936,7 +932,7 @@ sendEmail();
                 intent.setClass(getActivity(), MipcaActivityCapture.class);
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.putExtra("CheckInID", bean.getSign_id());
-                intent.putExtra("view_show","true" );
+                intent.putExtra("view_show", "true");
 
 
                 startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
@@ -954,7 +950,8 @@ sendEmail();
         }
 
     }
-    public void resultDialog(String status,String message){
+
+    public void resultDialog(String status, String message) {
         new AlertDialog.Builder(getActivity())
                 .setIcon(R.mipmap.ic_launcher)
                 .setTitle(status)
@@ -980,14 +977,15 @@ sendEmail();
                         init();
                     }
                 })
-                        .setCancelable(true)
+                .setCancelable(true)
                 .show();
     }
+
     private void upload() {
         if (NetworkUtils.checkNetState(getActivity())) {
             List<updateBean> list = dao.queryUpdateStatusNew();
             String jsonString = JSON.toJSONString(list);
-            ToastUtil.print("上传数据"+jsonString);
+            ToastUtil.print("上传数据" + jsonString);
             if (list.size() == 0) {
                 return;
             }
@@ -1012,6 +1010,7 @@ sendEmail();
         }
 
     }
+
     public void sendEmail() {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
@@ -1035,12 +1034,11 @@ sendEmail();
 
                         //将页面输入框中获得的“用户名”，“密码”转为字符串
                         String email = etPassword.getText().toString();
-                        if (email==null||email.equals("")){
-                            ToastUtil.makeText(getActivity(),"邮箱不得为空！");
+                        if (email == null || email.equals("")) {
+                            ToastUtil.makeText(getActivity(), "邮箱不得为空！");
                             return;
-                        }
-                        else{
-                            sendSignListByEmail(email,mSignID);
+                        } else {
+                            sendSignListByEmail(email, mSignID);
                         }
                         //现在为止已经获得了字符型的用户名和密码了，接下来就是根据自己的需求来编写代码了
                         //这里做一个简单的测试，假定输入的用户名和密码都是1则进入其他操作页面（OperationActivity）
@@ -1057,6 +1055,7 @@ sendEmail();
                 //对话框的创建、显示
                 .create().show();
     }
+
     public void UpgradedDialog(final Activity activity) {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化

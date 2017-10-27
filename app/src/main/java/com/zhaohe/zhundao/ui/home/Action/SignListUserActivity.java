@@ -125,12 +125,14 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
 
         return true;
     }
+
     private void connection() {
         conn = new PrinterServiceConnection();
         Log.i(DEBUG_TAG, "connection");
         Intent intent = new Intent(this, GpPrintService.class);
         bindService(intent, conn, Context.BIND_AUTO_CREATE); // bindService
     }
+
     private void initToolBar(String text, int layoutResID) {
         ToolBarHelper mToolBarHelper;
         mToolBarHelper = new ToolBarHelper(this, layoutResID);
@@ -141,6 +143,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
   /*把 toolbar 设置到Activity 中*/
         setSupportActionBar(toolbar);
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();
@@ -185,7 +188,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
         rl_add = (RelativeLayout) findViewById(R.id.rl_add);
         rl_remark = (RelativeLayout) findViewById(R.id.rl_remark);
         rl_amount = (RelativeLayout) findViewById(R.id.rl_amount);
-        if ((boolean)(SPUtils.get(this, "is_print", false)) == false) {
+        if ((boolean) (SPUtils.get(this, "is_print", false)) == false) {
             btnPrint.setVisibility(View.GONE);
         }
     }
@@ -529,7 +532,6 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
     }
 
 
-
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -597,7 +599,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
                         break;
                     case MESSAGE_SIGNLIST_PAY_OFF:
                         result = (String) msg.obj;
-                    jsonObj = JSON.parseObject(result);
+                        jsonObj = JSON.parseObject(result);
                         message = jsonObj.getString("Res");
                         if (message.equals("0")) {
                             ToastUtil.makeText(getApplicationContext(), "修改成功！");
@@ -672,7 +674,7 @@ public class SignListUserActivity extends ToolBarActivity implements View.OnClic
                 .setMessage("修改后，用户直接报名成功？")
                 .setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
-payoff(ID);
+                        payoff(ID);
 
                     }
 
@@ -772,6 +774,7 @@ payoff(ID);
 
         return false;
     }
+
     public void payoff(String param) {
 
         AsyncPayOffLine async = new AsyncPayOffLine(this, mHandler, MESSAGE_SIGNLIST_PAY_OFF, ID);
@@ -784,6 +787,7 @@ payoff(ID);
         print();
 
     }
+
     private void print() {
         try {
 
@@ -809,6 +813,7 @@ payoff(ID);
          **/
         registerReceiver(mBroadcastReceiver, new IntentFilter(GpCom.ACTION_LABEL_RESPONSE));
     }
+
     private BroadcastReceiver mBroadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(Context context, Intent intent) {
@@ -850,7 +855,7 @@ payoff(ID);
                 } else if (requestCode == REQUEST_PRINT_LABEL) {
                     int status = intent.getIntExtra(GpCom.EXTRA_PRINTER_REAL_STATUS, 16);
                     if (status == GpCom.STATE_NO_ERR) {
-                        switch (SPUtils.get(getApplicationContext(),"model",0)+""){
+                        switch (SPUtils.get(getApplicationContext(), "model", 0) + "") {
                             case "0":
                                 sendLabelVocde();
                                 break;
@@ -895,6 +900,7 @@ payoff(ID);
             }
         }
     };
+
     void sendLabelVocdeAndName() {
         LabelCommand tsc = new LabelCommand();
 //        tsc.addSize(60, 60); // 设置标签尺寸，按照实际尺寸设置
@@ -905,22 +911,22 @@ payoff(ID);
         tsc.addCls();// 清除打印缓冲区
 
 
-        switch (SPUtils.get(this,"size",0)+""){
-            case"0":
-                tsc.addQRCode(55, 60, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
-                tsc.addText(55,160 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        (String) SPUtils.get(this,"print_name","测试"));
+        switch (SPUtils.get(this, "size", 0) + "") {
+            case "0":
+                tsc.addQRCode(55, 60, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
+                tsc.addText(55, 160, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        (String) SPUtils.get(this, "print_name", "测试"));
                 break;
             case "1":
-                tsc.addQRCode(35, 40, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
-                tsc.addText(55,180 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        (String) SPUtils.get(this,"print_name","测试"));
+                tsc.addQRCode(35, 40, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
+                tsc.addText(55, 180, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        (String) SPUtils.get(this, "print_name", "测试"));
                 break;
             case "2":
 
-                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
-                tsc.addText(55,210 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        (String) SPUtils.get(this,"print_name","测试"));
+                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
+                tsc.addText(55, 210, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        (String) SPUtils.get(this, "print_name", "测试"));
                 break;
 
         }
@@ -970,24 +976,24 @@ payoff(ID);
         tsc.addCls();// 清除打印缓冲区
 
 
-        switch (SPUtils.get(this,"size",0)+""){
-            case"0":
-                tsc.addText(30,40 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1, "姓名："+ (String) SPUtils.get(this,"print_name","测试"));
-                tsc.addText(30,100 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
-                        "备注："+(String) SPUtils.get(this,"print_AdminRemark","无"));
+        switch (SPUtils.get(this, "size", 0) + "") {
+            case "0":
+                tsc.addText(30, 40, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1, "姓名：" + (String) SPUtils.get(this, "print_name", "测试"));
+                tsc.addText(30, 100, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_1, LabelCommand.FONTMUL.MUL_1,
+                        "备注：" + (String) SPUtils.get(this, "print_AdminRemark", "无"));
                 break;
             case "1":
-                tsc.addText(20,30 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
-                        (String) SPUtils.get(this,"print_name","测试"));
-                tsc.addText(20,110 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
-                        (String) SPUtils.get(this,"print_AdminRemark","无"));
+                tsc.addText(20, 30, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
+                        (String) SPUtils.get(this, "print_name", "测试"));
+                tsc.addText(20, 110, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_2, LabelCommand.FONTMUL.MUL_2,
+                        (String) SPUtils.get(this, "print_AdminRemark", "无"));
                 break;
             case "2":
 
-                tsc.addText(10,20 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
-                        (String) SPUtils.get(this,"print_name","测试"));
-                tsc.addText(10,130 , LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
-                        (String) SPUtils.get(this,"print_AdminRemark","无"));
+                tsc.addText(10, 20, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
+                        (String) SPUtils.get(this, "print_name", "测试"));
+                tsc.addText(10, 130, LabelCommand.FONTTYPE.SIMPLIFIED_CHINESE, LabelCommand.ROTATION.ROTATION_0, LabelCommand.FONTMUL.MUL_3, LabelCommand.FONTMUL.MUL_3,
+                        (String) SPUtils.get(this, "print_AdminRemark", "无"));
                 break;
 
         }
@@ -1026,6 +1032,7 @@ payoff(ID);
             e.printStackTrace();
         }
     }
+
     void sendLabelVocde() {
         LabelCommand tsc = new LabelCommand();
 //        tsc.addSize(60, 60); // 设置标签尺寸，按照实际尺寸设置
@@ -1034,22 +1041,21 @@ payoff(ID);
         tsc.addReference((Integer) SPUtils.get(this, "x", 0), (Integer) SPUtils.get(this, "y", 0));// 设置原点坐标
         tsc.addTear(EscCommand.ENABLE.ON); // 撕纸模式开启
         tsc.addCls();// 清除打印缓冲区
-        switch (SPUtils.get(this,"size",0)+""){
-            case"0":
-                tsc.addQRCode(55, 80, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
+        switch (SPUtils.get(this, "size", 0) + "") {
+            case "0":
+                tsc.addQRCode(55, 80, LabelCommand.EEC.LEVEL_L, 4, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
 
                 break;
             case "1":
-                tsc.addQRCode(35, 50, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
+                tsc.addQRCode(35, 50, LabelCommand.EEC.LEVEL_L, 6, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
 
                 break;
             case "2":
-                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this,"print_Vcode","q298387"));
+                tsc.addQRCode(10, 30, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, (String) SPUtils.get(this, "print_Vcode", "q298387"));
 
                 break;
 
         }
-
 
 
 //		tsc.addQRCode(17, 20, LabelCommand.EEC.LEVEL_L, 8, LabelCommand.ROTATION.ROTATION_0, " 55555");

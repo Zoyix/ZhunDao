@@ -88,7 +88,7 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
     private void initView() {
         gl_camara = (GridLayout) findViewById(R.id.camera_gridview);
 
-        camera = new Camera(EditActActivity.this, gl_camara, false,3);
+        camera = new Camera(EditActActivity.this, gl_camara, false, 3);
 
         et_edit_title = (EditText) findViewById(R.id.et_edit_title);
         btn_edit_submit = (Button) findViewById(R.id.btn_edit_submit);
@@ -144,8 +144,6 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
 
                         break;
                     case MESSAGE_UPLOAD_PHOTO:
-
-
 
 
                     default:
@@ -204,9 +202,11 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
             update2();
         }
     };
+
     public void uploadPhoto(FormFile[] flie) {
-        AsyncPhotoUpload async = new AsyncPhotoUpload(this.getApplicationContext(), mHandler, MESSAGE_UPLOAD_PHOTO,flie);
-        async.execute();}
+        AsyncPhotoUpload async = new AsyncPhotoUpload(this.getApplicationContext(), mHandler, MESSAGE_UPLOAD_PHOTO, flie);
+        async.execute();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -229,10 +229,10 @@ public class EditActActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.tv_stoptime_clock:
                 TimePickerDialog.newInstance(endTimeListener, calendar2.get(Calendar.HOUR_OF_DAY), calendar2.get(Calendar.MINUTE), true).show(getFragmentManager(), "timePicker");
             case R.id.btn_edit_submit:
-                ArrayList<String> a= camera.getUploadUrl();
-                for(int i=0;i<a.size();i++){
-                ToastUtil.print("图片"+i+a.get(i));
-            }
+                ArrayList<String> a = camera.getUploadUrl();
+                for (int i = 0; i < a.size(); i++) {
+                    ToastUtil.print("图片" + i + a.get(i));
+                }
 //                ToastUtil.print(a[0]);
                 init();
                 break;

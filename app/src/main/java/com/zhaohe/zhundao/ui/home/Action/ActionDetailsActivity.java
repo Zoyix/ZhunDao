@@ -122,9 +122,10 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
             public void onStart(SHARE_MEDIA platform) {
                 //分享开始的回调
             }
+
             @Override
             public void onResult(SHARE_MEDIA platform) {
-                Log.d("plat","platform"+platform);
+                Log.d("plat", "platform" + platform);
 
                 Toast.makeText(getApplicationContext(), platform + " 分享成功啦", Toast.LENGTH_SHORT).show();
 
@@ -132,15 +133,15 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
 
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
-                Toast.makeText(getApplicationContext(),platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
-                if(t!=null){
-                    Log.d("throw","throw:"+t.getMessage());
+                Toast.makeText(getApplicationContext(), platform + " 分享失败啦", Toast.LENGTH_SHORT).show();
+                if (t != null) {
+                    Log.d("throw", "throw:" + t.getMessage());
                 }
             }
 
             @Override
             public void onCancel(SHARE_MEDIA platform) {
-                Toast.makeText(getApplicationContext(),platform + " 分享取消了", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), platform + " 分享取消了", Toast.LENGTH_SHORT).show();
             }
         };
         webView.setWebChromeClient(new WebChromeClient() {
@@ -182,7 +183,7 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
         webpage.webpageUrl = Constant.Url.ShareUrl + bean.getAct_id();
         WXMediaMessage msg = new WXMediaMessage(webpage);
         msg.title = bean.getAct_title();
-        msg.description = bean.getAct_starttime()+"\n活动地点： "+bean.getAddress();
+        msg.description = bean.getAct_starttime() + "\n活动地点： " + bean.getAddress();
         //这里替换一张自己工程里的图片资源
         Bitmap thumb = BitmapFactory.decodeResource(getResources(), R.mipmap.logo_multi);
         msg.setThumbImage(thumb);
@@ -281,6 +282,7 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
         chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, cameraIntents.toArray(new Parcelable[]{}));
         startActivityForResult(chooserIntent, FILECHOOSER_RESULTCODE);
     }
+
     private void showDialog() {
         BottomDialog.create(getSupportFragmentManager())
                 .setViewListener(new BottomDialog.ViewListener() {
@@ -299,7 +301,7 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
 
                                         break;
                                     case R.id.iv_share_weibo_solid:
-                                        UmengShare( SHARE_MEDIA.SINA);
+                                        UmengShare(SHARE_MEDIA.SINA);
                                         break;
                                     case R.id.iv_share_qq_solid:
                                         UmengShare(SHARE_MEDIA.QQ);
@@ -313,7 +315,7 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
                         });
                         ImageView iv_share_wechat_solid = (ImageView) v.findViewById(R.id.iv_share_wechat_solid);
                         ImageView iv_share_weixin_friends_solid = (ImageView) v.findViewById(R.id.iv_share_weixin_friends_solid);
-                        ImageView iv_share_weibo_solid= (ImageView) v.findViewById(R.id.iv_share_weibo_solid);
+                        ImageView iv_share_weibo_solid = (ImageView) v.findViewById(R.id.iv_share_weibo_solid);
                         ImageView iv_share_qq_solid = (ImageView) v.findViewById(R.id.iv_share_qq_solid);
                         ImageView iv_share_qqzone_solid = (ImageView) v.findViewById(R.id.iv_share_qqzone_solid);
 
@@ -329,12 +331,13 @@ public class ActionDetailsActivity extends FragmentActivity implements Toolbar.O
                 .setTag("BottomDialog")
                 .show();
     }
-    private void UmengShare(SHARE_MEDIA type ) {
-        ToastUtil.print("actid"+bean.getAct_id());
-        UMWeb web = new UMWeb("https://"+ShareUrl+bean.getAct_id());
+
+    private void UmengShare(SHARE_MEDIA type) {
+        ToastUtil.print("actid" + bean.getAct_id());
+        UMWeb web = new UMWeb("https://" + ShareUrl + bean.getAct_id());
         UMImage image = new UMImage(this, bean.getUrl());
-        web.setTitle( bean.getAct_title());//标题
-        web.setDescription(bean.getAct_starttime()+"\n活动地点： "+bean.getAddress());//描述
+        web.setTitle(bean.getAct_title());//标题
+        web.setDescription(bean.getAct_starttime() + "\n活动地点： " + bean.getAddress());//描述
         web.setThumb(image);
 //        new ShareAction(getActivity())
 //                .withMedia(web)

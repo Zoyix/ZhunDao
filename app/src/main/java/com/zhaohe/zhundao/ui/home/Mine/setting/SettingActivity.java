@@ -38,7 +38,7 @@ import com.zhaohe.zhundao.ui.home.mine.FeedbackActivity;
 import com.zhaohe.zhundao.ui.login.LoginActivity;
 
 public class SettingActivity extends ToolBarActivity implements View.OnClickListener {
-    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password,tv_setting_version,tv_setting_version_show, tv_setting_inf,tv_setting_net;
+    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password, tv_setting_version, tv_setting_version_show, tv_setting_inf, tv_setting_net;
     public static final int MESSAGE_CHANGE_PASSWORD = 86;
     private Handler mHandler;
     private VersionBean bean;
@@ -46,8 +46,6 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
     private MyGroupDao groupDao;
     private MyContactsDao contactsDao;
     private MySignupListDao mySignupListDao;
-
-
 
 
     @Override
@@ -77,22 +75,21 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         tv_setting_password.setOnClickListener(this);
         tv_setting_version = (TextView) findViewById(R.id.tv_setting_version);
         tv_setting_version.setOnClickListener(this);
-        tv_setting_version_show= (TextView) findViewById(R.id.tv_setting_version_show);
-        tv_setting_version_show.setText("APP版本号："+getVersion(this));
+        tv_setting_version_show = (TextView) findViewById(R.id.tv_setting_version_show);
+        tv_setting_version_show.setText("APP版本号：" + getVersion(this));
         tv_setting_inf = (TextView) findViewById(R.id.tv_setting_inf);
         tv_setting_inf.setOnClickListener(this);
         tv_setting_net = (TextView) findViewById(R.id.tv_setting_net);
         tv_setting_net.setOnClickListener(this);
-        if (SPUtils.get(this,"HOST",Constant.HOST).equals(Constant.HOST)){
+        if (SPUtils.get(this, "HOST", Constant.HOST).equals(Constant.HOST)) {
             tv_setting_net.setText(R.string.tv_setting_net);
             ;
-        }
-        else{
+        } else {
             tv_setting_net.setText(R.string.tv_setting_net_1);
         }
-        dao=new MySignupListMultiDao(this);
-        groupDao=new MyGroupDao(this);
-        contactsDao=new MyContactsDao(this);
+        dao = new MySignupListMultiDao(this);
+        groupDao = new MyGroupDao(this);
+        contactsDao = new MyContactsDao(this);
         mySignupListDao = new MySignupListDao(this);
     }
 
@@ -132,6 +129,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         AsyncChangePassword async = new AsyncChangePassword(this, mHandler, MESSAGE_CHANGE_PASSWORD, password);
         async.execute();
     }
+
     /**
      * @Description: 判断是否需要更新
      * @Author:杨攀
@@ -141,10 +139,11 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         AsyncUpdateVersion task = new AsyncUpdateVersion();
         task.execute();
     }
+
     public static String getVersion(Context context)//获取版本号
     {
         try {
-            PackageInfo pi=context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+            PackageInfo pi = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
             return pi.versionName;
         } catch (PackageManager.NameNotFoundException e) {
             // TODO Auto-generated catch block
@@ -240,23 +239,23 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                 .setPositiveButton("确认修改", new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int whichButton) {
 
-                        switch (spinner.getSelectedItemPosition()+""){
+                        switch (spinner.getSelectedItemPosition() + "") {
                             case "0":
-                                SPUtils.put(getApplicationContext(),"HOST", Constant.HOST);
+                                SPUtils.put(getApplicationContext(), "HOST", Constant.HOST);
                                 tv_setting_net.setText(R.string.tv_setting_net);
                                 break;
                             case "1":
-                                SPUtils.put(getApplicationContext(),"HOST", Constant.HOST_1);
+                                SPUtils.put(getApplicationContext(), "HOST", Constant.HOST_1);
                                 tv_setting_net.setText(R.string.tv_setting_net_1);
 
                                 break;
                             default:
-                                SPUtils.put(getApplicationContext(),"HOST", Constant.HOST);
+                                SPUtils.put(getApplicationContext(), "HOST", Constant.HOST);
                                 tv_setting_net.setText(R.string.tv_setting_net);
 
                                 break;
                         }
-ToastUtil.makeText(getApplicationContext(),"切换成功");
+                        ToastUtil.makeText(getApplicationContext(), "切换成功");
                     }
                 })
                 //对话框的“退出”单击事件
@@ -294,27 +293,26 @@ ToastUtil.makeText(getApplicationContext(),"切换成功");
                 break;
 
             case R.id.tv_setting_net:
-netChange();
+                netChange();
 
                 break;
-                case R.id.tv_setting_version:
+            case R.id.tv_setting_version:
 //                    ToastUtil.makeText(this,"APP版本号："+getVersion(this));
-                    if(null==bean.getSynccode())
-                    {return;}
-                    else if (bean.getSynccode().equals("0")) {
-return;
-                    }
-                    if (VersionXmlUtils.isUpdateApp(SettingActivity.this, bean)) {// 更新App
-                        DialogUtils.showDialog(SettingActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
-                                new UpdateAppNegativeButtonListener());
-                        return;
-                    }
-                    else
-                {
-                    ToastUtil.makeText(this,"已是最新版本");
+                if (null == bean.getSynccode()) {
+                    return;
+                } else if (bean.getSynccode().equals("0")) {
+                    return;
                 }
-                    break;
-                default:break;
+                if (VersionXmlUtils.isUpdateApp(SettingActivity.this, bean)) {// 更新App
+                    DialogUtils.showDialog(SettingActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
+                            new UpdateAppNegativeButtonListener());
+                    return;
+                } else {
+                    ToastUtil.makeText(this, "已是最新版本");
+                }
+                break;
+            default:
+                break;
 
         }
     }
@@ -326,7 +324,7 @@ return;
             contactsDao.deleteTable();
             mySignupListDao.deleteTable();
 
-    }catch (Exception e) {
+        } catch (Exception e) {
 
         }
     }
@@ -367,9 +365,9 @@ return;
                     if (VersionXmlUtils.isUpdateApp(SettingActivity.this, bean)) {// 更新App
 //                        DialogUtils.showDialog(SettingActivity.this, R.string.app_updateApp_message, new UpdateAppPositiveButtonListener(bean),
 //                                new UpdateAppNegativeButtonListener());
-                        Drawable drawable= getResources().getDrawable(R.mipmap.unread);
+                        Drawable drawable = getResources().getDrawable(R.mipmap.unread);
                         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
-                        tv_setting_version .setCompoundDrawables(null,null,drawable,null);
+                        tv_setting_version.setCompoundDrawables(null, null, drawable, null);
 
                         return;
                     }

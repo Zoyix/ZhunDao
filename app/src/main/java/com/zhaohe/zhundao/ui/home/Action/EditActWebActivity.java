@@ -82,8 +82,8 @@ public class EditActWebActivity extends ToolBarActivity {
             @Override
             public boolean shouldOverrideUrlLoading(WebView view, String url) {
                 ToastUtil.print(url);
-                if(url.contains("MangeActivity")){
-                    ToastUtil.makeText(getApplication(),"活动编辑成功！");
+                if (url.contains("MangeActivity")) {
+                    ToastUtil.makeText(getApplication(), "活动编辑成功！");
                     finish();
                 }
                 view.loadUrl(url);
