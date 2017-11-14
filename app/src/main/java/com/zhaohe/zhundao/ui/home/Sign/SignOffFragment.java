@@ -786,6 +786,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
     @Override
     public void onGetList(SignBean bean) {
         act_id = bean.getAct_id();
+        SPUtils.put(getActivity(), "act_id_now", bean.getAct_id());
 
         title = bean.getAct_title();
         mSignID = bean.getSign_id();

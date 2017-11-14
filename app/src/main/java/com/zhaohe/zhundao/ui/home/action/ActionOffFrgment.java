@@ -190,7 +190,7 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
             time = jsonArray.getJSONObject(i).getString("TimeStart");
             newtime = time.replace("T", " ");
             newtime1 = newtime.substring(2, newtime.length() - 3);
-            bean.setAct_starttime("活动结束：" + newtime1);
+            bean.setAct_starttime("活动开始：" + newtime1);
             comparetime = TimeUtil.getTimeDifference(newtime, TimeUtil.getNowTime());
             if (comparetime.indexOf("-") != -1) {
                 String newtime3 = comparetime.replace("-", "");
@@ -453,6 +453,8 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
         SPUtils.put(getActivity(), "act_time", bean.getAct_starttime());
         SPUtils.put(getActivity(), "act_add", bean.getAddress());
         SPUtils.put(getActivity(), "act_url", bean.getUrl());
+        SPUtils.put(getActivity(), "act_id_now", bean.getAct_id());
+
 
 //       这里开始写 判断网络状况
         if (SPUtils.contains(getActivity(), "listup_" + bean.getAct_id()) == true) {

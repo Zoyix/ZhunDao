@@ -36,7 +36,7 @@
         android:paddingLeft="10dp"
         android:layout_width="wrap_content"
         android:layout_height="33dp"
-        android:src="@drawable/right"
+        android:src="@mipmap/right"
         android:clickable="true"
         android:focusable="false"
         android:layout_alignParentRight="true" />

@@ -133,7 +133,7 @@
                 style="@style/act_user_tv"
                 android:maxLength="15"
                 android:drawablePadding="5dp"
-                android:drawableRight="@drawable/right"
+                android:drawableRight="@mipmap/right"
                 android:text="@string/none"
 
                 android:layout_alignParentRight="true"

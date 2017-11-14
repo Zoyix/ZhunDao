@@ -6,8 +6,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ImageView;
@@ -37,6 +35,7 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import me.shaohui.bottomdialog.BottomDialog;
 
 import static com.zhaohe.app.utils.ZXingUtil.createQrBitmap;
@@ -57,6 +56,12 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
     RelativeLayout rlInvitationPerson;
     NormalSelectionDialog dialog1;
     private static final int REQUEST_IMAGE = 2000;
+    @BindView(R.id.tv_suggust)
+    TextView tvSuggust;
+    @BindView(R.id.iv_exit)
+    ImageView ivExit;
+    @BindView(R.id.iv_save)
+    ImageView ivSave;
     private Bitmap bitmap;
     private UMShareListener mShareListener;
 
@@ -84,27 +89,7 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
         setPhoto((int) SPUtils.get(this, "invitation_type", 1), ivVcodeInvitation);
 
         rlInvitationPerson.setOnLongClickListener(this);
-        LayoutInflater factory = LayoutInflater.from(this);
-        View v = factory.inflate(R.layout.dialog_invitation_person0, null);
-        ImageView iv_vcode_invitation = (ImageView) v.findViewById(R.id.iv_vcode_invitation);
-        ;
-        setPhoto((int) SPUtils.get(this, "invitation_type", 1), iv_vcode_invitation);
-        TextView title = (TextView) v.findViewById(R.id.tv_dialog_title);
-        TextView name = (TextView) v.findViewById(R.id.tv_name);
-        name.setText(bean.getSign_list_name());
 
-        title.setText((String) (SPUtils.get(this, "act_title", "")));
-        TextView time = (TextView) v.findViewById(R.id.tv_time);
-        TextView add = (TextView) v.findViewById(R.id.tv_add);
-
-
-        time.setText("" + SPUtils.get(this, "act_time", ""));
-        add.setText("活动地点：" + SPUtils.get(this, "act_add", ""));
-
-        ;
-        bitmap = ZXingUtil.createViewBitmap(v);
-
-        ToastUtil.print(bitmap + "");
         mShareListener = new UMShareListener() {
             @Override
             public void onStart(SHARE_MEDIA platform) {
@@ -113,16 +98,14 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
 
             @Override
             public void onResult(SHARE_MEDIA platform) {
-                Log.d("plat", "platform" + platform);
 
+                rlInvitationPerson.destroyDrawingCache();
 
             }
 
             @Override
             public void onError(SHARE_MEDIA platform, Throwable t) {
-                if (t != null) {
-                    Log.d("throw", "throw:" + t.getMessage());
-                }
+
             }
 
             @Override
@@ -186,7 +169,7 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
             case 2:
                 final Bitmap bitmap2 = createQrBitmap(bean.getVCode(), 1000, 1000);
                 view.setImageBitmap(bitmap2);
-
+                tvSuggust.setText("专属二维码入场凭证");
                 break;
         }
     }
@@ -249,6 +232,10 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
 //        UMImage image = new UMImage(this, bean.getUrl());
 //        web.setTitle( bean.getAct_title());//标题
 //        web.setDescription(bean.getAct_starttime()+"\n活动地点： "+bean.getAddress());//描述
+        rlInvitationPerson.setDrawingCacheEnabled(true);
+        rlInvitationPerson.buildDrawingCache();
+        bitmap = rlInvitationPerson.getDrawingCache();
+
 //        web.setThumb(image);
         UMImage image = new UMImage(this, bitmap);
         UMImage thumb = new UMImage(this, bitmap);
@@ -297,10 +284,13 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
         public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
             switch (requestCode) {
                 case REQUEST_CODE_PERMISSION: {
+                    rlInvitationPerson.setDrawingCacheEnabled(true);
+                    rlInvitationPerson.buildDrawingCache();
+                    bitmap = rlInvitationPerson.getDrawingCache();
 
                     ZXingUtil.saveImageToGallery(getApplicationContext(), bitmap, bean.getSign_list_name() + "邀请函");
                     ToastUtil.makeText(getApplicationContext(), "保存成功！");
-                    finish();
+                    rlInvitationPerson.destroyDrawingCache();
                     break;
                 }
             }
@@ -317,4 +307,17 @@ public class InvitationPersonActivity extends AppCompatActivity implements View.
             }
         }
     };
+
+    @OnClick({R.id.iv_exit, R.id.iv_save})
+    public void onViewClicked(View view) {
+        switch (view.getId()) {
+            case R.id.iv_exit:
+                finish();
+                break;
+            case R.id.iv_save:
+                dialog1.show();
+
+                break;
+        }
+    }
 }

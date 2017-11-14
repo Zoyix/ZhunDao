@@ -698,6 +698,8 @@ public class ActionSignActivity extends ToolBarActivity implements View.OnClickL
         title = bean.getAct_title();
         ToastUtil.print("活动ID" + bean.getAct_id());
         isGotoList = false;
+        SPUtils.put(this, "act_id_now", bean.getAct_id());
+
         mSignID = bean.getSign_id();
         if (SPUtils.contains(this, "signup_" + bean.getSign_id()) == true) {
             Intent intent = new

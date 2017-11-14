@@ -34,6 +34,8 @@
             android:layout_toRightOf="@+id/img_act"
             android:gravity="center_vertical"
             android:text="@string/tv_act_title"
+            android:maxEms="18"
+            android:ellipsize="end"
             android:maxLines="1"
             android:textColor="@color/text_black"
             android:textSize="14sp" />

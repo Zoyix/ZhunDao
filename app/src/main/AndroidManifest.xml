@@ -9,7 +9,6 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.FLASHLIGHT" />
 
     <!-- 友盟需要的额外权限 -->
@@ -296,7 +295,7 @@
         </service>
         <service android:name="com.gprinter.service.AllService" />
 
-        <activity android:name=".ui.home.mine.setting.InfActivity" />
+        <activity android:name=".ui.home.mine.InfActivity" />
         <activity android:name=".ui.home.mine.setting.NewsActivity" />
         <activity android:name=".ui.home.action.more.InvitationActivity" />
         <activity

@@ -3,13 +3,16 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/rl_invitation_person"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@mipmap/bg_invitation_person"
     tools:context="com.zhaohe.zhundao.ui.home.action.signlist.InvitationPersonActivity">
 
+    <RelativeLayout
+        android:id="@+id/rl_invitation_person"
+        android:background="@mipmap/bg_invitation_person"
 
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:id="@+id/tv_dialog_title"
         android:maxLines="2"
@@ -45,6 +48,17 @@
         android:layout_below="@+id/tv_name" />
 
     <TextView
+        android:textSize="10sp"
+        android:textColor="@color/gray"
+        android:layout_marginTop="12dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/iv_vcode_invitation"
+        android:id="@+id/tv_suggust"
+        android:text="@string/tv_inv_suggust"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+        <TextView
         android:textColor="@color/white"
 
         android:layout_marginTop="25dp"
@@ -63,6 +77,21 @@
         android:text="@string/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
+    </RelativeLayout>
 
+    <ImageView
+        android:id="@+id/iv_exit"
+        android:layout_margin="20dp"
+        android:src="@mipmap/inv_back"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
+
+    <ImageView
+        android:id="@+id/iv_save"
+        android:layout_alignParentRight="true"
+        android:layout_margin="20dp"
+        android:src="@mipmap/inv_share"
+        android:layout_width="20dp"
+        android:layout_height="20dp" />
 
 </RelativeLayout>

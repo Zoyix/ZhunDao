@@ -49,6 +49,6 @@
         android:id="@+id/tv_add"
         android:maxLength="20"
         android:text="@string/add"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="wrap_content" />
 </RelativeLayout>

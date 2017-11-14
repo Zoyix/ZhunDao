@@ -47,6 +47,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 import static com.zhaohe.app.utils.DensityUtil.dip2px;
+import static com.zhaohe.zhundao.R.id.btn_signlist_user_sumbit;
 
 public class SignListUserAddActivity extends ToolBarActivity {
 
@@ -124,7 +125,7 @@ public class SignListUserAddActivity extends ToolBarActivity {
     @BindView(R.id.rl_user_remark)
     RelativeLayout rlUserRemark;
 
-    @BindView(R.id.btn_signlist_user_sumbit)
+    @BindView(btn_signlist_user_sumbit)
     Button btnSignlistUserSumbit;
     @BindView(R.id.ll_signlist_add_user)
     LinearLayout llSignlistAddUser;
@@ -186,6 +187,7 @@ public class SignListUserAddActivity extends ToolBarActivity {
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "添加成功！");
+                            SPUtils.put(getApplicationContext(), "updateSignList", true);
                             finish();
                         } else {
                             ToastUtil.makeText(getApplicationContext(), jsonObj.getString("Msg"));
@@ -1085,10 +1087,14 @@ public class SignListUserAddActivity extends ToolBarActivity {
 
     }
 
-    @OnClick(R.id.btn_signlist_user_sumbit)
+    @OnClick(btn_signlist_user_sumbit)
     public void onViewClicked() {
         String Name = etSignlistUserName.getText().toString();
         String Mobile = etSignlistUserPhone.getText().toString();
+        btnSignlistUserSumbit.setFocusable(true);
+        btnSignlistUserSumbit.setFocusableInTouchMode(true);
+        btnSignlistUserSumbit.requestFocus();
+        btnSignlistUserSumbit.requestFocusFromTouch();
         if (Name.length() == 0) {
             ToastUtil.makeText(this, "姓名不得为空，请重新输入~");
             return;

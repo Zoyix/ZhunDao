@@ -35,6 +35,9 @@ public class InfAdapter extends AdapterBase<InfBean, InfHolder> {
         itemView.tv_inf_type.setText(bean.getSortName() + " | ");
         if (bean.isRead()) {
             itemView.iv_inf_read.setVisibility(View.INVISIBLE);
+        } else {
+            itemView.iv_inf_read.setVisibility(View.VISIBLE);
+
         }
     }
 

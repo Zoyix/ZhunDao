@@ -382,30 +382,12 @@ public class MySignupListDao {
 
     private void setBean(Cursor cursor, updateBean bean) {
         String CheckInTime = cursor.getString(cursor.getColumnIndex("CheckInTime"));
-
         String VCode = cursor.getString(cursor.getColumnIndex("VCode"));
         String CheckInID = cursor.getString(cursor.getColumnIndex("CheckInID"));
-        String Status = cursor.getString(cursor.getColumnIndex("Status"));
-        String UpdateStatus = cursor.getString(cursor.getColumnIndex("UpdateStatus"));
-        String Name = cursor.getString(cursor.getColumnIndex("Name"));
-        String Phone = cursor.getString(cursor.getColumnIndex("Phone"));
-        String AdminRemark = cursor.getString(cursor.getColumnIndex("AdminRemark"));
-        String UserRemark = cursor.getString(cursor.getColumnIndex("UserRemark"));
-
-        String FeeName = cursor.getString(cursor.getColumnIndex("FeeName"));
-        String Fee = cursor.getString(cursor.getColumnIndex("Fee"));
-//        bean.setIDcard(cursor.getString(cursor.getColumnIndex("IDcard")));
         bean.setVCode(VCode);
         bean.setCheckInID(CheckInID);
-//        bean.setStatus(Status);
-//        bean.setUpdateStatus(UpdateStatus);
-//        bean.setName(Name);
-//        bean.setPhone(Phone);
-//        bean.setAdminRemark(AdminRemark);
-//        bean.setFeeName(FeeName);
-//        bean.setFee(Fee);
         bean.setCheckInTime(CheckInTime);
-//        bean.setUserRemark(UserRemark);
+
 
     }
 

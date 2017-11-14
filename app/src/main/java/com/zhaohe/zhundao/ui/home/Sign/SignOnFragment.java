@@ -581,6 +581,7 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
 
     @Override
     public void onGetList(SignBean bean) {
+        SPUtils.put(getActivity(), "act_id_now", bean.getAct_id());
 
         act_id = bean.getAct_id();
         title = bean.getAct_title();

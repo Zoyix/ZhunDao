@@ -600,6 +600,8 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     public void onListClick(ActionBean bean) {
         ActivityFees = bean.getActivityFees();
         UserInfo = bean.getBaseItem();
+        SPUtils.put(getActivity(), "act_id_now", bean.getAct_id());
+
 //       这里开始写 判断网络状况
         SPUtils.put(getActivity(), "act_title", bean.getAct_title());
         SPUtils.put(getActivity(), "act_time", bean.getAct_starttime());

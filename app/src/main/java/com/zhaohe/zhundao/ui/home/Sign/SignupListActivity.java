@@ -171,9 +171,11 @@ public class SignupListActivity extends ToolBarActivity implements View.OnClickL
         //从Intent当中根据key取得value
         sign_id = intent.getStringExtra("sign_id");
         act_id = intent.getStringExtra("act_id");
-
         title = intent.getStringExtra("title");
+        if (act_id == null || act_id == "") {
+            act_id = (String) SPUtils.get(this, "act_id_now", "");
 
+        }
         ToastUtil.print(title);
 
     }

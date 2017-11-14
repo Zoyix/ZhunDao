@@ -392,5 +392,6 @@
     <string name="invitation_type2">星空模板（签到二维码）</string>
     <string name="tv_head">头像</string>
     <string name="tv_nickname">昵称</string>
+    <string name="tv_inv_suggust">长按或扫一扫报名</string>
 
 </resources>

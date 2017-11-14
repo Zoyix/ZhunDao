@@ -119,6 +119,11 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         //从Intent当中根据key取得value
         if (intent != null) {
             act_id = intent.getStringExtra("act_id");
+            if (act_id == null || act_id == "") {
+                act_id = (String) SPUtils.get(this, "act_id_now", "");
+
+            }
+            ToastUtil.print("活动ID" + act_id);
             UserInfo = intent.getStringExtra("UserInfo");
             ActivityFees = intent.getStringExtra("ActivityFees");
             signup_list = (String) SPUtils.get(this, "listup_" + act_id, "");
@@ -470,7 +475,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
 
     private void update() {
         if (act_id == null) {
-            act_id = ((String) SPUtils.get(this, "Act_id_now", ""));
+            act_id = ((String) SPUtils.get(this, "act_id_now", ""));
         }
         String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
         getSignList(mParam);
@@ -478,7 +483,7 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
 
     private void updateNoDialog() {
         if (act_id == null) {
-            act_id = ((String) SPUtils.get(this, "Act_id_now", ""));
+            act_id = ((String) SPUtils.get(this, "act_id_now", ""));
         }
         String mParam = "ActivityID=" + act_id + "&pageSize=" + PAGE_SIZE;
         getSignListNoDialog(mParam);

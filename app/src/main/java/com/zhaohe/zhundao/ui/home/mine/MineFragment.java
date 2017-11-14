@@ -27,10 +27,8 @@ import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncInf;
-import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
-import com.zhaohe.zhundao.ui.home.mine.setting.InfActivity;
-import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
+
 
 /**
  * @Description:
@@ -240,7 +238,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     }
 
     private void setRead() {
-        Drawable drawable = getResources().getDrawable(R.drawable.right);
+        Drawable drawable = getResources().getDrawable(R.mipmap.right);
         drawable.setBounds(0, 0, drawable.getMinimumWidth(), drawable.getMinimumHeight());
         Drawable drawable2 = getResources().getDrawable(R.mipmap.inf108);
         drawable2.setBounds(0, 0, drawable2.getMinimumWidth(), drawable2.getMinimumHeight());
@@ -254,19 +252,46 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         JSONObject jsonObject2 = JSON.parseObject(jsonObj.getString("Data"));
 
 
-        SPUtils.put(getActivity(), "TrueName", jsonObject2.getString("TrueName"));
-        SPUtils.put(getActivity(), "Company", jsonObject2.getString("Company"));
-        SPUtils.put(getActivity(), "Industry", jsonObject2.getString("Industry"));
-        SPUtils.put(getActivity(), "Duty", jsonObject2.getString("Duty"));
-        SPUtils.put(getActivity(), "Email", jsonObject2.getString("Email"));
-        SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
 
-        SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
-        SPUtils.put(getActivity(), "HeadImgurl", jsonObject2.getString("HeadImgurl"));
-        SPUtils.put(getActivity(), "Sex", jsonObject2.getString("Sex"));
 
         SPUtils.put(getActivity(), "vip", jsonObject2.getInteger("GradeId"));
         int vip = (int) SPUtils.get(getActivity(), "vip", 0);
+        if (null != jsonObject2.getString("TrueName")) {
+            SPUtils.put(getActivity(), "TrueName", jsonObject2.getString("TrueName"));
+
+        }
+        if (null != jsonObject2.getString("Company")) {
+            SPUtils.put(getActivity(), "Company", jsonObject2.getString("Company"));
+
+        }
+        if (null != jsonObject2.getString("Industry")) {
+            SPUtils.put(getActivity(), "Industry", jsonObject2.getString("Industry"));
+
+        }
+        if (null != jsonObject2.getString("Duty")) {
+            SPUtils.put(getActivity(), "Duty", jsonObject2.getString("Duty"));
+
+        }
+        if (null != jsonObject2.getString("Email")) {
+            SPUtils.put(getActivity(), "Email", jsonObject2.getString("Email"));
+
+        }
+        if (null != jsonObject2.getString("NickName")) {
+            SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
+
+        }
+        if (null != jsonObject2.getString("HeadImgurl")) {
+            SPUtils.put(getActivity(), "HeadImgurl", jsonObject2.getString("HeadImgurl"));
+
+        }
+        if (null != jsonObject2.getString("Sex")) {
+            SPUtils.put(getActivity(), "Sex", jsonObject2.getString("Sex"));
+
+        }
+
+
+
+
         if (null == jsonObject2.getString("Mobile")) {
         } else {
             SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));
@@ -285,30 +310,30 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_min_setting:
-                IntentUtils.startActivity(getActivity(), SettingActivity.class);
+                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity.class);
                 break;
             case R.id.tv_my_wallet:
-                IntentUtils.startActivity(getActivity(), WalletActivity.class);
+                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.WalletActivity.class);
                 break;
             case R.id.tv_feedback:
 //                IntentUtils.startActivity(getActivity(), FeedbackActivity.class);
                 showWaiterAuthorizationDialog();
                 break;
             case R.id.tv_min_vip:
-                IntentUtils.startActivity(getActivity(), UpgradedActivity.class);
+                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.UpgradedActivity.class);
                 break;
             case R.id.tv_min_phone:
                 IntentUtils.startActivity(getActivity(), BondPhoneActivity.class);
                 break;
             case R.id.tv_contacts:
-                IntentUtils.startActivity(getActivity(), ContactsActivity.class);
+                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity.class);
                 break;
             case R.id.tv_my_inf:
                 IntentUtils.startActivity(getActivity(), InfActivity.class);
                 setRead();
                 break;
             case R.id.view_user:
-                IntentUtils.startActivity(getActivity(), UpdateUserInfoActivity.class);
+                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.UpdateUserInfoActivity.class);
 
                 break;
 

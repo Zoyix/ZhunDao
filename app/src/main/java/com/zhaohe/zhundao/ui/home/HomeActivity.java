@@ -2,6 +2,7 @@ package com.zhaohe.zhundao.ui.home;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.MenuItem;
@@ -9,8 +10,12 @@ import android.view.MenuItem;
 import com.tencent.mm.sdk.openapi.IWXAPI;
 import com.tencent.mm.sdk.openapi.WXAPIFactory;
 import com.umeng.socialize.UMShareAPI;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
 import com.zhaohe.app.utils.IntentUtils;
 import com.zhaohe.app.utils.SPUtils;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.constant.Constant;
 import com.zhaohe.zhundao.ui.TabHostActivity;
@@ -19,6 +24,8 @@ import com.zhaohe.zhundao.ui.home.action.ActionFragment;
 import com.zhaohe.zhundao.ui.home.find.FindFragment;
 import com.zhaohe.zhundao.ui.home.mine.MineFragment;
 import com.zhaohe.zhundao.ui.home.sign.SignFragment;
+
+import java.util.List;
 
 /**
  * @Description:
@@ -36,7 +43,9 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
 
     private IWXAPI api;
     private String mTencent;
+    private static final int REQUEST_CODE_PERMISSION = 100;
 
+    private static final int REQUEST_CODE_SETTING = 300;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -44,8 +53,44 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
         initToolbar();
         regToWechat();
         initIntent();
+        initPermmison();
 
     }
+
+    private void initPermmison() {
+        AndPermission.with(getApplicationContext())
+                .requestCode(REQUEST_CODE_PERMISSION)
+                .permission(Permission.STORAGE)
+                .callback(permissionListener)
+                // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                // 你也可以不设置。
+                .rationale(null)
+                .start();
+    }
+
+    private PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    ToastUtil.makeText(getApplicationContext(), "存储卡授权失败，部分功能受限！");
+
+                    break;
+                }
+            }
+        }
+    };
+
 
     private void initIntent() {
 

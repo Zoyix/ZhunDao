@@ -39,7 +39,7 @@
 
         <ImageView
             android:id="@+id/iv_sign_right2"
-            android:src="@drawable/right"
+            android:src="@mipmap/right"
             style="@style/sign_right"
             android:paddingLeft="280dp" />
 
@@ -113,7 +113,7 @@
         <ImageView
             style="@style/sign_right"
             android:id="@+id/iv_sign_right"
-            android:src="@drawable/right"
+            android:src="@mipmap/right"
             android:paddingLeft="150dp"
             android:layout_below="@+id/line6"
             android:layout_alignParentRight="true"
@@ -241,9 +241,11 @@
             android:layout_below="@id/line6"
             android:layout_marginLeft="10dp"
             android:layout_marginBottom="10dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="10dp"
             android:focusable="false"
             android:checked="true"
+            android:thumb="@drawable/thumb"
+            android:track="@drawable/track"
             android:layout_toRightOf="@id/tv_sign_swich_status" />
         <!--截止时间-->
         <TextView
@@ -287,7 +289,7 @@
         <ImageView
             style="@style/sign_right"
             android:id="@+id/iv_sign_scan_right"
-            android:src="@drawable/right"
+            android:src="@mipmap/right"
             android:paddingLeft="150dp"
             android:layout_toRightOf="@id/tv_sign_scan" />
 
@@ -302,11 +304,13 @@
         <ImageView
             android:visibility="visible"
             android:id="@+id/iv_list_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
             android:src="@mipmap/unread60"
             android:layout_marginBottom="5dp"
-            android:layout_alignBottom="@+id/sw_sign_status"
+            android:layout_below="@id/line6"
+            android:layout_marginRight="5dp"
+            android:layout_marginTop="15dp"
             android:layout_toLeftOf="@+id/tv_sign_scan"
             android:layout_toStartOf="@+id/tv_sign_scan" />
 

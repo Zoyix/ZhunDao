@@ -35,6 +35,7 @@ import com.zhaohe.zhundao.dao.MySignupListMultiDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
 import com.zhaohe.zhundao.ui.home.mine.FeedbackActivity;
+import com.zhaohe.zhundao.ui.home.mine.InfActivity;
 import com.zhaohe.zhundao.ui.login.LoginActivity;
 
 public class SettingActivity extends ToolBarActivity implements View.OnClickListener {
