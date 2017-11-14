@@ -1,4 +1,4 @@
-package com.zhaohe.zhundao.ui.home.mine.setting;
+package com.zhaohe.zhundao.ui.home.mine;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,7 @@ import com.zhaohe.zhundao.adapter.InfAdapter;
 import com.zhaohe.zhundao.asynctask.AsyncInf;
 import com.zhaohe.zhundao.bean.InfBean;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
+import com.zhaohe.zhundao.ui.home.mine.setting.NewsActivity;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -105,7 +106,7 @@ public class InfActivity extends ToolBarActivity implements AdapterView.OnItemCl
                 bean.setTitle(jsonArray.getJSONObject(i).getString("Title"));
                 String time = jsonArray.getJSONObject(i).getString("AddTime");
                 String newtime = time.replace("T", " ");
-                String newtime1 = newtime.substring(2, newtime.length() - 7);
+                String newtime1 = newtime.substring(2, 16);
                 bean.setAddTime(newtime1);
                 bean.setSortName(jsonArray.getJSONObject(i).getString("SortName"));
                 bean.setDetail(jsonArray.getJSONObject(i).getString("Detail"));
