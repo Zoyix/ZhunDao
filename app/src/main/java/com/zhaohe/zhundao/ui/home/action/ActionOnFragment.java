@@ -379,16 +379,30 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
         JSONObject jsonObject2 = JSON.parseObject(jsonObj.getString("Data"));
 
 
-        SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
-        SPUtils.put(getActivity(), "HeadImgurl", jsonObject2.getString("HeadImgurl"));
+        try {
+            if (null != jsonObject2.getString("NickName")) {
+                SPUtils.put(getActivity(), "NickName", jsonObject2.getString("NickName"));
+
+            }
+            if (null != jsonObject2.getString("HeadImgurl")) {
+                SPUtils.put(getActivity(), "HeadImgurl", jsonObject2.getString("HeadImgurl"));
+
+            }
+            if (null != jsonObject2.getString("Sex")) {
+                SPUtils.put(getActivity(), "Sex", jsonObject2.getString("Sex"));
+
+            }
 //        SPUtils.put(getActivity(), "Sex", jsonObject2.getInteger("Sex"));
-        SPUtils.put(getActivity(), "vip", jsonObject2.getInteger("GradeId"));
-        int vip = (int) SPUtils.get(getActivity(), "vip", 0);
-        if (null == jsonObject2.getString("Mobile")) {
-        } else {
-            SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));
+            SPUtils.put(getActivity(), "vip", jsonObject2.getInteger("GradeId"));
+            int vip = (int) SPUtils.get(getActivity(), "vip", 0);
+            if (null == jsonObject2.getString("Mobile")) {
+            } else {
+                SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));
+            }
+            System.out.println("VIP等级" + vip);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        System.out.println("VIP等级" + vip);
 
 
     }

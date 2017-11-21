@@ -324,7 +324,14 @@
         <activity android:name=".ui.home.action.signlist.InvitationPersonActivity" />
         <activity
             android:name=".ui.home.mine.UpdateUserInfoActivity"
-            android:windowSoftInputMode="adjustUnspecified|stateHidden"></activity>
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity
+            android:name=".ui.home.mine.IDcardActivity"
+            android:windowSoftInputMode="adjustUnspecified|stateHidden" />
+        <activity android:name=".ui.home.action.SignListSelectActivity" />
+        <activity
+            android:name=".ui.home.action.MsgActivity"
+            android:launchMode="singleTop"></activity>
     </application>
 
 </manifest>

@@ -469,6 +469,12 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
                     addSign();
                 } else ToastUtil.makeText(this, R.string.net_error);
                 break;
+
+            case R.id.menu_signlist_msg:
+                Intent intent = getIntent();
+                intent.setClass(this, SignListSelectActivity.class);
+                startActivity(intent);
+                break;
         }
         return false;
     }

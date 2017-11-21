@@ -209,13 +209,13 @@ public class BeaconInfActivity extends ToolBarActivity implements View.OnClickLi
         //把activity_login中的控件定义在View中
         View textEntryView = factory.inflate(R.layout.dialog_email, null);
         EditText etPassword = (EditText) textEntryView.findViewById(R.id.et_dialog_password);
-        etPassword.setText("https://");
+        etPassword.setText("http://");
         etPassword.setHint("自定义链接地址");
         final EditText editText = etPassword;
         //将LoginActivity中的控件显示在对话框中
         new AlertDialog.Builder(this)
                 //对话框的标题
-                .setTitle("绑定自定义链接")
+                .setTitle("请输入链接")
                 //设定显示的View
                 .setView(textEntryView)
                 //对话框中的“登陆”按钮的点击事件

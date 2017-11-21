@@ -117,7 +117,7 @@ public class NetWorkStateReceiver extends BroadcastReceiver {
                     case MESSAGE_UPLOAD_SIGNUPSTATUS:
                         String result4 = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result4);
-                        if (jsonObj.getString("Res") == "0") {
+                        if (jsonObj.getString("Res").equals("0")) {
                             changeStatus();
                             ToastUtil.makeText(context, "数据上传成功");
                         }

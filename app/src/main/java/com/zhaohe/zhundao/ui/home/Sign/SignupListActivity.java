@@ -83,7 +83,6 @@ public class SignupListActivity extends ToolBarActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_signup_list);
         initIntent();
         initToolBar(title, R.layout.activity_signup_list);
         initHandler();

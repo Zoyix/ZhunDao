@@ -20,10 +20,16 @@ public class SignListAdapter extends AdapterBase<SignListBean, SignListHolder> {
 
     private LayoutInflater inflater;
     private Context mContext;
-
+    private int mFlag = 1;
     public SignListAdapter(Context context) {
         inflater = LayoutInflater.from(context);
         mContext = context;
+    }
+
+    public SignListAdapter(Context context, int flag) {
+        inflater = LayoutInflater.from(context);
+        mContext = context;
+        mFlag = flag;
     }
 
     @Override
@@ -46,6 +52,10 @@ public class SignListAdapter extends AdapterBase<SignListBean, SignListHolder> {
     @Override
     protected View initConvertView(View convertView, SignListHolder v) {
         convertView = inflater.inflate(R.layout.list_item_sign_list, null);
+        if (mFlag == 2) {
+            convertView = inflater.inflate(R.layout.list_item_sign_list_select, null);
+
+        }
         v.tv_signlist_id = (TextView) convertView.findViewById(R.id.tv_inf_id);
         v.tv_signlist_name = (TextView) convertView.findViewById(R.id.tv_signlist_name);
         v.tv_signlist_time = (TextView) convertView.findViewById(R.id.tv_inf_time);

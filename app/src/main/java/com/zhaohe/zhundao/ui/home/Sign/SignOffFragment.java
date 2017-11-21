@@ -477,7 +477,7 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                     case MESSAGE_UPLOAD_SIGNUPSTATUS:
                         String result4 = (String) msg.obj;
                         JSONObject jsonObj4 = JSON.parseObject(result4);
-                        if (jsonObj4.getString("Res") == "0") {
+                        if (jsonObj4.getString("Res").equals("0")) {
                             changeStatus();
                             ToastUtil.makeText(getActivity(), "数据上传成功");
                         }

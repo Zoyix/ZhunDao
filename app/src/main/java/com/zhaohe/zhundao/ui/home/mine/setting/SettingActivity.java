@@ -114,7 +114,7 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                     case MESSAGE_CHANGE_PASSWORD:
                         String result = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result);
-                        if (jsonObj.getString("Res") == "0") {
+                        if ("0".equals(jsonObj.getString("Res"))) {
 
                             ToastUtil.makeText(getApplicationContext(), "密码修改成功！");
                         }

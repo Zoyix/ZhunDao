@@ -495,7 +495,7 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
                     case MESSAGE_UPLOAD_SIGNUPSTATUS:
                         String result4 = (String) msg.obj;
                         JSONObject jsonObj4 = JSON.parseObject(result4);
-                        if (jsonObj4.getString("Res") == "0") {
+                        if ("0".equals(jsonObj4.getString("Res"))) {
                             changeStatus();
                             ToastUtil.makeText(getActivity(), "数据上传成功");
                         }
@@ -1057,11 +1057,11 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
                 .create().show();
     }
 
-    public void UpgradedDialog(final Activity activity) {
+    public static void UpgradedDialog(final Activity activity) {
 
         //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
 
-        new AlertDialog.Builder(getActivity())
+        new AlertDialog.Builder(activity)
                 //对话框的标题
                 .setTitle("对不起,您的权限不够！")
                 //设定显示的View

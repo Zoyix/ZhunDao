@@ -68,7 +68,7 @@ public class BondPhoneActivity extends ToolBarActivity implements View.OnClickLi
                     case MESSAGE_BOND_PHONE:
                         String result3 = (String) msg.obj;
                         ToolUserBean bean3 = (ToolUserBean) JSON.parseObject(result3, ToolUserBean.class);
-                        bean3.toString();
+
                         if (bean3.getRes() == 0) {
                             Toast.makeText(BondPhoneActivity.this, "手机号绑定成功！", Toast.LENGTH_LONG).show();
 

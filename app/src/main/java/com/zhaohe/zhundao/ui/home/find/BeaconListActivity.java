@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
@@ -15,6 +16,9 @@ import android.widget.TextView;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
+import com.yanzhenjie.permission.AndPermission;
+import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.PermissionListener;
 import com.zhaohe.app.utils.NetworkUtils;
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.app.utils.ToastUtil;
@@ -30,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.View.GONE;
+import static com.zhaohe.zhundao.constant.Constant.REQUEST_CODE_PERMISSION;
 
 public class BeaconListActivity extends Activity implements AdapterView.OnItemClickListener, Toolbar.OnMenuItemClickListener {
 
@@ -250,16 +255,52 @@ public class BeaconListActivity extends Activity implements AdapterView.OnItemCl
     public boolean onMenuItemClick(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.menu_beacon_add:
-                Intent intent = new Intent();
-                intent.setClass(this, MipcaActivityCapture.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("view_show", "false");
-                startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
-                startActivity(intent);
+                AndPermission.with(this)
+                        .requestCode(REQUEST_CODE_PERMISSION)
+                        .permission(Permission.CAMERA)
+                        .callback(permissionListener)
+                        // rationale作用是：用户拒绝一次权限，再次申请时先征求用户同意，再打开授权对话框；
+                        // 这样避免用户勾选不再提示，导致以后无法申请权限。
+                        // 你也可以不设置。
+                        .rationale(null)
+                        .start();
                 break;
 
 
         }
         return false;
     }
+
+    private void goToCamera() {
+        Intent intent = new Intent();
+        intent.setClass(this, MipcaActivityCapture.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("view_show", "false");
+        startActivityForResult(intent, SCANNIN_GREQUEST_CODE);
+        startActivity(intent);
+    }
+
+    private PermissionListener permissionListener = new PermissionListener() {
+        @Override
+        public void onSucceed(int requestCode, @NonNull List<String> grantPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    goToCamera();
+                    break;
+                }
+            }
+        }
+
+        @Override
+        public void onFailed(int requestCode, @NonNull List<String> deniedPermissions) {
+            switch (requestCode) {
+                case REQUEST_CODE_PERMISSION: {
+                    ToastUtil.makeText(getApplicationContext(), "授权失败！");
+
+                    break;
+                }
+            }
+        }
+    };
+
 }

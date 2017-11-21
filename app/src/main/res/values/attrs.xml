@@ -5,4 +5,12 @@
         <attr name="scaleItemCount" format="integer" />
         <attr name="scaleWidth" format="dimension" />
     </declare-styleable>
+
+    <declare-styleable name="ColorFountTextView">
+        <attr name="text_arrays" format="string" />
+        <attr name="color_arrays" format="string" />
+        <attr name="textsize_arrays" format="string" />
+        <attr name="line_arrays" format="string" />
+        <attr name="style_arrays" format="string" />
+    </declare-styleable>
 </resources>

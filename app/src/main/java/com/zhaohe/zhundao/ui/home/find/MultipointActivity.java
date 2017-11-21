@@ -272,7 +272,7 @@ public class MultipointActivity extends Activity implements View.OnClickListener
                     case MESSAGE_UPLOAD_SIGNUPSTATUS:
                         String result4 = (String) msg.obj;
                         JSONObject jsonObj2 = JSON.parseObject(result4);
-                        if (jsonObj2.getString("Res") == "0") {
+                        if ("0".equals(jsonObj2.getString("Res"))) {
                             changeStatus();
                             dao.deleteTable();
                             getSignupList(mSignID);

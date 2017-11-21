@@ -3,6 +3,7 @@ package com.zhaohe.app.commons.http;
 import android.util.Log;
 
 import com.zhaohe.app.commons.http.service.FormFile;
+import com.zhaohe.app.utils.ToastUtil;
 import com.zhaohe.zhundao.constant.Constant;
 
 import org.apache.http.HttpResponse;
@@ -290,6 +291,7 @@ public class HttpUtil {
                 url.append("&");
             }
             url.deleteCharAt(url.length() - 1);
+            ToastUtil.print("url" + url.toString());
             conn = (HttpURLConnection) new URL(url.toString()).openConnection();
             conn.setConnectTimeout(5000);
             conn.setRequestMethod("POST");

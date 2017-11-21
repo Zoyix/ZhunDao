@@ -201,13 +201,13 @@ public class SignListUserAddActivity extends ToolBarActivity {
                         ArrayList<String> a = camera.getUploadUrl();
                         for (int i = 0; i < a.size(); i++) {
                             cameraUrl = cameraUrl + a.get(i) + "|";
-
                         }
                         ToastUtil.print("PhotoTitle" + PhotoTitle + cameraUrl);
                         if (PhotoTitle.equals("人脸照片")) {
                             FaceImg = cameraUrl;
                         } else {
                             jsonMap.put(PhotoTitle, cameraUrl);
+
                         }
                         ToastUtil.makeText(getApplicationContext(), "图片上传成功！");
                         break;

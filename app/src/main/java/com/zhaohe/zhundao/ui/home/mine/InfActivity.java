@@ -42,8 +42,8 @@ public class InfActivity extends ToolBarActivity implements AdapterView.OnItemCl
         setContentView(R.layout.activity_inf);
         initToolBarNew("通知公告", R.layout.activity_inf);
         ButterKnife.bind(this);
-        initView();
         initHandler();
+        initView();
         getList();
 
     }
@@ -79,7 +79,7 @@ public class InfActivity extends ToolBarActivity implements AdapterView.OnItemCl
                     case MESSAGE_INF_LIST:
                         String result = (String) msg.obj;
                         JSONObject jsonObj = JSON.parseObject(result);
-                        if (jsonObj.getString("Res") == "0") {
+                        if ("0".equals(jsonObj.getString("Res"))) {
                             init(result);
                             SPUtils.put(getApplicationContext(), "inf_result", result);
                         }
@@ -129,7 +129,9 @@ public class InfActivity extends ToolBarActivity implements AdapterView.OnItemCl
     }
 
     private Map<String, String> getMap() {
-        String result = (String) SPUtils.get(this, "map_inf", "{\"x\":\"y\"}");
+//        String result = (String) SPUtils.get(this, "map_inf", "{\"x\":\"y\"}");
+        String result = (String) SPUtils.get(this, "map_inf", "{}");
+
         map = JSONObject.parseObject(result, Map.class);
 
         return map;
@@ -141,6 +143,9 @@ public class InfActivity extends ToolBarActivity implements AdapterView.OnItemCl
 
         InfBean bean = adapter.getItem(position);
         map.put(bean.getmID(), "1");
+//        for (String key : map.keySet()) {
+//            System.out.println("key= "+ key + " and value= " + map.get(key));
+//        }
         saveMap(map);
         Intent intent = new Intent();
         intent.setClass(this, NewsActivity.class);

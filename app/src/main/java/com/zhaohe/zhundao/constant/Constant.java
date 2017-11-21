@@ -1,5 +1,7 @@
 package com.zhaohe.zhundao.constant;
 
+import android.util.SparseBooleanArray;
+
 /**
  * @Description:
  * @Author:邹苏隆
@@ -11,12 +13,18 @@ public class Constant {
     public static String HOST_1 = "http://open.zhundao.com.cn"; // 备用
 
     public static String HOST_MOBLIE = "http://m.zhundao.net";
+    public static String HOST_MSG = "http://sms.zhundao.com.cn";
+
     //    public static String       ACCESSKEY;
 //    //是否登录
 //    public static boolean       ISLOGIN=false;
     public static String HEADURL = new String();
 
     public static String AppKey = "QWEDCXZAS";
+
+    public static final int REQUEST_CODE_PERMISSION = 10086;
+    public static SparseBooleanArray booleanArray_msg;//提交授权身份证信息
+
     /**
      * 图片上传的 fileName
      */
@@ -100,6 +108,11 @@ public class Constant {
         public static final String RegisterByPhone = "/api/PerBase/RegisterByPhone";//手机注册账号
         public static final String UpdatePassWordByPhone = "/api/PerBase/UpdatePassWordByPhone";//修改密码
         public static final String UpdateUserInfo = "/api/PerBase/UpdateUserInfo";//修改用户信息
+        public static final String PstAuthentication = "/api/PerBase/PstAuthentication";//提交授权身份证信息
+        public static final String Installapp = "/api/App/InstallMessageApp";//开通应用（短信）
+        public static final String adminInfo = "/api/sms/adminInfo";//获取短信信息（短信）
+        public static final String BatchSendSms = "/api/Core/BatchSendSms";//发送短信（短信）
+
 
 
         public static final String Device = "Android";

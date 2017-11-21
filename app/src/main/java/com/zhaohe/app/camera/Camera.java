@@ -319,7 +319,11 @@ public class Camera {
 
                     String imgpath = view.getTag(R.id.a) + "";
                     int position = (int) view.getTag(R.id.b);
-                    upload.remove(position);
+                    try {
+                        upload.remove(position);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     Message msg = uploadHandler.obtainMessage(999);
                     msg.obj = title;
                     uploadHandler.sendMessage(msg);

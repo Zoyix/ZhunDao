@@ -286,4 +286,50 @@ public class StringUtils {
         style.setSpan(new RelativeSizeSpan(2f), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv.setText(style);
     }
+
+    public static int fetchCharNumber(String src) {
+        int counter = -1;
+        if (src != null) {
+            counter = 0;
+            final int len = src.length();
+            for (int i = 0; i < len; i++) {
+                char sigleItem = src.charAt(i);
+                if (isAlphanumeric(sigleItem)) {
+                    counter++;
+                } else if (Character.isLetter(sigleItem)) {
+                    counter = counter + 2;
+                } else {
+                    counter++;
+                }
+            }
+        } else {
+            counter = -1;
+        }
+
+        return counter;
+    }
+
+    /**
+     * 判断字符是否为英文字母或者阿拉伯数字.
+     *
+     * @param ch char字符
+     * @return true or false
+     */
+    public static boolean isAlphanumeric(char ch) {
+        // 常量定义
+        final int DIGITAL_ZERO = 0;
+        final int DIGITAL_NINE = 9;
+        final char MIN_LOWERCASE = 'a';
+        final char MAX_LOWERCASE = 'z';
+        final char MIN_UPPERCASE = 'A';
+        final char MAX_UPPERCASE = 'Z';
+
+        if ((ch >= DIGITAL_ZERO && ch <= DIGITAL_NINE)
+                || (ch >= MIN_LOWERCASE && ch <= MAX_LOWERCASE)
+                || (ch >= MIN_UPPERCASE && ch <= MAX_UPPERCASE)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
 }

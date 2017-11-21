@@ -27,6 +27,9 @@ import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncInf;
+import com.zhaohe.zhundao.bean.jsonbean.UserInfBean;
+import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
+import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
 
 
@@ -43,8 +46,9 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
-    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback, tv_min_phone, tv_min_vip, tv_contacts, tv_my_inf;
+    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback, tv_min_phone, tv_min_vip, tv_contacts, tv_my_inf, tv_my_idcard;
     private RelativeLayout view_user;
+    private UserInfBean bean;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -95,6 +99,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         tv_contacts.setOnClickListener(this);
         tv_my_inf = (TextView) rootView.findViewById(R.id.tv_my_inf);
         tv_my_inf.setOnClickListener(this);
+        tv_my_idcard = (TextView) rootView.findViewById(R.id.tv_my_idcard);
+        tv_my_idcard.setOnClickListener(this);
         view_user = (RelativeLayout) rootView.findViewById(R.id.view_user);
         view_user.setOnClickListener(this);
     }
@@ -111,6 +117,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         } else {
             newPhone = phone.replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
         }
+
         int vip = (int) SPUtils.get(getActivity(), "vip", 0);
 
 //        int sex = (int) SPUtils.get(getActivity(), "Sex", 2);
@@ -188,7 +195,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                     case MESSAGE_GET_USERINF:
                         String result3 = (String) msg.obj;
                         SPUtils.put(getActivity(), "UserInfo", result3);
-                        System.out.println("use" + result3);
                         savaUserInf(result3);
                         break;
 
@@ -255,7 +261,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
 
         SPUtils.put(getActivity(), "vip", jsonObject2.getInteger("GradeId"));
-        int vip = (int) SPUtils.get(getActivity(), "vip", 0);
         if (null != jsonObject2.getString("TrueName")) {
             SPUtils.put(getActivity(), "TrueName", jsonObject2.getString("TrueName"));
 
@@ -310,30 +315,34 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.tv_min_setting:
-                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity.class);
+                IntentUtils.startActivity(getActivity(), SettingActivity.class);
                 break;
             case R.id.tv_my_wallet:
-                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.WalletActivity.class);
+                IntentUtils.startActivity(getActivity(), WalletActivity.class);
                 break;
             case R.id.tv_feedback:
 //                IntentUtils.startActivity(getActivity(), FeedbackActivity.class);
                 showWaiterAuthorizationDialog();
                 break;
             case R.id.tv_min_vip:
-                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.UpgradedActivity.class);
+                IntentUtils.startActivity(getActivity(), UpgradedActivity.class);
                 break;
             case R.id.tv_min_phone:
                 IntentUtils.startActivity(getActivity(), BondPhoneActivity.class);
                 break;
             case R.id.tv_contacts:
-                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity.class);
+                IntentUtils.startActivity(getActivity(), ContactsActivity.class);
                 break;
             case R.id.tv_my_inf:
                 IntentUtils.startActivity(getActivity(), InfActivity.class);
                 setRead();
                 break;
             case R.id.view_user:
-                IntentUtils.startActivity(getActivity(), com.zhaohe.zhundao.ui.home.mine.UpdateUserInfoActivity.class);
+                IntentUtils.startActivity(getActivity(), UpdateUserInfoActivity.class);
+
+                break;
+            case R.id.tv_my_idcard:
+                IntentUtils.startActivity(getActivity(), IDcardActivity.class);
 
                 break;
 

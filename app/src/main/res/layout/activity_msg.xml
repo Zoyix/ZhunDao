@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zhaohe.zhundao.ui.home.action.MsgActivity">
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
+        android:id="@+id/tv_select"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_select" />
+
+    <TextView
+        android:id="@+id/tv_count"
+        android:layout_alignBaseline="@id/tv_select"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:text="已选10人"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="30dp"
+
+        />
+
+    <EditText
+        android:layout_marginTop="20dp"
+        android:id="@+id/et_msg"
+        android:layout_below="@id/tv_select"
+        android:background="@color/white"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:gravity="start"
+        android:maxLength="196" />
+
+    <!--<com.zhaohe.zhundao.view.ColorFontTextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:gravity="center"-->
+    <!--android:textColor="#252c3d"-->
+    <!--android:textSize="12sp"-->
+    <!--app:text_arrays="人|何事|画"-->
+    <!--app:style_arrays="bold|italic|bold_italic"-->
+    <!--app:textsize_arrays="20|35|null"-->
+    <!--app:color_arrays="#fa5645|#3bb64d|#bd0a0a"-->
+    <!--app:line_arrays="undeline|null|deleteline"-->
+    <!--android:text="人生若只如初见人，何事秋风悲画扇。" />-->
+    <com.zhaohe.zhundao.view.ColorFontTextView
+        android:layout_alignBottom="@id/et_msg"
+        android:id="@+id/tv_msg_count"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#252c3d"
+        android:textSize="12sp"
+        android:layout_margin="5dp"
+        android:layout_alignParentRight="true"
+        android:text="@string/act_more_consult" />
+
+    <com.zhaohe.zhundao.view.ColorFontTextView
+        android:layout_alignBottom="@id/et_msg"
+        android:id="@+id/tv_msg_sign"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="#252c3d"
+        android:textSize="12sp"
+        android:layout_margin="5dp"
+        android:layout_alignParentLeft="true"
+        android:text="@string/act_more_consult"
+
+        />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_below="@id/et_msg"
+        android:id="@+id/tv_mode"
+        android:text="@string/tv_msg_mode"
+        android:layout_width="wrap_content"
+        android:textColor="@color/status_color_green"
+        android:layout_height="wrap_content"
+
+        />
+
+    <TextView
+        android:layout_margin="10dp"
+        android:layout_below="@id/et_msg"
+        android:id="@+id/tv_msg_suggest"
+        android:text="@string/tv_msg_suggest"
+        android:layout_alignParentRight="true"
+        android:layout_width="wrap_content"
+        android:textColor="@color/gray"
+        android:layout_height="wrap_content"
+
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
+        android:drawableRight="@mipmap/none"
+        android:id="@+id/tv_title"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_msg_title"
+        android:layout_below="@+id/tv_mode"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:id="@+id/tv_status"
+        android:layout_alignBaseline="@id/tv_title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textColor="@color/colorAccent"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
+        android:layout_below="@id/tv_title"
+        android:drawableRight="@mipmap/none"
+        android:id="@+id/tv_receive"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:textColor="@color/gray"
+
+        android:text="@string/tv_msg_receive" />
+
+    <TextView
+        android:id="@+id/tv_receive_count"
+        android:layout_alignBaseline="@id/tv_receive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textColor="@color/gray"
+        android:text="已选1人"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+
+        />
+
+    <TextView
+        android:layout_below="@id/tv_receive"
+        android:drawableRight="@mipmap/none"
+        android:id="@+id/tv_single"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:textColor="@color/gray"
+
+        android:text="@string/tv_msg_count_user" />
+
+    <TextView
+        android:id="@+id/tv_single_count"
+        android:layout_alignBaseline="@id/tv_single"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:textColor="@color/gray"
+        android:text="x1条"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="10dp"
+
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <com.zhaohe.zhundao.view.ColorFontTextView
+        android:id="@+id/tv_msg_count_user"
+        android:layout_below="@id/tv_single"
+        android:textColor="@color/gray"
+        android:layout_alignParentRight="true"
+        android:drawableRight="@mipmap/none"
+
+        style="@style/list_txt_Style"
+
+        android:text="短信当钱余额:0条" />
+
+    <com.zhaohe.zhundao.view.ColorFontTextView
+        android:layout_alignBaseline="@id/tv_msg_count_user"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tv_msg_count_sum"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="合记：1条"
+        android:layout_marginRight="10dp"
+
+
+        />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/btn_login"
+        android:text="@string/btn_send_msg"
+        style="@style/btn_login" />
+
+</RelativeLayout>

@@ -180,7 +180,12 @@ public class UpdateUserInfoActivity extends ToolBarActivity {
                 updateUserInf();
                 break;
             case img_head:
-                selectImage(1);
+                try {
+                    selectImage(1);
+                } catch (Exception e) {
+                    ToastUtil.makeText(this, R.string.tv_save_permission);
+                    e.printStackTrace();
+                }
                 break;
         }
 

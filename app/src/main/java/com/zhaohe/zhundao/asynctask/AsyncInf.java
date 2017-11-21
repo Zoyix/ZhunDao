@@ -54,6 +54,7 @@ public class AsyncInf extends AsyncTask<String, Integer, String> {
             Message msg = mHandler.obtainMessage(mRequest);
             msg.obj = result;
             System.out.println("获取准到通知列表" + result);
+//            SPUtils.put(mContext, "inf_result", result);
 
             mHandler.sendMessage(msg);
         } else {
