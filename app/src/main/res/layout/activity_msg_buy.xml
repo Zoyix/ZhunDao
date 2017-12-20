@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.zhaohe.zhundao.ui.home.action.msg.MsgBuyActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_margin="5dp"
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/tv_msg_buy_select" />
+
+        <com.zhaohe.zhundao.view.ColorFontTextView
+            android:id="@+id/tv_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#252c3d"
+            android:textSize="12sp"
+            android:layout_margin="5dp"
+            android:text="@string/tv_msg_bug_count"
+
+            android:layout_alignParentRight="true" />
+
+    </RelativeLayout>
+
+    <RadioGroup
+        android:background="@color/white"
+        android:id="@+id/rg_msg"
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/rb_msg_type1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/rb_msg_type1" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/black3" />
+
+        <RadioButton
+            android:id="@+id/rb_msg_type2"
+            android:text="@string/rb_msg_type2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/black3" />
+
+        <RadioButton
+            android:id="@+id/rb_msg_type3"
+            android:text="@string/rb_msg_type3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="0.3dp"
+            android:background="@color/black3" />
+
+        <RadioButton
+            android:id="@+id/rb_msg_type4"
+            android:text="@string/rb_msg_type4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RadioGroup>
+
+
+    <Button
+        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="20dp"
+        android:id="@+id/btn_login"
+        android:text="@string/ok"
+        style="@style/btn_login" />
+
+    <TextView
+        android:visibility="gone"
+        android:id="@+id/tv_password"
+        android:layout_margin="5dp"
+
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_password"
+        android:layout_gravity="center_horizontal" />
+
+    <com.zhaohe.zhundao.view.PayPsdInputView
+        android:visibility="gone"
+        android:id="@+id/et_password"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:layout_marginTop="20dp"
+        android:inputType="number"
+        app:maxCount="6"
+        app:psdType="weChat"
+        app:rectAngle="4dp" />
+</LinearLayout>

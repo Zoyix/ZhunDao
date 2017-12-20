@@ -2,6 +2,7 @@ package com.zhaohe.zhundao.ui;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.ColorInt;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
@@ -21,6 +22,7 @@ public abstract class ToolBarActivity extends SwipeBackActivity {
     private ToolBarHelper mToolBarHelper;
     public Toolbar toolbar;
     private TextView tvTitle;
+    public Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +73,7 @@ public abstract class ToolBarActivity extends SwipeBackActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
             finish();
+
             return true;
         }
         return super.onOptionsItemSelected(item);

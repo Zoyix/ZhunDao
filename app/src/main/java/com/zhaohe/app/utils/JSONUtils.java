@@ -4,7 +4,6 @@ package com.zhaohe.app.utils;
 import com.alibaba.fastjson.JSON;
 
 import java.util.ArrayList;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
@@ -23,7 +22,7 @@ public class JSONUtils {
         return true;
     }
 
-    public static String mapToString(LinkedHashMap<String, String> map) {
+    public static String mapToString(Map<String, String> map) {
         StringBuilder url = new StringBuilder();
         for (Map.Entry<String, String> entry : map.entrySet()) {
             url.append(entry.getKey()).append("=");

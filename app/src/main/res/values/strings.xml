@@ -14,6 +14,8 @@
     <!--fragment_min标签  -->
     <string name="tv_myaddressbook">我的通讯录</string>
     <string name="tv_my_wallet">我的钱包</string>
+    <string name="tv_my_msg">我的短信</string>
+
     <string name="tv_idcard">实名认证</string>
 
     <string name="tv_feedback">意见反馈</string>
@@ -64,6 +66,8 @@
     <string name="menu_signlist_select_all">全选</string>
     <string name="menu_signlist_select_none">不选</string>
     <string name="menu_signlist_select_anti">反选</string>
+    <string name="menu_signlist_msg_buy">购买短信包</string>
+    <string name="menu_signlist_msg_more">明细</string>
 
     <!--没有网络  -->
     <string name="app_serviceError">请联网后再试</string>
@@ -405,11 +409,14 @@
     <string name="tv_inv_suggust">长按或扫一扫报名</string>
 
     <string name="tv_save_permission">未获取存取SD卡权限!</string>
+
+    <!--实名认证-->
     <string name="tv_idcard_none">未实名认证</string>
     <string name="tv_idcard_1">实名认证成功</string>
-
     <string name="tv_idcard_0">待审核，请耐心等待</string>
     <string name="tv_idcard_2">实名认证失败，请重新提交信息</string>
+
+    <!--短信-->
     <string name="tv_select">选择收信人</string>
     <string name="tv_msg_mode">选择文案</string>
     <string name="tv_msg_suggest">非中国大陆地区手机号将被自动排除</string>
@@ -417,5 +424,16 @@
     <string name="tv_msg_receive">*收信人数</string>
     <string name="tv_msg_count_user">*文本条数</string>
     <string name="btn_send_msg">发送短信</string>
+    <string name="btn_charge">充值</string>
+    <string name="back">返回</string>
 
+    <string name="rb_msg_type1">100条</string>
+    <string name="rb_msg_type2">5000条</string>
+    <string name="rb_msg_type3">10000条</string>
+    <string name="rb_msg_type4">自定义条数</string>
+    <string name="tv_msg_buy_select">请选择短信包</string>
+    <string name="tv_msg_bug_count">合计0.00元</string>
+    <string name="tv_password">请输入支付密码</string>
+    <string name="tv_msg_last">剩余短信（条）</string>
+    <string name="question">常见问题</string>
 </resources>

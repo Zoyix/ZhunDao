@@ -13,9 +13,14 @@
         android:textSize="12sp"
         android:hint="@string/et_signlist_search" />
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_signup_list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <ListView
         android:id="@+id/lv_signlist"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"></ListView>
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

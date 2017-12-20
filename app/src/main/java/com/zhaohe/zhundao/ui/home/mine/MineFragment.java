@@ -29,6 +29,7 @@ import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncInf;
 import com.zhaohe.zhundao.bean.jsonbean.UserInfBean;
 import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
+import com.zhaohe.zhundao.ui.home.mine.msg.MyMsgActivity;
 import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
 
@@ -46,7 +47,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
-    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback, tv_min_phone, tv_min_vip, tv_contacts, tv_my_inf, tv_my_idcard;
+    private TextView tv_min_setting, tv_min_name, tv_min_wallet, tv_min_feedback, tv_min_phone, tv_min_vip, tv_contacts, tv_my_inf, tv_my_idcard, tv_my_msg;
     private RelativeLayout view_user;
     private UserInfBean bean;
 
@@ -78,7 +79,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         AsyncGetUserInf userInf = new AsyncGetUserInf(getActivity(), mHandler, MESSAGE_GET_USERINF);
         userInf.execute();
 
-
     }
 
 
@@ -101,6 +101,8 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         tv_my_inf.setOnClickListener(this);
         tv_my_idcard = (TextView) rootView.findViewById(R.id.tv_my_idcard);
         tv_my_idcard.setOnClickListener(this);
+        tv_my_msg = (TextView) rootView.findViewById(R.id.tv_my_msg);
+        tv_my_msg.setOnClickListener(this);
         view_user = (RelativeLayout) rootView.findViewById(R.id.view_user);
         view_user.setOnClickListener(this);
     }
@@ -301,6 +303,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         } else {
             SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));
         }
+
+        if (null != jsonObject2.getString("PayPassWord")) {
+            SPUtils.put(getActivity(), "PayPassWord", true);
+        }
+
+
         initUserInfo();
 
     }
@@ -345,7 +353,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
                 IntentUtils.startActivity(getActivity(), IDcardActivity.class);
 
                 break;
+            case R.id.tv_my_msg:
+                IntentUtils.startActivity(getActivity(), MyMsgActivity.class);
 
+                break;
 
         }
     }

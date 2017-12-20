@@ -328,10 +328,18 @@
         <activity
             android:name=".ui.home.mine.IDcardActivity"
             android:windowSoftInputMode="adjustUnspecified|stateHidden" />
-        <activity android:name=".ui.home.action.SignListSelectActivity" />
+        <activity android:name=".ui.home.action.msg.SignListSelectActivity" />
         <activity
-            android:name=".ui.home.action.MsgActivity"
-            android:launchMode="singleTop"></activity>
+            android:name=".ui.home.action.msg.MsgSendActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.home.action.msg.MsgBuyActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".ui.home.mine.msg.MyMsgActivity"
+            android:launchMode="singleTop" />
+        <activity android:name=".ui.home.mine.msg.MsgMoreActivity" />
+        <activity android:name=".ui.home.action.msg.MsgBuyMoreActivity"></activity>
     </application>
 
 </manifest>

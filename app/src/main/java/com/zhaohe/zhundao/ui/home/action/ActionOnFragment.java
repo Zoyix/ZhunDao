@@ -399,6 +399,11 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
             } else {
                 SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));
             }
+            if (null != jsonObject2.getString("PayPassWord")) {
+                SPUtils.put(getActivity(), "PayPassWord", true);
+            }
+
+
             System.out.println("VIP等级" + vip);
         } catch (Exception e) {
             e.printStackTrace();

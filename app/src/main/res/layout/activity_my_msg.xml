@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.zhaohe.zhundao.ui.home.mine.msg.MyMsgActivity"
+    android:orientation="vertical">
+
+    <ImageView
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="60dp"
+        android:src="@mipmap/msg256"
+        android:layout_width="80dp"
+        android:layout_height="80dp" />
+
+    <TextView
+        android:layout_margin="20dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/tv_msg_last"
+        android:textColor="@color/black" />
+
+    <TextView
+        android:id="@+id/tv_msg_num"
+        android:textStyle="bold"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="0"
+        android:textSize="30sp"
+        android:textColor="@color/black" />
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btn_charge"
+        android:text="@string/btn_charge"
+        style="@style/btn_login" />
+
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/btn_back"
+        android:text="@string/back"
+        style="@style/btn_back" />
+
+    <TextView
+        android:id="@+id/tv_question"
+        android:layout_marginTop="100dp"
+        android:layout_gravity="center_horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/question" />
+</LinearLayout>

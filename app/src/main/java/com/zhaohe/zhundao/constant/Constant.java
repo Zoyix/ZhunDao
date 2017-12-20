@@ -112,6 +112,8 @@ public class Constant {
         public static final String Installapp = "/api/App/InstallMessageApp";//开通应用（短信）
         public static final String adminInfo = "/api/sms/adminInfo";//获取短信信息（短信）
         public static final String BatchSendSms = "/api/Core/BatchSendSms";//发送短信（短信）
+        public static final String TopUpSMS = "/api/PerBase/TopUpSMS";//开通应用（短信）
+
 
 
 

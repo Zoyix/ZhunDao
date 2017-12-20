@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -36,6 +37,7 @@ import com.zhaohe.zhundao.bean.ToolUserBean;
 import com.zhaohe.zhundao.dao.MySignListDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
+import com.zhaohe.zhundao.ui.home.action.msg.SignListSelectActivity;
 import com.zhaohe.zhundao.ui.home.action.signlist.InvitationPersonActivity;
 
 import java.util.ArrayList;
@@ -48,7 +50,7 @@ import static com.zhaohe.zhundao.ui.login.BondPhoneActivity.MESSAGE_GET_CODE;
  * @Author:邹苏隆
  * @Since:2016/12/14 10:52
  */
-public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener, Toolbar.OnMenuItemClickListener, AdapterView.OnItemLongClickListener {
+public class SignListActivity extends ToolBarActivity implements AdapterView.OnItemClickListener, Toolbar.OnMenuItemClickListener, AdapterView.OnItemLongClickListener, SwipeRefreshLayout.OnRefreshListener {
     private SignListAdapter adapter;
     private List<SignListBean> list_act;
     private ListView lv_signlist;
@@ -63,12 +65,13 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
     public static final int MESSAGE_SEND_SIGNLIST_EMAIL = 94;
     public static final int MESSAGE_GET_SIGNLIST = 93;
     public static final int MESSAGE_GET_SIGNLIST_NO_DIALOG = 92;
-
+    public static final int REFRESH_COMPLETE = 98;
     NormalSelectionDialog dialog1;//底部对话框
     SignListBean bean;
     public static final int PAGE_SIZE = 200000;
     private String ActivityFees;
     private String UserInfo;
+    private SwipeRefreshLayout mSwipeLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,7 +212,9 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
 
     private void initView() {
         dao = new MySignListDao(this);
-
+        mSwipeLayout = (SwipeRefreshLayout) findViewById(R.id.swipe_signup_list);
+        mSwipeLayout.setOnRefreshListener(this);
+        mSwipeLayout.setColorSchemeResources(android.R.color.holo_blue_light, android.R.color.holo_red_light, android.R.color.holo_orange_light, android.R.color.holo_green_light);
         lv_signlist = (ListView) findViewById(R.id.lv_signlist);
         adapter = new SignListAdapter(this);
         lv_signlist.setAdapter(adapter);
@@ -382,6 +387,10 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
                             dao.deleteTable();
                             init();
                         }
+
+                    case REFRESH_COMPLETE:
+                        mSwipeLayout.setRefreshing(false);
+                        break;
                     default:
                         break;
                 }
@@ -505,5 +514,12 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
         dialog1.show();
 
         return true;
+    }
+
+    @Override
+    public void onRefresh() {
+        update();
+        System.out.print("成功刷新");
+        mHandler.sendEmptyMessageDelayed(REFRESH_COMPLETE, 2000);
     }
 }

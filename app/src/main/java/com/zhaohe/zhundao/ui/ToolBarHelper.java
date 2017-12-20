@@ -70,7 +70,7 @@ public class ToolBarHelper {
         View toolbar = mInflater.inflate(R.layout.toolbar, mContentView);
         mToolBar = (Toolbar) toolbar.findViewById(R.id.id_tool_bar);
         tv_toolbar_title = (TextView) toolbar.findViewById(R.id.tv_toolbar_title);
-        mToolBar.inflateMenu(R.menu.toolbar_act_details);
+//        mToolBar.inflateMenu(R.menu.toolbar_act_details);
     }
 
 

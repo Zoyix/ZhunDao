@@ -31,6 +31,7 @@ public class InvitationProActivity extends ToolBarActivity implements RadioGroup
 
     private void initView() {
         rgInvitation.setOnCheckedChangeListener(this);
+
         setcheck((int) SPUtils.get(this, "invitation_type", 1));
     }
 
