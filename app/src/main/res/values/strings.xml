@@ -27,8 +27,14 @@
     <string name="tv_setting_about_us">关于准到</string>
     <string name="tv_setting_version">版本升级</string>
     <string name="tv_setting_inf">通知公告</string>
+    <string name="tv_my_account">账号切换</string>
+
     <string name="tv_setting_net">线路切换&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;默认线路</string>
     <string name="tv_setting_net_1">线路切换&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;&#160;备用线路</string>
+    <string name="tv_setting_net_2">线路切换</string>
+    <string name="tv_setting_net_status_1">默认线路</string>
+    <string name="tv_setting_net_status_2">备用线路</string>
+
 
     <string name="tv_setting_exit">退出登录</string>
     <!--toolbar菜单  -->
@@ -68,6 +74,7 @@
     <string name="menu_signlist_select_anti">反选</string>
     <string name="menu_signlist_msg_buy">购买短信包</string>
     <string name="menu_signlist_msg_more">明细</string>
+    <string name="menu_add">新增</string>
 
     <!--没有网络  -->
     <string name="app_serviceError">请联网后再试</string>
@@ -239,7 +246,9 @@
     <string name="tv_sign_add_actname">活动名称</string>
     <string name="tv_sign_edit">修改签到</string>
     <string name="tv_sign_delete">删除签到</string>
-    <string name="tv_sign_qcode">签到二维码</string>
+    <string name="tv_sign_qcode">微信签到二维码</string>
+    <string name="tv_sign_qcode_phone">手机号签到二维码</string>
+
     <string name="tv_sign_email">发送到邮箱</string>
 
 
@@ -412,7 +421,7 @@
 
     <!--实名认证-->
     <string name="tv_idcard_none">未实名认证</string>
-    <string name="tv_idcard_1">实名认证成功</string>
+    <string name="tv_idcard_1">您已完成实名认证！</string>
     <string name="tv_idcard_0">待审核，请耐心等待</string>
     <string name="tv_idcard_2">实名认证失败，请重新提交信息</string>
 
@@ -436,4 +445,5 @@
     <string name="tv_password">请输入支付密码</string>
     <string name="tv_msg_last">剩余短信（条）</string>
     <string name="question">常见问题</string>
+    <string name="next">下一步</string>
 </resources>

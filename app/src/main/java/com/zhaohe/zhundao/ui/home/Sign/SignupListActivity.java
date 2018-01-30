@@ -165,6 +165,16 @@ public class SignupListActivity extends ToolBarActivity implements View.OnClickL
 
     }
 
+    private void updateNum() {
+        all = dao.queryListByCheckinIDAndStatus(sign_id, "%%");
+        on = dao.queryListByCheckinIDAndStatus(sign_id, "true");
+        off = dao.queryListByCheckinIDAndStatus(sign_id, "false");
+        tv_signup_all.setText("全部（" + all.size() + "）");
+        tv_signup_on.setText("已签（" + on.size() + "）");
+        tv_signup_off.setText("未签（" + off.size() + "）");
+
+    }
+
     private void initIntent() {
         Intent intent = getIntent();
         //从Intent当中根据key取得value
@@ -484,7 +494,7 @@ public class SignupListActivity extends ToolBarActivity implements View.OnClickL
 
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        init();
+                        updateNum();
                     }
                 })
                 .setCancelable(true)

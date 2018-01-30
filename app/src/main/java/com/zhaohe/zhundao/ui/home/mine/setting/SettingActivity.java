@@ -28,18 +28,26 @@ import com.zhaohe.app.version.VersionXmlUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncChangePassword;
 import com.zhaohe.zhundao.constant.Constant;
+import com.zhaohe.zhundao.dao.MyAccountDao;
 import com.zhaohe.zhundao.dao.MyContactsDao;
 import com.zhaohe.zhundao.dao.MyGroupDao;
 import com.zhaohe.zhundao.dao.MySignupListDao;
 import com.zhaohe.zhundao.dao.MySignupListMultiDao;
 import com.zhaohe.zhundao.ui.ToolBarActivity;
 import com.zhaohe.zhundao.ui.ToolBarHelper;
+import com.zhaohe.zhundao.ui.home.mine.AccountActivity;
 import com.zhaohe.zhundao.ui.home.mine.FeedbackActivity;
 import com.zhaohe.zhundao.ui.home.mine.InfActivity;
 import com.zhaohe.zhundao.ui.login.LoginActivity;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
+
 public class SettingActivity extends ToolBarActivity implements View.OnClickListener {
-    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password, tv_setting_version, tv_setting_version_show, tv_setting_inf, tv_setting_net;
+    @BindView(R.id.tv_setting_account)
+    TextView tvSettingAccount;
+    private TextView tv_setting_exit, tv_setting_about_us, tv_setting_feedback, tv_setting_password, tv_setting_version, tv_setting_version_show, tv_setting_inf, tv_setting_net, tv_setting_net_status;
     public static final int MESSAGE_CHANGE_PASSWORD = 86;
     private Handler mHandler;
     private VersionBean bean;
@@ -56,6 +64,8 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         setContentView(R.layout.activity_setting);
         initHandler();
         initToolBar("设置");
+        ButterKnife.bind(this);
+
         initView();
         goAsyncUpdate();
 
@@ -81,12 +91,14 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
         tv_setting_inf = (TextView) findViewById(R.id.tv_setting_inf);
         tv_setting_inf.setOnClickListener(this);
         tv_setting_net = (TextView) findViewById(R.id.tv_setting_net);
+        tv_setting_net_status = (TextView) findViewById(R.id.tv_setting_net_status);
+
         tv_setting_net.setOnClickListener(this);
         if (SPUtils.get(this, "HOST", Constant.HOST).equals(Constant.HOST)) {
-            tv_setting_net.setText(R.string.tv_setting_net);
+            tv_setting_net_status.setText(R.string.tv_setting_net_status_1);
             ;
         } else {
-            tv_setting_net.setText(R.string.tv_setting_net_1);
+            tv_setting_net_status.setText(R.string.tv_setting_net_status_2);
         }
         dao = new MySignupListMultiDao(this);
         groupDao = new MyGroupDao(this);
@@ -243,16 +255,16 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
                         switch (spinner.getSelectedItemPosition() + "") {
                             case "0":
                                 SPUtils.put(getApplicationContext(), "HOST", Constant.HOST);
-                                tv_setting_net.setText(R.string.tv_setting_net);
+                                tv_setting_net_status.setText(R.string.tv_setting_net_status_1);
                                 break;
                             case "1":
                                 SPUtils.put(getApplicationContext(), "HOST", Constant.HOST_1);
-                                tv_setting_net.setText(R.string.tv_setting_net_1);
+                                tv_setting_net_status.setText(R.string.tv_setting_net_status_2);
 
                                 break;
                             default:
                                 SPUtils.put(getApplicationContext(), "HOST", Constant.HOST);
-                                tv_setting_net.setText(R.string.tv_setting_net);
+                                tv_setting_net_status.setText(R.string.tv_setting_net_status_1);
 
                                 break;
                         }
@@ -324,10 +336,19 @@ public class SettingActivity extends ToolBarActivity implements View.OnClickList
             groupDao.deleteTable();
             contactsDao.deleteTable();
             mySignupListDao.deleteTable();
+            MyAccountDao dao3 = new MyAccountDao(this);
+            dao3.deleteTable();
 
         } catch (Exception e) {
 
         }
+    }
+
+    @OnClick(R.id.tv_setting_account)
+    public void onViewClicked() {
+
+        IntentUtils.startActivity(this, AccountActivity.class);
+        finish();
     }
 
     private final class AsyncUpdateVersion extends AsyncTask<String, Integer, String> {

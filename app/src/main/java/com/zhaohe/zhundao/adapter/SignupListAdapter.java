@@ -47,7 +47,7 @@ public class SignupListAdapter extends AdapterBase<MySignListupBean, SignupListH
         itemView.btn_signuplist_signup.setOnClickListener(this);
         itemView.btn_signuplist_signup.setTag(position);
         if (bean.getStatus().equals("true")) {
-            itemView.img_signuplist_status.setImageResource(R.drawable.check_on);
+            itemView.img_signuplist_status.setImageResource(R.drawable.status_ok);
             itemView.btn_signuplist_signup.setVisibility(View.GONE);
 //            if (bean.getCheckInTime().equals("")){
 //                bean.setCheckInTime("2017-3-13");
@@ -57,7 +57,7 @@ public class SignupListAdapter extends AdapterBase<MySignListupBean, SignupListH
 //            itemView.img_signuplist_status.setImageResource(R.drawable.check_on);
 //        }
         else {
-            itemView.img_signuplist_status.setImageResource(R.drawable.check_off);
+            itemView.img_signuplist_status.setImageResource(R.drawable.status_fail);
             itemView.btn_signuplist_signup.setVisibility(View.VISIBLE);
 
         }

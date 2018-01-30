@@ -126,7 +126,9 @@ public class SignListSelectActivity extends ToolBarActivity implements AdapterVi
 
         adapter.refreshData(list);
         for (int i = 0; i < list.size(); i++) {
-            lvSignlist.setItemChecked(i, true);
+            if (jsonArray.getJSONObject(i).getString("Mobile").length() == 11) {
+                lvSignlist.setItemChecked(i, true);
+            }
         }
         refreshCount();
 

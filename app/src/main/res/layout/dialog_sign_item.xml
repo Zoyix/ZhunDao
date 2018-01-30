@@ -33,6 +33,16 @@
 
     <include layout="@layout/line" />
 
+
+    <TextView
+        android:layout_marginLeft="10dp"
+
+        android:id="@+id/tv_sign_qcode_phone"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_sign_qcode_phone" />
+
+    <include layout="@layout/line" />
     <TextView
         android:layout_marginLeft="10dp"
 

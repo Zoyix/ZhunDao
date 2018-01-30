@@ -141,7 +141,12 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             bean.setSign_list_name(jsonArray.getJSONObject(i).getString("UserName"));
             bean.setSign_list_time(jsonArray.getJSONObject(i).getString("AddTime"));
             bean.setSign_list_phone(jsonArray.getJSONObject(i).getString("Mobile"));
-            bean.setNickname(jsonArray.getJSONObject(i).getString("NickName"));
+            if (jsonArray.getJSONObject(i).getString("NickName") == null) {
+                bean.setNickname("无");
+            } else {
+                bean.setNickname(jsonArray.getJSONObject(i).getString("NickName"));
+
+            }
             bean.setAdminRemark(jsonArray.getJSONObject(i).getString("AdminRemark"));
             bean.setVCode(jsonArray.getJSONObject(i).getString("VCode"));
 
@@ -170,11 +175,16 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
 //        count=jsonArray.size()-1;
         dao.save(list);
         if (intent.getStringExtra("phone") != null) {
+            ToastUtil.print("手机号码，" + intent.getStringExtra("phone"));
 //            et_signlist_search.setText(intent.getStringExtra("phone"));
             list_act = dao.queryListActIDAndPhoneOrName(act_id, intent.getStringExtra("phone"));
-            SignListBean bean_act = list_act.get(0);
-            StartList(bean_act);
-            finish();
+            if (list_act.size() != 0) {
+                SignListBean bean_act = list_act.get(0);
+                StartList(bean_act);
+                finish();
+            } else {
+
+            }
 
         } else {
             list_act = dao.queryListActID(act_id);
@@ -470,9 +480,9 @@ public class SignListActivity extends ToolBarActivity implements AdapterView.OnI
             case R.id.menu_signlist_email:
                 sendEmail();
                 break;
-            case R.id.menu_signlist_upload:
-                update();
-                break;
+//            case R.id.menu_signlist_upload:
+//                update();
+//                break;
             case R.id.menu_signlist_add:
                 if (NetworkUtils.checkNetState(this)) {
                     addSign();

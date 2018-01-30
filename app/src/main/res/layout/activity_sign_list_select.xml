@@ -26,7 +26,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_marginBottom="20dp"
         android:id="@+id/btn_login"
-        android:text="@string/ok"
+        android:text="@string/next"
         style="@style/btn_login" />
 
 </RelativeLayout>

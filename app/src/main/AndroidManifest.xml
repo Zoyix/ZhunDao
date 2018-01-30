@@ -339,7 +339,9 @@
             android:name=".ui.home.mine.msg.MyMsgActivity"
             android:launchMode="singleTop" />
         <activity android:name=".ui.home.mine.msg.MsgMoreActivity" />
-        <activity android:name=".ui.home.action.msg.MsgBuyMoreActivity"></activity>
+        <activity android:name=".ui.home.action.msg.MsgBuyMoreActivity" />
+        <activity android:name=".ui.home.mine.AccountActivity" />
+        <activity android:name=".ui.home.mine.AccountAddActivity"></activity>
     </application>
 
 </manifest>

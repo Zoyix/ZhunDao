@@ -119,6 +119,12 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         super.onResume();
         MobclickAgent.onResume(getActivity());
         upload();
+        if ((boolean) SPUtils.get(getActivity(), "updateSign", false)) {
+            init();
+            SPUtils.put(getActivity(), "updateSign", false);
+
+        }
+
     }
 
     public void onPause() {
@@ -635,6 +641,10 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
                         dialog.dismiss();
                         QrCodeDialog(bean);
                         break;
+                    case R.id.tv_sign_qcode_phone:
+                        dialog.dismiss();
+                        QrCodePhoneDialog(bean);
+                        break;
                     case R.id.tv_sign_email:
                         dialog.dismiss();
                         sendEmail();
@@ -656,6 +666,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         tv_sign_qcode.setOnClickListener(onClickListener);
         final TextView tv_sign_email = (TextView) textEntryView.findViewById(R.id.tv_sign_email);
         tv_sign_email.setOnClickListener(onClickListener);
+        final TextView tv_sign_qcode_phone = (TextView) textEntryView.findViewById(R.id.tv_sign_qcode_phone);
+        tv_sign_qcode_phone.setOnClickListener(onClickListener);
         //将LoginActivity中的控件显示在对话框中
         builder                //对话框的标题
                 .setTitle("签到操作")
@@ -722,7 +734,8 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
         iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode_sign);
         TextView title = (TextView) v.findViewById(R.id.tv_qr_title);
         title.setText(bean.getAct_title());
-
+        TextView tv_qr_sign = (TextView) v.findViewById(R.id.tv_qr_sign);
+        tv_qr_sign.setText("微信签到");
         final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/ck/" + bean.getSign_id() + "/" + bean.getAct_id() + "/3", 600, 600);
         iv_dialog_qrcode.setImageBitmap(bitmap);
 
@@ -755,6 +768,53 @@ public class SignOffFragment extends Fragment implements View.OnClickListener, S
 
     }
 
+    public void QrCodePhoneDialog(final SignBean bean) {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+        LayoutInflater factory = LayoutInflater.from(getContext());
+        //把activity_login中的控件定义在View中
+        final View v = factory.inflate(R.layout.dialog_qrcode_sign, null);
+        ImageView iv_dialog_qrcode;
+
+        iv_dialog_qrcode = (ImageView) v.findViewById(R.id.iv_dialog_qrcode_sign);
+        TextView title = (TextView) v.findViewById(R.id.tv_qr_title);
+        TextView tv_qr_sign = (TextView) v.findViewById(R.id.tv_qr_sign);
+        tv_qr_sign.setText("手机号签到");
+        title.setText(bean.getAct_title());
+
+//        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/Inwechat/CheckInForBeacon/?checkInId=" + bean.getSign_id(), 600, 600);
+        final Bitmap bitmap = createQrBitmap("https://m.zhundao.net/inwechat/checkinbyphone?checkinID=" + bean.getSign_id(), 600, 600);
+
+        iv_dialog_qrcode.setImageBitmap(bitmap);
+
+        ;
+        new AlertDialog.Builder(getActivity())
+                //对话框的标题
+//                .setTitle(bean.getAct_title())
+                .setView(v)
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("保存", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+//ZXingUtil.saveMyBitmap(ZXingUtil.createQrBitmap(bean.getUrl(),150,150),bean.getAct_title()+"二维码");
+                        ZXingUtil.saveImageToGallery(getContext(), bitmap, bean.getAct_title());
+                        ToastUtil.makeText(getContext(), "保存成功！");
+                    }
+
+                })
+                .setNegativeButton("取消", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+
+    }
     private void deleteSign(String checkInId) {
         AsyncSignDelete async = new AsyncSignDelete(getActivity(), mHandler, MESSAGE_SIGN_DELETE, checkInId);
         async.execute();

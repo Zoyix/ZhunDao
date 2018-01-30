@@ -351,7 +351,7 @@ public class MsgSendActivity extends ToolBarActivity implements AdapterView.OnIt
                     }
                 })
                 // 设置dialog是否为模态，false表示模态，true表示非模态
-                .setCancelable(true)
+                .setCancelable(false)
                 //对话框的创建、显示
                 .create().show();
 
@@ -493,6 +493,35 @@ public class MsgSendActivity extends ToolBarActivity implements AdapterView.OnIt
 
     }
 
+    public void sentMsgDialog() {
+
+        //LayoutInflater是用来找layout文件夹下的xml布局文件，并且实例化
+
+        //将LoginActivity中的控件显示在对话框中
+        new AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("发送短信？")
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                        sendMsg(getPhone());
+
+
+                    }
+                })
+                //对话框的“退出”单击事件
+                .setNegativeButton("退出", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+                })
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(false)
+                //对话框的创建、显示
+                .create().show();
+    }
 
     @OnClick(R.id.tv_select)
     public void onViewClicked() {
@@ -516,7 +545,7 @@ public class MsgSendActivity extends ToolBarActivity implements AdapterView.OnIt
                     ToastUtil.makeText(this, "请输入短信内容");
                     return;
                 }
-                sendMsg(getPhone());
+                sentMsgDialog();
                 ;
 
                 break;

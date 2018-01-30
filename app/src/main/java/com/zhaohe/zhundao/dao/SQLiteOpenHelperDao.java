@@ -20,6 +20,7 @@ public class SQLiteOpenHelperDao extends SQLiteOpenHelper {
         db.execSQL("CREATE TABLE IF NOT EXISTS MySignupListMulti(VCode varchar(20) , CheckInID varchar(20), Status varchar(20) , UpdateStatus varchar(20),Name varchar(20),Phone varchar(20),AdminRemark varchar(20), FeeName varchar(20),Fee varchar(20),CheckInTime varchar(20) ,primary key(VCode,CheckInID) );");
         db.execSQL("CREATE TABLE IF NOT EXISTS MyContacts(name varchar(20) , pinyin varchar(20), firstLetter varchar(20) ,Phone varchar(20), Address varchar(20),Email varchar(20),GroupName varchar(20),GroupID varchar(20), ID varchar(20),UpdateStatus varchar(20) ,Sex varchar(20),HeadImgurl varchar(20),Company varchar(20),Duty varchar(20),IDcard varchar(20),Remark varchar(20),SerialNo varchar(20),primary key(ID) );");
         db.execSQL("CREATE TABLE IF NOT EXISTS MyGroup(Name varchar(20) , Sequence varchar(20), TotalCount varchar(20) ,ID varchar(20), AdminUserID varchar(20),UpdateStatus varchar(20) , primary key(ID) );");
+        db.execSQL("CREATE TABLE IF NOT EXISTS MyAccount(name varchar(20) , phone varchar(20), head varchar(20) ,accessKey varchar(20), status varchar(20) , primary key(phone) );");
 
     }
 

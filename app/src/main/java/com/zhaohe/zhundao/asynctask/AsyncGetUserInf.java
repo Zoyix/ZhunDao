@@ -33,6 +33,14 @@ public class AsyncGetUserInf extends AsyncTask<String, Integer, String> {
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
 
+    public AsyncGetUserInf(Context context, Handler handler, int request, String Accesskey) {
+        this.mContext = context;
+        this.mHandler = handler;
+        this.mRequest = request;
+//        this.mDialog = dialog;
+        this.mAccesskey = Accesskey;
+    }
+
     @Override
     protected String doInBackground(String... strings) {
         String path = (String) SPUtils.get(mContext, "HOST", Constant.HOST) + Constant.Url.GetUserInf;

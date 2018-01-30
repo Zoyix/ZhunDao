@@ -20,12 +20,8 @@
             android:layout_height="wrap_content">
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:text="@string/tv_head"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine" />
 
             <ImageView
                 android:id="@+id/img_head"
@@ -52,21 +48,13 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                style="@style/tv_title_mine"
                 android:text="@string/name"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                android:id="@+id/textView8" />
 
             <EditText
                 android:id="@+id/et_name"
-                android:gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="150dp"
-                android:inputType="none"
-                android:layout_height="wrap_content" />
+                style="@style/et_no_line_center" />
 
         </RelativeLayout>
 
@@ -83,20 +71,12 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/tv_nickname"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine"
+                android:text="@string/tv_nickname" />
 
             <EditText
                 android:id="@+id/et_nickname"
-                android:gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                style="@style/et_no_line_center" />
 
         </RelativeLayout>
 
@@ -113,23 +93,18 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/phone"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine"
+                android:text="@string/phone" />
 
             <TextView
                 android:id="@+id/tv_phone"
-                android:gravity="center_horizontal"
                 android:layout_margin="10dp"
                 android:layout_alignParentRight="true"
-                android:layout_width="150dp"
+                android:layout_width="wrap_content"
+
                 android:text="@string/phone"
-                android:layout_centerVertical="true"
-                android:textColor="@color/black"
-                android:textSize="16sp"
+                android:textColor="@color/gray"
+                android:textSize="12sp"
                 android:layout_height="wrap_content" />
 
         </RelativeLayout>
@@ -147,20 +122,12 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/email"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine"
+                android:text="@string/email" />
 
             <EditText
                 android:id="@+id/et_email"
-                android:gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                style="@style/et_no_line_center" />
 
         </RelativeLayout>
 
@@ -177,25 +144,19 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
                 android:text="@string/sex"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine" />
 
 
             <Spinner
-                android:paddingLeft="50dp"
                 android:id="@+id/sp_sex"
-                android:layout_width="150dp"
-                android:gravity="center|center_horizontal"
+                android:layout_width="wrap_content"
                 android:layout_margin="10dp"
                 android:layout_alignParentRight="true"
                 android:entries="@array/sex"
                 android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true"
-                android:layout_centerVertical="true"
+
 
                 ></Spinner>
 
@@ -214,20 +175,13 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
                 android:text="@string/unit"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine" />
 
             <EditText
                 android:id="@+id/et_unit"
-                android:gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                style="@style/et_no_line_center" />
 
         </RelativeLayout>
 
@@ -244,20 +198,13 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
                 android:text="@string/industry"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine" />
 
             <EditText
                 android:id="@+id/et_industry"
-                android:gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                style="@style/et_no_line_center" />
 
         </RelativeLayout>
 
@@ -274,20 +221,13 @@
             >
 
             <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+
                 android:text="@string/duty"
-                android:layout_margin="20dp"
-                android:textColor="@color/black"
-                android:layout_centerVertical="true" />
+                style="@style/tv_title_mine" />
 
             <EditText
                 android:id="@+id/et_duty"
-                android:gravity="center_horizontal"
-                android:layout_margin="10dp"
-                android:layout_alignParentRight="true"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content" />
+                style="@style/et_no_line_center" />
 
         </RelativeLayout>
 

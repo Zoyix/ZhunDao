@@ -213,4 +213,64 @@
         <item name="android:windowIsFloating">true</item>
         <item name="android:windowContentOverlay">@null</item>
     </style>
+
+    <style name="et_no_line">
+        <item name="android:gravity">end</item>
+
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_width">250dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="et_no_line_center">
+        <item name="android:background">@null</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:gravity">end</item>
+        <item name="android:textSize">12sp</item>
+
+        <item name="android:layout_margin">10dp</item>
+        <item name="android:layout_alignParentRight">true</item>
+        <item name="android:layout_width">200dp</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="tv_title">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginLeft">20dp</item>
+
+    </style>
+
+    <style name="tv_title_mine">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginLeft">20dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:layout_centerVertical">true</item>
+        <item name="android:layout_marginBottom">10dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+    </style>
+
+    <style name="tv_status_center">
+        <item name="android:layout_margin">20dp</item>
+        <item name="android:layout_gravity">center_horizontal</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="tv_status_center_idcard">
+        <item name="android:layout_marginLeft">70dp</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
 </resources>

@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.alibaba.fastjson.JSON;
@@ -49,6 +50,16 @@ public class IDcardActivity extends ToolBarActivity {
     Button btnLogin;
     @BindView(R.id.tv_status)
     TextView tvStatus;
+    @BindView(R.id.ll_edit)
+    LinearLayout llEdit;
+    @BindView(R.id.tv_name)
+    TextView tvName;
+    @BindView(R.id.tv_phone)
+    TextView tvPhone;
+    @BindView(R.id.tv_idcard)
+    TextView tvIdcard;
+    @BindView(R.id.ll_ok)
+    LinearLayout llOk;
     private Camera camera;
     private String PhotoTitle;
     private String IdCardFront;
@@ -106,9 +117,26 @@ public class IDcardActivity extends ToolBarActivity {
                 tvStatus.setText(R.string.tv_idcard_0);
                 break;
             case 1:
-                camera1.showInternet(bean.getData().getAuthentication().getIdCardFront());
-                camera2.showInternet(bean.getData().getAuthentication().getIdCardBack());
-                tvStatus.setText(R.string.tv_idcard_1);
+                try {
+                    llEdit.setVisibility(View.GONE);
+                    llOk.setVisibility(View.VISIBLE);
+                    String phone = "手    机：" + bean.getData().getAuthentication().getMobile().replaceAll("(\\d{3})\\d{4}(\\d{4})", "$1****$2");
+                    tvPhone.setText(phone);
+                    String idcard = bean.getData().getAuthentication().getIDCard();
+                    String show_id = "身份证：" + idcard.substring(0, 3) + "********" + idcard.substring(11);
+
+                    tvIdcard.setText(show_id);
+                    String name = bean.getData().getAuthentication().getName();
+                    String star = "";
+                    for (int i = 0; i < name.length() - 1; i++
+                            ) {
+                        star = star + "*";
+                    }
+                    String show_name = "姓    名：" + name.substring(0, 1) + star;
+                    tvName.setText(show_name);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 break;
             case 2:
                 tvStatus.setText(R.string.tv_idcard_2);

@@ -144,7 +144,7 @@ public class MyMsgActivity extends ToolBarActivity implements Toolbar.OnMenuItem
                     }
                 })
                 // 设置dialog是否为模态，false表示模态，true表示非模态
-                .setCancelable(true)
+                .setCancelable(false)
                 //对话框的创建、显示
                 .create().show();
 

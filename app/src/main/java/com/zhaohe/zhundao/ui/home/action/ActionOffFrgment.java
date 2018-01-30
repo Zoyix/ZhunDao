@@ -94,11 +94,19 @@ public class ActionOffFrgment extends Fragment implements View.OnClickListener, 
 //        test();
     }
 
+    @Override
     public void onResume() {
         super.onResume();
         MobclickAgent.onResume(getActivity());
-    }
 
+        //        上传本地扫码
+
+        if ((boolean) SPUtils.get(getActivity(), "updateAction", false)) {
+            init();
+            SPUtils.put(getActivity(), "updateAction", false);
+        }
+
+    }
     public void onPause() {
         super.onPause();
         MobclickAgent.onPause(getActivity());

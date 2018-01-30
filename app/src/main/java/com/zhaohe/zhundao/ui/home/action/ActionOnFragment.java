@@ -41,6 +41,7 @@ import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncSignList;
 import com.zhaohe.zhundao.asynctask.AsyncUpLoadSignupStatus;
 import com.zhaohe.zhundao.asynctask.action.AsyncAction;
+import com.zhaohe.zhundao.bean.AccountBean;
 import com.zhaohe.zhundao.bean.ActionBean;
 import com.zhaohe.zhundao.bean.dao.MySignListupBean;
 import com.zhaohe.zhundao.bean.updateBean;
@@ -375,6 +376,7 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void savaUserInf(String result) {
+
         JSONObject jsonObj = JSON.parseObject(result);
         JSONObject jsonObject2 = JSON.parseObject(jsonObj.getString("Data"));
 
@@ -405,6 +407,14 @@ public class ActionOnFragment extends Fragment implements View.OnClickListener, 
 
 
             System.out.println("VIP等级" + vip);
+
+            AccountBean bean = new AccountBean();
+            bean.setStatus("true");
+            bean.setAccessKey((String) SPUtils.get(getActivity(), "accessKey", ""));
+            bean.setPhone(jsonObject2.getString("Mobile"));
+            bean.setHead(jsonObject2.getString("HeadImgurl"));
+            bean.setName(jsonObject2.getString("NickName"));
+//            dao_account.save(bean);
         } catch (Exception e) {
             e.printStackTrace();
         }

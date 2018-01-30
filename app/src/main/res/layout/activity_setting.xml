@@ -14,6 +14,18 @@
         android:background="@color/black3" />
 
     <TextView
+        android:id="@+id/tv_setting_account"
+        android:layout_marginTop="20dp"
+        android:clickable="true"
+        style="@style/list_txt_Style"
+        android:text="@string/tv_my_account" />
+
+    <View
+        android:layout_width="fill_parent"
+        android:layout_height="0.3dp"
+        android:background="@color/black3" />
+
+    <TextView
         android:id="@+id/tv_setting_password"
         android:layout_marginTop="20dp"
         android:clickable="true"
@@ -52,18 +64,39 @@
         style="@style/list_txt_Style"
         android:clickable="true"
         android:text="@string/tv_setting_inf" />
-
     <View
+        android:layout_alignParentTop="true"
         android:layout_width="fill_parent"
         android:layout_height="0.3dp"
         android:background="@color/black3" />
 
-    <TextView
-        android:id="@+id/tv_setting_net"
-        style="@style/list_txt_Style"
-        android:maxLines="1"
-        android:clickable="true"
-        android:text="@string/tv_setting_net" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        >
+
+
+        <TextView
+            android:id="@+id/tv_setting_net"
+            style="@style/list_txt_Style"
+            android:maxLines="1"
+            android:clickable="true"
+            android:text="@string/tv_setting_net_2" />
+
+        <TextView
+            android:layout_marginRight="30dp"
+            android:layout_centerVertical="true"
+            android:id="@+id/tv_setting_net_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="@string/tv_setting_net_status_2" />
+
+        />
+    </RelativeLayout>
+
 
     <View
         android:layout_width="fill_parent"

@@ -35,13 +35,6 @@ public class AsyncAction extends AsyncTask<String, Integer, String> {
     private String mSize = "200000";
 
 
-    public AsyncAction(Context context, Handler handler, Dialog dialog, int request) {
-        this.mContext = context;
-        this.mHandler = handler;
-        this.mRequest = request;
-        this.mDialog = dialog;
-        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-    }
 
     public AsyncAction(Context context, Handler handler, Dialog dialog, int request, String type) {
         this.mContext = context;
@@ -53,13 +46,6 @@ public class AsyncAction extends AsyncTask<String, Integer, String> {
         this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
     }
 
-    public AsyncAction(Context context, Handler handler, int request) {
-        this.mContext = context;
-        this.mHandler = handler;
-        this.mRequest = request;
-//        this.mDialog = dialog;
-        this.mAccesskey = (String) SPUtils.get(mContext, "accessKey", "");
-    }
 
     public AsyncAction(Context context, Handler handler, int request, String type) {
         this.mContext = context;

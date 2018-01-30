@@ -158,6 +158,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 //                            Constant.ACCESSKEY=accessKeyBean.getAccessKey();
                             SPUtils.put(getApplicationContext(), "accessKey", accessKeyBean.getAccessKey());
                             SPUtils.put(getApplicationContext(), "islogin", true);
+                            SPUtils.put(getApplicationContext(), "mmobile", mmobile);
+                            SPUtils.put(getApplicationContext(), "mpassword", mpassWord);
+
                             IntentUtils.startActivity(LoginActivity.this, HomeActivity.class);
                         } else {
                             ToastUtil.makeText(LoginActivity.this, "账号密码有误，请重新输入。");

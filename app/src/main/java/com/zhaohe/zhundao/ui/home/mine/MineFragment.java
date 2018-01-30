@@ -27,11 +27,16 @@ import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
 import com.zhaohe.zhundao.asynctask.AsyncGetUserInf;
 import com.zhaohe.zhundao.asynctask.AsyncInf;
+import com.zhaohe.zhundao.bean.AccountBean;
 import com.zhaohe.zhundao.bean.jsonbean.UserInfBean;
+import com.zhaohe.zhundao.dao.MyAccountDao;
 import com.zhaohe.zhundao.ui.home.mine.contacts.ContactsActivity;
 import com.zhaohe.zhundao.ui.home.mine.msg.MyMsgActivity;
 import com.zhaohe.zhundao.ui.home.mine.setting.SettingActivity;
 import com.zhaohe.zhundao.ui.login.BondPhoneActivity;
+
+import butterknife.ButterKnife;
+import butterknife.Unbinder;
 
 
 /**
@@ -44,6 +49,10 @@ public class MineFragment extends Fragment implements View.OnClickListener {
     public static final int MESSAGE_GET_USERINF = 91;
 
     protected View rootView;
+    Unbinder unbinder;
+    MyAccountDao dao_account;
+
+
     private ImageView img_head, img_sex;
     private Handler mHandler;
     private AlertDialog dialog;
@@ -83,6 +92,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
 
     private void initView(View rootView) {
+        dao_account = new MyAccountDao(getActivity());
         img_head = (ImageView) rootView.findViewById(R.id.img_head);
         img_sex = (ImageView) rootView.findViewById(R.id.iv_sex);
         tv_min_name = (TextView) rootView.findViewById(R.id.tv_min_name);
@@ -156,6 +166,7 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (perentView != null) {
             perentView.removeAllViewsInLayout();
         }
+        unbinder = ButterKnife.bind(this, rootView);
         return rootView;
     }
 
@@ -260,8 +271,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         JSONObject jsonObject2 = JSON.parseObject(jsonObj.getString("Data"));
 
 
-
-
         SPUtils.put(getActivity(), "vip", jsonObject2.getInteger("GradeId"));
         if (null != jsonObject2.getString("TrueName")) {
             SPUtils.put(getActivity(), "TrueName", jsonObject2.getString("TrueName"));
@@ -297,8 +306,6 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         }
 
 
-
-
         if (null == jsonObject2.getString("Mobile")) {
         } else {
             SPUtils.put(getActivity(), "Mobile", jsonObject2.getString("Mobile"));
@@ -307,8 +314,18 @@ public class MineFragment extends Fragment implements View.OnClickListener {
         if (null != jsonObject2.getString("PayPassWord")) {
             SPUtils.put(getActivity(), "PayPassWord", true);
         }
-
-
+        if (SPUtils.contains(getActivity(), "mmobile")) {
+            if ((boolean) SPUtils.get(getActivity(), "initUser", true)) {
+                AccountBean bean = new AccountBean();
+                bean.setStatus("true");
+                bean.setAccessKey((String) SPUtils.get(getActivity(), "mpassword", ""));
+                bean.setPhone((String) SPUtils.get(getActivity(), "mmobile", ""));
+                bean.setHead(jsonObject2.getString("HeadImgurl"));
+                bean.setName(jsonObject2.getString("NickName"));
+                SPUtils.put(getActivity(), "initUser", false);
+                dao_account.save(bean);
+            }
+        }
         initUserInfo();
 
     }
@@ -360,5 +377,12 @@ public class MineFragment extends Fragment implements View.OnClickListener {
 
         }
     }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
+
 
 }

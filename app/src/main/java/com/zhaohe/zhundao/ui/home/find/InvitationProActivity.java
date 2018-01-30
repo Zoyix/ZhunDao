@@ -1,9 +1,11 @@
 package com.zhaohe.zhundao.ui.home.find;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.IdRes;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.TextView;
 
 import com.zhaohe.app.utils.SPUtils;
 import com.zhaohe.zhundao.R;
@@ -11,6 +13,7 @@ import com.zhaohe.zhundao.ui.ToolBarActivity;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 public class InvitationProActivity extends ToolBarActivity implements RadioGroup.OnCheckedChangeListener {
 
@@ -20,6 +23,8 @@ public class InvitationProActivity extends ToolBarActivity implements RadioGroup
     RadioButton rbInvitationType2;
     @BindView(R.id.rg_invitation)
     RadioGroup rgInvitation;
+    @BindView(R.id.tv_question)
+    TextView tvQuestion;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,5 +65,31 @@ public class InvitationProActivity extends ToolBarActivity implements RadioGroup
 
                 break;
         }
+    }
+
+    private void questionDialog() {
+        new android.support.v7.app.AlertDialog.Builder(this)
+                //对话框的标题
+                .setTitle("什么是专属邀请函？")
+                //设定显示的View
+                //对话框中的“登陆”按钮的点击事件
+                .setMessage("关注准到微信公众号（微信号izhundao），发送关键词“专属邀请函”，了解准到相关功能")
+                .setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+                    }
+
+                })
+
+                // 设置dialog是否为模态，false表示模态，true表示非模态
+                .setCancelable(true)
+                //对话框的创建、显示
+                .create().show();
+    }
+
+    @OnClick(R.id.tv_question)
+    public void onViewClicked() {
+        questionDialog();
+
     }
 }

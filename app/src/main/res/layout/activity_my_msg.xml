@@ -15,12 +15,8 @@
         android:layout_height="80dp" />
 
     <TextView
-        android:layout_margin="20dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:text="@string/tv_msg_last"
-        android:textColor="@color/black" />
+        style="@style/tv_status_center" />
 
     <TextView
         android:id="@+id/tv_msg_num"
