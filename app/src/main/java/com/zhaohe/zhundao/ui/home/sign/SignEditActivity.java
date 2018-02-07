@@ -240,6 +240,8 @@ public class SignEditActivity extends ToolBarActivity implements View.OnClickLis
                         //添加或修改请求结果
                         {
                             ToastUtil.makeText(getApplicationContext(), "签到修改成功！");
+                            SPUtils.put(getApplicationContext(), "updateSign", true);
+
                             finish();
                         } else {
                             ToastUtil.makeText(getApplicationContext(), message);
@@ -254,6 +256,8 @@ public class SignEditActivity extends ToolBarActivity implements View.OnClickLis
                         //添加或修改请求结果
                         {
                             SPUtils.put(getApplicationContext(), "tab_now", 1);
+                            SPUtils.put(getApplicationContext(), "updateSign", true);
+
                             finish();
                             ToastUtil.makeText(getApplicationContext(), "删除成功！");
                         } else {

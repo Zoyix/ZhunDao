@@ -8,14 +8,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Environment;
 import android.os.IBinder;
+import android.support.v4.content.FileProvider;
 import android.widget.RemoteViews;
 
 import com.zhaohe.app.commons.download.DownloadProgressListener;
 import com.zhaohe.app.commons.download.FileDownloader;
 import com.zhaohe.app.utils.FileUtils;
+import com.zhaohe.zhundao.BuildConfig;
 import com.zhaohe.zhundao.R;
+import com.zhaohe.zhundao.ui.App;
 import com.zhaohe.zhundao.ui.MainActivity;
 
 import java.io.File;
@@ -36,7 +40,7 @@ public class UpdateAppService extends Service {
 
     private NotificationManager notificationManager;
     private Notification notification;
-
+    private Context mContext;
     private Intent updateIntent;
     private PendingIntent pendingIntent;
 
@@ -53,7 +57,6 @@ public class UpdateAppService extends Service {
         if (null == intent.getStringExtra("app_name")) {
             return super.onStartCommand(intent, flags, startId);
         }
-
         app_name = intent.getStringExtra("app_name");
         app_path = intent.getStringExtra("app_path");
 
@@ -112,12 +115,24 @@ public class UpdateAppService extends Service {
         protected void onPostExecute(String result) {
             if (result != null) {
                 // 下载完成，点击安装
-                Uri uri = Uri.fromFile(new File(result));
+//                Uri uri = Uri.fromFile(new File(result));
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//                intent.setDataAndType(uri, "application/vnd.android.package-archive");
+//                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                startActivity(intent);
+//                Intent intent = new Intent(Intent.ACTION_VIEW);
+//判断是否是AndroidN以及更高的版本
                 Intent intent = new Intent(Intent.ACTION_VIEW);
-                intent.setDataAndType(uri, "application/vnd.android.package-archive");
-                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(intent);
 
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                    intent.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+                    Uri contentUri = FileProvider.getUriForFile(App.getContext(), BuildConfig.APPLICATION_ID + ".fileProvider", new File(result));
+                    intent.setDataAndType(contentUri, "application/vnd.android.package-archive");
+                } else {
+                    intent.setDataAndType(Uri.fromFile(new File(result)), "application/vnd.android.package-archive");
+                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                }
+                startActivity(intent);
                 //设定Notification出现时的声音，一般不建议自定义  
                 notification.defaults |= Notification.DEFAULT_SOUND;
                 pendingIntent = PendingIntent.getActivity(UpdateAppService.this, 0, intent, 0);

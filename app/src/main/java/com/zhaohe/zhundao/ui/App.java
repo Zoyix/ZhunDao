@@ -1,6 +1,7 @@
 package com.zhaohe.zhundao.ui;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.umeng.socialize.Config;
 import com.umeng.socialize.PlatformConfig;
@@ -14,6 +15,7 @@ import com.yolanda.nohttp.NoHttp;
  */
 public class App extends Application {
     public static App _instance;
+    private static Context context;
 
     @Override
     public void onCreate() {
@@ -24,6 +26,8 @@ public class App extends Application {
         _instance = this;
         //以下是nohttp配置
         NoHttp.init(this);
+        context = getApplicationContext();
+
     }
 
     //各个平台的配置，建议放在全局Application或者程序入口
@@ -41,5 +45,7 @@ public class App extends Application {
         return _instance;
     }
 
-
+    public static Context getContext() {
+        return context;
+    }
 }
