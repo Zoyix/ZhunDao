@@ -72,7 +72,6 @@ public class MyGroupDao {
         SQLiteDatabase db = dbOpenHelper.getReadableDatabase();
         db.delete(TABLE_NAME, "ID=?", new String[]{ID});
         db.close();
-
     }
 
 
