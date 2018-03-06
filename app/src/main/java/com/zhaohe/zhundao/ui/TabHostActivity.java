@@ -16,6 +16,10 @@ import com.zhaohe.zhundao.R;
  * @Author: 邹苏启
  * @Since: 2016/11/28 下午9:04
  */
+
+/**
+ * 该类是来实现底部导航栏的封装，是HomeActivity的基类
+ */
 public abstract class TabHostActivity extends FragmentActivity {
 
     protected FragmentTabHost mTabHost;
@@ -33,6 +37,9 @@ public abstract class TabHostActivity extends FragmentActivity {
 
         Class<?>[] tabFrag = getTabFragment();
         for (int i = 0, len = tabFrag.length; i < len; i++) {
+            //第一个参数是设置TabSpec 即给每个Tab按钮设置图标、文字和内容
+            //第二个参数是设置对应的fragment
+            //TODO 第三个参数是啥？
             mTabHost.addTab(mTabHost.newTabSpec(getString(getTabwidgetTag()[i])).setIndicator(getTabItemView(i)), tabFrag[i], bundle);
         }
         mTabHost.setCurrentTab(0);
@@ -55,11 +62,16 @@ public abstract class TabHostActivity extends FragmentActivity {
     /**
      * 与tabwidget相对应的 Tag 数组
      *
-     * @return
+     * @return Tab选项卡的文字
      */
     protected abstract int[] getTabwidgetTag();
 
 
+    /**
+     * 返回每个选项卡的view
+     * @param index
+     * @return
+     */
     private View getTabItemView(int index) {
         View tabView = View.inflate(this, R.layout.tab_item_view, null);
         ImageView imgView = (ImageView) tabView.findViewById(R.id.tab_img);

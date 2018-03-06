@@ -26,7 +26,7 @@ import java.util.List;
 public class ActionFragment extends Fragment implements View.OnClickListener {
 
     private View view;
-    private ViewPager mPaper;
+    private ViewPager mPager;
     private FragmentPagerAdapter mAdapter;
     private List<Fragment> mFragments = new ArrayList<Fragment>();
 
@@ -35,10 +35,12 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        //加载该fragment的view
         view = inflater.inflate(R.layout.fragment_act, container, false);
 
         initView();
 
+        //ViewPager适配器
         mAdapter = new FragmentPagerAdapter(getChildFragmentManager()) {
 
             @Override
@@ -51,8 +53,9 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
                 return mFragments.get(arg0);
             }
         };
-        mPaper.setAdapter(mAdapter);
-        mPaper.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mPager.setAdapter(mAdapter);
+        //
+        mPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             private int currentIndex;
 
@@ -93,7 +96,7 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
     public void initView() {
         tv_acton = (TextView) view.findViewById(R.id.tv_acton);
         tv_actoff = (TextView) view.findViewById(R.id.tv_actoff);
-        mPaper = (ViewPager) view.findViewById(R.id.view_pager);
+        mPager = (ViewPager) view.findViewById(R.id.view_pager);
         tv_acton.setOnClickListener(this);
         tv_actoff.setOnClickListener(this);
 
@@ -117,12 +120,12 @@ public class ActionFragment extends Fragment implements View.OnClickListener {
             case R.id.tv_acton:
                 resetColor();
                 tv_acton.setTextColor(Color.rgb(87, 153, 8));
-                mPaper.setCurrentItem(0);
+                mPager.setCurrentItem(0);
                 break;
             case R.id.tv_actoff:
                 resetColor();
                 tv_actoff.setTextColor(Color.rgb(87, 153, 8));
-                mPaper.setCurrentItem(1);
+                mPager.setCurrentItem(1);
                 break;
             default:
                 break;

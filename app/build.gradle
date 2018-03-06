@@ -8,21 +8,21 @@ android {
         minSdkVersion 16
         targetSdkVersion 25
         versionCode 1802070
-        versionName "2.6.2"
+        versionName "2.6.3"
         flavorDimensions "versionCode"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
 
         productFlavors {
-            meizu {}
-            xiaomi {}
-            yingyongbao {}
+//            meizu {}
+//            xiaomi {}
+//            yingyongbao {}
             huawei {}
-            baidu {}
-            oppo {}
-            ali {}
-            web {}
-            vivo {}
+//            baidu {}
+//            oppo {}
+//            ali {}
+//            web {}
+//            vivo {}
 
         }
 

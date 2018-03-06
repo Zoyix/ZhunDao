@@ -114,6 +114,7 @@ public class SignAdapter extends AdapterBase<SignBean, SignHolder> implements Vi
         itemView.iv_sign_right.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // itemView.iv_list_status是绿色的小球
                 itemView.iv_list_status.setVisibility(View.GONE);
                 if (signClickListener != null) {
                     signClickListener.onGetList(bean);

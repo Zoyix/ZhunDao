@@ -592,7 +592,8 @@ public class SignOnFragment extends Fragment implements View.OnClickListener, Si
                     Intent(getActivity(), SignupListActivity.class);
             //在Intent对象当中添加一个键值对
             String result = (String) SPUtils.get(getActivity(), "signup_" + bean.getSign_id(), "");
-            intent.putExtra("result", result);
+            //暂时不需要
+//            intent.putExtra("result", result);
             intent.putExtra("title", title);
             intent.putExtra("sign_id", bean.getSign_id());
             intent.putExtra("act_id", act_id);

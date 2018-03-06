@@ -148,8 +148,8 @@ public class HomeActivity extends TabHostActivity implements Toolbar.OnMenuItemC
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        //友盟的API集成 TODO 看一下是干嘛的
         UMShareAPI.get(this).onActivityResult(requestCode, resultCode, data);
-
     }
 
     @Override

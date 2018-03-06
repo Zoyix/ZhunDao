@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/ZhunDao.iml" filepath="$PROJECT_DIR$/ZhunDao.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/zhundao-core/zhundao-core.iml" filepath="$PROJECT_DIR$/zhundao-core/zhundao-core.iml" />
     </modules>
   </component>
 </project>
